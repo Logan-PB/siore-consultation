@@ -1,0 +1,980 @@
+/* ============================================================
+   SIORE DERMA COSMETICS — Premium Upgrade v2.0
+   PC 전용 (1100px 기준)
+   Fonts: Noto Serif KR / Cormorant Garamond / Noto Sans KR
+============================================================ */
+
+:root {
+  /* ── Brand Colors ── */
+  --cream:     #FAF7F3;
+  --blush:     #E8C4B0;
+  --rose:      #C97B5A;
+  --deep:      #6B3A2A;
+  --charcoal:  #2C2420;
+  --muted:     #9B8880;
+  --gold:      #C4A882;
+
+  /* ── UI Colors ── */
+  --ivory:     #F3EDE4;
+  --white:     #FFFFFF;
+  --border:    #E2D0C4;
+  --green:     #5DAF7A;
+  --green-lt:  #EBF7EF;
+
+  /* ── Shadows ── */
+  --sh-xs: 0 1px 6px  rgba(44, 36, 32, 0.06);
+  --sh-sm: 0 3px 14px rgba(44, 36, 32, 0.09);
+  --sh-md: 0 4px 24px rgba(107, 58, 42, 0.10);
+  --sh-lg: 0 10px 44px rgba(107, 58, 42, 0.18);
+
+  /* ── Shapes ── */
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 22px;
+  --r-xl: 40px;
+
+  /* ── Motion ── */
+  --ease: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Fonts ── */
+  --serif:    'Noto Serif KR', serif;
+  --garamond: 'Cormorant Garamond', serif;
+  --sans:     'Noto Sans KR', sans-serif;
+}
+
+/* ── 기본 리셋 ── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--charcoal);
+  min-width: 1100px;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: var(--sans); cursor: pointer; border: none; background: none; }
+
+/* ============================================================
+   히어로 배너
+============================================================ */
+.hero {
+  position: relative;
+  width: 100%;
+  /* 이미지 없을 때 폴백 그라디언트 */
+  background: linear-gradient(135deg, #6B3A2A 0%, #C97B5A 100%);
+}
+
+/* img 태그로 직접 삽입: width 100%, height 300px, object-fit cover */
+.hero-img {
+  display: block;
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-bar {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  padding: 14px 0;
+}
+
+.hero-sub {
+  font-family: var(--sans);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #fff;
+  background: rgba(210, 100, 30, 0.9);
+  padding: 10px 36px;
+  border-radius: 24px;
+}
+
+/* ============================================================
+   래퍼
+============================================================ */
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 40px 88px;
+}
+
+/* ============================================================
+   단계 네비게이션 바
+============================================================ */
+.steps-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 20px 52px;
+  margin-bottom: 64px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-xs);
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.32;
+  transition: var(--ease);
+}
+.step-item.active { opacity: 1; }
+.step-item.done   { opacity: 0.75; }
+
+.step-num {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--ivory);
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--ease);
+  flex-shrink: 0;
+}
+
+/* 현재 단계: 로즈 */
+.step-item.active .step-num {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: var(--white);
+  box-shadow: 0 0 0 5px rgba(201, 123, 90, 0.18);
+}
+
+/* 완료 단계: 초록 체크 */
+.step-item.done .step-num {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.step-item span {
+  font-size: 0.93rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  white-space: nowrap;
+}
+
+.step-arrow {
+  font-size: 1.3rem;
+  color: var(--border);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Step 패널 공통
+============================================================ */
+.step-panel { display: none; }
+.step-panel.active {
+  display: block;
+  animation: panelIn 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+.panel-header h2 {
+  font-family: var(--serif);
+  font-size: 1.95rem;
+  font-weight: 700;
+  color: var(--deep);
+  letter-spacing: -0.015em;
+  margin-bottom: 10px;
+}
+.panel-header p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ============================================================
+   Step 1 — 피부 고민 카드 (3열 그리드)
+============================================================ */
+.concern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto 56px;
+}
+
+.concern-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 30px 12px 26px;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--sh-md);
+  transition: var(--ease);
+}
+
+.card-icon  { font-size: 2.1rem; line-height: 1; }
+.card-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.concern-card:hover {
+  border-color: var(--blush);
+  background: #FFF9F6;
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+
+.concern-card.selected {
+  border-color: var(--rose);
+  background: linear-gradient(150deg, #FFF6F1, #FFEADC);
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+.concern-card.selected .card-label {
+  color: var(--deep);
+  font-weight: 700;
+}
+
+/* 우측상단 체크 뱃지 */
+.check-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 23px;
+  height: 23px;
+  background: var(--rose);
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(201, 123, 90, 0.45);
+}
+.concern-card.selected .check-badge { display: flex; }
+
+/* ============================================================
+   Step 2 — 피부 타입 카드 (5열)
+============================================================ */
+.type-grid {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  max-width: 1040px;
+  margin: 0 auto 56px;
+}
+
+.type-card {
+  flex: 1;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 34px 14px 28px;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--sh-md);
+  transition: var(--ease);
+  text-align: center;
+}
+
+.type-icon { font-size: 2.5rem; }
+.type-name {
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.type-desc {
+  font-size: 0.73rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.type-card:hover {
+  border-color: var(--blush);
+  background: #FFF9F6;
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+.type-card.selected {
+  border-color: var(--deep);
+  background: linear-gradient(150deg, #FFF6F1, #FFEADC);
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+.type-card.selected .type-name { color: var(--deep); }
+
+/* ============================================================
+   공통 버튼
+============================================================ */
+.panel-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.btn-primary {
+  padding: 15px 54px;
+  background: linear-gradient(135deg, var(--rose) 0%, var(--deep) 100%);
+  color: var(--white);
+  border: none;
+  border-radius: var(--r-xl);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: var(--ease);
+  box-shadow: 0 4px 22px rgba(201, 123, 90, 0.40);
+}
+.btn-primary:disabled {
+  background: var(--border);
+  color: var(--muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.btn-primary:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 34px rgba(201, 123, 90, 0.52);
+}
+
+.btn-ghost {
+  padding: 14px 38px;
+  background: transparent;
+  color: var(--rose);
+  border: 2px solid var(--rose);
+  border-radius: var(--r-xl);
+  font-size: 0.93rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: var(--ease);
+}
+.btn-ghost:hover { background: rgba(201, 123, 90, 0.07); }
+
+/* ============================================================
+   Step 3 — 요약 배너
+============================================================ */
+.result-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 44px;
+  margin-bottom: 32px;
+  background: linear-gradient(128deg, var(--deep) 0%, var(--rose) 100%);
+  border-radius: var(--r-lg);
+  color: var(--white);
+  box-shadow: var(--sh-md);
+}
+
+.summary-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  opacity: 0.70;
+  margin-bottom: 9px;
+  font-weight: 500;
+}
+.summary-concerns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.summary-chip {
+  padding: 5px 15px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.summary-type-text {
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+/* ============================================================
+   Step 3 — 임상 데이터 하이라이트
+============================================================ */
+.clinical-highlights { margin-bottom: 32px; }
+
+.section-heading-bar {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--deep);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.section-heading-bar::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.clinical-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.clinical-stat {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 34px 24px 28px;
+  text-align: center;
+  box-shadow: var(--sh-md);
+  transition: var(--ease);
+}
+.clinical-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+
+.stat-num {
+  font-family: var(--sans);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--rose);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-size: 0.83rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.stat-product {
+  font-size: 0.69rem;
+  color: var(--charcoal);
+  opacity: 0.48;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   Step 3 — 세트 카드 3종
+============================================================ */
+.sets-row {
+  display: grid;
+  grid-template-columns: 1fr 1.07fr 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 28px;
+}
+
+/* 공통 */
+.set-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--sh-md);
+  transition: var(--ease);
+}
+.set-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+
+/* 미니멈: 초록 상단 라인 */
+.tier-basic    { border-top: 5px solid var(--green) !important; }
+
+/* 맞춤(추천): 로즈 상단 라인 + 강한 그림자 */
+.tier-recommended {
+  border-top: 5px solid var(--rose) !important;
+  border-color: var(--rose);
+  box-shadow: 0 8px 40px rgba(201, 123, 90, 0.22) !important;
+}
+
+/* 프리미엄: 골드 상단 라인 */
+.tier-premium  { border-top: 5px solid var(--gold) !important; }
+
+/* 카드 헤더 */
+.set-card-head {
+  padding: 20px 22px 16px;
+  background: var(--ivory);
+  border-bottom: 1px solid var(--border);
+}
+.set-head-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.set-title {
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--deep);
+}
+.badge-rec {
+  background: linear-gradient(135deg, var(--rose), var(--deep));
+  color: var(--white);
+  font-size: 0.66rem;
+  font-weight: 800;
+  padding: 4px 13px;
+  border-radius: 20px;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+}
+.set-subtitle {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+/* 카드 바디 */
+.set-card-body { padding: 18px 22px 22px; }
+
+.product-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+
+/* 제품 행: 이미지 썸네일 포함 레이아웃 */
+.product-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+
+/* 썸네일 래퍼 */
+.product-thumb-wrap {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.product-thumb {
+  display: block;
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* 이미지 로드 실패 폴백: 로즈브라운 그라디언트 + 이모지 */
+.product-thumb-fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #C97B5A, #6B3A2A);
+  font-size: 1.4rem;
+  border-radius: 10px;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.product-name {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.product-meta {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+.product-price {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--deep);
+  white-space: nowrap;
+}
+
+/* 총합 영역 */
+.set-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 14px;
+  border-top: 1.5px dashed var(--border);
+}
+.total-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.total-sub {
+  font-size: 0.63rem;
+  color: var(--muted);
+  opacity: 0.65;
+}
+
+.total-price {
+  font-family: var(--sans);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--deep);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Step 3 — 사용 루틴 섹션
+============================================================ */
+.routine-section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 36px 52px;
+  margin-bottom: 18px;
+  box-shadow: var(--sh-xs);
+}
+
+.routine-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.routine-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 16px 18px;
+  background: var(--ivory);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  min-width: 120px;
+  text-align: center;
+  transition: var(--ease);
+}
+
+.routine-img-wrap {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+.routine-img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.routine-img-fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #C97B5A, #6B3A2A);
+  font-size: 1.6rem;
+  border-radius: 12px;
+}
+.routine-step:hover {
+  border-color: var(--blush);
+  background: #FFF6F0;
+}
+.routine-step-no {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--rose);
+  letter-spacing: 0.1em;
+}
+.routine-step-role {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+.routine-step-short {
+  font-size: 0.69rem;
+  color: var(--muted);
+}
+.routine-arrow {
+  font-size: 1rem;
+  color: var(--border);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Step 3 — 인증 뱃지 섹션
+============================================================ */
+.cert-section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px 52px;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  box-shadow: var(--sh-xs);
+}
+.cert-heading {
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--deep);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cert-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+.cert-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #FFFBF0, #FFF1D0);
+  border: 1.5px solid var(--gold);
+  border-radius: var(--r-xl);
+}
+.cert-icon { font-size: 1rem; }
+.cert-text {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #6B4A10;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   푸터
+============================================================ */
+footer {
+  background: var(--deep);
+  text-align: center;
+  padding: 30px 20px;
+  line-height: 2.5;
+}
+.footer-notice {
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.40);
+}
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.78);
+  letter-spacing: 0.1em;
+}
+
+/* ============================================================
+   Step 3 — 2열 결과 레이아웃
+============================================================ */
+.result-layout {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.result-main { min-width: 0; }
+
+/* 오른쪽 챗봇: 스크롤해도 화면에 붙어 따라옴 */
+.result-sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+/* ============================================================
+   AI 상담 챗봇 — 전체 래퍼
+============================================================ */
+.chat-wrapper {
+  background: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(107, 58, 42, 0.12);
+  overflow: hidden;
+  height: fit-content;
+  border: 1px solid var(--border);
+}
+
+/* ── 헤더 ── */
+.chat-header {
+  background: linear-gradient(135deg, #6B3A2A, #C97B5A);
+  color: var(--white);
+  padding: 18px 20px;
+  border-radius: 20px 20px 0 0;
+}
+.chat-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+.chat-subtitle {
+  font-size: 0.72rem;
+  opacity: 0.72;
+  letter-spacing: 0.04em;
+}
+
+/* ── 메시지 영역 ── */
+.chat-messages {
+  height: 400px;
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 스크롤바 */
+.chat-messages::-webkit-scrollbar       { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--rose);
+  border-radius: 4px;
+}
+
+/* ── 메시지 행 ── */
+.chat-msg { display: flex; flex-direction: column; max-width: 82%; }
+.chat-msg-user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+.chat-msg-ai {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.chat-sender-name {
+  font-size: 0.67rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+}
+
+/* ── 말풍선 ── */
+.chat-bubble {
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+.chat-bubble-user {
+  background: var(--rose);
+  color: var(--white);
+  border-radius: 16px 16px 4px 16px;
+}
+
+.chat-bubble-ai {
+  background: var(--white);
+  color: var(--charcoal);
+  border: 1px solid var(--blush);
+  border-radius: 16px 16px 16px 4px;
+  box-shadow: var(--sh-xs);
+}
+
+/* ── 로딩 점 3개 ── */
+.chat-loading-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 4px 2px;
+}
+.chat-loading-dots span {
+  width: 7px;
+  height: 7px;
+  background: var(--muted);
+  border-radius: 50%;
+  animation: dotBounce 1.4s infinite ease-in-out;
+}
+.chat-loading-dots span:nth-child(2) { animation-delay: 0.22s; }
+.chat-loading-dots span:nth-child(3) { animation-delay: 0.44s; }
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: scale(0.8); opacity: 0.38; }
+  30%           { transform: scale(1.2); opacity: 1; }
+}
+
+/* ── 입력 영역 ── */
+.chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 14px 14px;
+  background: var(--white);
+  border-top: 1px solid #F5EFE9;
+  border-radius: 0 0 20px 20px;
+}
+
+.chat-input {
+  flex: 1;
+  border: 1.5px solid var(--blush);
+  border-radius: 50px;
+  padding: 10px 16px;
+  font-family: var(--sans);
+  font-size: 0.83rem;
+  color: var(--charcoal);
+  background: var(--cream);
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+  max-height: 100px;
+  overflow-y: auto;
+  transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--rose); background: var(--white); }
+.chat-input::placeholder { color: var(--muted); }
+
+.chat-send-btn {
+  flex-shrink: 0;
+  padding: 10px 18px;
+  background: var(--rose);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--ease);
+  white-space: nowrap;
+}
+.chat-send-btn:hover    { background: var(--deep); }
+.chat-send-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }

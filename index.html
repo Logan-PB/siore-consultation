@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIORE 피부 상담 | 약국 전용</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       히어로 배너
+  ══════════════════════════════════════ -->
+  <section class="hero">
+    <img class="hero-img" src="images/hero-banner.png" alt="SIORE 더마 코스메틱" />
+  </section>
+  <div class="hero-bar">
+    <p class="hero-sub">약국전용 피부고민상담</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       메인 래퍼
+  ══════════════════════════════════════ -->
+  <div class="wrapper">
+
+    <!-- 단계 네비게이션 -->
+    <nav class="steps-nav">
+      <div class="step-item active" id="nav-1">
+        <div class="step-num">1</div>
+        <span>피부 고민 선택</span>
+      </div>
+      <div class="step-arrow">›</div>
+      <div class="step-item" id="nav-2">
+        <div class="step-num">2</div>
+        <span>피부 타입 선택</span>
+      </div>
+      <div class="step-arrow">›</div>
+      <div class="step-item" id="nav-3">
+        <div class="step-num">3</div>
+        <span>맞춤 추천 확인</span>
+      </div>
+    </nav>
+
+    <!-- ════════════════════════════════
+         Step 1 : 피부 고민 선택
+    ════════════════════════════════ -->
+    <section class="step-panel active" id="step1">
+      <div class="panel-header">
+        <h2>피부 고민을 선택해주세요</h2>
+        <p>해당되는 고민을 모두 선택해 주세요 &nbsp;(복수 선택 가능)</p>
+      </div>
+
+      <div class="concern-grid">
+        <button class="concern-card" data-concern="건조">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">💧</span>
+          <span class="card-label">극건조 / 당김</span>
+        </button>
+        <button class="concern-card" data-concern="민감">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">🌸</span>
+          <span class="card-label">민감 / 예민</span>
+        </button>
+        <button class="concern-card" data-concern="열감홍조">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">🔴</span>
+          <span class="card-label">열감 / 홍조</span>
+        </button>
+        <button class="concern-card" data-concern="안티에이징">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">✨</span>
+          <span class="card-label">안티에이징</span>
+        </button>
+        <button class="concern-card" data-concern="광채톤업">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">💎</span>
+          <span class="card-label">광채 / 톤업</span>
+        </button>
+        <button class="concern-card" data-concern="트러블">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">🌿</span>
+          <span class="card-label">트러블 / 여드름</span>
+        </button>
+        <button class="concern-card" data-concern="피지">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">🫧</span>
+          <span class="card-label">피지 / 번들거림</span>
+        </button>
+        <button class="concern-card" data-concern="장벽회복">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">🛡️</span>
+          <span class="card-label">장벽 회복</span>
+        </button>
+        <button class="concern-card" data-concern="각질">
+          <span class="check-badge">✓</span>
+          <span class="card-icon">🍃</span>
+          <span class="card-label">각질 / 피부결</span>
+        </button>
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn-primary" id="btn-to-step2" disabled>다음 단계 &nbsp;→</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════
+         Step 2 : 피부 타입 선택
+    ════════════════════════════════ -->
+    <section class="step-panel" id="step2">
+      <div class="panel-header">
+        <h2>피부 타입을 선택해주세요</h2>
+        <p>현재 피부 상태와 가장 가까운 타입을 하나만 선택해 주세요</p>
+      </div>
+
+      <div class="type-grid">
+        <button class="type-card" data-type="건성">
+          <span class="type-icon">🏜️</span>
+          <span class="type-name">건성</span>
+          <span class="type-desc">당기고 건조한 피부</span>
+        </button>
+        <button class="type-card" data-type="지성">
+          <span class="type-icon">💦</span>
+          <span class="type-name">지성</span>
+          <span class="type-desc">유분↑ 번들거리는 피부</span>
+        </button>
+        <button class="type-card" data-type="복합성">
+          <span class="type-icon">☯️</span>
+          <span class="type-name">복합성</span>
+          <span class="type-desc">T존 지성 / 볼 건성</span>
+        </button>
+        <button class="type-card" data-type="민감성">
+          <span class="type-icon">🌷</span>
+          <span class="type-name">민감성</span>
+          <span class="type-desc">자극에 예민한 피부</span>
+        </button>
+        <button class="type-card" data-type="트러블성">
+          <span class="type-icon">🔴</span>
+          <span class="type-name">트러블성</span>
+          <span class="type-desc">여드름·트러블 잦은 피부</span>
+        </button>
+      </div>
+
+      <div class="panel-actions">
+        <button class="btn-ghost" onclick="goToStep(1)">← &nbsp;이전</button>
+        <button class="btn-primary" id="btn-to-step3" disabled>추천 세트 보기 &nbsp;→</button>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════
+         Step 3 : 추천 결과
+    ════════════════════════════════ -->
+    <section class="step-panel" id="step3">
+
+      <!-- 선택 요약 배너 (풀 너비) -->
+      <div class="result-summary" id="result-summary"></div>
+
+      <!-- ── 2열 레이아웃: 왼쪽 결과 / 오른쪽 챗봇 ── -->
+      <div class="result-layout">
+
+        <!-- 왼쪽 70%: 추천 결과 -->
+        <div class="result-main">
+
+          <!-- 임상 데이터 하이라이트 -->
+          <div class="clinical-highlights" id="clinical-highlights"></div>
+
+          <!-- 세트 카드 3종 -->
+          <div class="sets-row" id="sets-row"></div>
+
+          <!-- 사용 루틴 -->
+          <div class="routine-section" id="routine-section"></div>
+
+          <!-- 인증 뱃지 -->
+          <div class="cert-section" id="cert-section"></div>
+
+          <!-- 처음으로 -->
+          <div class="panel-actions" style="margin-top: 44px;">
+            <button class="btn-ghost" onclick="resetAll()">🔄 &nbsp;처음으로 돌아가기</button>
+          </div>
+
+        </div><!-- /result-main -->
+
+        <!-- 오른쪽 30%: AI 상담 챗봇 (sticky) -->
+        <div class="result-sidebar">
+          <div class="chat-wrapper">
+
+            <!-- 챗봇 헤더 -->
+            <div class="chat-header">
+              <div class="chat-title">💬 피부 상담 문의</div>
+              <div class="chat-subtitle">시오레 전문 상담사</div>
+            </div>
+
+            <!-- 메시지 영역 -->
+            <div class="chat-messages" id="chat-messages"></div>
+
+            <!-- 입력 영역 -->
+            <div class="chat-input-area">
+              <textarea
+                class="chat-input"
+                id="chat-input"
+                placeholder="피부 고민을 입력하세요..."
+                rows="1"
+              ></textarea>
+              <button class="chat-send-btn" id="chat-send-btn">전송</button>
+            </div>
+
+          </div><!-- /chat-wrapper -->
+        </div><!-- /result-sidebar -->
+
+      </div><!-- /result-layout -->
+
+    </section>
+  </div><!-- /wrapper -->
+
+  <!-- 푸터 -->
+  <footer>
+    <p class="footer-notice">본 추천은 약사 상담을 위한 참고 자료입니다. 최종 결정은 약사와 상담 후 진행하시기 바랍니다.</p>
+    <p class="footer-brand">SIORE DERMA COSMETICS &nbsp;·&nbsp; 약국 전용 더마 화장품</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

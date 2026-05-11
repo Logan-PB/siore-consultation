@@ -25,7 +25,7 @@ const PRODUCTS = {
     skins: ['건성', '민감성', '트러블성'],
     clinical: ['노폐물 99.48% 세정', '메이크업 91.59% 세정'],
     cert: ['논코메도제닉', '독일 더마테스트 EXCELLENT'],
-    image: 'images/nmn-cleansing-milk.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/cleanse.png',
     emoji: '🧴',
     routine: '클렌징',
     routineOrder: 1
@@ -40,7 +40,7 @@ const PRODUCTS = {
     skins: ['건성', '지성', '복합성'],
     clinical: ['피부광채 403.37% 개선', '피부수분 148.70% 증가', '피부결 10.43% 개선'],
     cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'images/nmn-bubble-toner.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/bubble-tone.png',
     emoji: '💧',
     routine: '토너 (각질정돈)',
     routineOrder: 2
@@ -55,7 +55,7 @@ const PRODUCTS = {
     skins: ['민감성', '건성', '복합성'],
     clinical: ['수분 136.58% 개선', '피부결 11.84% 개선', '자극지수 0.00'],
     cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'images/relief-essence-toner.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/essence-toner.png',
     emoji: '💧',
     routine: '토너 (진정수분)',
     routineOrder: 2
@@ -70,7 +70,7 @@ const PRODUCTS = {
     skins: ['민감성', '트러블성', '건성', '지성'],
     clinical: ['피부광채 475.98% 개선', '피부장벽 47.08% 개선', '진정 14.54% 개선'],
     cert: ['논코메도제닉', '독일 더마테스트 EXCELLENT'],
-    image: 'images/relief-repair-ampoule.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/ampoule.png',
     emoji: '💎',
     routine: '앰플',
     routineOrder: 3
@@ -85,7 +85,7 @@ const PRODUCTS = {
     skins: ['건성', '지성', '복합성', '민감성'],
     clinical: ['광채 564.64% 개선', '눈가주름 9.12% 감소', '입가주름 13.6% 감소'],
     cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'images/nmn-intensive-serum.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/serum.png',
     emoji: '✨',
     routine: '세럼',
     routineOrder: 4
@@ -100,7 +100,7 @@ const PRODUCTS = {
     skins: ['건성', '민감성', '복합성'],
     clinical: ['즉각보습 148.87% 개선', '보습지속력 56.65% 개선'],
     cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'images/nmn-soothing-cream.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/soothing-cream.png',
     emoji: '🌸',
     routine: '크림 (수분)',
     routineOrder: 5
@@ -115,7 +115,7 @@ const PRODUCTS = {
     skins: ['건성'],
     clinical: ['피부보습 45.11% 증가', '리프팅 4.47% 개선', '치밀도 17.15% 증가'],
     cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'images/nmn-rich-cream.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/rich-cream.png',
     emoji: '🌿',
     routine: '크림 (영양)',
     routineOrder: 5
@@ -130,7 +130,7 @@ const PRODUCTS = {
     skins: ['지성', '복합성', '트러블성'],
     clinical: ['보습 76.04% 즉각개선', '피부각질 42.18% 개선'],
     cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'images/relief-calming-gel.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/soothing-gel.png',
     emoji: '🫧',
     routine: '젤 크림 (지성)',
     routineOrder: 5
@@ -145,7 +145,7 @@ const PRODUCTS = {
     skins: ['건성', '민감성', '트러블성'],
     clinical: ['즉각보습 110.79% 증가', '피부각질 64.28% 개선', '기미색소 9.81% 개선'],
     cert: ['논코메도제닉', '독일 더마테스트 EXCELLENT'],
-    image: 'images/relief-comfort-cream.png',
+    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/comfort-cream.png',
     emoji: '🛡️',
     routine: '크림 (장벽케어)',
     routineOrder: 5
@@ -535,16 +535,25 @@ function renderRoutine(products) {
 
 // ── 인증 뱃지 ────────────────────────────────────────────────
 function renderCerts(products) {
-  const all = new Set();
-  products.forEach(p => p.cert.forEach(c => all.add(c)));
-  const badges = [...all].map(cert => `
-    <div class="cert-badge">
-      <span class="cert-icon">${cert.includes('더마테스트') ? '🏅' : '✅'}</span>
-      <span class="cert-text">${cert}</span>
-    </div>`).join('');
+  // 인증 로고 이미지만 표시 (텍스트 이름박스 없음)
   document.getElementById('cert-section').innerHTML = `
-    <div class="cert-heading">인증 현황</div>
-    <div class="cert-badges">${badges}</div>
+    <div class="cert-badges">
+      <div class="cert-badge-img-wrap">
+        <img class="cert-logo-img" src="https://raw.githubusercontent.com/Logan-PB/-images-products-/main/badge-dermatest.png"
+          onerror="this.parentElement.style.display='none'"
+          alt="독일 더마테스트 EXCELLENT" />
+      </div>
+      <div class="cert-badge-img-wrap">
+        <img class="cert-logo-img" src="https://raw.githubusercontent.com/Logan-PB/-images-products-/main/badge-noncomedogenic.png"
+          onerror="this.parentElement.style.display='none'"
+          alt="논코메도제닉" />
+      </div>
+      <div class="cert-badge-img-wrap">
+        <img class="cert-logo-img" src="https://raw.githubusercontent.com/Logan-PB/-images-products-/main/badge-kids.png"
+          onerror="this.parentElement.style.display='none'"
+          alt="KIDS 인증" />
+      </div>
+    </div>
   `;
 }
 

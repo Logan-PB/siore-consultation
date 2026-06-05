@@ -344,7 +344,6 @@ function renderAnalyzer(items) {
         <b>${value}%</b>
       </div>`;
   }).join("");
-  const topProduct = items[0];
   document.getElementById("analysis-section").innerHTML = `
     <div class="analysis-visual">
       <img src="images/skin-analysis-model.png" alt="Skin analysis model">
@@ -357,10 +356,6 @@ function renderAnalyzer(items) {
       <p>${langText(UI.labels.analyzerCopy)}</p>
       <div class="analysis-markers">${markers}</div>
       <div class="metric-card">${metricRows}</div>
-      <div class="top-match">
-        <span>Top match</span>
-        <strong>${topProduct ? productName(topProduct) : "-"}</strong>
-      </div>
     </div>
   `;
 }
@@ -412,6 +407,7 @@ function parseClinical(str) {
 }
 
 function renderClinicalHighlights(items) {
+  const topProduct = items[0];
   const stats = items.map((product) => {
     const { num, label } = parseClinical(product.clinical[0] || product.usp);
     return `
@@ -424,6 +420,22 @@ function renderClinicalHighlights(items) {
   document.getElementById("clinical-highlights").innerHTML = `
     <div class="section-heading-bar"><span>${langText(UI.labels.clinicalTitle)}</span></div>
     <div class="clinical-grid">${stats}</div>
+    ${topProduct ? `
+      <div class="one-pick-card">
+        <div class="one-pick-label">필수 ONE PICK!!</div>
+        <div class="one-pick-product">
+          <div class="one-pick-img">
+            <img src="${topProduct.image}" alt="${topProduct.short}" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+            <div class="one-pick-fallback">${topProduct.emoji}</div>
+          </div>
+          <div class="one-pick-copy">
+            <span>${topProduct.routine} · ${topProduct.capacity}</span>
+            <strong>${productName(topProduct)}</strong>
+            <p>${topProduct.usp}</p>
+          </div>
+        </div>
+      </div>
+    ` : ""}
   `;
 }
 

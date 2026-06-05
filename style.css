@@ -696,27 +696,6 @@ img {
   background: linear-gradient(90deg, var(--olive), var(--gold));
 }
 
-.top-match {
-  display: grid;
-  gap: 4px;
-  margin-top: 14px;
-  padding: 14px;
-  border-left: 3px solid var(--rose);
-  background: var(--ivory);
-}
-
-.top-match span {
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.top-match strong {
-  color: var(--ink);
-  font-size: 15px;
-}
-
 .recommendation-panel {
   display: grid;
   gap: 18px;
@@ -816,6 +795,95 @@ td:last-child {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+}
+
+.one-pick-card {
+  display: grid;
+  grid-template-columns: 158px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid rgba(170, 103, 88, 0.34);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(111, 56, 47, 0.96) 0 38%, rgba(170, 103, 88, 0.92) 100%),
+    var(--rose-dark);
+  color: #fff8ef;
+  box-shadow: 0 16px 34px -28px rgba(70, 44, 28, 0.72);
+}
+
+.one-pick-label {
+  align-self: stretch;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  border: 1px solid rgba(255, 241, 223, 0.28);
+  border-radius: 6px;
+  background: rgba(255, 248, 239, 0.12);
+  color: #fff8ef;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.one-pick-product {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.one-pick-img {
+  width: 76px;
+  height: 76px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #fff 0%, #fff3e9 100%);
+  box-shadow: inset 0 -12px 18px -16px rgba(70, 44, 28, 0.58), 0 14px 24px -18px rgba(25, 12, 8, 0.7);
+  overflow: hidden;
+}
+
+.one-pick-img img {
+  max-width: 68px;
+  max-height: 68px;
+  object-fit: contain;
+}
+
+.one-pick-fallback {
+  display: none;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  color: var(--rose-dark);
+  font-size: 24px;
+}
+
+.one-pick-copy span {
+  display: block;
+  color: rgba(255, 248, 239, 0.76);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.one-pick-copy strong {
+  display: block;
+  margin-top: 3px;
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.18;
+}
+
+.one-pick-copy p {
+  margin: 7px 0 0;
+  color: rgba(255, 248, 239, 0.82);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 .clinical-stat {
@@ -1653,6 +1721,23 @@ footer {
 
   .clinical-grid {
     grid-template-columns: 1fr;
+  }
+
+  .one-pick-card,
+  .one-pick-product {
+    grid-template-columns: 1fr;
+  }
+
+  .one-pick-label {
+    min-height: 48px;
+  }
+
+  .one-pick-img {
+    justify-self: center;
+  }
+
+  .one-pick-copy {
+    text-align: center;
   }
 
   .board-scroll {

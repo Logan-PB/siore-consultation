@@ -639,12 +639,17 @@ function updateStep1Ready() {
   document.getElementById("btn-to-step2").disabled = !(selectedAge && selectedConcerns.length);
 }
 
+function syncLanguageButtons() {
+  document.querySelectorAll(".language-option").forEach((item) => {
+    item.classList.toggle("active", item.dataset.lang === languageMode);
+  });
+}
+
 function bindEvents() {
   document.querySelectorAll(".language-option").forEach((button) => {
     button.addEventListener("click", () => {
       languageMode = button.dataset.lang;
-      document.querySelectorAll(".language-option").forEach((item) => item.classList.remove("active"));
-      button.classList.add("active");
+      syncLanguageButtons();
       if (document.getElementById("step3").classList.contains("active")) showResults();
     });
   });

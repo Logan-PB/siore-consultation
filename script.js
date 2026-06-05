@@ -1,625 +1,716 @@
 /* ============================================================
-   SIORE DERMA — 피부 상담 로직 v4.0
-   제품 데이터 / 추천 알고리즘 / AI 챗봇
+   SIORE pharmacy consultation flow
+   Evidence-first recommendation logic, no chatbot.
 ============================================================ */
 
-// ────────────────────────────────────────────────────────────
-// ★ API 키 설정
-// Anthropic Console(https://console.anthropic.com)에서 발급 후
-// 아래 "YOUR_API_KEY_HERE" 자리에 붙여넣으세요.
-// ────────────────────────────────────────────────────────────
-const API_KEY = "YOUR_API_KEY_HERE";
+let products = {};
+let selectedAge = null;
+let selectedGender = "none";
+let selectedConcerns = [];
+let selectedSkinTypes = [];
+let selectedTexture = "balanced";
+let selectedSensitivity = "medium";
+let languageMode = "ko";
 
-// ────────────────────────────────────────────────────────────
-// 제품 데이터
-// routineOrder: 1클렌징 → 2토너 → 3앰플 → 4세럼 → 5크림
-// ────────────────────────────────────────────────────────────
-const PRODUCTS = {
-  cleansing: {
-    name: 'NMN 하이드로 캡슐 클렌징 밀크',
-    short: '클렌징 밀크',
-    price: 33000,
-    capacity: '150ml',
-    tag: '당김없는 촉촉 클렌징',
-    concerns: ['건조', '민감', '트러블'],
-    skins: ['건성', '민감성', '트러블성'],
-    clinical: ['노폐물 99.48% 세정', '메이크업 91.59% 세정'],
-    cert: ['논코메도제닉', '독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/cleanse.png',
-    emoji: '🧴',
-    routine: '클렌징',
-    routineOrder: 1
+const UI = {
+  concerns: {
+    "건조": { en: "Dryness", zh: "干燥", ja: "乾燥" },
+    "민감": { en: "Sensitivity", zh: "敏感", ja: "敏感" },
+    "열감홍조": { en: "Heat / redness", zh: "热感 / 泛红", ja: "ほてり / 赤み" },
+    "안티에이징": { en: "Firmness / aging signs", zh: "弹力 / 熟龄护理", ja: "ハリ / エイジングケア" },
+    "광채톤업": { en: "Radiance / tone", zh: "光泽 / 肤色", ja: "ツヤ / トーン" },
+    "트러블": { en: "Blemishes", zh: "痘痘困扰", ja: "肌荒れ" },
+    "피지": { en: "Sebum", zh: "油脂", ja: "皮脂" },
+    "장벽회복": { en: "Barrier care", zh: "屏障修护", ja: "バリアケア" },
+    "각질": { en: "Texture / dead skin", zh: "角质 / 肤理", ja: "角質 / キメ" }
   },
-  bubbleToner: {
-    name: 'NMN 프레쉬 버블 토너',
-    short: '버블 토너',
-    price: 30000,
-    capacity: '145ml',
-    tag: '각질정돈 + 광채 + 즉각수분',
-    concerns: ['각질', '광채톤업', '건조'],
-    skins: ['건성', '지성', '복합성'],
-    clinical: ['피부광채 403.37% 개선', '피부수분 148.70% 증가', '피부결 10.43% 개선'],
-    cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/bubble-tone.png',
-    emoji: '💧',
-    routine: '토너 (각질정돈)',
-    routineOrder: 2
+  skinTypes: {
+    "건성": { en: "Dry", zh: "干性", ja: "乾燥肌" },
+    "지성": { en: "Oily", zh: "油性", ja: "脂性肌" },
+    "복합성": { en: "Combination", zh: "混合性", ja: "混合肌" },
+    "민감성": { en: "Sensitive", zh: "敏感性", ja: "敏感肌" },
+    "트러블성": { en: "Blemish-prone", zh: "痘痘肌", ja: "トラブル肌" }
   },
-  essenceToner: {
-    name: '데일리 릴리프 에센스 토너',
-    short: '에센스 토너',
-    price: 33000,
-    capacity: '150ml',
-    tag: '수분 136% · 자극지수 0.00 무자극',
-    concerns: ['민감', '열감홍조', '건조'],
-    skins: ['민감성', '건성', '복합성'],
-    clinical: ['수분 136.58% 개선', '피부결 11.84% 개선', '자극지수 0.00'],
-    cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/essence-toner.png',
-    emoji: '💧',
-    routine: '토너 (진정수분)',
-    routineOrder: 2
+  ages: {
+    "20대": { en: "20s", zh: "20多岁", ja: "20代" },
+    "30대": { en: "30s", zh: "30多岁", ja: "30代" },
+    "40대": { en: "40s", zh: "40多岁", ja: "40代" },
+    "50대": { en: "50s", zh: "50多岁", ja: "50代" },
+    "60대": { en: "60s", zh: "60多岁", ja: "60代" },
+    "70대 이상": { en: "70+", zh: "70岁以上", ja: "70代以上" }
   },
-  repairAmpoule: {
-    name: '데일리 릴리프 리페어 앰플',
-    short: '리페어 앰플',
-    price: 30000,
-    capacity: '30ml',
-    tag: '광채 475% · 장벽회복 SOS',
-    concerns: ['장벽회복', '민감', '트러블'],
-    skins: ['민감성', '트러블성', '건성', '지성'],
-    clinical: ['피부광채 475.98% 개선', '피부장벽 47.08% 개선', '진정 14.54% 개선'],
-    cert: ['논코메도제닉', '독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/ampoule.png',
-    emoji: '💎',
-    routine: '앰플',
-    routineOrder: 3
+  genders: {
+    female: { ko: "여성", en: "Female", zh: "女性", ja: "女性" },
+    male: { ko: "남성", en: "Male", zh: "男性", ja: "男性" },
+    none: { ko: "선택 안 함", en: "Not selected", zh: "未选择", ja: "未選択" }
   },
-  serum: {
-    name: 'NMN 인텐시브 세럼',
-    short: '인텐시브 세럼',
-    price: 35000,
-    capacity: '50ml',
-    tag: '광채 564% · 주름·탄력·톤 동시케어',
-    concerns: ['안티에이징', '광채톤업'],
-    skins: ['건성', '지성', '복합성', '민감성'],
-    clinical: ['광채 564.64% 개선', '눈가주름 9.12% 감소', '입가주름 13.6% 감소'],
-    cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/serum.png',
-    emoji: '✨',
-    routine: '세럼',
-    routineOrder: 4
-  },
-  soothingCream: {
-    name: 'NMN 하이드레이팅 수딩 크림',
-    short: '수딩 크림',
-    price: 27000,
-    capacity: '50ml',
-    tag: '즉각보습 148% · 24시간 수분지속',
-    concerns: ['건조', '민감', '열감홍조'],
-    skins: ['건성', '민감성', '복합성'],
-    clinical: ['즉각보습 148.87% 개선', '보습지속력 56.65% 개선'],
-    cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/soothing-cream.png',
-    emoji: '🌸',
-    routine: '크림 (수분)',
-    routineOrder: 5
-  },
-  richCream: {
-    name: 'NMN 딥 글로우 리치 크림',
-    short: '리치 크림',
-    price: 35000,
-    capacity: '50ml',
-    tag: '안면리프팅 입증 · 영양+탄력+윤광',
-    concerns: ['안티에이징', '건조', '광채톤업'],
-    skins: ['건성'],
-    clinical: ['피부보습 45.11% 증가', '리프팅 4.47% 개선', '치밀도 17.15% 증가'],
-    cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/rich-cream.png',
-    emoji: '🌿',
-    routine: '크림 (영양)',
-    routineOrder: 5
-  },
-  soothingGel: {
-    name: '데일리 릴리프 카밍 수딩 젤',
-    short: '카밍 수딩 젤',
-    price: 30000,
-    capacity: '80ml',
-    tag: '1회 보습 76% · 쿨링 진정',
-    concerns: ['열감홍조', '피지', '트러블'],
-    skins: ['지성', '복합성', '트러블성'],
-    clinical: ['보습 76.04% 즉각개선', '피부각질 42.18% 개선'],
-    cert: ['독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/soothing-gel.png',
-    emoji: '🫧',
-    routine: '젤 크림 (지성)',
-    routineOrder: 5
-  },
-  comfortCream: {
-    name: '데일리 릴리프 컴포트 크림',
-    short: '컴포트 크림',
-    price: 33000,
-    capacity: '50ml',
-    tag: '1회 보습 110% · 논코메도제닉',
-    concerns: ['장벽회복', '민감', '건조', '트러블'],
-    skins: ['건성', '민감성', '트러블성'],
-    clinical: ['즉각보습 110.79% 증가', '피부각질 64.28% 개선', '기미색소 9.81% 개선'],
-    cert: ['논코메도제닉', '독일 더마테스트 EXCELLENT'],
-    image: 'https://raw.githubusercontent.com/Logan-PB/-images-products-/main/comfort-cream.png',
-    emoji: '🛡️',
-    routine: '크림 (장벽케어)',
-    routineOrder: 5
+  labels: {
+    selectedProfile: { ko: "상담 프로필", en: "Consultation profile", zh: "咨询资料", ja: "相談プロフィール" },
+    selectedConcerns: { ko: "선택 고민", en: "Selected concerns", zh: "选择的困扰", ja: "選択した悩み" },
+    recommendation: { ko: "추천 루틴", en: "Recommended routine", zh: "推荐护理", ja: "おすすめルーティン" },
+    analyzerTitle: { ko: "피부 분석", en: "Skin analysis", zh: "皮肤分析", ja: "肌分析" },
+    analyzerCopy: {
+      ko: "선택 조건을 바탕으로 수분, 장벽, 열감, 피부결, 탄력 축을 상담용으로 요약했습니다. 진단이 아닌 제품 상담 보조 지표입니다.",
+      en: "The selected profile is summarized across hydration, barrier, redness, texture, and firmness. This is a consultation aid, not a diagnosis.",
+      zh: "根据选择条件，将水分、屏障、泛红、肤理和弹力整理为咨询参考。这不是诊断。",
+      ja: "選択条件をもとに、うるおい、バリア、赤み、キメ、ハリを相談用に整理しています。診断ではありません。"
+    },
+    boardTitle: { ko: "맞춤 SKU 추천표", en: "Matched SKU board", zh: "定制SKU推荐表", ja: "マッチSKU表" },
+    clinicalTitle: { ko: "핵심 임상 근거", en: "Key clinical evidence", zh: "核心临床依据", ja: "主な臨床根拠" },
+    evidenceTitle: { ko: "SKU별 근거 상담 카드", en: "SKU evidence cards", zh: "SKU依据咨询卡", ja: "SKU別根拠カード" },
+    scriptTitle: { ko: "빠른 상담 포인트", en: "Quick selling points", zh: "快速咨询重点", ja: "クイック接客ポイント" },
+    rationaleTitle: { ko: "구성 근거 요약", en: "Set rationale", zh: "组合依据摘要", ja: "構成根拠の要約" },
+    source: { ko: "출처", en: "Source", zh: "来源", ja: "出典" },
+    routineTitle: { ko: "권장 사용 순서", en: "Recommended order", zh: "推荐使用顺序", ja: "推奨使用順" },
+    noteTitle: { ko: "약사 상담 메모", en: "Pharmacist memo", zh: "药师咨询记录", ja: "薬剤師メモ" },
+    noteCopy: {
+      ko: "필수 1종에서 코어 3종, 프리미엄 4-5종으로 상담 폭을 넓히며 고객의 구매 포인트를 빠르게 잡아주세요.",
+      en: "Move from Essential 1 to Core 3 and Premium 4-5 to quickly frame the client's purchase point.",
+      zh: "从必选1件到核心3件、尊享4-5件，快速抓住顾客的购买理由。",
+      ja: "必須1品からコア3品、プレミアム4-5品へ広げ、購入ポイントを素早く整理してください。"
+    },
+    beforeAfter: { ko: "전후 예시", en: "Before / after", zh: "前后示例", ja: "前後例" },
+    imageNote: { ko: "공식 전후 이미지 연결 예정", en: "Official before/after image slot", zh: "官方前后图待连接", ja: "公式前後画像を接続予定" }
   }
 };
 
-// ────────────────────────────────────────────────────────────
-// 상태 변수
-// ────────────────────────────────────────────────────────────
-let selectedConcerns = [];
-let selectedSkinType  = null;
-let chatHistory       = [];   // Claude API 대화 히스토리
-
-// ════════════════════════════════════════════════════════════
-//  AI 챗봇 기능
-// ════════════════════════════════════════════════════════════
-
-// ── 챗봇 초기화 ──────────────────────────────────────────────
-function initChat() {
-  chatHistory = [];
-  const msgs = document.getElementById('chat-messages');
-  if (!msgs) return;
-  msgs.innerHTML = '';
-  addAiMessage('안녕하세요! 😊 시오레 제품 관련 궁금한 점을 편하게 질문해주세요.');
-}
-
-// ── 메시지 렌더링 ────────────────────────────────────────────
-function esc(str) {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}
-
-function addUserMessage(text) {
-  const msgs = document.getElementById('chat-messages');
-  const el   = document.createElement('div');
-  el.className = 'chat-msg chat-msg-user';
-  el.innerHTML = `<div class="chat-bubble chat-bubble-user">${esc(text).replace(/\n/g, '<br>')}</div>`;
-  msgs.appendChild(el);
-  scrollChat();
-}
-
-function addAiMessage(text) {
-  const msgs = document.getElementById('chat-messages');
-  const el   = document.createElement('div');
-  el.className = 'chat-msg chat-msg-ai';
-  el.innerHTML = `
-    <div class="chat-sender-name">SIORÉ 상담사</div>
-    <div class="chat-bubble chat-bubble-ai">${esc(text).replace(/\n/g, '<br>')}</div>
-  `;
-  msgs.appendChild(el);
-  scrollChat();
-}
-
-function showLoading() {
-  const msgs = document.getElementById('chat-messages');
-  const el   = document.createElement('div');
-  el.className = 'chat-msg chat-msg-ai';
-  el.id = 'chat-loading';
-  el.innerHTML = `
-    <div class="chat-sender-name">SIORÉ 상담사</div>
-    <div class="chat-bubble chat-bubble-ai">
-      <div class="chat-loading-dots"><span></span><span></span><span></span></div>
-    </div>
-  `;
-  msgs.appendChild(el);
-  scrollChat();
-}
-
-function removeLoading() {
-  const el = document.getElementById('chat-loading');
-  if (el) el.remove();
-}
-
-function scrollChat() {
-  const msgs = document.getElementById('chat-messages');
-  if (msgs) msgs.scrollTop = msgs.scrollHeight;
-}
-
-// ── Claude API 호출 ──────────────────────────────────────────
-async function sendChat(userMessage) {
-  chatHistory.push({ role: 'user', content: userMessage });
-
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      system: `당신은 시오레(SIORE) 더마 화장품 전문 약국 상담사입니다.
-반드시 시오레 제품 관련 질문에만 답변하세요.
-시오레와 무관한 질문은 "시오레 제품 관련 질문만 답변드릴 수 있어요 😊"라고 안내하세요.
-
-=== 시오레 제품 정보 ===
-1. NMN 하이드로 캡슐 클렌징 밀크 150ml / 33,000원
-   - 논코메도제닉 인증, 독일 더마테스트 EXCELLENT
-   - 노폐물 99.48% 세정, 메이크업 91.59% 세정
-   - 추천: 건성·민감성·트러블 피부, 당김 심한 피부
-   - 판테놀 수분 캡슐로 세안 후 당김 없이 촉촉
-
-2. NMN 프레쉬 버블 토너 145ml / 30,000원
-   - 독일 더마테스트 EXCELLENT, 자극지수 0.00
-   - 피부광채 403.37% 개선, 수분 148.70% 증가, 피부결 10.43% 개선
-   - 추천: 건성·지성·복합성, 각질 고민
-   - 벌집구조 버블로 각질정돈 + 즉각 수분
-
-3. NMN 인텐시브 세럼 50ml / 35,000원
-   - 독일 더마테스트 EXCELLENT
-   - 광채 564.64% 개선, 눈가주름 9.12% 감소, 입가주름 13.6% 감소
-   - 추천: 탄력저하·잔주름·속건조·푸석한 피부
-   - NMN 1% 함유, 탄력·주름·톤 동시케어
-
-4. NMN 하이드레이팅 수딩 크림 50ml / 27,000원
-   - 독일 더마테스트 EXCELLENT
-   - 즉각보습 148.87% 개선, 보습지속력 56.65% 개선
-   - 추천: 민감성·수분부족·열감 자주 오르는 피부
-   - 세라마이드·병풀·알파리포산 함유
-
-5. NMN 딥 글로우 리치 크림 50ml / 35,000원
-   - 독일 더마테스트 EXCELLENT, 안면 전체 리프팅 입증
-   - 피부보습 45.11%, 리프팅 4.47%, 치밀도 17.15% 증가
-   - 추천: 건성·탄력저하·영양부족 피부
-   - 나이트케어·수면팩으로도 활용 가능
-
-6. 데일리 릴리프 에센스 토너 150ml / 33,000원
-   - 독일 더마테스트 EXCELLENT, 자극지수 0.00
-   - 수분 136.58% 개선, 피부결 11.84% 개선
-   - 추천: 민감성·속건조·겉당김
-   - 제주 감나무잎수 85%, 20가지 주의성분 무함유
-
-7. 데일리 릴리프 리페어 앰플 30ml / 30,000원
-   - 논코메도제닉 인증, 독일 더마테스트 EXCELLENT
-   - 피부광채 475.98%, 피부장벽 47.08%, 진정 14.54% 개선
-   - 추천: 장벽손상·예민기·피부컨디션 저하
-   - 3無(무향·무색소·무알코올) 저자극
-
-8. 데일리 릴리프 카밍 수딩 젤 80ml / 30,000원
-   - 독일 더마테스트 EXCELLENT, 자극지수 0.00
-   - 보습 76.04% 즉각개선, 피부각질 42.18% 개선
-   - 추천: 지성·복합성·트러블·열감·홍조
-   - 냉장보관 시 쿨링효과 극대화
-
-9. 데일리 릴리프 컴포트 크림 50ml / 33,000원
-   - 논코메도제닉 인증, 독일 더마테스트 EXCELLENT
-   - 즉각보습 110.79%, 피부각질 64.28%, 기미색소 9.81% 개선
-   - 추천: 건성·민감성·트러블·장벽케어
-   - 가벼운 사용감, 속건조 해결
-
-=== 답변 규칙 ===
-- 친절하고 전문적인 약국 상담사 말투로 답변
-- 피부 고민에 맞는 제품 1~3개 구체적으로 추천
-- 임상 수치를 활용해서 신뢰감 있게 설명
-- 사용 순서와 방법도 함께 안내
-- 답변은 간결하게 5문장 이내
-- 한국어로만 답변`,
-      messages: chatHistory
-    })
-  });
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${response.status}`);
-  }
-
-  const data     = await response.json();
-  const aiText   = data.content[0].text;
-  chatHistory.push({ role: 'assistant', content: aiText });
-  return aiText;
-}
-
-// ── 메시지 전송 (버튼 클릭 / Enter 키) ──────────────────────
-async function sendMessage() {
-  const input   = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send-btn');
-  const text    = input.value.trim();
-  if (!text) return;
-
-  // API 키 미설정 안내
-  if (API_KEY === 'YOUR_API_KEY_HERE') {
-    addAiMessage('🔑 API 키를 설정해주세요.\nscript.js 상단 const API_KEY = "YOUR_API_KEY_HERE" 부분에\n발급받은 Anthropic API 키를 입력하면 바로 사용 가능합니다.');
+async function loadProducts() {
+  if (window.SIORE_PRODUCTS) {
+    products = window.SIORE_PRODUCTS;
     return;
   }
-
-  // 입력 초기화 + 비활성화
-  input.value = '';
-  input.style.height = 'auto';
-  input.disabled  = true;
-  sendBtn.disabled = true;
-
-  addUserMessage(text);
-  showLoading();
-
-  try {
-    const reply = await sendChat(text);
-    removeLoading();
-    addAiMessage(reply);
-  } catch (err) {
-    removeLoading();
-    addAiMessage(`죄송합니다, 일시적인 오류가 발생했어요. 잠시 후 다시 시도해주세요. 🙏\n(${err.message})`);
-  } finally {
-    input.disabled  = false;
-    sendBtn.disabled = false;
-    input.focus();
-  }
+  const response = await fetch("data/products.json", { cache: "no-store" });
+  if (!response.ok) throw new Error("제품 데이터를 불러오지 못했습니다.");
+  products = await response.json();
 }
 
-// ════════════════════════════════════════════════════════════
-//  상담 플로우 — 단계 이동
-// ════════════════════════════════════════════════════════════
-function goToStep(num) {
-  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('step' + num).classList.add('active');
+function langText(mapOrKo) {
+  if (typeof mapOrKo === "string") return mapOrKo;
+  if (languageMode === "ko") return mapOrKo.ko || "";
+  const translated = mapOrKo[languageMode] || "";
+  return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${mapOrKo.ko || ""}</span>`;
+}
 
-  for (let i = 1; i <= 3; i++) {
-    const navEl = document.getElementById('nav-' + i);
-    const numEl = navEl.querySelector('.step-num');
-    navEl.classList.remove('active', 'done');
+function translatedValue(group, value) {
+  const translated = UI[group][value]?.[languageMode];
+  if (languageMode === "ko" || !translated) return value;
+  return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${value}</span>`;
+}
+
+function translatedGender(value) {
+  return langText(UI.genders[value] || UI.genders.none);
+}
+
+function productName(product) {
+  const translated = product.i18n?.[languageMode]?.name;
+  if (languageMode === "ko" || !translated) return product.short;
+  return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${product.short}</span>`;
+}
+
+function productBenefit(product) {
+  const translated = product.i18n?.[languageMode]?.benefit;
+  if (languageMode === "ko" || !translated) return product.benefit;
+  return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${product.benefit}</span>`;
+}
+
+function goToStep(num) {
+  document.querySelectorAll(".step-panel").forEach((panel) => panel.classList.remove("active"));
+  document.getElementById("step" + num).classList.add("active");
+
+  for (let i = 1; i <= 3; i += 1) {
+    const navEl = document.getElementById("nav-" + i);
+    const numEl = navEl.querySelector(".step-num");
+    navEl.classList.remove("active", "done");
     if (i < num) {
-      navEl.classList.add('done');
-      numEl.textContent = '✓';
+      navEl.classList.add("done");
+      numEl.textContent = "✓";
     } else {
       numEl.textContent = String(i);
-      if (i === num) navEl.classList.add('active');
+      if (i === num) navEl.classList.add("active");
     }
   }
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// ════════════════════════════════════════════════════════════
-//  추천 로직 — 고민 매칭 +2점 / 피부타입 매칭 +1점
-// ════════════════════════════════════════════════════════════
+function productMatches(product, concerns) {
+  return concerns.some((concern) => product.concerns.includes(concern));
+}
+
+function ageScore(product) {
+  const concerns = product.concerns || [];
+  let score = 0;
+  if (selectedAge === "20대") {
+    if (productMatches(product, ["피지", "트러블", "열감홍조"])) score += 0.7;
+    if (product.routineGroup === "moisturizer" && product.key === "richCream") score -= 0.4;
+  }
+  if (selectedAge === "30대") {
+    if (productMatches(product, ["건조", "광채톤업", "안티에이징"])) score += 0.45;
+  }
+  if (selectedAge === "40대") {
+    if (productMatches(product, ["안티에이징", "장벽회복", "광채톤업"])) score += 0.75;
+  }
+  if (selectedAge === "50대" || selectedAge === "60대" || selectedAge === "70대 이상") {
+    if (productMatches(product, ["건조", "장벽회복", "안티에이징"])) score += 0.9;
+    if (product.routineGroup === "moisturizer") score += 0.25;
+  }
+  if (selectedAge === "70대 이상" && concerns.includes("민감")) score += 0.25;
+  return score;
+}
+
+function genderScore(product) {
+  if (selectedGender === "male") {
+    if (productMatches(product, ["피지", "열감홍조", "트러블"])) return 0.35;
+    if (product.routineGroup === "cleanser") return 0.2;
+  }
+  if (selectedGender === "female") {
+    if (productMatches(product, ["광채톤업", "안티에이징", "건조"])) return 0.25;
+  }
+  return 0;
+}
+
+function textureScore(product) {
+  if (selectedTexture === "light") {
+    if (["gel", "serum", "ampoule", "toner"].includes(product.role)) return 0.35;
+    if (product.key === "richCream") return -0.5;
+  }
+  if (selectedTexture === "rich") {
+    if (product.routineGroup === "moisturizer") return 0.35;
+    if (product.key === "soothingGel") return -0.25;
+  }
+  return 0;
+}
+
+function sensitivityScore(product) {
+  if (selectedSensitivity !== "high") return 0;
+  const dailyRelief = product.name.includes("데일리 릴리프");
+  if (dailyRelief || product.concerns.includes("민감") || product.concerns.includes("장벽회복")) return 0.55;
+  return 0;
+}
+
 function getRecommendations() {
-  return Object.entries(PRODUCTS)
-    .map(([key, p]) => {
+  return Object.entries(products)
+    .filter(([, product]) => product.active !== false)
+    .map(([key, product]) => {
       let score = 0;
-      selectedConcerns.forEach(c => { if (p.concerns.includes(c)) score += 2; });
-      if (p.skins.includes(selectedSkinType)) score += 1;
-      return { key, ...p, score };
+      selectedConcerns.forEach((concern) => {
+        if (product.concerns.includes(concern)) score += 2;
+      });
+      selectedSkinTypes.forEach((type) => {
+        if (product.skins.includes(type)) score += 1.15;
+      });
+      if (product.routineGroup === "toner" && selectedConcerns.includes("각질") && key === "bubbleToner") score += 0.5;
+      score += ageScore({ key, ...product });
+      score += genderScore({ key, ...product });
+      score += textureScore({ key, ...product });
+      score += sensitivityScore({ key, ...product });
+      return { key, ...product, score };
     })
-    .sort((a, b) => b.score - a.score || b.price - a.price);
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.routineOrder - b.routineOrder || b.price - a.price;
+    });
 }
 
-// ════════════════════════════════════════════════════════════
-//  결과 화면 진입
-// ════════════════════════════════════════════════════════════
+function selectBalanced(ranked, size, maxByGroup) {
+  const selected = [];
+  const counts = {};
+  ranked.forEach((product) => {
+    const group = product.routineGroup || product.role;
+    const limit = maxByGroup[group] ?? 1;
+    if (selected.length < size && (counts[group] || 0) < limit) {
+      selected.push(product);
+      counts[group] = (counts[group] || 0) + 1;
+    }
+  });
+  ranked.forEach((product) => {
+    if (selected.length < size && !selected.some((item) => item.key === product.key)) selected.push(product);
+  });
+  return selected.slice(0, size);
+}
+
+function buildSets(ranked) {
+  return {
+    essential1: ranked.slice(0, 1),
+    core3: selectBalanced(ranked, 3, { cleanser: 1, toner: 1, treatment: 1, moisturizer: 1 }),
+    premium4: selectBalanced(ranked, 4, { cleanser: 1, toner: 1, treatment: 1, moisturizer: 1 }),
+    premium5: selectBalanced(ranked, 5, { cleanser: 1, toner: 1, treatment: 2, moisturizer: 1 })
+  };
+}
+
+function needsPremium5() {
+  const highCareConcerns = ["안티에이징", "장벽회복", "트러블", "광채톤업"];
+  const highCareSkinTypes = ["건성", "민감성", "트러블성"];
+  const matureAges = ["40대", "50대", "60대", "70대 이상"];
+
+  return (
+    selectedConcerns.length >= 3 ||
+    selectedConcerns.some((concern) => highCareConcerns.includes(concern)) ||
+    selectedSkinTypes.some((type) => highCareSkinTypes.includes(type)) ||
+    matureAges.includes(selectedAge)
+  );
+}
+
+function selectedPremiumSet(sets) {
+  return needsPremium5()
+    ? { title: "프리미엄 5종", subtitle: "타입 맞춤 집중 풀 루틴", items: sets.premium5, tier: "premium5" }
+    : { title: "프리미엄 4종", subtitle: "체감 포인트를 넓힌 업셀링 구성", items: sets.premium4, tier: "premium4" };
+}
+
 function showResults() {
-  const ranked  = getRecommendations();
-  const mini    = ranked.slice(0, 2);
-  const custom  = ranked.slice(0, 3);
-  const premium = ranked.slice(0, 5);
-
+  const ranked = getRecommendations();
+  const sets = buildSets(ranked);
+  const premium = selectedPremiumSet(sets);
   renderSummary();
-  renderClinicalHighlights(custom);
-  renderSets(mini, custom, premium);
-  renderRoutine(premium);
-  renderCerts(premium);
+  renderAnalyzer(sets.core3);
+  renderRecommendationBoard(sets.core3);
+  renderClinicalHighlights(sets.core3);
+  renderSets(sets, premium);
+  renderEvidence(sets.core3);
+  renderConsultationScripts(sets, premium);
+  renderRoutine(premium.items);
+  renderCerts();
   goToStep(3);
-  initChat();   // 결과 화면 진입 시 챗봇 초기화
 }
 
-// ── 요약 배너 ─────────────────────────────────────────────────
 function renderSummary() {
   const chips = selectedConcerns
-    .map(c => `<span class="summary-chip">${c}</span>`)
-    .join('');
-  document.getElementById('result-summary').innerHTML = `
+    .map((c) => `<span class="summary-chip">${translatedValue("concerns", c)}</span>`)
+    .join("");
+  document.getElementById("result-summary").innerHTML = `
     <div>
-      <div class="summary-label">선택하신 피부 고민</div>
-      <div class="summary-concerns">${chips}</div>
+      <div class="summary-label">${langText(UI.labels.selectedProfile)}</div>
+      <div class="summary-profile">
+        <span>${translatedValue("ages", selectedAge)}</span>
+        <span>${translatedGender(selectedGender)}</span>
+        ${selectedSkinTypes.map((type) => `<span>${translatedValue("skinTypes", type)}</span>`).join("")}
+      </div>
     </div>
-    <div style="text-align:right;">
-      <div class="summary-label">피부 타입</div>
-      <div class="summary-type-text">${selectedSkinType} 피부</div>
+    <div>
+      <div class="summary-label">${langText(UI.labels.selectedConcerns)}</div>
+      <div class="summary-concerns">${chips}</div>
     </div>
   `;
 }
 
-// ── 임상 하이라이트 ───────────────────────────────────────────
-function parseClinical(str) {
-  const match = str.match(/([\d.,]+%)/);
-  return { num: match ? match[1] : '-', label: str.replace(match ? match[1] : '', '').trim() };
+function metricValue(metric) {
+  let value = 52;
+  if (metric === "수분" && selectedConcerns.includes("건조")) value -= 18;
+  if (metric === "장벽" && selectedConcerns.includes("장벽회복")) value -= 16;
+  if (metric === "열감" && selectedConcerns.includes("열감홍조")) value += 22;
+  if (metric === "피부결" && selectedConcerns.includes("각질")) value -= 14;
+  if (metric === "탄력" && selectedConcerns.includes("안티에이징")) value -= 17;
+  if (selectedAge === "50대" || selectedAge === "60대" || selectedAge === "70대 이상") {
+    if (["수분", "장벽", "탄력"].includes(metric)) value -= 7;
+  }
+  if (selectedSkinTypes.includes("민감성") && metric === "장벽") value -= 8;
+  if (selectedSkinTypes.includes("지성") && metric === "열감") value += 5;
+  return Math.max(22, Math.min(86, value));
 }
 
-function renderClinicalHighlights(products) {
-  const stats = products.map(p => {
-    const { num, label } = parseClinical(p.clinical[0]);
+function renderAnalyzer(items) {
+  const markers = selectedConcerns.map((concern) => `<span>${translatedValue("concerns", concern)}</span>`).join("");
+  const metricRows = ["수분", "장벽", "열감", "피부결", "탄력"].map((metric) => {
+    const value = metricValue(metric);
+    return `
+      <div class="metric-row">
+        <span>${metric}</span>
+        <div class="metric-track"><i style="width:${value}%"></i></div>
+        <b>${value}%</b>
+      </div>`;
+  }).join("");
+  const topProduct = items[0];
+  document.getElementById("analysis-section").innerHTML = `
+    <div class="analysis-visual">
+      <img src="images/skin-analysis-model.png" alt="Skin analysis model">
+      <div class="face-pin pin-forehead">수분</div>
+      <div class="face-pin pin-cheek">장벽</div>
+      <div class="face-pin pin-jaw">탄력</div>
+    </div>
+    <div class="analysis-copy">
+      <div class="section-heading-bar"><span>${langText(UI.labels.analyzerTitle)}</span></div>
+      <p>${langText(UI.labels.analyzerCopy)}</p>
+      <div class="analysis-markers">${markers}</div>
+      <div class="metric-card">${metricRows}</div>
+      <div class="top-match">
+        <span>Top match</span>
+        <strong>${topProduct ? productName(topProduct) : "-"}</strong>
+      </div>
+    </div>
+  `;
+}
+
+function renderRecommendationBoard(items) {
+  const rows = items.map((product, index) => `
+    <tr>
+      <td data-label="No."><span class="rank-ribbon">${index + 1}</span></td>
+      <td data-label="SKU">
+        <div class="board-product">
+          <div class="sku-thumb">
+            <img src="${product.image}" alt="${product.short}" onerror="this.style.display='none'">
+          </div>
+          <div>
+            <strong>${productName(product)}</strong>
+            <span>${product.capacity} · ${product.routine}</span>
+          </div>
+        </div>
+      </td>
+      <td data-label="상담 포인트">${productBenefit(product)}</td>
+      <td data-label="근거">${product.clinical[0] || product.usp}</td>
+      <td data-label="가격">${priceCompareHTML(product, "compact")}</td>
+    </tr>
+  `).join("");
+  document.getElementById("recommendation-board").innerHTML = `
+    <div class="section-heading-bar"><span>${langText(UI.labels.boardTitle)}</span></div>
+    <div class="board-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>SKU</th>
+            <th>상담 포인트</th>
+            <th>근거</th>
+            <th>가격</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function parseClinical(str) {
+  const match = str.match(/[\d.,]+%/);
+  return { num: match ? match[0] : "근거", label: str.replace(match ? match[0] : "", "").trim() };
+}
+
+function renderClinicalHighlights(items) {
+  const stats = items.map((product) => {
+    const { num, label } = parseClinical(product.clinical[0] || product.usp);
     return `
       <div class="clinical-stat">
         <div class="stat-num">${num}</div>
-        <div class="stat-label">${label}</div>
-        <div class="stat-product">${p.short}</div>
+        <div class="stat-label">${label || product.usp}</div>
+        <div class="stat-product">${product.short}</div>
       </div>`;
-  }).join('');
-  document.getElementById('clinical-highlights').innerHTML = `
-    <div class="section-heading-bar"><span>임상 데이터 하이라이트</span></div>
+  }).join("");
+  document.getElementById("clinical-highlights").innerHTML = `
+    <div class="section-heading-bar"><span>${langText(UI.labels.clinicalTitle)}</span></div>
     <div class="clinical-grid">${stats}</div>
   `;
 }
 
-// ── 세트 카드 ─────────────────────────────────────────────────
-function won(n) { return n.toLocaleString('ko-KR') + '원'; }
+function won(n) {
+  return n.toLocaleString("ko-KR") + "원";
+}
 
-function productItemHTML(p) {
+function mallPrice(product) {
+  return product.mallPrice || product.price;
+}
+
+function discountAmount(product) {
+  return Math.max(0, mallPrice(product) - product.price);
+}
+
+function priceCompareHTML(product, mode = "default") {
+  const discount = discountAmount(product);
+  const compact = mode === "compact";
+  return `
+    <div class="price-compare ${compact ? "compact" : ""}">
+      <div class="price-line consumer"><span>소비자가</span><del>${won(mallPrice(product))}</del></div>
+      <div class="price-line pharmacy"><span>약국가</span><strong>${won(product.price)}</strong></div>
+      ${discount > 0 ? `<div class="discount-badge">${won(discount)} 혜택</div>` : ""}
+    </div>
+  `;
+}
+
+function productItemHTML(product) {
   return `
     <li class="product-row">
       <div class="product-thumb-wrap">
-        <img
-          class="product-thumb"
-          src="${p.image}"
-          alt="${p.short}"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-        />
-        <div class="product-thumb-fallback">${p.emoji}</div>
+        <img class="product-thumb" src="${product.image}" alt="${product.short}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="product-thumb-fallback">${product.emoji}</div>
       </div>
       <div class="product-info">
-        <div class="product-name">${p.short}</div>
-        <div class="product-meta">${p.capacity}</div>
-        <div class="product-price">${won(p.price)}</div>
+        <div class="product-name">${productName(product)}</div>
+        <div class="product-meta">${product.capacity} · ${product.tag}</div>
       </div>
+      <div class="product-price">${priceCompareHTML(product)}</div>
     </li>`;
 }
 
-function setCardHTML(title, subtitle, products, featured, tierClass) {
-  const sorted = [...products].sort((a, b) => a.routineOrder - b.routineOrder);
-  const total  = sorted.reduce((s, p) => s + p.price, 0);
-  const items  = sorted.map(p => productItemHTML(p)).join('');
+function productReason(product) {
+  const evidence = product.clinical?.[0] || product.usp;
+  return `${product.short}: ${product.routine} 단계 핵심 · ${evidence}`;
+}
+
+function setReason(items, tier = "core3") {
+  const topEvidence = items.map((product) => product.clinical?.[0]).filter(Boolean).slice(0, 2).join(" / ");
+  const names = items.map((product) => product.short).join(", ");
+  const map = {
+    essential1: {
+      ko: `필수 1종은 ${names} 중심으로 고객의 가장 큰 고민을 먼저 잡는 입문 구매 포인트입니다. ${topEvidence}`,
+      en: `Essential 1 starts with ${names}, the simplest entry point for the client's top concern. ${topEvidence}`,
+      zh: `必选1件以 ${names} 为核心，先抓住顾客最主要的购买理由。${topEvidence}`,
+      ja: `必須1品は ${names} を中心に、最初の購入ポイントを明確にします。${topEvidence}`
+    },
+    core3: {
+      ko: `코어 3종은 세안·흡수·마무리 루틴이 연결되어 단품보다 체감 포인트가 넓어집니다. ${topEvidence}`,
+      en: `Core 3 connects cleansing, absorption, and finishing care, creating more visible value than a single SKU. ${topEvidence}`,
+      zh: `核心3件连接清洁、吸收和收尾护理，比单品更容易体现购买价值。${topEvidence}`,
+      ja: `コア3品は洗顔・吸収・仕上げをつなげ、単品より体感ポイントを広げます。${topEvidence}`
+    },
+    premium4: {
+      ko: `4종은 기본 루틴보다 수분·장벽·피부결 체감 포인트가 넓어져 업셀링하기 좋습니다. ${topEvidence}`,
+      en: `The 4-piece set broadens hydration, barrier, and texture care, making the upgrade easier to explain. ${topEvidence}`,
+      zh: `4件套可扩大水分、屏障和肤理护理点，更适合升级推荐。${topEvidence}`,
+      ja: `4点セットはうるおい・バリア・キメの体感ポイントが広がり、アップセルしやすい構成です。${topEvidence}`
+    },
+    premium5: {
+      ko: `5종은 아침·저녁 루틴 완성도가 높아 “제대로 관리해보고 싶은 고객”에게 구매 설득력이 큽니다. ${topEvidence}`,
+      en: `The 5-piece set completes the full routine and works well for clients ready for serious daily care. ${topEvidence}`,
+      zh: `5件套可完整覆盖早晚护理，更适合想认真管理肌肤的顾客。${topEvidence}`,
+      ja: `5点セットは朝夜のルーティン完成度が高く、本格ケアしたい方に提案しやすい構成です。${topEvidence}`
+    }
+  };
+  return langText(map[tier] || map.core3);
+}
+
+function setCardHTML(title, subtitle, items, featured, tierClass, tier = "core3") {
+  const sorted = [...items].sort((a, b) => a.routineOrder - b.routineOrder);
+  const total = sorted.reduce((sum, product) => sum + product.price, 0);
+  const mallTotal = sorted.reduce((sum, product) => sum + mallPrice(product), 0);
+  const discountTotal = Math.max(0, mallTotal - total);
+  const rows = sorted.map((product) => productItemHTML(product)).join("");
   return `
-    <div class="set-card ${tierClass}${featured ? ' featured' : ''}">
+    <div class="set-card ${tierClass}${featured ? " featured" : ""}">
       <div class="set-card-head">
         <div class="set-head-top">
           <div class="set-title">${title}</div>
-          ${featured ? '<span class="badge-rec">★ 추천</span>' : ''}
+          ${featured ? '<span class="badge-rec">추천</span>' : ""}
         </div>
         <div class="set-subtitle">${subtitle}</div>
       </div>
       <div class="set-card-body">
-        <ul class="product-list">${items}</ul>
+        <ul class="product-list">${rows}</ul>
+        <div class="set-rationale">
+          <strong>${langText(UI.labels.rationaleTitle)}</strong>
+          <span>${setReason(sorted, tier)}</span>
+        </div>
         <div class="set-total">
           <div>
-            <div class="total-label">단품 합계</div>
-            <div class="total-sub">약국 판매가 기준</div>
+            <div class="total-label">제품 합계</div>
+            <div class="total-sub">공식몰 소비자가 대비</div>
           </div>
-          <div class="total-price">${won(total)}</div>
+          <div class="total-compare">
+            <div class="total-mall"><span>공식몰</span><del>${won(mallTotal)}</del></div>
+            <div class="total-price">${won(total)}</div>
+            ${discountTotal > 0 ? `<div class="total-discount">${won(discountTotal)} 혜택</div>` : ""}
+          </div>
         </div>
       </div>
     </div>`;
 }
 
-function renderSets(mini, custom, premium) {
-  document.getElementById('sets-row').innerHTML =
-    setCardHTML('미니멈 케어 세트',     '기본 케어 · 2종', mini,    false, 'tier-basic')      +
-    setCardHTML('맞춤 케어 세트',       '핵심 케어 · 3종', custom,  true,  'tier-recommended') +
-    setCardHTML('프리미엄 풀케어 세트', '완벽 케어 · 5종', premium, false, 'tier-premium');
+function renderSets(sets, premium) {
+  document.getElementById("sets-row").innerHTML =
+    setCardHTML("필수 1종", "가장 큰 고민을 먼저 잡는 입문 선택", sets.essential1, false, "tier-essential", "essential1") +
+    setCardHTML("코어 3종", "상담 전환이 쉬운 기본 루틴 구성", sets.core3, true, "tier-recommended", "core3") +
+    setCardHTML(premium.title, premium.subtitle, premium.items, false, "tier-premium", premium.tier);
 }
 
-// ── 루틴 ──────────────────────────────────────────────────────
-function renderRoutine(products) {
-  const sorted = [...products].sort((a, b) => a.routineOrder - b.routineOrder);
-  const steps  = sorted.map((p, i) => `
+function renderEvidence(items) {
+  const evidenceItems = items.filter((product) => product.clinicalImage);
+  const cards = evidenceItems.map((product) => `
+    <article class="evidence-card">
+      <div class="evidence-media">
+        <img class="clinical-proof-img" src="${product.clinicalImage}" alt="${product.short} 주요 임상 이미지">
+      </div>
+      <div class="evidence-body">
+        <div class="evidence-role">${product.routine}</div>
+        <h3>${productName(product)}</h3>
+        <p class="evidence-benefit">${productBenefit(product)}</p>
+        <ul>
+          ${product.clinical.slice(0, 3).map((item) => `<li>${item}</li>`).join("")}
+        </ul>
+        <p class="image-note">주요 임상 이미지 · 상세페이지/임상자료 기반</p>
+        <p class="source-note">${langText(UI.labels.source)}: ${product.source}</p>
+      </div>
+    </article>
+  `).join("");
+
+  document.getElementById("evidence-section").innerHTML = `
+    <div class="section-heading-bar"><span>${langText(UI.labels.evidenceTitle)}</span></div>
+    <div class="evidence-grid">${cards}</div>
+  `;
+}
+
+function renderConsultationScripts(sets, premium) {
+  const cards = [
+    { title: "필수 1종", items: sets.essential1, tier: "essential1" },
+    { title: "코어 3종", items: sets.core3, tier: "core3" },
+    { title: premium.title, items: premium.items, tier: premium.tier }
+  ];
+
+  document.getElementById("consultation-script-section").innerHTML = `
+    <div class="section-heading-bar"><span>${langText(UI.labels.scriptTitle)}</span></div>
+    <div class="script-grid">
+      ${cards.map((item) => `
+        <article class="script-card">
+          <div class="script-card-head">
+            <h3>${item.title}</h3>
+            <p>${setReason(item.items, item.tier)}</p>
+          </div>
+          <ul>
+            ${item.items.slice(0, 4).map((product) => `<li>${productReason(product)}</li>`).join("")}
+          </ul>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderRoutine(items) {
+  const sorted = [...items].sort((a, b) => a.routineOrder - b.routineOrder);
+  const steps = sorted.map((product, index) => `
     <div class="routine-step">
       <div class="routine-img-wrap">
-        <img
-          class="routine-img"
-          src="${p.image}"
-          alt="${p.short}"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-        />
-        <div class="routine-img-fallback">${p.emoji}</div>
+        <img class="routine-img" src="${product.image}" alt="${product.short}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="routine-img-fallback">${product.emoji}</div>
       </div>
-      <div class="routine-step-no">STEP ${i + 1}</div>
-      <div class="routine-step-role">${p.routine}</div>
-      <div class="routine-step-short">${p.short}</div>
+      <div class="routine-step-no">STEP ${index + 1}</div>
+      <div class="routine-step-role">${product.routine}</div>
+      <div class="routine-step-short">${productName(product)}</div>
     </div>
-    ${i < sorted.length - 1 ? '<div class="routine-arrow">→</div>' : ''}
-  `).join('');
-  document.getElementById('routine-section').innerHTML = `
-    <div class="section-heading-bar"><span>권장 사용 루틴 (프리미엄 세트 기준)</span></div>
+    ${index < sorted.length - 1 ? '<div class="routine-arrow">›</div>' : ""}
+  `).join("");
+  document.getElementById("routine-section").innerHTML = `
+    <div class="section-heading-bar"><span>${langText(UI.labels.routineTitle)}</span></div>
     <div class="routine-row">${steps}</div>
   `;
 }
 
-// ── 인증 뱃지 ────────────────────────────────────────────────
-function renderCerts(products) {
-  // 인증 로고 이미지만 표시 (텍스트 이름박스 없음)
-  document.getElementById('cert-section').innerHTML = `
+function renderCerts() {
+  document.getElementById("cert-section").innerHTML = `
+    <div class="cert-copy">
+      <strong>${langText(UI.labels.noteTitle)}</strong>
+      <span>${langText(UI.labels.noteCopy)}</span>
+    </div>
     <div class="cert-badges">
-      <div class="cert-badge-img-wrap">
-        <img class="cert-logo-img" src="https://raw.githubusercontent.com/Logan-PB/-images-products-/main/badge-dermatest.png"
-          onerror="this.parentElement.style.display='none'"
-          alt="독일 더마테스트 EXCELLENT" />
-      </div>
-      <div class="cert-badge-img-wrap">
-        <img class="cert-logo-img" src="https://raw.githubusercontent.com/Logan-PB/-images-products-/main/badge-noncomedogenic.png"
-          onerror="this.parentElement.style.display='none'"
-          alt="논코메도제닉" />
-      </div>
-      <div class="cert-badge-img-wrap">
-        <img class="cert-logo-img" src="https://raw.githubusercontent.com/Logan-PB/-images-products-/main/badge-kids.png"
-          onerror="this.parentElement.style.display='none'"
-          alt="KIDS 인증" />
-      </div>
+      <div class="memo-chip">필수·코어·프리미엄 선택</div>
+      <div class="memo-chip">나이·성별 보조 반영</div>
+      <div class="memo-chip">근거 수치 확인</div>
     </div>
   `;
 }
 
-// ── 처음으로 돌아가기 ────────────────────────────────────────
 function resetAll() {
+  selectedAge = null;
+  selectedGender = "none";
   selectedConcerns = [];
-  selectedSkinType = null;
-  chatHistory      = [];
+  selectedSkinTypes = [];
+  selectedTexture = "balanced";
+  selectedSensitivity = "medium";
 
-  document.querySelectorAll('.concern-card').forEach(c => c.classList.remove('selected'));
-  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
-  document.getElementById('btn-to-step2').disabled = true;
-  document.getElementById('btn-to-step3').disabled = true;
-
+  document.querySelectorAll(".concern-card, .type-card, #age-options button").forEach((card) => card.classList.remove("selected"));
+  selectSegment("#gender-options", "gender", "none");
+  selectSegment("#texture-options", "texture", "balanced");
+  selectSegment("#sensitivity-options", "sensitivity", "medium");
+  document.getElementById("btn-to-step2").disabled = true;
+  document.getElementById("btn-to-step3").disabled = true;
   goToStep(1);
 }
 
-// ════════════════════════════════════════════════════════════
-//  이벤트 등록
-// ════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
+function selectSegment(parentSelector, dataKey, value) {
+  const buttons = document.querySelectorAll(`${parentSelector} button`);
+  buttons.forEach((button) => button.classList.toggle("selected", button.dataset[dataKey] === value));
+}
 
-  // ── 고민 카드 (복수 선택) ──
-  document.querySelectorAll('.concern-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const c = card.dataset.concern;
-      if (card.classList.contains('selected')) {
-        card.classList.remove('selected');
-        selectedConcerns = selectedConcerns.filter(x => x !== c);
+function bindSegment(parentSelector, dataKey, callback) {
+  document.querySelectorAll(`${parentSelector} button`).forEach((button) => {
+    button.addEventListener("click", () => {
+      callback(button.dataset[dataKey]);
+      selectSegment(parentSelector, dataKey, button.dataset[dataKey]);
+    });
+  });
+}
+
+function updateStep1Ready() {
+  document.getElementById("btn-to-step2").disabled = !(selectedAge && selectedConcerns.length);
+}
+
+function bindEvents() {
+  document.querySelectorAll(".language-option").forEach((button) => {
+    button.addEventListener("click", () => {
+      languageMode = button.dataset.lang;
+      document.querySelectorAll(".language-option").forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+      if (document.getElementById("step3").classList.contains("active")) showResults();
+    });
+  });
+
+  bindSegment("#age-options", "age", (value) => {
+    selectedAge = value;
+    updateStep1Ready();
+  });
+  bindSegment("#gender-options", "gender", (value) => {
+    selectedGender = value;
+  });
+  bindSegment("#texture-options", "texture", (value) => {
+    selectedTexture = value;
+  });
+  bindSegment("#sensitivity-options", "sensitivity", (value) => {
+    selectedSensitivity = value;
+  });
+
+  document.querySelectorAll(".concern-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const concern = card.dataset.concern;
+      if (card.classList.contains("selected")) {
+        card.classList.remove("selected");
+        selectedConcerns = selectedConcerns.filter((item) => item !== concern);
       } else {
-        card.classList.add('selected');
-        selectedConcerns.push(c);
+        card.classList.add("selected");
+        selectedConcerns.push(concern);
       }
-      document.getElementById('btn-to-step2').disabled = (selectedConcerns.length === 0);
+      updateStep1Ready();
     });
   });
 
-  // ── 피부 타입 카드 (단일 선택) ──
-  document.querySelectorAll('.type-card').forEach(card => {
-    card.addEventListener('click', () => {
-      document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
-      card.classList.add('selected');
-      selectedSkinType = card.dataset.type;
-      document.getElementById('btn-to-step3').disabled = false;
+  document.querySelectorAll(".type-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const type = card.dataset.type;
+      if (card.classList.contains("selected")) {
+        card.classList.remove("selected");
+        selectedSkinTypes = selectedSkinTypes.filter((item) => item !== type);
+      } else {
+        if (selectedSkinTypes.length >= 2) {
+          const removed = selectedSkinTypes.shift();
+          document.querySelector(`.type-card[data-type="${removed}"]`)?.classList.remove("selected");
+        }
+        card.classList.add("selected");
+        selectedSkinTypes.push(type);
+      }
+      document.getElementById("btn-to-step3").disabled = selectedSkinTypes.length === 0;
     });
   });
 
-  // ── 단계 버튼 ──
-  document.getElementById('btn-to-step2').addEventListener('click', () => goToStep(2));
-  document.getElementById('btn-to-step3').addEventListener('click', showResults);
+  document.getElementById("btn-to-step2").addEventListener("click", () => goToStep(2));
+  document.getElementById("btn-to-step3").addEventListener("click", showResults);
+}
 
-  // ── 챗봇 전송 버튼 ──
-  document.getElementById('chat-send-btn').addEventListener('click', sendMessage);
-
-  // ── 챗봇 Enter 전송 / Shift+Enter 줄바꿈 ──
-  const chatInput = document.getElementById('chat-input');
-  chatInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  // ── textarea 자동 높이 조절 ──
-  chatInput.addEventListener('input', () => {
-    chatInput.style.height = 'auto';
-    chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
-  });
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    await loadProducts();
+    bindEvents();
+  } catch (error) {
+    document.querySelector(".wrapper").innerHTML = `
+      <section class="step-panel active">
+        <div class="panel-header">
+          <h2>제품 데이터를 불러오지 못했습니다</h2>
+          <p>${error.message}</p>
+        </div>
+      </section>
+    `;
+  }
 });

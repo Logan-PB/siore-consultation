@@ -4,7 +4,7 @@
 ============================================================ */
 
 let products = {};
-let selectedAge = null;
+let selectedAge = "none";
 let selectedGender = "none";
 let selectedConcerns = [];
 let selectedSkinTypes = [];
@@ -32,6 +32,7 @@ const UI = {
     "트러블성": { en: "Blemish-prone", zh: "痘痘肌", ja: "トラブル肌" }
   },
   ages: {
+    none: { ko: "나이 미선택", en: "Age not selected", zh: "未选择年龄", ja: "年齢未選択" },
     "20대": { en: "20s", zh: "20多岁", ja: "20代" },
     "30대": { en: "30s", zh: "30多岁", ja: "30代" },
     "40대": { en: "40s", zh: "40多岁", ja: "40代" },
@@ -69,6 +70,15 @@ const UI = {
       zh: "从必选1件到核心3件、尊享4-5件，快速抓住顾客的购买理由。",
       ja: "必須1品からコア3品、プレミアム4-5品へ広げ、購入ポイントを素早く整理してください。"
     },
+    specLabel: { ko: "제품 스펙", en: "Product spec", zh: "产品规格", ja: "製品スペック" },
+    uspLabel: { ko: "핵심 USP", en: "Core USP", zh: "核心USP", ja: "主なUSP" },
+    consultTip: { ko: "소비자 설명 팁", en: "Consumer explanation tip", zh: "消费者说明提示", ja: "お客様説明のコツ" },
+    profileAssist: {
+      ko: "나이와 성별은 선택 시 추천 우선순위를 보정합니다. 미선택 시에는 피부 고민과 피부 타입을 기준으로 분석했습니다.",
+      en: "Age and gender refine priority when selected. If skipped, the recommendation is based on concerns and skin type.",
+      zh: "年龄和性别在选择时用于微调推荐优先级。未选择时，以肌肤困扰和肤质为主。",
+      ja: "年齢と性別は選択時に優先順位を補正します。未選択の場合は悩みと肌タイプを中心に分析します。"
+    },
     beforeAfter: { ko: "전후 예시", en: "Before / after", zh: "前后示例", ja: "前後例" },
     imageNote: { ko: "공식 전후 이미지 연결 예정", en: "Official before/after image slot", zh: "官方前后图待连接", ja: "公式前後画像を接続予定" }
   }
@@ -101,6 +111,11 @@ function translatedGender(value) {
   return langText(UI.genders[value] || UI.genders.none);
 }
 
+function selectedAgeText() {
+  if (!selectedAge || selectedAge === "none") return langText(UI.ages.none);
+  return translatedValue("ages", selectedAge);
+}
+
 function productName(product) {
   const translated = product.i18n?.[languageMode]?.name;
   if (languageMode === "ko" || !translated) return product.short;
@@ -111,6 +126,15 @@ function productBenefit(product) {
   const translated = product.i18n?.[languageMode]?.benefit;
   if (languageMode === "ko" || !translated) return product.benefit;
   return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${product.benefit}</span>`;
+}
+
+function productSpecText(product) {
+  return `${product.capacity} · ${product.routine} · ${product.tag}`;
+}
+
+function consumerTip(product) {
+  const clinical = product.clinical?.[0] || product.usp;
+  return `고객에게는 "${product.usp}"를 먼저 설명하고, 이어서 ${clinical} 근거를 붙이면 구매 이유가 명확해집니다.`;
 }
 
 function goToStep(num) {
@@ -281,10 +305,11 @@ function renderSummary() {
     <div>
       <div class="summary-label">${langText(UI.labels.selectedProfile)}</div>
       <div class="summary-profile">
-        <span>${translatedValue("ages", selectedAge)}</span>
+        <span>${selectedAgeText()}</span>
         <span>${translatedGender(selectedGender)}</span>
         ${selectedSkinTypes.map((type) => `<span>${translatedValue("skinTypes", type)}</span>`).join("")}
       </div>
+      <p class="summary-assist">${langText(UI.labels.profileAssist)}</p>
     </div>
     <div>
       <div class="summary-label">${langText(UI.labels.selectedConcerns)}</div>
@@ -356,6 +381,7 @@ function renderRecommendationBoard(items) {
         </div>
       </td>
       <td data-label="상담 포인트">${productBenefit(product)}</td>
+      <td data-label="스펙">${productSpecText(product)}</td>
       <td data-label="근거">${product.clinical[0] || product.usp}</td>
       <td data-label="가격">${priceCompareHTML(product, "compact")}</td>
     </tr>
@@ -369,6 +395,7 @@ function renderRecommendationBoard(items) {
             <th>No.</th>
             <th>SKU</th>
             <th>상담 포인트</th>
+            <th>스펙</th>
             <th>근거</th>
             <th>가격</th>
           </tr>
@@ -433,7 +460,8 @@ function productItemHTML(product) {
       </div>
       <div class="product-info">
         <div class="product-name">${productName(product)}</div>
-        <div class="product-meta">${product.capacity} · ${product.tag}</div>
+        <div class="product-meta">${product.capacity} · ${product.routine}</div>
+        <div class="product-usp">${product.usp}</div>
       </div>
       <div class="product-price">${priceCompareHTML(product)}</div>
     </li>`;
@@ -529,10 +557,22 @@ function renderEvidence(items) {
       <div class="evidence-body">
         <div class="evidence-role">${product.routine}</div>
         <h3>${productName(product)}</h3>
+        <div class="evidence-specs">
+          <span>${product.capacity} · ${product.routine}</span>
+          <span>${product.tag}</span>
+        </div>
         <p class="evidence-benefit">${productBenefit(product)}</p>
+        <div class="evidence-usp">
+          <strong>${langText(UI.labels.uspLabel)}</strong>
+          <span>${product.usp}</span>
+        </div>
         <ul>
           ${product.clinical.slice(0, 3).map((item) => `<li>${item}</li>`).join("")}
         </ul>
+        <div class="consumer-tip">
+          <strong>${langText(UI.labels.consultTip)}</strong>
+          <span>${consumerTip(product)}</span>
+        </div>
         <p class="image-note">주요 임상 이미지 · 상세페이지/임상자료 기반</p>
         <p class="source-note">${langText(UI.labels.source)}: ${product.source}</p>
       </div>
@@ -562,7 +602,13 @@ function renderConsultationScripts(sets, premium) {
             <p>${setReason(item.items, item.tier)}</p>
           </div>
           <ul>
-            ${item.items.slice(0, 4).map((product) => `<li>${productReason(product)}</li>`).join("")}
+            ${item.items.slice(0, 4).map((product) => `
+              <li>
+                <strong>${product.short}</strong>
+                <span>${productReason(product)}</span>
+                <em>${consumerTip(product)}</em>
+              </li>
+            `).join("")}
           </ul>
         </article>
       `).join("")}
@@ -605,7 +651,7 @@ function renderCerts() {
 }
 
 function resetAll() {
-  selectedAge = null;
+  selectedAge = "none";
   selectedGender = "none";
   selectedConcerns = [];
   selectedSkinTypes = [];
@@ -613,6 +659,7 @@ function resetAll() {
   selectedSensitivity = "medium";
 
   document.querySelectorAll(".concern-card, .type-card, #age-options button").forEach((card) => card.classList.remove("selected"));
+  selectSegment("#age-options", "age", "none");
   selectSegment("#gender-options", "gender", "none");
   selectSegment("#texture-options", "texture", "balanced");
   selectSegment("#sensitivity-options", "sensitivity", "medium");
@@ -636,7 +683,7 @@ function bindSegment(parentSelector, dataKey, callback) {
 }
 
 function updateStep1Ready() {
-  document.getElementById("btn-to-step2").disabled = !(selectedAge && selectedConcerns.length);
+  document.getElementById("btn-to-step2").disabled = selectedConcerns.length === 0;
 }
 
 function syncLanguageButtons() {

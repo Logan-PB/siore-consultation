@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIORE 약국전용 프로모션 공지 안내</title>
+  <meta name="description" content="SIORE 약국전용 프로모션 공지 안내" />
+  <meta property="og:title" content="SIORE 약국전용 프로모션 공지 안내" />
+  <meta property="og:description" content="할증 프로모션, 썸머 패키지 프로모션, 마시는 PDRN200 어드밴스드 안내" />
+  <meta property="og:image" content="./assets/notice_ref_260622_1.jpg" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%238a360f'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-size='18' font-family='Arial' font-weight='700' fill='white'%3ES%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --ink: #1e1c1a;
+      --brown: #8a360f;
+      --paper: #fffdf8;
+      --line: #dfd6cb;
+      --muted: #6f6862;
+      --shadow: 0 16px 42px rgba(41, 33, 28, .1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: #f5f0e8;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(58, 41, 31, .16);
+      background: rgba(245, 240, 232, .95);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-inner {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 17px;
+      font-weight: 950;
+      line-height: 1.15;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .shell {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: 14px 10px 72px;
+    }
+
+    .quick {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .quick a {
+      display: grid;
+      place-items: center;
+      min-height: 44px;
+      padding: 8px 5px;
+      border: 1px solid rgba(58, 41, 31, .16);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      text-align: center;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 950;
+      line-height: 1.18;
+      box-shadow: 0 8px 20px rgba(41, 33, 28, .05);
+    }
+
+    .notice-image {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .notice-image + .notice-image { margin-top: 14px; }
+
+    .notice-image img {
+      width: 100%;
+      height: auto;
+      background: #fff;
+    }
+
+    .section-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--line);
+      background: #fffaf3;
+    }
+
+    .section-caption h2 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+      font-weight: 950;
+    }
+
+    .section-caption span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .bottom-cta {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(41, 33, 28, .06);
+    }
+
+    .bottom-cta p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .bottom-cta .cta {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    @media (min-width: 720px) {
+      .topbar-inner { padding: 12px 20px; }
+      .brand { font-size: 20px; }
+      .shell { padding: 20px 20px 88px; }
+      .quick a { font-size: 15px; min-height: 50px; }
+      .section-caption { padding: 14px 18px 12px; }
+      .section-caption h2 { font-size: 18px; }
+      .bottom-cta {
+        grid-template-columns: 1fr 240px;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">SIORE 약국전용 프로모션 공지 안내</div>
+      <a class="cta" href="https://siorekorea.co.kr" target="_blank" rel="noopener">B2B몰 바로가기</a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <nav class="quick" aria-label="공지 바로가기">
+      <a href="#promotion">할증프로모션</a>
+      <a href="#promotion">썸머 패키지<br />프로모션</a>
+      <a href="#pdrn">신제품 안내</a>
+    </nav>
+
+    <section class="notice-image" id="promotion">
+      <div class="section-caption">
+        <h2>할증프로모션 / 썸머 패키지 프로모션</h2>
+        <span>원본 이미지 인용</span>
+      </div>
+      <img src="./assets/notice_ref_260622_1.jpg" alt="시오레 약국전용 할증프로모션 및 썸머 패키지 프로모션 공지 원본 이미지" />
+    </section>
+
+    <section class="notice-image" id="pdrn">
+      <div class="section-caption">
+        <h2>마시는 PDRN200 어드밴스드 신제품 안내</h2>
+        <span>원본 이미지 인용</span>
+      </div>
+      <img src="./assets/notice_ref_260622_2.jpg" alt="시오레 마시는 PDRN200 어드밴스드 신제품 안내 원본 이미지" />
+    </section>
+
+    <section class="bottom-cta" aria-label="B2B몰 이동">
+      <p>구성 확인 및 주문은 B2B몰에서 최종 확인해 주세요. 본 페이지는 전달용 공지 이미지 인용 목업입니다.</p>
+      <a class="cta" href="https://siorekorea.co.kr" target="_blank" rel="noopener">B2B몰 바로가기</a>
+    </section>
+  </main>
+</body>
+</html>

@@ -224,22 +224,74 @@
     "tag": "열감·피지·트러블 산뜻 젤",
     "concerns": ["열감홍조", "피지", "트러블"],
     "skins": ["지성", "복합성", "트러블성", "민감성"],
-    "clinical": ["24시간 보습지속력 76.04% 개선", "즉각 보습량 61.23% 수분 증가", "피부 각질 42.18% 개선"],
-    "usp": "열·트러블·피지를 즉각 가라앉히는 산뜻 진정 쿨링 젤",
-    "benefit": "지성·복합성, 열감, 번들거림 고객에게 크림 대체 또는 레이어링으로 권하기 좋습니다.",
+    "clinical": [
+      "가온 자극 후 1회 도포 직후 피부 온도 10.041℃ 감소 (N=22, p<0.001)",
+      "가온 자극 후 붉은기 회복률 63.829% (무도포 7.838%, N=22, p<0.001)",
+      "피부 온도 회복률 134.436% (무도포 48.090%, N=22, p<0.001)",
+      "1회 사용 직후 피부 수분량 61.23% 증가 (N=22, p<0.001)",
+      "24시간 후 피부 수분량 20.20% 증가 (N=22, p<0.001)",
+      "즉각적 겉수분 76.04% 개선 (N=22, p<0.001)",
+      "피부 수분손실량 15.42% 개선 (N=22, p<0.001)",
+      "피부 각질 42.18% 개선 (N=22, p<0.001)",
+      "2주 사용 후 피지량 15.77% 개선 (N=23, p<0.05)"
+    ],
+    "usp": "가온 자극 후 피부 온도와 붉은기를 빠르게 진정시키는 산뜻한 쿨링 젤",
+    "benefit": "열감·홍조, 지성·복합성, 번들거림 고객에게 크림 대체 또는 레이어링으로 권하기 좋습니다.",
     "usage": "필요할 때 수시 사용 또는 가벼운 보습제로 단독 사용",
-    "cert": ["피부 자극 테스트: 무자극", "미백·주름개선 2중 기능성"],
+    "cert": ["피부 자극 테스트: 무자극", "여드름성 피부 사용 적합(논코메도제닉)", "미백·주름개선 2중 기능성"],
     "image": "images/products/soothing-gel.png",
     "proofImage": "images/products/soothing-gel.png",
-    "source": "시오레 제품 정리.xlsx > 한글_기본",
-    "sourceUrl": "https://docs.google.com/spreadsheets/d/1Trf_xwugSEDX_CUCePogVmNFsVGBi6NUIBpZ4W8Joh0",
+    "source": "한국피부과학연구원 BEF067·BFA189-PHB 및 프리더마 PDGE-111-CT-26615 1차 draft 결과보고서",
+    "sourceUrl": "https://drive.google.com/drive/folders/10f-em-2j5waIJMHiFtFe6oY29q2u_Jov",
     "emoji": "🫧",
     "routine": "젤 크림",
     "routineOrder": 5,
     "i18n": {
-      "en": { "name": "Daily Relief Calming Soothing Gel", "benefit": "A refreshing gel for oily, combination, heat-stressed, or blemish-prone skin." },
-      "zh": { "name": "每日舒缓镇静凝胶", "benefit": "适合油性、混合性、热感和痘痘问题肌肤的清爽凝胶。" },
-      "ja": { "name": "デイリーリリーフ カーミングスージングジェル", "benefit": "脂性・混合肌、ほてり、トラブルが気になる肌に向いた軽いジェル。" }
+      "en": {
+        "name": "Daily Relief Calming Soothing Gel",
+        "benefit": "A refreshing gel for oily, combination, heat-stressed, or blemish-prone skin.",
+        "clinical": [
+          "Skin temperature decreased by 10.041°C immediately after one application following heat stimulation (N=22, p<0.001)",
+          "Redness recovery after heat stimulation: 63.829% (untreated: 7.838%; N=22, p<0.001)",
+          "Skin temperature recovery: 134.436% (untreated: 48.090%; N=22, p<0.001)",
+          "Skin hydration increased by 61.23% immediately after one use (N=22, p<0.001)",
+          "Skin hydration increased by 20.20% after 24 hours (N=22, p<0.001)",
+          "Immediate surface hydration improved by 76.04% (N=22, p<0.001)",
+          "Transepidermal water loss improved by 15.42% (N=22, p<0.001)",
+          "Skin flaking improved by 42.18% (N=22, p<0.001)",
+          "Sebum level improved by 15.77% after 2 weeks (N=23, p<0.05)"
+        ]
+      },
+      "zh": {
+        "name": "每日舒缓镇静凝胶",
+        "benefit": "适合油性、混合性、热感和痘痘问题肌肤的清爽凝胶。",
+        "clinical": [
+          "热刺激后单次涂抹，皮肤温度即时降低10.041°C（N=22，p<0.001）",
+          "热刺激后泛红恢复率63.829%（未涂抹部位7.838%；N=22，p<0.001）",
+          "皮肤温度恢复率134.436%（未涂抹部位48.090%；N=22，p<0.001）",
+          "单次使用后皮肤含水量即时提升61.23%（N=22，p<0.001）",
+          "24小时后皮肤含水量提升20.20%（N=22，p<0.001）",
+          "即时表层水分改善76.04%（N=22，p<0.001）",
+          "经皮水分流失改善15.42%（N=22，p<0.001）",
+          "皮肤角质改善42.18%（N=22，p<0.001）",
+          "使用2周后皮脂量改善15.77%（N=23，p<0.05）"
+        ]
+      },
+      "ja": {
+        "name": "デイリーリリーフ カーミングスージングジェル",
+        "benefit": "脂性・混合肌、ほてり、トラブルが気になる肌に向いた軽いジェル。",
+        "clinical": [
+          "温熱刺激後の1回塗布直後、皮膚温度が10.041°C低下（N=22、p<0.001）",
+          "温熱刺激後の赤み回復率63.829%（無塗布部位7.838%、N=22、p<0.001）",
+          "皮膚温度回復率134.436%（無塗布部位48.090%、N=22、p<0.001）",
+          "1回使用直後の皮膚水分量が61.23%増加（N=22、p<0.001）",
+          "24時間後の皮膚水分量が20.20%増加（N=22、p<0.001）",
+          "即時の表面水分量が76.04%改善（N=22、p<0.001）",
+          "経皮水分蒸散量が15.42%改善（N=22、p<0.001）",
+          "角質量が42.18%改善（N=22、p<0.001）",
+          "2週間使用後の皮脂量が15.77%改善（N=23、p<0.05）"
+        ]
+      }
     }
   },
   "comfortCream": {

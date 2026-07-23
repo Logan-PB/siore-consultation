@@ -194,12 +194,18 @@ function productBenefit(product) {
   return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${product.benefit}</span>`;
 }
 
+function productClinical(product) {
+  const translated = product.i18n?.[languageMode]?.clinical;
+  if (languageMode === "ko" || !Array.isArray(translated) || !translated.length) return product.clinical || [];
+  return translated;
+}
+
 function productSpecText(product) {
   return `${product.capacity} · ${product.routine} · ${product.tag}`;
 }
 
 function consumerTip(product) {
-  const clinical = product.clinical?.[0] || product.usp;
+  const clinical = productClinical(product)[0] || product.usp;
   return `고객에게는 "${product.usp}"를 먼저 설명하고, 이어서 ${clinical} 근거를 붙이면 구매 이유가 명확해집니다.`;
 }
 
@@ -443,7 +449,7 @@ function renderRecommendationBoard(items) {
       </td>
       <td data-label="상담 포인트">${productBenefit(product)}</td>
       <td data-label="스펙">${productSpecText(product)}</td>
-      <td data-label="근거">${product.clinical[0] || product.usp}</td>
+      <td data-label="근거">${productClinical(product)[0] || product.usp}</td>
       <td data-label="가격">${priceCompareHTML(product, "compact")}</td>
     </tr>
   `).join("");
@@ -468,14 +474,14 @@ function renderRecommendationBoard(items) {
 }
 
 function parseClinical(str) {
-  const match = str.match(/[\d.,]+%/);
+  const match = str.match(/[\d.,]+(?:%|℃)/);
   return { num: match ? match[0] : "근거", label: str.replace(match ? match[0] : "", "").trim() };
 }
 
 function renderClinicalHighlights(items) {
   const topProduct = items[0];
   const stats = items.map((product) => {
-    const { num, label } = parseClinical(product.clinical[0] || product.usp);
+    const { num, label } = parseClinical(productClinical(product)[0] || product.usp);
     return `
       <div class="clinical-stat">
         <div class="stat-num">${num}</div>
@@ -546,12 +552,12 @@ function productItemHTML(product) {
 }
 
 function productReason(product) {
-  const evidence = product.clinical?.[0] || product.usp;
+  const evidence = productClinical(product)[0] || product.usp;
   return `${product.short}: ${product.routine} 단계 핵심 · ${evidence}`;
 }
 
 function setReason(items, tier = "core3") {
-  const topEvidence = items.map((product) => product.clinical?.[0]).filter(Boolean).slice(0, 2).join(" / ");
+  const topEvidence = items.map((product) => productClinical(product)[0]).filter(Boolean).slice(0, 2).join(" / ");
   const names = items.map((product) => product.short).join(", ");
   const map = {
     essential1: {
@@ -645,7 +651,7 @@ function renderEvidence(items) {
           <span>${product.usp}</span>
         </div>
         <ul>
-          ${product.clinical.slice(0, 3).map((item) => `<li>${item}</li>`).join("")}
+          ${productClinical(product).slice(0, 9).map((item) => `<li>${item}</li>`).join("")}
         </ul>
         <div class="consumer-tip">
           <strong>${langText(UI.labels.consultTip)}</strong>

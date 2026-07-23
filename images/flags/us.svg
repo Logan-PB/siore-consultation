@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 24">
+  <rect width="38" height="24" fill="#fff"/>
+  <path stroke="#b22234" stroke-width="1.846" d="M0 .923h38M0 4.615h38M0 8.308h38M0 12h38M0 15.692h38M0 19.385h38M0 23.077h38"/>
+  <rect width="15.2" height="12.92" fill="#3c3b6e"/>
+  <g fill="#fff">
+    <path id="s" d="M1.27.9l.22.66h.7l-.57.41.22.66-.57-.41-.57.41.22-.66-.57-.41h.7z"/>
+    <use href="#s" x="2.45"/><use href="#s" x="4.9"/><use href="#s" x="7.35"/><use href="#s" x="9.8"/><use href="#s" x="12.25"/>
+    <use href="#s" x="1.22" y="2.05"/><use href="#s" x="3.67" y="2.05"/><use href="#s" x="6.12" y="2.05"/><use href="#s" x="8.57" y="2.05"/><use href="#s" x="11.02" y="2.05"/>
+    <use href="#s" y="4.1"/><use href="#s" x="2.45" y="4.1"/><use href="#s" x="4.9" y="4.1"/><use href="#s" x="7.35" y="4.1"/><use href="#s" x="9.8" y="4.1"/><use href="#s" x="12.25" y="4.1"/>
+    <use href="#s" x="1.22" y="6.15"/><use href="#s" x="3.67" y="6.15"/><use href="#s" x="6.12" y="6.15"/><use href="#s" x="8.57" y="6.15"/><use href="#s" x="11.02" y="6.15"/>
+    <use href="#s" y="8.2"/><use href="#s" x="2.45" y="8.2"/><use href="#s" x="4.9" y="8.2"/><use href="#s" x="7.35" y="8.2"/><use href="#s" x="9.8" y="8.2"/><use href="#s" x="12.25" y="8.2"/>
+    <use href="#s" x="1.22" y="10.25"/><use href="#s" x="3.67" y="10.25"/><use href="#s" x="6.12" y="10.25"/><use href="#s" x="8.57" y="10.25"/><use href="#s" x="11.02" y="10.25"/>
+  </g>
+</svg>

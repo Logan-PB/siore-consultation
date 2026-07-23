@@ -84,6 +84,72 @@ const UI = {
   }
 };
 
+const PAGE_I18N = {
+  brandSlogan: {
+    ko: "피부에 바르는 영양제, 약국 상담을 위한 더마 루틴",
+    en: "Topical nutrition for skin · pharmacy consultation routine",
+    zh: "肌肤外用营养 · 药房咨询护理方案",
+    ja: "肌に塗る栄養 · 薬局カウンセリングルーティン"
+  },
+  navBasic: { ko: "기본 정보", en: "Profile", zh: "基本信息", ja: "基本情報" },
+  navSkin: { ko: "피부 상태", en: "Skin profile", zh: "肌肤状态", ja: "肌状態" },
+  navResult: { ko: "추천 결과", en: "Results", zh: "推荐结果", ja: "おすすめ結果" },
+  step1Title: { ko: "내담자 기본 정보와 주요 고민을 선택해주세요", en: "Select the client's profile and main skin concerns", zh: "请选择顾客的基本信息与主要肌肤困扰", ja: "お客様の基本情報と主な肌悩みを選択してください" },
+  step1Desc: { ko: "나이대와 성별은 추천을 더 섬세하게 보정하는 선택 조건입니다. 선택하지 않아도 피부 고민만으로 상담을 진행할 수 있습니다.", en: "Age and gender fine-tune priority. You can continue using skin concerns alone.", zh: "年龄和性别用于微调推荐优先级。未选择时也可根据肌肤困扰继续咨询。", ja: "年齢と性別はおすすめ順位の微調整に使います。未選択でも肌悩みだけで進められます。" },
+  ageTitle: { ko: "나이대", en: "Age range", zh: "年龄段", ja: "年齢層" },
+  genderTitle: { ko: "성별", en: "Gender", zh: "性别", ja: "性別" },
+  optionalRefine: { ko: "Optional · 선택 시 보정", en: "Optional · refines results", zh: "可选 · 用于微调", ja: "任意 · 選択時に補正" },
+  notSelected: { ko: "선택 안 함", en: "Not selected", zh: "不选择", ja: "選択しない" },
+  female: { ko: "여성", en: "Female", zh: "女性", ja: "女性" },
+  male: { ko: "남성", en: "Male", zh: "男性", ja: "男性" },
+  concernTitle: { ko: "주요 피부 고민", en: "Main skin concerns", zh: "主要肌肤困扰", ja: "主な肌悩み" },
+  multiSelect: { ko: "복수 선택 가능", en: "Multiple selections", zh: "可多选", ja: "複数選択可" },
+  concernDry: { ko: "수분 부족", en: "Dryness", zh: "缺水干燥", ja: "乾燥・水分不足" },
+  concernSensitive: { ko: "민감", en: "Sensitivity", zh: "敏感", ja: "敏感" },
+  concernRedness: { ko: "열감·홍조", en: "Heat · redness", zh: "热感·泛红", ja: "ほてり・赤み" },
+  concernFirmness: { ko: "탄력 저하", en: "Firmness loss", zh: "弹力下降", ja: "ハリ低下" },
+  concernRadiance: { ko: "광채·톤", en: "Radiance · tone", zh: "光泽·肤色", ja: "ツヤ・トーン" },
+  concernBlemish: { ko: "트러블", en: "Blemishes", zh: "痘痘困扰", ja: "肌荒れ" },
+  concernSebum: { ko: "피지", en: "Sebum", zh: "油脂", ja: "皮脂" },
+  concernBarrier: { ko: "장벽 회복", en: "Barrier care", zh: "屏障修护", ja: "バリアケア" },
+  concernTexture: { ko: "각질·피부결", en: "Texture · dead skin", zh: "角质·肤理", ja: "角質・キメ" },
+  nextStep: { ko: "다음 단계", en: "Next", zh: "下一步", ja: "次へ" },
+  step2Title: { ko: "피부 타입과 사용감을 선택해주세요", en: "Select skin type and preferred texture", zh: "请选择肤质与偏好质地", ja: "肌タイプと使用感を選択してください" },
+  step2Desc: { ko: "제형 선호와 민감도는 같은 효능군 안에서 더 상담하기 쉬운 SKU를 고르는 데 사용합니다.", en: "Texture preference and sensitivity help select the easiest SKU to recommend within the same benefit group.", zh: "质地偏好与敏感度用于在同一功效组中选择更合适的产品。", ja: "使用感と敏感度は、同じ効能群の中から提案しやすいSKUを選ぶために使います。" },
+  skinTypeTitle: { ko: "피부 타입", en: "Skin type", zh: "肤质", ja: "肌タイプ" },
+  maxTwo: { ko: "최대 2개 선택 가능", en: "Select up to 2", zh: "最多选择2项", ja: "最大2つまで" },
+  skinDry: { ko: "건성", en: "Dry", zh: "干性", ja: "乾燥肌" },
+  skinDrySub: { ko: "당김과 건조감", en: "Tight and dry", zh: "紧绷与干燥", ja: "つっぱり・乾燥" },
+  skinOily: { ko: "지성", en: "Oily", zh: "油性", ja: "脂性肌" },
+  skinOilySub: { ko: "피지와 번들거림", en: "Sebum and shine", zh: "油脂与泛光", ja: "皮脂・テカリ" },
+  skinCombo: { ko: "복합성", en: "Combination", zh: "混合性", ja: "混合肌" },
+  skinComboSub: { ko: "T존 피지·볼 건조", en: "Oily T-zone · dry cheeks", zh: "T区油·两颊干", ja: "Tゾーン皮脂・頬乾燥" },
+  skinSensitive: { ko: "민감성", en: "Sensitive", zh: "敏感性", ja: "敏感肌" },
+  skinSensitiveSub: { ko: "자극과 예민함", en: "Reactive and delicate", zh: "易受刺激", ja: "刺激・ゆらぎ" },
+  skinBlemish: { ko: "트러블성", en: "Blemish-prone", zh: "痘痘肌", ja: "トラブル肌" },
+  skinBlemishSub: { ko: "여드름·잡티 고민", en: "Breakouts and spots", zh: "痘痘·瑕疵", ja: "ニキビ・肌荒れ" },
+  textureTitle: { ko: "선호 제형", en: "Preferred texture", zh: "偏好质地", ja: "好みの使用感" },
+  textureLight: { ko: "가벼운 제형", en: "Light", zh: "轻盈", ja: "軽い" },
+  textureBalanced: { ko: "균형 제형", en: "Balanced", zh: "均衡", ja: "バランス" },
+  textureRich: { ko: "보습감 높은 제형", en: "Rich moisture", zh: "滋润保湿", ja: "しっとり" },
+  sensitivityTitle: { ko: "민감도", en: "Sensitivity", zh: "敏感度", ja: "敏感度" },
+  levelLow: { ko: "낮음", en: "Low", zh: "低", ja: "低い" },
+  levelMedium: { ko: "보통", en: "Medium", zh: "中", ja: "普通" },
+  levelHigh: { ko: "높음", en: "High", zh: "高", ja: "高い" },
+  previous: { ko: "이전", en: "Back", zh: "返回", ja: "戻る" },
+  viewResults: { ko: "추천 결과 보기", en: "View recommendations", zh: "查看推荐结果", ja: "おすすめ結果を見る" },
+  restart: { ko: "처음으로 돌아가기", en: "Start over", zh: "重新开始", ja: "最初からやり直す" },
+  footerNotice: { ko: "본 추천은 취급약국 상담을 위한 참고 자료입니다. 제품별 수치와 인증 문구는 최신 근거 자료 확인 후 사용해주세요.", en: "This recommendation is a consultation aid for partner pharmacies. Verify current product data and claims before use.", zh: "本推荐仅供合作药房咨询参考。使用前请确认最新产品数据与认证说明。", ja: "本おすすめは取扱薬局での相談用参考資料です。使用前に最新の製品データと表示をご確認ください。" }
+};
+
+function applyPageLanguage() {
+  document.documentElement.lang = languageMode === "zh" ? "zh-CN" : languageMode;
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const copy = PAGE_I18N[element.dataset.i18n];
+    if (copy?.[languageMode]) element.textContent = copy[languageMode];
+  });
+}
+
 async function loadProducts() {
   if (window.SIORE_PRODUCTS) {
     products = window.SIORE_PRODUCTS;
@@ -709,6 +775,7 @@ function bindEvents() {
     button.addEventListener("click", () => {
       languageMode = button.dataset.lang;
       syncLanguageButtons();
+      applyPageLanguage();
       if (document.getElementById("step3").classList.contains("active")) showResults();
     });
   });
@@ -767,6 +834,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     await loadProducts();
     bindEvents();
+    applyPageLanguage();
   } catch (error) {
     document.querySelector(".wrapper").innerHTML = `
       <section class="step-panel active">

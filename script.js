@@ -155,7 +155,7 @@ async function loadProducts() {
     products = window.SIORE_PRODUCTS;
     return;
   }
-  const response = await fetch("data/products.json", { cache: "no-store" });
+  const response = await fetch("data/products.json?v=20260723-clinical", { cache: "no-store" });
   if (!response.ok) throw new Error("제품 데이터를 불러오지 못했습니다.");
   products = await response.json();
 }

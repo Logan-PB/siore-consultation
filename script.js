@@ -146,7 +146,12 @@ function applyPageLanguage() {
   document.documentElement.lang = languageMode === "zh" ? "zh-CN" : languageMode;
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     const copy = PAGE_I18N[element.dataset.i18n];
-    if (copy?.[languageMode]) element.textContent = copy[languageMode];
+    if (!copy?.[languageMode]) return;
+    if (languageMode === "ko") {
+      element.textContent = copy.ko;
+      return;
+    }
+    element.innerHTML = `<span class="i18n-main">${copy[languageMode]}</span><span class="i18n-ko">${copy.ko}</span>`;
   });
 }
 

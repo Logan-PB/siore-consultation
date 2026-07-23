@@ -179,11 +179,28 @@ img {
 
 .i18n-ko {
   display: block;
+  margin-top: 2px;
   color: inherit;
   font-size: 0.78em;
   font-weight: 600;
   line-height: 1.4;
   opacity: 0.62;
+}
+
+html:not([lang="ko"]) .concern-card > small:not([data-i18n]) {
+  display: none;
+}
+
+.segmented-grid button .i18n-main,
+.btn-primary .i18n-main,
+.btn-ghost .i18n-main {
+  margin-bottom: 1px;
+}
+
+.segmented-grid button .i18n-ko,
+.btn-primary .i18n-ko,
+.btn-ghost .i18n-ko {
+  font-size: 0.72em;
 }
 
 .eyebrow {

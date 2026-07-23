@@ -632,12 +632,12 @@ function renderSets(sets, premium) {
 }
 
 function renderEvidence(items) {
-  const evidenceItems = items.filter((product) => product.clinicalImage);
+  const evidenceItems = items.filter((product) => product.clinical?.length);
   const cards = evidenceItems.map((product) => `
     <article class="evidence-card">
-      <div class="evidence-media">
+      ${product.clinicalImage ? `<div class="evidence-media">
         <img class="clinical-proof-img" src="${product.clinicalImage}" alt="${product.short} 주요 임상 이미지">
-      </div>
+      </div>` : ""}
       <div class="evidence-body">
         <div class="evidence-role">${product.routine}</div>
         <h3>${productName(product)}</h3>
@@ -657,7 +657,7 @@ function renderEvidence(items) {
           <strong>${langText(UI.labels.consultTip)}</strong>
           <span>${consumerTip(product)}</span>
         </div>
-        <p class="image-note">주요 임상 이미지 · 상세페이지/임상자료 기반</p>
+        ${product.clinicalImage ? `<p class="image-note">주요 임상 이미지 · 상세페이지/임상자료 기반</p>` : ""}
         <p class="source-note">${langText(UI.labels.source)}: ${product.source}</p>
       </div>
     </article>

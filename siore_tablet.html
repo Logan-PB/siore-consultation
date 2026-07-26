@@ -995,6 +995,97 @@ body {
 .prod-points li::before { content: '·'; position: absolute; left: 0; color: var(--orange); font-weight: 900; }
 .prod-points li.blue::before { color: var(--blue); }
 
+/* 라인업 선택 상품 펼침 영역 */
+.sku-inline-detail {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin: 0;
+  border: 0 solid transparent;
+  border-radius: 12px;
+  background: #fff;
+  transition: max-height .38s cubic-bezier(.2,.78,.3,1), opacity .25s ease, margin .3s ease, border-width .2s ease;
+}
+.sku-inline-detail.open {
+  max-height: 205px;
+  opacity: 1;
+  margin: 0 0 14px;
+  border-width: 1.5px;
+  box-shadow: 0 10px 28px rgba(51,35,27,.08);
+}
+.sku-inline-inner {
+  position: relative;
+  height: 190px;
+  display: grid;
+  grid-template-columns: 205px minmax(0,1fr) 300px;
+  background: linear-gradient(105deg,#fffaf7 0%,#fff 55%,#fff8f3 100%);
+}
+.sku-inline-product {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #eee4de;
+  background: linear-gradient(145deg,#f8f2ed,#fff);
+}
+.sku-inline-product img {
+  width: 88%;
+  height: 172px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 12px rgba(62,39,29,.13));
+}
+.sku-inline-copy { padding: 22px 24px; min-width: 0; }
+.sku-inline-eyebrow { font-size: 9px; font-weight: 900; letter-spacing: 1.4px; margin-bottom: 5px; }
+.sku-inline-name { font-size: 20px; font-weight: 950; color: #241f1d; letter-spacing: -.5px; margin-bottom: 5px; }
+.sku-inline-formula { color: #6b625d; font-size: 11px; line-height: 1.5; margin-bottom: 11px; }
+.sku-inline-benefits { display: flex; gap: 6px; flex-wrap: wrap; }
+.sku-inline-benefits span {
+  padding: 5px 9px;
+  border-radius: 14px;
+  border: 1px solid #eadfd8;
+  background: rgba(255,255,255,.85);
+  font-size: 9.5px;
+  font-weight: 750;
+  color: #4b4440;
+}
+.sku-inline-proof {
+  padding: 20px 22px;
+  border-left: 1px solid #eee4de;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sku-inline-metric-label { font-size: 10px; font-weight: 800; color: #6c625d; }
+.sku-inline-metric { font-size: 38px; line-height: 1.05; font-weight: 950; letter-spacing: -1.5px; margin: 3px 0 5px; }
+.sku-inline-note { font-size: 8.5px; color: #9b918b; line-height: 1.4; min-height: 24px; }
+.sku-inline-clinical-btn {
+  margin-top: 9px;
+  height: 34px;
+  border: 0;
+  border-radius: 7px;
+  color: white;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.sku-inline-close {
+  position: absolute;
+  right: 9px;
+  top: 7px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: transparent;
+  color: #918781;
+  font-size: 20px;
+  cursor: pointer;
+}
+.prod-card.sku-selected {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 2px rgba(245,80,24,.15), 0 8px 22px rgba(49,34,27,.1);
+  transform: translateY(-2px);
+}
+.prod-card { transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+
 /* 제품 라인업 상세 팝업 */
 .sku-modal {
   position: fixed;
@@ -1138,6 +1229,41 @@ body {
   font-style: normal;
   font-weight: 800;
   text-align: center;
+}
+.sku-data-visual {
+  width: 100%;
+  height: 222px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(145deg,#f8f4f1,#fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sku-data-visual::before,
+.sku-data-visual::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .08;
+}
+.sku-data-visual::before { width: 180px; height: 180px; right: -45px; top: -65px; }
+.sku-data-visual::after { width: 130px; height: 130px; left: -35px; bottom: -50px; }
+.sku-data-visual img { width: 68%; height: 82%; object-fit: contain; filter: drop-shadow(0 12px 14px rgba(50,34,28,.12)); }
+.sku-data-stamp {
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  z-index: 1;
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: white;
+  border: 1px solid #e9dfd9;
+  font-size: 8px;
+  font-weight: 850;
+  color: #6f6660;
 }
 .sku-metric-label { margin-top: 10px; color: #393331; font-size: 13px; font-weight: 800; }
 .sku-metric { color: var(--orange); font-size: 55px; line-height: 1; font-weight: 950; letter-spacing: -2px; margin-top: 2px; }
@@ -1886,12 +2012,11 @@ body {
         <div class="prod-tab" onclick="switchProd('inner',this)">🟣 이너뷰티 (1종)</div>
       </div>
 
+      <div id="sku-inline-detail" class="sku-inline-detail" aria-live="polite"></div>
+
       <!-- NMN 라인 -->
       <div id="prod-nmn" class="prod-panel active">
-        <div class="hl-box" style="margin-bottom:12px"><strong>NMN 라인 — 탄력·광채·생기</strong> &nbsp;|&nbsp; NMN 10,000ppm 고함량 · 독일 DERMATEST EXCELLENT · 논코메도제닉 인증</div>
-        <div style="margin-bottom:16px;border-radius:12px;overflow:hidden;background:#fafaf8;text-align:center;max-height:200px;display:flex;align-items:center;justify-content:center;">
-          <img src="https://drive.google.com/thumbnail?id=1snodb84_z_giZZl5U4VUUQCDgFoga26p&sz=w800" alt="SIORE NMN 라인 전체" style="width:100%;max-height:200px;object-fit:cover;object-position:center 30%;" onerror="this.parentElement.style.display='none'">
-        </div>
+        <div class="hl-box" style="margin-bottom:12px"><strong>NMN 라인 — 탄력·광채·생기</strong> &nbsp;|&nbsp; 고순도 NMN 포뮬러 · 제품별 인체적용시험 및 인증 근거</div>
         <div class="product-grid">
           <div class="prod-card">
             <div class="prod-vid-top">
@@ -2054,7 +2179,7 @@ body {
 
       <!-- Relief 라인 -->
       <div id="prod-relief" class="prod-panel">
-        <div class="hl-box blue" style="margin-bottom:16px"><strong>Daily Relief 라인 — 민감·장벽·진정</strong> &nbsp;|&nbsp; 피부자극 0.00 · 논코메도제닉 인증 · 20가지 주의성분 배제</div>
+        <div class="hl-box blue" style="margin-bottom:16px"><strong>Daily Relief 라인 — 민감·장벽·진정</strong> &nbsp;|&nbsp; 제품별 피부자극·논코메도제닉 시험 · 민감 피부 케어</div>
         <div class="product-grid relief">
           <div class="prod-card">
             <div class="prod-vid-top">
@@ -2315,7 +2440,7 @@ body {
           </button>
           <button id="det-bal-btn" onclick="detLine('balance')"
             style="padding:7px 10px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);font-size:10.5px;font-weight:800;cursor:pointer;text-align:left;letter-spacing:0.5px;transition:all 0.2s;">
-            🔵 BALANCE LINE
+            🔵 DAILY RELIEF
           </button>
         </div>
       </div>
@@ -2533,6 +2658,7 @@ function switchProd(id, btn) {
   document.getElementById('prod-' + id).classList.add('active');
   document.querySelectorAll('.prod-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  closeSkuInline();
 }
 
 // TikTok 썸네일 자동 로딩 (oEmbed API)
@@ -2644,7 +2770,7 @@ const DET_DATA = {
      ings:[['NMN','피부 컨디셔닝과 활력 케어'],
            ['판테놀 캡슐','세안 중 피부 장벽 보습 및 진정 케어'],
            ['약산성 밀크 제형','잔여감과 당김을 줄인 촉촉한 클렌징']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','논코메도제닉 인증완료','여드름성 피부 사용 적합','무향'],
+     claims:['피부 자극 테스트: 무자극','논코메도제닉 인증완료','여드름성 피부 사용 적합','노폐물 세정효과 99.48%','메이크업 세정효과 91.59%'],
      trial:'한국피부과학연구원 | 2025.6.12~7.14 | 31~58세 성인 여성 23명',
      photo:'1uWgNGwLFI19MwjuQHvtL635zb--DrNM3'},
     {type:'TONER',accentColor:'#F55018',name:'NMN 프레쉬 버블 토너',size:'145ml',
@@ -2653,7 +2779,7 @@ const DET_DATA = {
      ings:[['NMN','NAD 전구체 — 피부 세포 에너지 공급 및 컨디셔닝, 활력 케어'],
            ['세라마이드 · 병풀추출물','피부 장벽 보습 + 진정 및 컨디셔닝 케어'],
            ['글루타치온 · 레스베라트롤','NMN 활성화 복합 성분']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','미백/주름 개선 2중 기능성','피부 광채 <b style="color:#F55018">+403%</b> 증가','무향'],
+     claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','피부 광채 <b style="color:#F55018">403.37%</b> 개선','피부 수분량 148.70% 증가','피부결 10.43% 개선'],
      trial:'한국피부과학연구원 | 2025.6.19~7.11 | 39~63세 성인 여성 22명',
      photo:'1M37ukstOfj0gdpEieGXjqIwN7u2TSbQJ'},
     {type:'SERUM',accentColor:'#F55018',name:'NMN 인텐시브 세럼',size:'50ml',
@@ -2662,7 +2788,7 @@ const DET_DATA = {
      ings:[['NMN','NAD 전구체 — 피부 세포 에너지 공급 및 컨디셔닝, 활력 케어'],
            ['알파리포산','피부 윤기 및 컨디션 케어'],
            ['PDRN · 글루타치온 · 카르노신','NMN 활성화 복합 성분']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','미백/주름 개선 2중 기능성','피부 광채 <b style="color:#F55018">+564.64%</b> 증가','무향'],
+     claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','크림 병행 1회 피부 광채 <b style="color:#F55018">564.64%</b> 개선','피부 겉탄력 6.97% 증가','눈가 주름 9.12% 감소'],
      trial:'한국피부과학연구원 | 2025.6.20~8.1 | 34~69세 성인 여성 23명',
      photo:'1s-EVQIK4OoG4tWMMcf5iDgFAo60a61B3'},
     {type:'CREAM',accentColor:'#F55018',name:'NMN 하이드레이팅 수딩 크림',size:'50ml',
@@ -2671,7 +2797,7 @@ const DET_DATA = {
      ings:[['NMN','NAD 전구체 — 피부 세포 에너지 공급 및 컨디셔닝, 활력 케어'],
            ['세라마이드 · 병풀추출물','피부 장벽 보습 + 진정 및 컨디셔닝 케어'],
            ['글루타치온 · 레스베라트롤','NMN 활성화 복합 성분']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','미백/주름 개선 2중 기능성','피부 수분량 <b style="color:#F55018">+148.87%</b> 증가','무향'],
+     claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','즉각적 보습량 <b style="color:#F55018">148.87%</b> 개선','24시간 보습 지속력 56.65% 개선','피부 투명도 개선'],
      trial:'한국피부과학연구원 | 2025.5.13~7.11 | 39~63세 성인 여성 22명',
      photo:'1AMWKWF2beMBFa_MO0FuZ3uJ_2bESHhqN'},
     {type:'CREAM',accentColor:'#F55018',name:'NMN 딥 글로우 리치 크림',size:'50ml',
@@ -2680,45 +2806,45 @@ const DET_DATA = {
      ings:[['NMN','NAD 전구체 — 피부 세포 에너지 공급 및 컨디셔닝, 활력 케어'],
            ['알파리포산','피부 윤기 및 컨디션 케어'],
            ['PDRN · 글루타치온 · 카르노신','NMN 활성화 복합 성분']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','미백/주름 개선 2중 기능성','피부 광채 <b style="color:#F55018">+564.64%</b> 증가','무향'],
+     claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','피부 노화 완화 10.19% 개선','안면 전체 리프팅 4.47% 개선','피부 치밀도 <b style="color:#F55018">17.15%</b> 증가'],
      trial:'한국피부과학연구원 | 2025.6.12~8.11 | 31~58세 성인 여성 23명',
      photo:'1yt5Hp7gAmJ7jFz3bYoACsRKsPx-xff0T'},
   ],
   balance: [
-    {type:'TONER',accentColor:'#6DA5CB',name:'데일리 밸런스 에센스 토너',size:'150ml',
+    {type:'TONER',accentColor:'#6DA5CB',name:'데일리 릴리프 에센스 토너',size:'150ml',
      tagline:'정제수 대신 감나무잎수 — 피지를 잡고 수분길을 여는 에센스 토너',
      usp:'베이스부터 다르다 · 감나무잎수 85% · 타닌이 피지를 잡고 수분길을 열어 다음 단계 흡수력 극대화',
      ings:[['감나무잎수 85%','어린잎 타닌 고함량 — 피지 조절 · 피부결 개선 · 수분 공급'],
            ['병풀추출물 · 밀싹추출물','피부 진정 · 밸런스 · 컨디셔닝 · 보습 케어'],
            ['펩타이드 · RICE-EGF','피부 활력 · 탄력 · 컨디셔닝 케어']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','논코메도제닉 인증완료','피부 수분량 <b style="color:#6DA5CB">+136.58%</b> 증가','무향'],
+     claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','피부 수분량 <b style="color:#6DA5CB">136.58%</b> 개선','피부결 11.84% 개선'],
      trial:'한국피부과학연구원 | 2025.6.18~7.11 | 30~68세 성인 남녀 23명',
      photo:'1PPfoaSPz_FE966fe2X3R2oC3xV_RmS_Q'},
-    {type:'SERUM',accentColor:'#6DA5CB',name:'데일리 밸런스 케어 앰플',size:'30ml',
+    {type:'SERUM',accentColor:'#6DA5CB',name:'데일리 릴리프 리페어 앰플',size:'30ml',
      tagline:'피지는 잡고, 수분은 채우고, 광채는 올린다 — 유분 없는 데일리 케어 앰플',
      usp:'피지 조절 · 수분 충전 · 자연 광채 — 자극 없이 3가지를 동시에',
      ings:[['병풀추출물 · 밀싹추출물','피부 진정 · 밸런스 · 컨디셔닝 · 보습 케어'],
            ['케어판테놀 · 세라마이드','피부 장벽 보습 및 보호 케어'],
            ['펩타이드','피부 활력 및 컨디셔닝 케어']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','논코메도제닉 인증완료','피부 광채 <b style="color:#6DA5CB">+475.98%</b> 증가','무향'],
+     claims:['여드름성 피부 사용 적합','논코메도제닉 인증완료','미백·주름개선 2중 기능성','피부 광채 개선','외부 자극에 의한 피부 장벽 개선 및 진정효과','피부 속탄력 개선'],
      trial:'한국피부과학연구원 | 2025.6.13~8.20 | 42~64세 성인 남녀 22명',
      photo:'1VnMckE_dW74AbB863DilMXdQX9HiE1DA'},
-    {type:'GEL/CREAM',accentColor:'#6DA5CB',name:'데일리 밸런스 카밍 수딩 젤',size:'80ml',
+    {type:'GEL/CREAM',accentColor:'#6DA5CB',name:'데일리 릴리프 카밍 수딩 젤',size:'80ml',
      tagline:'자극 없는 쿨링 — 알코올 無, 여드름부터 시술 후 민감 피부까지',
      usp:'알코올 無 쿨링 + 여드름 케어 제품 병용 + 시술 후 케어 · 자극 없이 3가지 상황을 커버하는 올라운드 진정 젤',
      ings:[['병풀추출물 · 밀싹추출물','피부 진정 · 밸런스 · 컨디셔닝 · 보습 케어'],
            ['케어판테놀 · 세라마이드','피부 장벽 보습 및 보호 케어'],
            ['펩타이드','피부 활력 및 컨디셔닝 케어']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','논코메도제닉 인증완료','즉각적 피부 보습량 <b style="color:#6DA5CB">+76.04%</b> 증가','무향'],
+     claims:['피부 자극 테스트: 무자극','여드름성 피부 사용 적합(논코메도제닉)','미백·주름개선 2중 기능성','피부 온도 10.041℃ 감소','붉은기 회복률 63.829%','즉각적 겉수분 76.04% 개선'],
      trial:'한국피부과학연구원 | 2025.6.13~7.11 | 21~69세 성인 남녀 22명',
      photo:'1rGqbcDoRgibkF_oKCeqkaVDCkjqc9Yq9'},
-    {type:'CREAM',accentColor:'#6DA5CB',name:'데일리 밸런스 컴포트 크림',size:'50ml',
+    {type:'CREAM',accentColor:'#6DA5CB',name:'데일리 릴리프 컴포트 크림',size:'50ml',
      tagline:'수분은 잠그고, 기미는 개선 — 수분 잠금 설계 데일리 컴포트 크림',
      usp:'앰플 농축 밀도로 보습을 잠그고, 기미까지 개선 · 끈적임 없이 장벽을 채운다',
      ings:[['병풀추출물 · 밀싹추출물','피부 진정 · 밸런스 · 컨디셔닝 · 보습 케어'],
            ['케어판테놀 · 세라마이드','피부 장벽 보습 및 보호 케어'],
            ['펩타이드','피부 활력 및 컨디셔닝 케어']],
-     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','논코메도제닉 인증완료','즉각보습 <b style="color:#6DA5CB">+110.79%</b> · 24h 지속 <b style="color:#6DA5CB">+60.58%</b>','무향'],
+     claims:['여드름성 피부 사용 적합','논코메도제닉 인증완료','미백·주름개선 2중 기능성','24시간 보습 지속력','외부 자극에 의한 피부 장벽 개선 및 진정효과','피부 각질 개선'],
      trial:'한국피부과학연구원 | 2025.6.18~8.1 | 30~48세 성인 여성 22명',
      photo:'10VM5krWAGsczZWCDWMHdc9QOMT_YojiK'},
   ]
@@ -2775,7 +2901,7 @@ function detShow(idx) {
     btn.style.fontWeight=(i===idx)?'800':'600';
   });
   const p=prods[idx], ac=p.accentColor;
-  const lineName=_detLine==='nmn'?'NMN LINE':'BALANCE LINE';
+  const lineName=_detLine==='nmn'?'NMN LINE':'DAILY RELIEF';
   const ingRows=p.ings.map(([n,e])=>`<tr><td style="padding:7px 10px;font-weight:700;font-size:11px;color:#231F20;border-bottom:1px solid #eee;white-space:nowrap;">${n}</td><td style="padding:7px 10px;font-size:11px;color:#555;border-bottom:1px solid #eee;">${e}</td></tr>`).join('');
   const claimItems=p.claims.map(c=>`<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;"><span style="color:${ac};font-weight:900;font-size:13px;flex-shrink:0;line-height:1.2;">✓</span><span style="font-size:11px;color:#333;line-height:1.45;">${c}</span></div>`).join('');
   const trialLines=p.trial.split(' | ').map(t=>`<div style="margin-bottom:3px;">${t}</div>`).join('');
@@ -2840,55 +2966,46 @@ const SKU_MODAL_PRODUCTS = [
     hook:'씻어낼수록,<br><strong>피부 장벽은 편안하게</strong>',
     formula:'판테놀 캡슐을 담은 약산성 밀크 제형으로 마찰과 세안 후 당김을 줄였습니다.',
     benefits:['메이크업 세정 91.59%','미세먼지 세정 99.55%','여드름성 피부 사용 적합'],
-    cert:['derma','irritation','noncomedo']
+    cert:['irritation','noncomedo']
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 프레쉬 버블 토너', size:'145ml',
     photo:'images/products/bubble-toner.png',
-    clinical:[
-      'images/clinical/NMN_버블토너/250711_효능_BEF060-PHB_파마브로스_시오레 NMN 프레쉬 버블토너_p33_img2.jpeg',
-      'images/clinical/NMN_버블토너/250711_효능_BEF060-PHB_파마브로스_시오레 NMN 프레쉬 버블토너_p33_img3.jpeg'
-    ],
+    clinical:[],
     metric:'403.37%', metricLabel:'피부 광채 개선', proof:'한국피부과학연구원 · 성인 여성 22명',
     hook:'7초 버블 흡수,<br><strong>광채의 첫 단계</strong>',
     formula:'고순도 NMN 10,000ppm과 벌집구조 버블이 피부에 부드럽게 밀착됩니다.',
     benefits:['피부 수분량 148.70% 증가','피부결 10.43% 개선','피부자극지수 0.00'],
-    cert:['derma','irritation']
+    cert:['irritation']
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 인텐시브 세럼', size:'50ml',
     photo:'images/products/serum.png', clinical:['images/clinical/serum-clinical.jpg'], clinicalPos:'50% 55%',
-    metric:'564.64%', metricLabel:'1회 사용 피부 광채 개선', proof:'크림 병행 사용 기준 · 34건 이상 인체적용시험',
+    metric:'564.64%', metricLabel:'크림 병행 1회 피부 광채 개선', proof:'NMN 리치크림 병행 사용 기준',
     hook:'바르는 순간,<br><strong>광채의 기준이 바뀝니다</strong>',
     formula:'고순도 NMN 10,000ppm과 PDRN·알파리포산 복합 포뮬러',
     benefits:['눈가 주름 9.12% 감소','피부 겉탄력 6.97% 증가','오일광 없이 맑은 윤광'],
-    cert:['derma','irritation','noncomedo']
+    cert:['irritation']
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 하이드레이팅 수딩 크림', size:'50ml',
     photo:'images/products/soothing-cream.png',
-    clinical:[
-      'images/clinical/NMN_수딩크림/250711_효능_BEF061-PHB_파마브로스_시오레 NMN 하이드레이팅 수딩 크림_p13_img2.jpeg',
-      'images/clinical/NMN_수딩크림/250711_효능_BEF061-PHB_파마브로스_시오레 NMN 하이드레이팅 수딩 크림_p41_img2.jpeg'
-    ],
+    clinical:[],
     metric:'148.87%', metricLabel:'즉각적 보습량 개선', proof:'24시간 보습 지속력 인체적용시험',
     hook:'유분 부담 없이,<br><strong>수분만 깊고 오래</strong>',
     formula:'NMN과 세라마이드가 민감하고 건조한 피부의 수분 장벽을 케어합니다.',
     benefits:['24시간 보습 56.65% 개선','피부 투명도 개선','민감·건성 피부 적합'],
-    cert:['derma','irritation']
+    cert:['irritation']
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 딥 글로우 리치 크림', size:'50ml',
     photo:'images/products/rich-cream.png',
-    clinical:[
-      'images/clinical/NMN_리치크림/250811_효능_BEF063-PHB_파마브로스_시오레 NMN 딥 글로우 리치 크림_p100_img2.jpeg',
-      'images/clinical/NMN_리치크림/250811_효능_BEF063-PHB_파마브로스_시오레 NMN 딥 글로우 리치 크림_p100_img3.jpeg'
-    ],
+    clinical:[],
     metric:'17.15%', metricLabel:'피부 치밀도 증가', proof:'한국피부과학연구원 인체적용시험',
     hook:'밤사이 채우는,<br><strong>밀도 있는 깊은 윤광</strong>',
     formula:'고영양 NMN 포뮬러가 데일리 크림부터 나이트팩까지 탄력 있게 마무리합니다.',
     benefits:['피부 노화 완화 10.19%','안면 전체 리프팅 4.47%','탄력·주름 동시 케어'],
-    cert:['derma','irritation']
+    cert:['irritation']
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 에센스 토너', size:'150ml',
@@ -2897,42 +3014,36 @@ const SKU_MODAL_PRODUCTS = [
     hook:'정제수 대신 감나무잎수,<br><strong>수분길을 열다</strong>',
     formula:'감나무잎수 85% 베이스가 피지 밸런스를 잡고 다음 단계 흡수를 돕습니다.',
     benefits:['피부결 11.84% 개선','속건조·겉당김 집중 케어','피부자극지수 0.00'],
-    cert:['derma','irritation','noncomedo']
+    cert:['irritation']
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 리페어 앰플', size:'30ml',
     photo:'images/products/ampoule.png',
-    clinical:[
-      'images/clinical/데일리_앰플/250811_효능_BEF066-PHB_파마브로스_시오레 데일리 릴리프 리페어 앰플_p14_img4.jpeg',
-      'images/clinical/데일리_앰플/250811_효능_BEF066-PHB_파마브로스_시오레 데일리 릴리프 리페어 앰플_p14_img6.jpeg'
-    ],
-    metric:'475.98%', metricLabel:'피부 광채 개선', proof:'피부 장벽·속탄력 인체적용시험',
+    clinical:[],
+    metric:'3 STEP', metricLabel:'장벽·진정·속탄력 케어', proof:'제품 임상 항목 요약 · 수치 과장 없이 표시',
     hook:'무너진 컨디션에,<br><strong>집중 회복 SOS</strong>',
     formula:'병풀·밀싹추출물과 펩타이드가 예민해진 피부 장벽과 컨디션을 케어합니다.',
-    benefits:['외부 자극 피부 장벽 개선','피부 속탄력 개선','유분 없는 데일리 광채'],
-    cert:['derma','irritation','noncomedo']
+    benefits:['피부 광채 개선','외부 자극 피부 장벽 개선','피부 속탄력 개선'],
+    cert:['noncomedo']
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 카밍 수딩 젤', size:'80ml',
     photo:'images/products/soothing-gel.png',
-    clinical:[
-      'images/clinical/데일리_수딩젤/250711_효능_BEF067-PHB_파마브로스_시오레 데일리 릴리프 카밍 수딩 젤_p13_img2.jpeg',
-      'images/clinical/데일리_수딩젤/250711_효능_BEF067-PHB_파마브로스_시오레 데일리 릴리프 카밍 수딩 젤_p14_img2.jpeg'
-    ],
+    clinical:[],
     metric:'10.041℃', metricLabel:'피부 온도 즉각 감소', proof:'가온 자극 후 1회 도포 · N=22, p<0.001',
     hook:'열 오른 피부에,<br><strong>빠르고 산뜻한 쿨다운</strong>',
     formula:'알코올 없이 열감·붉은기·피지를 동시에 케어하는 올라운드 수딩 젤',
     benefits:['붉은기 회복률 63.829%','즉각 겉수분 76.04% 개선','2주 후 피지량 15.77% 개선'],
-    cert:['derma','irritation','noncomedo']
+    cert:['irritation','noncomedo']
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 컴포트 크림', size:'50ml',
     photo:'images/products/comfort-cream.png', clinical:['images/clinical/comfort-cream-clinical.jpg'], clinicalPos:'50% 46%',
-    metric:'110.79%', metricLabel:'즉각 보습 개선', proof:'24시간 보습 지속력 인체적용시험',
+    metric:'24H', metricLabel:'보습 지속력', proof:'제품 임상 항목 요약 · 수치 미확정 항목은 정성 표기',
     hook:'수분은 잠그고,<br><strong>장벽은 편안하게</strong>',
     formula:'앰플 농축 밀도의 보습막이 끈적임 없이 속건조와 민감 피부를 감쌉니다.',
-    benefits:['24시간 보습 60.58% 개선','외부 자극 장벽 진정','트러블 피부 사용 적합'],
-    cert:['derma','irritation','noncomedo']
+    benefits:['외부 자극 피부 장벽 개선','피부 각질 개선','트러블 피부 사용 적합'],
+    cert:['noncomedo']
   },
   {
     line:'INNER BEAUTY', accent:'#8B5CF6', name:'SIORE PDRN 200 어드밴스드', size:'15g × 15포',
@@ -2996,6 +3107,12 @@ function skuCertHtml(types) {
 }
 
 function skuClinicalHtml(p) {
+  if(!p.clinical.length) {
+    return `<div class="sku-data-visual" style="color:${p.accent}">
+      <span class="sku-data-stamp">검증 수치 요약</span>
+      <img src="${skuAsset(p.photo)}" alt="${p.name} 제품 이미지" referrerpolicy="no-referrer">
+    </div>`;
+  }
   if(p.clinical.length===1) {
     return `<div class="sku-clinical-media single"><div class="sku-clinical-shot">
       <img src="${skuAsset(p.clinical[0])}" alt="${p.name} 임상 자료" style="object-position:${p.clinicalPos||'center'}" referrerpolicy="no-referrer">
@@ -3056,6 +3173,53 @@ function closeSkuModal() {
   modal.setAttribute('aria-hidden','true');
 }
 
+function showSkuInline(index, card) {
+  const p=SKU_MODAL_PRODUCTS[index];
+  const panel=document.getElementById('sku-inline-detail');
+  if(!p||!panel)return;
+  document.querySelectorAll('.prod-card').forEach(c=>{
+    c.classList.remove('sku-selected');
+    c.setAttribute('aria-expanded','false');
+  });
+  if(card){
+    card.classList.add('sku-selected');
+    card.setAttribute('aria-expanded','true');
+  }
+  panel.style.setProperty('--orange',p.accent);
+  panel.style.borderColor=p.accent+'55';
+  panel.innerHTML=`
+    <div class="sku-inline-inner">
+      <button class="sku-inline-close" type="button" aria-label="선택 상품 닫기" onclick="closeSkuInline()">×</button>
+      <div class="sku-inline-product"><img src="${skuAsset(p.photo)}" alt="${p.name}" referrerpolicy="no-referrer"></div>
+      <div class="sku-inline-copy">
+        <div class="sku-inline-eyebrow" style="color:${p.accent}">${p.line} · ${p.size}</div>
+        <div class="sku-inline-name">${p.name}</div>
+        <div class="sku-inline-formula">${p.formula}</div>
+        <div class="sku-inline-benefits">${p.benefits.map(b=>`<span>${b}</span>`).join('')}</div>
+      </div>
+      <div class="sku-inline-proof">
+        <div class="sku-inline-metric-label">${p.metricLabel}</div>
+        <div class="sku-inline-metric" style="color:${p.accent}">${p.metric}</div>
+        <div class="sku-inline-note">${p.proof}</div>
+        <button class="sku-inline-clinical-btn" type="button" style="background:${p.accent}" onclick="openSkuModal(${index})">임상 근거 자세히 보기 →</button>
+      </div>
+    </div>`;
+  panel.classList.add('open');
+  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),30);
+}
+
+function closeSkuInline() {
+  const panel=document.getElementById('sku-inline-detail');
+  if(panel){
+    panel.classList.remove('open');
+    setTimeout(()=>{if(!panel.classList.contains('open'))panel.innerHTML='';},320);
+  }
+  document.querySelectorAll('.prod-card').forEach(c=>{
+    c.classList.remove('sku-selected');
+    c.setAttribute('aria-expanded','false');
+  });
+}
+
 function stepSkuModal(delta) {
   if(_skuModalBusy)return;
   const content=document.getElementById('sku-modal-content');
@@ -3088,7 +3252,7 @@ function wireLineupSkuCards() {
       card.setAttribute('role', 'button');
       card.setAttribute('tabindex', '0');
       card.title = '팝업으로 제품 상세 보기';
-      const open = () => openSkuModal(group.offset+idx);
+      const open = () => showSkuInline(group.offset+idx,card);
       card.addEventListener('click', open);
       card.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') {

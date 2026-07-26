@@ -1207,28 +1207,12 @@ body {
     <button class="tab-btn" onclick="switchTab('pricing',this)">
       <span class="t-icon">💰</span> 판매가
     </button>
-    <button class="tab-btn" onclick="switchTab('clinical',this)">
+    <button id="tab-clinical-btn" class="tab-btn" onclick="switchTab('clinical',this)">
       <span class="t-icon">📋</span> 제품상세
     </button>
     <button class="tab-btn" onclick="switchTab('faq',this)">
       <span class="t-icon">💬</span> FAQ
     </button>
-  </div>
-
-  <!-- 우측 인증 배지 -->
-  <div class="nav-badges">
-    <div class="nav-cert-img">
-      <img src="https://drive.google.com/thumbnail?id=17k_gukWy4QdrJNhLllRyJ1agijbmnKEJ&sz=w120" alt="피부자극지수" onerror="this.parentElement.style.opacity='0.4'">
-      <span>피부자극지수</span>
-    </div>
-    <div class="nav-cert-img">
-      <img src="https://drive.google.com/thumbnail?id=1cbcFvzRjpMGAJzCwZRxxp9vrMe4aplpA&sz=w120" alt="DERMATEST" onerror="this.parentElement.style.opacity='0.4'">
-      <span>DERMATEST</span>
-    </div>
-    <div class="nav-cert-img">
-      <img src="https://drive.google.com/thumbnail?id=1i77AKvZFPAkdQW2dmX0lmhxG4G3qXGwI&sz=w120" alt="논코메도제닉" onerror="this.parentElement.style.opacity='0.4'">
-      <span>논코메도제닉</span>
-    </div>
   </div>
 </nav>
 
@@ -1326,7 +1310,7 @@ body {
             </svg>
             <div style="font-size:9px;font-weight:800;color:#E67E00;letter-spacing:0.5px;">GLOBAL MARKET</div>
           </div>
-          <div class="cert-badge-info">
+          <div class="cert-badge-info" style="justify-content:flex-start;padding-top:7px;">
             <div class="cert-badge-title">Amazon.com US</div>
             <div class="cert-badge-val">공식 브랜드 입점</div>
             <div class="cert-badge-sub">K-Beauty 글로벌 판매 중</div>
@@ -2329,7 +2313,7 @@ function switchTab(id, btn) {
   // 스크롤 초기화
   document.querySelector('.main').scrollTop = 0;
   // 제품상세 탭 초기화
-  if (id === 'clinical') { detLine('nmn'); }
+  if (id === 'clinical' && !_detInitialized) { detLine('nmn'); }
 }
 
 // 제품 서브탭
@@ -2365,6 +2349,7 @@ async function loadVideoThumbnails() {
 // 페이지 로드 후 썸네일 시도
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(loadVideoThumbnails, 400);
+  setTimeout(wireLineupSkuCards, 100);
 });
 
 // 비디오 모달
@@ -2442,6 +2427,15 @@ function updatePricing() {
 // ═══════════ 제품상세 탭 ═══════════
 const DET_DATA = {
   nmn: [
+    {type:'CLEANSER',accentColor:'#F55018',name:'NMN 하이드로 캡슐 클렌징 밀크',size:'150ml',
+     tagline:'당김 없이 촉촉한 약산성 클렌징 — 피부 장벽을 지키는 첫 단계',
+     usp:'메이크업 세정 91.59% · 노폐물 세정 99.48% · 미세먼지 세정 99.55%',
+     ings:[['NMN','피부 컨디셔닝과 활력 케어'],
+           ['판테놀 캡슐','세안 중 피부 장벽 보습 및 진정 케어'],
+           ['약산성 밀크 제형','잔여감과 당김을 줄인 촉촉한 클렌징']],
+     claims:['독일 Dermatest® EXCELLENT 2025','피부자극도 0.00 무자극','논코메도제닉 인증완료','여드름성 피부 사용 적합','무향'],
+     trial:'한국피부과학연구원 | 2025.6.12~7.14 | 31~58세 성인 여성 23명',
+     photo:'1uWgNGwLFI19MwjuQHvtL635zb--DrNM3'},
     {type:'TONER',accentColor:'#F55018',name:'NMN 프레쉬 버블 토너',size:'145ml',
      tagline:'흘러내리지 않는 버블 토너 — 벌집구조로 피부에 밀착',
      usp:'버블이 깨지지 않는 벌집구조 설계 · 손 사용 최소화한 저자극 토너 · 모든 피부타입 사용 가능',
@@ -2519,10 +2513,10 @@ const DET_DATA = {
   ]
 };
 
-let _detLine='nmn', _detIdx=0;
+let _detLine='nmn', _detIdx=0, _detInitialized=false;
 
 function detLine(line) {
-  _detLine=line; _detIdx=0;
+  _detLine=line; _detIdx=0; _detInitialized=true;
   const isNmn=(line==='nmn'), isBal=(line==='balance');
   const nb=document.getElementById('det-nmn-btn'), bb=document.getElementById('det-bal-btn');
   if(nb){nb.style.background=isNmn?'rgba(245,80,24,0.22)':'rgba(255,255,255,0.04)';nb.style.borderColor=isNmn?'rgba(245,80,24,0.55)':'rgba(255,255,255,0.12)';nb.style.color=isNmn?'#F55018':'rgba(255,255,255,0.45)';}
@@ -2539,6 +2533,23 @@ function detLine(line) {
       ${p.name}
     </button>`).join('');
   detShow(0);
+}
+
+function detBadgeHtml(p) {
+  const badges = [
+    {src:'https://drive.google.com/thumbnail?id=1cbcFvzRjpMGAJzCwZRxxp9vrMe4aplpA&sz=w120', label:'DERMATEST'},
+    {src:'https://drive.google.com/thumbnail?id=17k_gukWy4QdrJNhLllRyJ1agijbmnKEJ&sz=w120', label:'무자극'}
+  ];
+  const hasNonComedo = p.claims.some(c => c.includes('논코메도제닉')) || /클렌징|세럼/.test(p.name);
+  if (hasNonComedo) {
+    badges.push({src:'https://drive.google.com/thumbnail?id=1i77AKvZFPAkdQW2dmX0lmhxG4G3qXGwI&sz=w120', label:'논코메도제닉'});
+  }
+  return `<div class="det-cert-badges" style="display:flex;align-items:center;gap:7px;margin-top:7px;flex-wrap:wrap;">
+    ${badges.map(b=>`<span style="height:30px;display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border:1px solid #e8e8e8;border-radius:6px;background:#fff;">
+      <img src="${b.src}" alt="${b.label}" referrerpolicy="no-referrer" style="width:24px;height:22px;object-fit:contain;">
+      <span style="font-size:8px;font-weight:800;color:#666;white-space:nowrap;">${b.label}</span>
+    </span>`).join('')}
+  </div>`;
 }
 
 function detShow(idx) {
@@ -2574,6 +2585,7 @@ function detShow(idx) {
           </div>
           <div style="font-size:17px;font-weight:900;color:#231F20;letter-spacing:-0.3px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
           <div style="font-size:10.5px;color:#666;line-height:1.5;">${p.tagline}</div>
+          ${detBadgeHtml(p)}
         </div>
       </div>
       <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;overflow:hidden;">
@@ -2599,6 +2611,36 @@ function detShow(idx) {
         </div>
       </div>
     </div>`;
+}
+
+function openSkuDetail(line, idx) {
+  const detailTab = document.getElementById('tab-clinical-btn');
+  if (!detailTab) return;
+  switchTab('clinical', detailTab);
+  if (_detLine !== line || !_detInitialized) detLine(line);
+  detShow(idx);
+}
+
+function wireLineupSkuCards() {
+  [
+    {selector:'#prod-nmn .prod-card', line:'nmn'},
+    {selector:'#prod-relief .prod-card', line:'balance'}
+  ].forEach(group => {
+    document.querySelectorAll(group.selector).forEach((card, idx) => {
+      card.style.cursor = 'pointer';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.title = '제품 상세 보기';
+      const open = () => openSkuDetail(group.line, idx);
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          open();
+        }
+      });
+    });
+  });
 }
 
 </script>

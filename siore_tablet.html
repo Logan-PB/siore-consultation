@@ -62,7 +62,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: 0 18px;
   z-index: 100;
   width: 1280px;
   overflow: hidden;
@@ -112,7 +112,7 @@ body {
 .tabs {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   background: rgba(255,255,255,0.07);
   padding: 4px;
   border-radius: var(--r);
@@ -120,7 +120,7 @@ body {
 }
 .tab-btn {
   height: 42px;
-  padding: 0 18px;
+  padding: 0 13px;
   border: none;
   border-radius: var(--r-sm);
   background: transparent;
@@ -147,8 +147,9 @@ body {
 /* 우측 배지 */
 .nav-badges {
   display: flex;
-  gap: 8px;
+  gap: 5px;
   flex-shrink: 0;
+  padding-right: 2px;
 }
 .nav-cert-img {
   display: flex;
@@ -158,8 +159,8 @@ body {
   flex-shrink: 0;
 }
 .nav-cert-img img {
-  height: 46px;
-  width: 46px;
+  height: 42px;
+  width: 42px;
   object-fit: contain;
   border-radius: 6px;
   background: #fff;
@@ -168,12 +169,21 @@ body {
   box-sizing: border-box;
 }
 .nav-cert-img span {
-  font-size: 7.5px;
+  font-size: 7px;
   font-weight: 700;
   color: rgba(255,255,255,0.45);
   letter-spacing: 0.1px;
   white-space: nowrap;
 }
+.hidden-rate-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.12;
+  transition: opacity .18s ease;
+}
+.hidden-rate-control:hover,
+.hidden-rate-control:focus-within { opacity: 1; }
 
 /* ═══════════════════════════════════
    SCROLL AREA
@@ -2010,13 +2020,8 @@ body {
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div class="label">제품별 가격표</div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:11px;color:transparent;font-weight:600;user-select:none;">공급조건 선택</span>
-          <select id="margin-mode" onchange="updatePricing()" style="font-family:var(--font);font-size:12px;font-weight:700;padding:6px 12px;border:2px solid transparent;border-radius:8px;background:transparent;color:transparent;cursor:default;outline:none;appearance:none;-webkit-appearance:none;padding-right:28px;">
-            <option value="">— 선택 —</option>
-            <option value="vip">🏆 VIP 조건</option>
-            <option value="partner">🤝 파트너 조건</option>
-          </select>
-          <label id="margin-rate-box" style="display:none;align-items:center;gap:4px;font-size:12px;font-weight:800;color:#2a1060;">
+          <span style="font-size:11px;color:transparent;font-weight:600;user-select:none;">공급률 입력</span>
+          <label class="hidden-rate-control" style="font-size:12px;font-weight:800;color:#2a1060;">
             <input id="margin-rate-input" type="number" min="1" max="99" step="0.1" inputmode="decimal" placeholder="%" oninput="updatePricing()" style="width:62px;padding:6px 8px;border:1px solid #c9b8eb;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:800;text-align:center;outline:none;">
             %
           </label>
@@ -2377,32 +2382,16 @@ function closeVideoOutside(e) {
 
 // ── 공급가 / 마진율 드롭다운 ──
 function updatePricing() {
-  const mode = document.getElementById('margin-mode').value;
   const supplyEls = document.querySelectorAll('.supply-col');
   const noteDefault = document.getElementById('price-note-default');
   const noteSupply = document.getElementById('price-note-supply');
-  const rateBox = document.getElementById('margin-rate-box');
   const rateInput = document.getElementById('margin-rate-input');
   const ratePercent = rateInput ? parseFloat(rateInput.value) : NaN;
 
-  if (!mode) {
+  if (!Number.isFinite(ratePercent) || ratePercent <= 0 || ratePercent >= 100) {
     supplyEls.forEach(el => el.style.display = 'none');
     if (noteDefault) noteDefault.style.display = '';
     if (noteSupply) noteSupply.style.display = 'none';
-    if (rateBox) rateBox.style.display = 'none';
-    return;
-  }
-
-  const label = mode === 'vip' ? 'VIP' : '파트너';
-  if (rateBox) rateBox.style.display = 'inline-flex';
-
-  if (!Number.isFinite(ratePercent) || ratePercent <= 0 || ratePercent >= 100) {
-    supplyEls.forEach(el => el.style.display = 'none');
-    if (noteDefault) noteDefault.style.display = 'none';
-    if (noteSupply) {
-      noteSupply.style.display = '';
-      noteSupply.textContent = '🔒 ' + label + ' 공급 비율(%)을 직접 입력하면 공급가와 약국 마진율이 계산됩니다.';
-    }
     return;
   }
 
@@ -2427,7 +2416,7 @@ function updatePricing() {
   if (noteDefault) noteDefault.style.display = 'none';
   if (noteSupply) {
     noteSupply.style.display = '';
-    noteSupply.textContent = '🔒 [' + label + ' 조건] 입력 비율 ' + ratePercent + '% 적용 | 공급가 = 소비자가 × 입력 비율 | 마진율 = (약국판매가 − 공급가) ÷ 약국판매가 × 100%';
+    noteSupply.textContent = '🔒 입력 비율 ' + ratePercent + '% 적용 | 공급가 = 소비자가 × 입력 비율 | 마진율 = (약국판매가 − 공급가) ÷ 약국판매가 × 100%';
   }
 }
 

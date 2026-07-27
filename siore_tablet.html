@@ -1409,6 +1409,146 @@ body {
 @keyframes skuEnterLeft { from { opacity:0; transform:translateX(38px) } to { opacity:1; transform:none } }
 @keyframes skuEnterRight { from { opacity:0; transform:translateX(-38px) } to { opacity:1; transform:none } }
 
+/* 제품 강점 · USP · 임상 통합 스토리 */
+.sku-inline-detail.open { max-height: 980px; }
+.sku-story {
+  --story-accent: var(--orange);
+  position: relative;
+  padding: 18px;
+  background: #fbfaf8;
+  color: #1d1a18;
+}
+.sku-story-head {
+  display: grid;
+  grid-template-columns: minmax(300px,1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 13px;
+}
+.sku-story-kicker {
+  margin-bottom: 4px;
+  color: var(--story-accent);
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: 1.7px;
+}
+.sku-story-name { font-size: 23px; font-weight: 950; letter-spacing: -.7px; }
+.sku-story-meta { color: #746d68; font-size: 10px; font-weight: 750; white-space: nowrap; }
+.sku-story-badges { display: flex; gap: 6px; align-items: center; }
+.sku-story-badges .sku-cert-pill {
+  min-width: 58px;
+  height: 42px;
+  padding: 3px 5px;
+  background: white;
+}
+.sku-story-badges .sku-cert-pill img { width: 23px; height: 22px; }
+#sku-modal-badges { margin-left: auto; }
+#sku-modal-badges + .sku-modal-close { margin-left: 0; }
+#sku-modal-badges .sku-cert-pill { min-width: 54px; height: 40px; }
+.sku-story-hero {
+  display: grid;
+  grid-template-columns: 37% 63%;
+  min-height: 275px;
+  overflow: hidden;
+  border: 1px solid #e8e0db;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 9px 24px rgba(52,38,30,.06);
+}
+.sku-story-scene { position: relative; min-width: 0; overflow: hidden; background: #eee7e2; }
+.sku-story-scene img { display: block; width: 100%; height: 100%; min-height: 275px; object-fit: cover; }
+.sku-story-scene img.packshot { object-fit: contain; padding: 18px; background: linear-gradient(145deg,#f5efeb,#fff); }
+.sku-story-scene-tag {
+  position: absolute;
+  left: 13px;
+  bottom: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.92);
+  color: #3f3935;
+  font-size: 8px;
+  font-weight: 900;
+  box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+.sku-story-copy { min-width: 0; padding: 22px 27px 20px; display: flex; flex-direction: column; }
+.sku-story-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 11px; }
+.sku-story-chip { padding: 4px 7px; border-radius: 5px; background: #f0eeec; font-size: 7.5px; font-weight: 900; }
+.sku-story-chip.hot { background: var(--story-accent); color: white; }
+.sku-story-strength {
+  max-width: 730px;
+  font-size: 24px;
+  line-height: 1.25;
+  font-weight: 950;
+  letter-spacing: -.8px;
+  word-break: keep-all;
+}
+.sku-story-strength em { color: var(--story-accent); font-style: normal; }
+.sku-story-formula { margin-top: 8px; color: #615a56; font-size: 10.5px; line-height: 1.5; }
+.sku-story-mechanisms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-top: auto; padding-top: 13px; }
+.sku-story-mechanism {
+  position: relative;
+  min-width: 0;
+  min-height: 70px;
+  padding: 10px;
+  border-radius: 9px;
+  background: #f3efec;
+}
+.sku-story-mechanism b { display: block; margin-bottom: 4px; font-size: 9px; }
+.sku-story-mechanism span { display: block; color: #756d68; font-size: 7.7px; line-height: 1.45; }
+.sku-story-evidence { display: grid; grid-template-columns: 1.56fr .74fr; gap: 12px; margin-top: 12px; }
+.sku-story-clinical,
+.sku-story-must { min-width: 0; padding: 15px; border-radius: 13px; border: 1px solid #e9e1dc; background: white; }
+.sku-story-section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 10px; }
+.sku-story-section-head h4 { margin: 0; font-size: 14px; }
+.sku-story-section-head span { color: #8c837d; font-size: 7.5px; }
+.sku-story-clinical-grid { display: grid; gap: 7px; grid-template-columns: repeat(var(--card-count),minmax(0,1fr)); }
+.sku-story-clinical-card {
+  min-width: 0;
+  padding: 9px 8px 7px;
+  border: 1px solid color-mix(in srgb,var(--story-accent) 22%,#eee);
+  border-radius: 10px;
+  background: color-mix(in srgb,var(--story-accent) 6%,#fff);
+}
+.sku-story-clinical-card strong { display: block; color: var(--story-accent); font-size: 18px; letter-spacing: -.5px; }
+.sku-story-clinical-card b { display: block; margin-top: 1px; font-size: 8.5px; }
+.sku-story-clinical-card small { display: block; margin-top: 2px; color: #857c76; font-size: 6.8px; }
+.sku-story-clinical-card a { display: block; margin-top: 6px; padding: 3px; border-radius: 6px; background: white; }
+.sku-story-clinical-card img { display: block; width: 100%; height: 104px; object-fit: contain; }
+.sku-story-clinical-card.no-image { min-height: 133px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+.sku-story-must { display: flex; flex-direction: column; background: #211e1c; border-color: #211e1c; color: white; }
+.sku-story-must-title { color: color-mix(in srgb,var(--story-accent) 75%,white); font-size: 8px; font-weight: 950; letter-spacing: 1.2px; }
+.sku-story-must-list { display: grid; gap: 8px; margin-top: 10px; }
+.sku-story-must-item { display: grid; grid-template-columns: 21px 1fr; gap: 7px; align-items: start; }
+.sku-story-must-item i { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: var(--story-accent); font-size: 8px; font-style: normal; font-weight: 950; }
+.sku-story-must-item b { display: block; margin-bottom: 2px; font-size: 9px; }
+.sku-story-must-item span { display: block; color: #cfc8c3; font-size: 7.3px; line-height: 1.4; }
+.sku-story-talk { margin-top: auto; padding-top: 9px; border-top: 1px solid rgba(255,255,255,.13); color: white; font-size: 8px; line-height: 1.45; font-weight: 800; }
+.sku-story-guide { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 11px; }
+.sku-story-guide > div { padding: 9px 12px; border: 1px solid #e8e0db; border-radius: 9px; background: white; }
+.sku-story-guide b { margin-right: 10px; color: var(--story-accent); font-size: 8px; }
+.sku-story-guide span { color: #5b544f; font-size: 8px; line-height: 1.4; }
+.sku-story-more {
+  margin-top: 10px;
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--story-accent);
+  color: white;
+  font-size: 9px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.sku-story > .sku-inline-close { z-index: 3; }
+.sku-modal-shell { width: 1120px; height: 650px; }
+.sku-modal-content { display: block; overflow-y: auto; background: #fbfaf8; }
+.sku-modal-content .sku-story { min-height: 100%; padding: 15px 18px 20px; }
+.sku-modal-content .sku-story-head { display: none; }
+.sku-modal-content .sku-story-hero { min-height: 250px; }
+.sku-modal-content .sku-story-scene img { min-height: 250px; }
+.sku-modal-content .sku-story-strength { font-size: 22px; }
+.sku-modal-content .sku-story-clinical-card img { height: 118px; }
+
 /* ═══════════════════════════════════
    TAB 4: 가격 & 입점
 ═══════════════════════════════════ */
@@ -3212,6 +3352,194 @@ const SKU_ENRICH = [
   }
 ];
 
+const SKU_STORIES = [
+  {
+    strength:'메이크업부터 미세먼지까지, 당김 부담은 낮춘 캡슐 밀크 클렌징',
+    mechanisms:[
+      ['01 · 판테놀 캡슐','세안 중 터지는 수분 캡슐이 피부를 편안하게 감쌉니다.'],
+      ['02 · 밀크 제형','마찰과 세안 후 당김 부담을 줄여 부드럽게 롤링됩니다.'],
+      ['03 · 약산성 세정','노폐물은 지우고 피부 컨디션은 편안하게 유지합니다.']
+    ],
+    mustTell:[
+      ['강한 세정력','노폐물 99.48% · 메이크업 91.59% 세정'],
+      ['민감 피부 고려','피부자극 테스트와 더마테스트 EXCELLENT'],
+      ['트러블 피부 사용','논코메도제닉 · 여드름성 피부 사용 적합']
+    ],
+    clinicalCards:[
+      {metric:'99.48%',label:'노폐물 세정',note:'제품 사용 직후',image:'images/clinical/cards/cleansing-waste.png'},
+      {metric:'91.59%',label:'메이크업 세정',note:'제품 사용 직후',image:'images/clinical/cards/cleansing-makeup.png'}
+    ]
+  },
+  {
+    strength:'흘러내림 없이 밀착, 7초 만에 수분 광채를 채우는 버블 토너',
+    mechanisms:[
+      ['01 · 미세 캡슐화','유효 성분을 벌집 구조 버블 네트워크에 안정적으로 담습니다.'],
+      ['02 · Loss-Free 밀착','흘러내림 없이 피부에 머물러 성분 손실을 줄입니다.'],
+      ['03 · 수분 보호막','버블이 워터로 전환되며 얇고 균일한 보습막을 형성합니다.']
+    ],
+    mustTell:[
+      ['버려짐 없는 버블','액상 토너처럼 흐르지 않고 피부에 그대로 밀착'],
+      ['7초 흡수 체감','버블이 워터로 전환되며 빠른 수분 광채 완성'],
+      ['수치로 설명','NMN 10,000ppm · 자극지수 0.00']
+    ],
+    clinicalCards:[
+      {metric:'403.37%',label:'피부 광채 개선',note:'1회 사용 직후',image:'images/clinical/cards/bubble-glow.png'},
+      {metric:'148.70%',label:'피부 수분 증가',note:'1회 사용 직후',image:'images/clinical/cards/bubble-moisture.png'},
+      {metric:'10.43%',label:'피부결 개선',note:'거칠기 기준',image:'images/clinical/cards/bubble-texture.png'},
+      {metric:'3.68%',label:'피부 진정 개선',note:'외부 자극 후',image:'images/clinical/cards/bubble-soothing.png'}
+    ]
+  },
+  {
+    strength:'1회 사용으로 광채·주름·탄력을 동시에 끌어올리는 NMN 광채 리프팅 세럼',
+    mechanisms:[
+      ['01 · NMN 10,000ppm','고순도 NMN을 피부에 밀착시키는 고농축 세럼입니다.'],
+      ['02 · 리프팅 시너지','PDRN·알파리포산·항산화 성분을 복합 배합했습니다.'],
+      ['03 · 세럼+크림 루틴','리치 크림과 함께 사용하면 광채 시너지가 극대화됩니다.']
+    ],
+    mustTell:[
+      ['한 제품, 세 가지 고민','광채·주름·탄력을 동시에 케어'],
+      ['즉각적인 광채','크림 병행 1회 사용 시 광채 564.64% 개선'],
+      ['오일광 없는 윤광','메이크업 전에도 밀림 없이 매끈하게 밀착']
+    ],
+    clinicalCards:[
+      {metric:'564.64%',label:'피부 광채 개선',note:'크림 병행 1회',image:'images/clinical/cards/serum-glow.png'},
+      {metric:'13.6%',label:'입가 주름 감소',note:'4주 사용 후',image:'images/clinical/cards/serum-mouth-wrinkle.png'},
+      {metric:'9.12%',label:'눈가 주름 감소',note:'4주 사용 후',image:'images/clinical/cards/serum-eye-wrinkle.png'},
+      {metric:'6.97%',label:'피부 겉탄력 증가',note:'4주 사용 후',image:'images/clinical/cards/serum-elasticity.png'}
+    ]
+  },
+  {
+    strength:'유분 부담은 낮추고, 즉각 수분부터 24시간 보습까지 잠그는 수딩 크림',
+    mechanisms:[
+      ['01 · 하이드로겔 잠금막','얇고 균일한 수분막이 피부 표면의 수분 손실을 줄입니다.'],
+      ['02 · 장벽 보습','세라마이드와 병풀이 민감하고 건조한 피부를 케어합니다.'],
+      ['03 · 올 시즌 사용감','끈적임과 유분 부담을 낮춰 계절 구분 없이 사용합니다.']
+    ],
+    mustTell:[
+      ['즉각 보습','1회 사용 직후 보습량 148.87% 개선'],
+      ['24시간 지속','하루 동안 보습 지속력 56.65% 개선'],
+      ['민감·건성 추천','속건조와 열감이 함께 느껴질 때 적합']
+    ],
+    clinicalCards:[
+      {metric:'148.87%',label:'즉각적 보습량 개선',note:'1회 사용 직후',image:'images/clinical/cards/soothing-cream-moisture.png'},
+      {metric:'0.42%',label:'피부 투명도 개선',note:'1회 사용 직후',image:'images/clinical/cards/soothing-cream-transparency.png'},
+      {metric:'56.65%',label:'24시간 보습 지속력',note:'24시간 후',image:'images/clinical/cards/soothing-cream-24h.png'}
+    ]
+  },
+  {
+    strength:'데일리 크림부터 나이트팩까지, 밀도 있는 리프팅 보습을 한 제품으로',
+    mechanisms:[
+      ['01 · 고영양 NMN','NMN 10,000ppm 기반의 리치 포뮬러로 영양을 채웁니다.'],
+      ['02 · 탄력 밀도 케어','탄력·피부 치밀도·리프팅을 함께 설계했습니다.'],
+      ['03 · 3-Way 활용','데일리 크림·수분 락인·나이트팩으로 사용할 수 있습니다.']
+    ],
+    mustTell:[
+      ['리치 보습과 안티에이징','밤사이 푸석함과 탄력 저하를 집중 케어'],
+      ['피부 밀도 증가','4주 후 피부 치밀도 17.15% 증가'],
+      ['리프팅 근거','안면 전체 리프팅 4.47% 개선']
+    ],
+    clinicalCards:[
+      {metric:'45.11%',label:'피부 보습 증가',note:'4주 사용 후',image:'images/clinical/cards/rich-moisture.png'},
+      {metric:'17.15%',label:'피부 치밀도 증가',note:'4주 사용 후',image:'images/clinical/cards/rich-density.png'},
+      {metric:'4.47%',label:'안면 리프팅 개선',note:'4주 사용 후',image:'images/clinical/cards/rich-lifting.png'}
+    ]
+  },
+  {
+    strength:'정제수 대신 감나무잎수 85%, 피지·수분 밸런스를 여는 첫 단계',
+    mechanisms:[
+      ['01 · 감나무잎수 85%','정제수 대신 특허 원료를 베이스로 사용했습니다.'],
+      ['02 · 피지·수분 균형','유분은 정돈하고 부족한 수분은 채웁니다.'],
+      ['03 · 다음 단계 부스팅','피부결을 정돈해 앰플과 크림의 흡수를 돕습니다.']
+    ],
+    mustTell:[
+      ['베이스부터 다름','감나무잎수 85%를 담은 에센스 토너'],
+      ['속건조·겉당김 케어','수분량 136.58% 개선'],
+      ['피부결 정돈','1회 사용 후 피부결 11.84% 개선']
+    ],
+    clinicalCards:[
+      {metric:'136.58%',label:'피부 수분량 개선',note:'1회 사용 직후',image:'images/clinical/cards/essence-moisture.png'},
+      {metric:'11.84%',label:'피부결 개선',note:'1회 사용 직후',image:'images/clinical/cards/essence-texture.png'}
+    ]
+  },
+  {
+    strength:'피부 컨디션 3대 고민을 한 번에 케어하는 진정·보습·장벽 3 in 1 앰플',
+    mechanisms:[
+      ['01 · 밀키 앰플','가볍게 흡수되면서도 건조함 없이 촉촉하게 밀착됩니다.'],
+      ['02 · 진정 복합체','병풀·밀싹추출물·펩타이드로 예민한 피부를 케어합니다.'],
+      ['03 · 장벽 회복 루틴','외부 자극 후 진정과 장벽 관리를 한 단계로 연결합니다.']
+    ],
+    mustTell:[
+      ['무너진 피부 SOS','외부 자극으로 컨디션이 떨어진 피부에 추천'],
+      ['장벽 개선 근거','외부 자극 피부 장벽 47.08% 개선'],
+      ['트러블 피부 사용','논코메도제닉 · 여드름성 피부 적합']
+    ],
+    clinicalCards:[
+      {metric:'475.98%',label:'피부 광채 개선',note:'1회 사용 직후',image:'images/clinical/cards/ampoule-barrier.png'},
+      {metric:'47.08%',label:'피부 장벽 개선',note:'2주 사용 후',image:'images/clinical/cards/ampoule-trouble.png'},
+      {metric:'14.54%',label:'피부 진정 개선',note:'외부 자극 후',image:'images/clinical/cards/ampoule-soothing.png'},
+      {metric:'9.69%',label:'피부 속탄력 증가',note:'2주 사용 후',image:'images/clinical/cards/ampoule-elasticity.png'}
+    ]
+  },
+  {
+    strength:'알코올 없이 열감·붉은기·피지를 빠르게 케어하는 올라운드 수딩 젤',
+    mechanisms:[
+      ['01 · 알코올 프리 쿨링','자극적인 청량감 대신 편안한 수분 쿨링을 제공합니다.'],
+      ['02 · 즉각 수분 진정','열 오른 피부에 수분을 채우고 붉은기를 진정합니다.'],
+      ['03 · 멀티 활용','데일리 젤·쿨링팩·슬리핑 수딩팩으로 사용할 수 있습니다.']
+    ],
+    mustTell:[
+      ['열감 피부 쿨다운','피부 온도 10.041℃ 즉각 감소'],
+      ['빠른 수분 충전','1회 겉수분 76.04% 개선'],
+      ['시술 후·트러블 피부','논코메도제닉 · 알코올 무첨가']
+    ],
+    clinicalCards:[
+      {metric:'76.04%',label:'즉각적 겉수분 개선',note:'1회 사용 직후',image:'images/clinical/cards/gel-immediate-moisture.png'},
+      {metric:'24H',label:'수분 홀딩',note:'24시간 보습 지속',image:'images/clinical/cards/gel-24h.png'},
+      {metric:'42.18%',label:'피부 각질 개선',note:'사용 후 측정',image:'images/clinical/cards/gel-sebum.png'}
+    ]
+  },
+  {
+    strength:'1회 110.79% 보습, 민감 피부 장벽을 편안하게 잠그는 컴포트 크림',
+    mechanisms:[
+      ['01 · 앰플 농축 밀도','가벼운 사용감 안에 고밀도 보습 성분을 담았습니다.'],
+      ['02 · 장벽 잠금막','수분 손실을 줄이고 피부 장벽을 편안하게 마무리합니다.'],
+      ['03 · 데일리 저자극','계절 변화와 민감 컨디션에도 부담 없이 사용합니다.']
+    ],
+    mustTell:[
+      ['즉각적 보습','1회 사용 후 보습량 110.79% 개선'],
+      ['거칠기·각질 케어','피부 각질 64.28% 개선'],
+      ['트러블 피부 적합','논코메도제닉 · 여드름성 피부 사용 적합']
+    ],
+    clinicalCards:[
+      {metric:'110.79%',label:'즉각적 보습량 증가',note:'1회 사용 직후',image:'images/clinical/cards/comfort-moisture.png'},
+      {metric:'13.51%',label:'피부 진정 개선',note:'4주 사용 후',image:'images/clinical/cards/comfort-soothing.png'},
+      {metric:'64.28%',label:'피부 각질 개선',note:'1회 사용 직후',image:'images/clinical/cards/comfort-texture.png'},
+      {metric:'9.81%',label:'색소침착 개선',note:'4주 사용 후',image:'images/clinical/cards/comfort-pigmentation.png'}
+    ]
+  },
+  {
+    strength:'한 포에 PDRN 200mg·피쉬콜라겐 1,000mg·NMN 171.45mg을 담은 이너뷰티',
+    mechanisms:[
+      ['01 · PDRN 200mg','순도 86% 이상의 PDRN을 한 포에 담았습니다.'],
+      ['02 · 피쉬콜라겐 1,000mg','피부를 위한 핵심 콜라겐을 함께 설계했습니다.'],
+      ['03 · NMN 171.45mg','PDRN·콜라겐과 함께 섭취하는 복합 이너뷰티 포뮬러입니다.']
+    ],
+    mustTell:[
+      ['세 가지 핵심 성분','PDRN + NMN + 콜라겐을 한 번에'],
+      ['간편한 액상 스틱','달콤한 적포도맛 1회 섭취 포장'],
+      ['제조 신뢰','코스맥스바이오㈜ 제조 · HACCP 인증']
+    ],
+    clinicalCards:[
+      {metric:'200mg',label:'PDRN 함량',note:'순도 86% 이상'},
+      {metric:'1,000mg',label:'피쉬콜라겐',note:'1포 기준'},
+      {metric:'171.45mg',label:'NMN 함량',note:'1포 기준'}
+    ],
+    evidenceTitle:'핵심 배합 한눈에 확인'
+  }
+];
+
+SKU_MODAL_PRODUCTS.forEach((product,index)=>Object.assign(product,SKU_STORIES[index]));
+
 let _skuModalIndex=0, _skuModalBusy=false, _skuPointerStartX=0;
 
 function skuAsset(src) {
@@ -3232,6 +3560,7 @@ function ensureSkuModal() {
         <span class="sku-modal-line" id="sku-modal-line"></span>
         <span class="sku-modal-title" id="sku-modal-title"></span>
         <span class="sku-modal-size" id="sku-modal-size"></span>
+        <span class="sku-story-badges" id="sku-modal-badges"></span>
         <button class="sku-modal-close" type="button" aria-label="닫기" onclick="closeSkuModal()">×</button>
       </div>
       <div class="sku-modal-content" id="sku-modal-content"></div>
@@ -3278,44 +3607,94 @@ function skuClinicalHtml(p) {
   </div>`;
 }
 
+function skuStoryHeadline(text) {
+  const parts=text.split(',');
+  if(parts.length<2)return `<em>${text}</em>`;
+  return `${parts.shift()},<br><em>${parts.join(',').trim()}</em>`;
+}
+
+function skuStoryHtml(p,index,isModal=false) {
+  const enrich=SKU_ENRICH[index];
+  const cards=p.clinicalCards||[];
+  const cardCount=Math.max(1,Math.min(cards.length,4));
+  const clinicalCards=cards.map(card=>`
+    <article class="sku-story-clinical-card${card.image?'':' no-image'}">
+      <strong>${card.metric}</strong>
+      <b>${card.label}</b>
+      <small>${card.note||''}</small>
+      ${card.image?`<a href="${skuAsset(card.image)}" target="_blank" rel="noopener" aria-label="${p.name} ${card.label} 임상 이미지 크게 보기">
+        <img src="${skuAsset(card.image)}" alt="${p.name} ${card.label} 임상 그래프와 전후 이미지">
+      </a>`:''}
+    </article>`).join('');
+  return `
+    <div class="sku-story${isModal?' sku-story-modal':''}" style="--story-accent:${p.accent}">
+      ${isModal?'':`<button class="sku-inline-close" type="button" aria-label="선택 상품 닫기" onclick="closeSkuInline()">×</button>`}
+      <header class="sku-story-head">
+        <div>
+          <div class="sku-story-kicker">${p.line} · PRODUCT STORY · USP · EVIDENCE</div>
+          <div class="sku-story-name">${p.name}</div>
+        </div>
+        <div class="sku-story-badges">${skuCertHtml(p.cert)}</div>
+        <div class="sku-story-meta">${p.size}</div>
+      </header>
+      <section class="sku-story-hero">
+        <div class="sku-story-scene">
+          <img class="${p.scene?'':'packshot'}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} ${p.scene?'공식 사용 장면':'제품 이미지'}" style="object-position:${p.scenePos||'center'}" referrerpolicy="no-referrer">
+          <span class="sku-story-scene-tag">${p.line==='INNER BEAUTY'?'간편한 1회 섭취 포장':'실제 사용 장면'}</span>
+        </div>
+        <div class="sku-story-copy">
+          <div class="sku-story-chips">
+            <span class="sku-story-chip hot">${p.line}</span>
+            <span class="sku-story-chip">${p.metricLabel}</span>
+            <span class="sku-story-chip">${p.metric}</span>
+          </div>
+          <div class="sku-story-strength">${skuStoryHeadline(p.strength)}</div>
+          <div class="sku-story-formula">${p.formula}</div>
+          <div class="sku-story-mechanisms">
+            ${p.mechanisms.map(item=>`<div class="sku-story-mechanism"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
+          </div>
+        </div>
+      </section>
+      <section class="sku-story-evidence">
+        <div class="sku-story-clinical">
+          <div class="sku-story-section-head">
+            <h4>${p.evidenceTitle||'임상 근거 한눈에 확인'}</h4>
+            <span>${cards.some(card=>card.image)?'이미지를 누르면 크게 보기':'제품 표시 기준'}</span>
+          </div>
+          <div class="sku-story-clinical-grid" style="--card-count:${cardCount}">${clinicalCards}</div>
+          <div class="sku-story-section-head" style="margin:9px 0 0;">
+            <span>${p.proof}${cards.some(card=>card.image)?' · 일시적 효과 및 개인차 있음':''}</span>
+          </div>
+        </div>
+        <aside class="sku-story-must">
+          <div class="sku-story-must-title">판매직원 · 약사 필수 전달 USP</div>
+          <div class="sku-story-must-list">
+            ${p.mustTell.map((item,i)=>`<div class="sku-story-must-item"><i>${i+1}</i><div><b>${item[0]}</b><span>${item[1]}</span></div></div>`).join('')}
+          </div>
+          <div class="sku-story-talk">상담 한마디 — ${enrich.consult}</div>
+        </aside>
+      </section>
+      <footer class="sku-story-guide">
+        <div><b>추천 고객</b><span>${enrich.target}</span></div>
+        <div><b>사용 방법</b><span>${enrich.use}</span></div>
+      </footer>
+      ${isModal?'':`<button class="sku-story-more" type="button" onclick="openSkuModal(${index})">임상 원본과 제품 강점 크게 보기 →</button>`}
+    </div>`;
+}
+
 function renderSkuModal(index, enterDirection=0) {
   _skuModalIndex=(index+SKU_MODAL_PRODUCTS.length)%SKU_MODAL_PRODUCTS.length;
   const p=SKU_MODAL_PRODUCTS[_skuModalIndex];
-  const enrich=SKU_ENRICH[_skuModalIndex];
   const modal=ensureSkuModal();
   modal.style.setProperty('--orange',p.accent);
   document.getElementById('sku-modal-line').textContent=p.line;
   document.getElementById('sku-modal-line').style.color=p.accent;
   document.getElementById('sku-modal-title').textContent=p.name;
   document.getElementById('sku-modal-size').textContent=p.size;
+  document.getElementById('sku-modal-badges').innerHTML=skuCertHtml(p.cert);
   const content=document.getElementById('sku-modal-content');
   content.className='sku-modal-content'+(enterDirection>0?' enter-left':enterDirection<0?' enter-right':'');
-  content.innerHTML=`
-    <section class="sku-product-pane">
-      <img class="sku-product-img${p.scene?' official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" style="object-position:${p.scenePos||'center'}" referrerpolicy="no-referrer">
-      <div class="sku-cert-row">${skuCertHtml(p.cert)}</div>
-    </section>
-    <section class="sku-clinical-pane">
-      <div class="sku-pane-label">${p.line==='INNER BEAUTY'?'핵심 포뮬러':'임상으로 확인된 핵심 변화'}</div>
-      ${skuClinicalHtml(p)}
-      <div class="sku-metric-label">${p.metricLabel}</div>
-      <div class="sku-metric">${p.metric}</div>
-      <div class="sku-proof-note">${p.proof}</div>
-    </section>
-    <section class="sku-hook-pane">
-      <div class="sku-hook-kicker">WHY THIS PRODUCT</div>
-      <div class="sku-hook">${p.hook}</div>
-      <div class="sku-formula">${p.formula}</div>
-      <div class="sku-modal-guide">
-        <div><b>추천 대상</b><span>${enrich.target}</span></div>
-        <div><b>사용 방법</b><span>${enrich.use}</span></div>
-      </div>
-      <div class="sku-benefits">${p.benefits.map(b=>`<div class="sku-benefit"><i>✦</i><span>${b}</span></div>`).join('')}</div>
-      <div class="sku-modal-foot">
-        <span class="sku-counter">${String(_skuModalIndex+1).padStart(2,'0')} / ${String(SKU_MODAL_PRODUCTS.length).padStart(2,'0')}</span>
-        <span class="sku-swipe-hint">← 좌우로 밀어 다음 제품 보기 →</span>
-      </div>
-    </section>`;
+  content.innerHTML=skuStoryHtml(p,_skuModalIndex,true);
 }
 
 function openSkuModal(index) {
@@ -3335,7 +3714,6 @@ function closeSkuModal() {
 
 function showSkuInline(index, card) {
   const p=SKU_MODAL_PRODUCTS[index];
-  const enrich=SKU_ENRICH[index];
   const panel=document.getElementById('sku-inline-detail');
   if(!p||!panel)return;
   document.querySelectorAll('.prod-card').forEach(c=>{
@@ -3350,30 +3728,7 @@ function showSkuInline(index, card) {
   }
   panel.style.setProperty('--orange',p.accent);
   panel.style.borderColor=p.accent+'55';
-  panel.innerHTML=`
-    <div class="sku-inline-inner">
-      <button class="sku-inline-close" type="button" aria-label="선택 상품 닫기" onclick="closeSkuInline()">×</button>
-      <div class="sku-inline-product"><img class="${p.scene?'official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" style="object-position:${p.scenePos||'center'}" referrerpolicy="no-referrer"></div>
-      <div class="sku-inline-copy">
-        <div class="sku-inline-eyebrow" style="color:${p.accent}">${p.line} · ${p.size}</div>
-        <div class="sku-inline-name">${p.name}</div>
-        <div class="sku-inline-formula">${p.formula}</div>
-        <div class="sku-inline-benefits">${p.benefits.map(b=>`<span>${b}</span>`).join('')}</div>
-        <div class="sku-inline-guide">
-          <div><b>추천 대상</b><span>${enrich.target}</span></div>
-          <div><b>핵심 성분</b><span>${enrich.ingredients}</span></div>
-          <div><b>사용 순서·방법</b><span>${enrich.use}</span></div>
-          <div><b>약국 상담 한마디</b><span>${enrich.consult}</span></div>
-        </div>
-      </div>
-      <div class="sku-inline-proof">
-        <div class="sku-inline-metric-label">${p.metricLabel}</div>
-        <div class="sku-inline-metric" style="color:${p.accent}">${p.metric}</div>
-        <div class="sku-inline-note">${p.proof}</div>
-        <div class="sku-inline-consult">${enrich.consult}</div>
-        <button class="sku-inline-clinical-btn" type="button" style="background:${p.accent}" onclick="openSkuModal(${index})">임상 근거 자세히 보기 →</button>
-      </div>
-    </div>`;
+  panel.innerHTML=skuStoryHtml(p,index,false);
   panel.classList.add('open');
   setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),30);
 }

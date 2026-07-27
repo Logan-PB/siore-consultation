@@ -443,8 +443,9 @@ body {
 }
 /* 새 cert badge 카드 */
 .cert-badge-card {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-start;
+  display: grid;
+  grid-template-rows: 74px 68px;
+  align-items: stretch; justify-items: stretch;
   padding: 0; gap: 0;
   overflow: hidden;
   min-height: 142px;
@@ -455,27 +456,62 @@ body {
   font-weight: 900; line-height: 1.1; flex-shrink: 0;
 }
 .cert-badge-info {
-  text-align: center; padding: 7px 8px 8px;
-  flex: 1; width: 100%;
-  display: flex; flex-direction: column; justify-content: center;
+  text-align: center; padding: 6px 10px 8px;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 16px 18px 16px;
+  align-content: center;
+  justify-items: stretch;
 }
-.cert-badge-title { font-size: 10px; color: var(--mid); font-weight: 600; letter-spacing: 0.3px; }
-.cert-badge-val { font-size: 12px; font-weight: 900; color: var(--dark); margin-top: 1px; }
-.cert-badge-sub { font-size: 10px; color: var(--mid); margin-top: 1px; }
+.cert-badge-title,
+.cert-badge-val,
+.cert-badge-sub {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+}
+.cert-badge-title { font-size: 10px; color: var(--mid); font-weight: 600; letter-spacing: 0.3px; line-height: 16px; }
+.cert-badge-val { font-size: 12px; font-weight: 900; color: var(--dark); line-height: 18px; }
+.cert-badge-sub { font-size: 10px; color: var(--mid); line-height: 16px; }
 .cert-img-wrap {
   width: 100%;
   height: 74px;
   border-radius: 6px;
   overflow: hidden;
   background: #ffffff;
-  flex-shrink: 0;
   border: none;
 }
 .cert-img-wrap img {
   width: 100%;
   height: 100%;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
   object-position: center;
+  display: block;
+}
+.cert-amazon-card,
+.cert-amazon-card .cert-img-wrap {
+  background: linear-gradient(160deg,#FFF8F0 0%,#FFF3E0 100%);
+}
+.cert-amazon-card {
+  border-color: #F5A623;
+}
+.cert-amazon-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+}
+.cert-amazon-logo svg {
+  display: block;
 }
 .cert-fallback {
   width: 100%;
@@ -2107,16 +2143,18 @@ body {
         </div>
 
         <!-- 4. Amazon 글로벌 진출 -->
-        <div class="cert-card cert-badge-card" style="background:linear-gradient(160deg,#FFF8F0 0%,#FFF3E0 100%);border-color:#F5A623;">
-          <div class="cert-img-wrap" style="background:linear-gradient(160deg,#FFF8F0 0%,#FFF3E0 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
-            <svg width="90" height="28" viewBox="0 0 90 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <text x="2" y="20" font-family="Arial,sans-serif" font-size="22" font-weight="900" fill="#232F3E" letter-spacing="-1">amazon</text>
-              <path d="M4 24 Q26 32 52 24" stroke="#FF9900" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-              <polygon points="52,21 56,25 51,27" fill="#FF9900"/>
-            </svg>
-            <div style="font-size:9px;font-weight:800;color:#E67E00;letter-spacing:0.5px;">GLOBAL MARKET</div>
+        <div class="cert-card cert-badge-card cert-amazon-card">
+          <div class="cert-img-wrap">
+            <div class="cert-amazon-logo">
+              <svg width="90" height="28" viewBox="0 0 90 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="2" y="20" font-family="Arial,sans-serif" font-size="22" font-weight="900" fill="#232F3E" letter-spacing="-1">amazon</text>
+                <path d="M4 24 Q26 32 52 24" stroke="#FF9900" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+                <polygon points="52,21 56,25 51,27" fill="#FF9900"/>
+              </svg>
+              <div style="font-size:9px;font-weight:800;color:#E67E00;letter-spacing:0.5px;">GLOBAL MARKET</div>
+            </div>
           </div>
-          <div class="cert-badge-info" style="justify-content:flex-start;padding-top:7px;">
+          <div class="cert-badge-info">
             <div class="cert-badge-title">Amazon.com US</div>
             <div class="cert-badge-val">공식 브랜드 입점</div>
             <div class="cert-badge-sub">K-Beauty 글로벌 판매 중</div>

@@ -1615,52 +1615,67 @@ body {
 }
 .sku-story-strength em { color: var(--story-accent); font-style: normal; }
 .sku-story-formula { margin-top: 9px; color: #615a56; font-size: 12px; line-height: 1.58; word-break: keep-all; }
-.sku-story-usp-ribbon {
-  display: flex;
-  align-items: stretch;
-  margin-top: 13px;
+.sku-story-usp-panel {
+  margin-top: 14px;
   overflow: hidden;
-  border-radius: 8px;
+  border: 1px solid color-mix(in srgb,var(--story-accent) 25%,#e8e0db);
+  border-radius: 11px;
+  background: color-mix(in srgb,var(--story-accent) 4%,#fff);
+  box-shadow: 0 7px 19px rgba(54,39,31,.06);
+}
+.sku-story-usp-head {
+  min-height: 34px;
+  padding: 7px 11px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: var(--story-accent);
-  box-shadow: 0 6px 16px color-mix(in srgb,var(--story-accent) 18%,transparent);
-}
-.sku-story-usp-ribbon strong {
-  flex-shrink: 0;
-  padding: 9px 12px;
-  display: flex;
-  align-items: center;
-  background: rgba(0,0,0,.14);
   color: white;
-  font-size: 9px;
-  letter-spacing: .7px;
 }
-.sku-story-usp-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); flex: 1; }
-.sku-story-usp-list span {
+.sku-story-usp-head strong { font-size: 10px; font-weight: 950; letter-spacing: .8px; }
+.sku-story-usp-head span { font-size: 8.5px; opacity: .82; }
+.sku-story-usp-core { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+.sku-story-usp-item {
   min-width: 0;
-  padding: 8px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-left: 1px solid rgba(255,255,255,.24);
-  color: white;
-  font-size: 9.5px;
-  font-weight: 850;
-  line-height: 1.35;
-  text-align: center;
-  word-break: keep-all;
+  padding: 10px 11px 9px;
+  border-right: 1px solid color-mix(in srgb,var(--story-accent) 14%,#e7e1dd);
 }
-.sku-story-mechanisms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: auto; padding-top: 15px; }
+.sku-story-usp-item:last-child { border-right: 0; }
+.sku-story-usp-item b { display: block; margin-bottom: 4px; color: #282321; font-size: 10.5px; line-height: 1.3; }
+.sku-story-usp-item span { display: block; color: #6e6560; font-size: 8.8px; font-weight: 650; line-height: 1.45; word-break: keep-all; }
+.sku-story-formula-head {
+  padding: 7px 11px;
+  border-top: 1px solid color-mix(in srgb,var(--story-accent) 16%,#e8e1dc);
+  background: color-mix(in srgb,var(--story-accent) 8%,#fff);
+  color: var(--story-accent);
+  font-size: 8.5px;
+  font-weight: 950;
+  letter-spacing: .65px;
+}
+.sku-story-mechanisms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; padding: 8px; }
 .sku-story-mechanism {
   position: relative;
   min-width: 0;
-  min-height: 83px;
-  padding: 11px;
+  min-height: 72px;
+  padding: 9px 10px;
   border-radius: 9px;
-  background: #f3efec;
+  border: 1px solid color-mix(in srgb,var(--story-accent) 12%,#e8e2de);
+  background: white;
 }
-.sku-story-mechanism b { display: block; margin-bottom: 5px; font-size: 10.5px; line-height: 1.35; }
+.sku-story-mechanism b { display: block; margin-bottom: 5px; color: var(--story-accent); font-size: 10.5px; line-height: 1.35; }
 .sku-story-mechanism span { display: block; color: #756d68; font-size: 9px; line-height: 1.5; word-break: keep-all; }
-.sku-story-evidence { display: grid; grid-template-columns: 1.48fr .82fr; gap: 13px; margin-top: 13px; align-items: start; }
+.sku-story-usp-talk {
+  padding: 8px 11px;
+  border-top: 1px solid color-mix(in srgb,var(--story-accent) 15%,#e8e1dc);
+  background: #272321;
+  color: white;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+.sku-story-usp-talk b { color: color-mix(in srgb,var(--story-accent) 70%,white); }
+.sku-story-evidence { margin-top: 13px; }
 .sku-story-clinical,
 .sku-story-must { min-width: 0; padding: 17px; border-radius: 13px; border: 1px solid #e9e1dc; background: white; }
 .sku-story-section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 10px; }
@@ -4103,12 +4118,16 @@ function skuStoryHtml(p,index,isModal=false) {
             </div>
             <div class="sku-story-badges sku-story-hero-badges">${skuCertHtml(p.cert)}</div>
           </div>
-          <div class="sku-story-usp-ribbon">
-            <strong>CORE USP</strong>
-            <div class="sku-story-usp-list">${p.mustTell.map(item=>`<span>${item[0]}</span>`).join('')}</div>
-          </div>
-          <div class="sku-story-mechanisms">
-            ${p.mechanisms.map(item=>`<div class="sku-story-mechanism"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
+          <div class="sku-story-usp-panel">
+            <div class="sku-story-usp-head"><strong>CORE PRODUCT USP</strong><span>판매 포인트와 제형·성분 강점을 한눈에</span></div>
+            <div class="sku-story-usp-core">
+              ${p.mustTell.map(item=>`<div class="sku-story-usp-item"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
+            </div>
+            <div class="sku-story-formula-head">FORMULA &amp; DELIVERY ADVANTAGE · 제품을 차별화하는 핵심 설계</div>
+            <div class="sku-story-mechanisms">
+              ${p.mechanisms.map(item=>`<div class="sku-story-mechanism"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
+            </div>
+            <div class="sku-story-usp-talk"><b>상담 한마디</b> — ${enrich.consult}</div>
           </div>
         </div>
       </section>
@@ -4123,13 +4142,6 @@ function skuStoryHtml(p,index,isModal=false) {
             <span>${p.proof}${cards.some(card=>card.image)?' · 일시적 효과 및 개인차 있음':''}</span>
           </div>
         </div>
-        <aside class="sku-story-must">
-          <div class="sku-story-must-title">판매직원 · 약사 필수 전달 USP</div>
-          <div class="sku-story-must-list">
-            ${p.mustTell.map((item,i)=>`<div class="sku-story-must-item"><i>${i+1}</i><div><b>${item[0]}</b><span>${item[1]}</span></div></div>`).join('')}
-          </div>
-          <div class="sku-story-talk">상담 한마디 — ${enrich.consult}</div>
-        </aside>
       </section>
       <footer class="sku-story-guide">
         <div><b>추천 고객</b><span>${enrich.target}</span></div>

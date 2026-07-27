@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SIORE A타입 카테고리 이미지 선택안</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,200,0,0" rel="stylesheet">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    :root{--ink:#27211f;--muted:#85756e;--orange:#f4511e;--line:#ead7ce;--paper:#f5f0ed;--rose:#b66f5c;--blue:#2f92b0;--sage:#668b79}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .page{max-width:1450px;margin:auto;padding:20px}
+    .head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:18px;padding:28px 32px;border-radius:22px;background:#fff}
+    .brand{margin-bottom:16px;font-size:19px;font-weight:500;letter-spacing:7px}
+    .eyebrow{color:var(--orange);font-size:10px;font-weight:900;letter-spacing:2.4px}
+    h1{margin:8px 0 0;font-size:31px;letter-spacing:-1.4px}
+    .head p{max-width:500px;margin:0;color:var(--muted);font-size:12px;line-height:1.7;text-align:right}
+    .rows{display:grid;gap:12px}
+    .row{display:grid;grid-template-columns:210px repeat(3,1fr);min-height:240px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fff}
+    .category{display:flex;flex-direction:column;justify-content:center;padding:28px;background:#2b2624;color:#fff}
+    .category small{color:#f59b79;font-size:9px;font-weight:900;letter-spacing:1.6px}
+    .category h2{margin:10px 0 7px;font-size:22px;letter-spacing:-.8px}
+    .category p{margin:0;color:#cfc5c0;font-size:10px;line-height:1.55}
+    .candidate{position:relative;display:grid;grid-template-columns:120px 1fr;align-items:center;gap:16px;padding:25px;border-left:1px solid var(--line)}
+    .candidate.best{background:#fff8f4}
+    .tag{position:absolute;left:16px;top:14px;color:#aa9185;font-size:8px;font-weight:900;letter-spacing:1.2px}
+    .best .tag{color:var(--orange)}
+    .icon-stage{position:relative;display:grid;place-items:center;width:108px;height:108px;border-radius:50%;background:#fbf3ee;color:var(--rose)}
+    .icon-stage:after{content:"";position:absolute;inset:7px;border:1px solid rgba(182,111,92,.14);border-radius:50%}
+    .material-symbols-outlined{font-size:52px;font-variation-settings:'FILL' 0,'wght' 200,'GRAD' 0,'opsz' 48}
+    .icon-stage .mini{position:absolute;right:13px;bottom:13px;display:grid;place-items:center;width:32px;height:32px;border:3px solid #fbf3ee;border-radius:50%;background:#fff;color:var(--orange);font-size:19px;font-variation-settings:'wght' 300}
+    .candidate h3{margin:0 0 8px;font-size:16px;letter-spacing:-.5px}
+    .candidate p{margin:0;color:var(--muted);font-size:10px;line-height:1.55}
+    .candidate b{display:inline-block;margin-top:12px;padding:5px 8px;border-radius:999px;background:#f5ece7;color:#8e6253;font-size:8px}
+    .best b{background:var(--orange);color:#fff}
+    .cooling .category{background:#1d5364}.cooling .icon-stage{background:#edf8fb;color:var(--blue)}.cooling .icon-stage:after{border-color:rgba(47,146,176,.16)}
+    .noncom .category{background:#4b5d53}.noncom .icon-stage{background:#f1f6f3;color:var(--sage)}.noncom .icon-stage:after{border-color:rgba(102,139,121,.18)}
+    .skin .category{background:#66524b}.skin .icon-stage{background:#faf1ed;color:#a96f5d}
+    .note{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:14px;padding:22px 26px;border-radius:18px;background:#fff}
+    .note strong{font-size:15px}.note span{color:var(--muted);font-size:11px}.note em{padding:8px 12px;border-radius:999px;background:var(--orange);color:#fff;font-size:9px;font-style:normal;font-weight:900}
+    @media(max-width:1050px){.row{grid-template-columns:170px repeat(3,1fr)}.candidate{grid-template-columns:1fr;text-align:center}.icon-stage{margin:auto}.category{padding:20px}}
+    @media(max-width:720px){.page{padding:8px}.head{align-items:start;flex-direction:column;padding:22px}.head p{text-align:left}.row{grid-template-columns:1fr}.category{min-height:130px}.candidate{grid-template-columns:100px 1fr;min-height:180px;border-top:1px solid var(--line);border-left:0;text-align:left}.icon-stage{width:90px;height:90px}.note{align-items:start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <div><div class="brand">SIORÉ</div><span class="eyebrow">A TYPE · IMAGE ONLY OPTIONS</span><h1>카테고리별 선화 이미지 3안</h1></div>
+      <p>A타입 레이아웃과 문구는 유지하고 이미지 표현만 비교합니다. 모두 기존 아이콘 시스템을 조합해 만든 선화로 생성형 이미지 느낌이 없습니다.</p>
+    </header>
+
+    <div class="rows">
+      <section class="row nmn">
+        <div class="category"><small>01 · ANTI-AGING</small><h2>NMN 10,000ppm</h2><p>세포 에너지 · 탄력 · 안티에이징</p></div>
+        <article class="candidate best"><span class="tag">추천 1 · 세포 에너지</span><div class="icon-stage"><span class="material-symbols-outlined">network_node</span><span class="material-symbols-outlined mini">bolt</span></div><div><h3>활성화되는 피부 세포</h3><p>NMN이 피부 에너지를 깨운다는 의미를 가장 전문적으로 전달</p><b>BEST · 브랜드 적합도 높음</b></div></article>
+        <article class="candidate"><span class="tag">추천 2 · 역노화</span><div class="icon-stage"><span class="material-symbols-outlined">hourglass_disabled</span><span class="material-symbols-outlined mini">replay</span></div><div><h3>시간을 되돌리는 피부</h3><p>안티에이징과 역노화를 누구나 즉시 이해하는 직관적 표현</p><b>영업 훅킹형</b></div></article>
+        <article class="candidate"><span class="tag">추천 3 · 바이오 사이언스</span><div class="icon-stage"><span class="material-symbols-outlined">genetics</span><span class="material-symbols-outlined mini">auto_awesome</span></div><div><h3>차세대 피부 과학</h3><p>성분의 기술력과 99% 이상 고순도 이미지를 강조하는 표현</p><b>과학 전문형</b></div></article>
+      </section>
+
+      <section class="row cooling">
+        <div class="category"><small>02 · INSTANT COOLING</small><h2>-10.041°C</h2><p>1회 사용 직후 피부 온도 감소</p></div>
+        <article class="candidate best"><span class="tag">추천 1 · 임상 온도</span><div class="icon-stage"><span class="material-symbols-outlined">thermostat</span><span class="material-symbols-outlined mini">south</span></div><div><h3>내려가는 피부 온도</h3><p>임상 수치의 의미를 정확하게 보여주는 온도계와 하강 표시</p><b>BEST · 수치 연결이 빠름</b></div></article>
+        <article class="candidate"><span class="tag">추천 2 · 청량감</span><div class="icon-stage"><span class="material-symbols-outlined">water_drop</span><span class="material-symbols-outlined mini">ac_unit</span></div><div><h3>차갑게 퍼지는 수분</h3><p>쿨링과 보습이 동시에 느껴지는 시원하고 감각적인 표현</p><b>뷰티 감성형</b></div></article>
+        <article class="candidate"><span class="tag">추천 3 · 피부 열감</span><div class="icon-stage"><span class="material-symbols-outlined">face</span><span class="material-symbols-outlined mini">mode_cool</span></div><div><h3>열 오른 피부 진정</h3><p>고객의 피부 고민과 제품 사용 결과를 바로 연결하는 표현</p><b>상담 직관형</b></div></article>
+      </section>
+
+      <section class="row noncom">
+        <div class="category"><small>03 · NON-COMEDOGENIC</small><h2>인증 품목 보유</h2><p>여드름성 피부 사용 적합 시험 완료</p></div>
+        <article class="candidate best"><span class="tag">추천 1 · 모공 보호</span><div class="icon-stage"><span class="material-symbols-outlined">dermatology</span><span class="material-symbols-outlined mini">verified_user</span></div><div><h3>막힘 없이 보호받는 피부</h3><p>여드름성 피부와 인증 의미를 한 화면에 함께 전달</p><b>BEST · 인증 소구 명확</b></div></article>
+        <article class="candidate"><span class="tag">추천 2 · 클리어 포어</span><div class="icon-stage"><span class="material-symbols-outlined">blur_on</span><span class="material-symbols-outlined mini">check</span></div><div><h3>숨 쉬는 깨끗한 모공</h3><p>모공을 막지 않는 논코메도제닉 개념을 단순하게 표현</p><b>메커니즘형</b></div></article>
+        <article class="candidate"><span class="tag">추천 3 · 트러블 피부</span><div class="icon-stage"><span class="material-symbols-outlined">face_3</span><span class="material-symbols-outlined mini">healing</span></div><div><h3>트러블 고민 피부</h3><p>약국에서 고객 피부 고민을 확인할 때 가장 친숙한 표현</p><b>상담 공감형</b></div></article>
+      </section>
+
+      <section class="row skin">
+        <div class="category"><small>04 · NON-IRRITATING</small><h2>피부자극 0.00</h2><p>모든 피부 사용 가능 · 무자극 판정</p></div>
+        <article class="candidate best"><span class="tag">추천 1 · 저자극 보호</span><div class="icon-stage"><span class="material-symbols-outlined">shield_with_heart</span><span class="material-symbols-outlined mini">check</span></div><div><h3>편안하게 보호되는 피부</h3><p>피부자극 0.00과 매일 사용할 수 있는 신뢰감을 전달</p><b>BEST · 약국 신뢰형</b></div></article>
+        <article class="candidate"><span class="tag">추천 2 · 모든 피부</span><div class="icon-stage"><span class="material-symbols-outlined">diversity_3</span><span class="material-symbols-outlined mini">favorite</span></div><div><h3>피부 타입을 가리지 않게</h3><p>연령과 피부 타입을 포괄하는 ‘모든 피부’ 메시지에 집중</p><b>포용성 강조형</b></div></article>
+        <article class="candidate"><span class="tag">추천 3 · 부드러운 사용감</span><div class="icon-stage"><span class="material-symbols-outlined">eco</span><span class="material-symbols-outlined mini">spa</span></div><div><h3>매일 부담 없는 부드러움</h3><p>저자극과 순한 사용감을 감성적으로 전달하는 자연 선화</p><b>클린 뷰티형</b></div></article>
+      </section>
+    </div>
+
+    <aside class="note"><div><strong>제가 추천하는 최종 조합: 각 카테고리의 추천 1번</strong><br><span>세포 에너지 · 온도 하강 · 피부 인증 · 저자극 보호로 의미가 겹치지 않고, 첫 화면에서 임상 메시지와 가장 빠르게 연결됩니다.</span></div><em>1 · 1 · 1 · 1</em></aside>
+  </main>
+</body>
+</html>

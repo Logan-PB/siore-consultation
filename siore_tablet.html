@@ -1498,25 +1498,75 @@ body {
 }
 .sku-story-mechanism b { display: block; margin-bottom: 5px; font-size: 10.5px; line-height: 1.35; }
 .sku-story-mechanism span { display: block; color: #756d68; font-size: 9px; line-height: 1.5; word-break: keep-all; }
-.sku-story-evidence { display: grid; grid-template-columns: 1.48fr .82fr; gap: 13px; margin-top: 13px; align-items: stretch; }
+.sku-story-evidence { display: grid; grid-template-columns: 1.48fr .82fr; gap: 13px; margin-top: 13px; align-items: start; }
 .sku-story-clinical,
 .sku-story-must { min-width: 0; padding: 17px; border-radius: 13px; border: 1px solid #e9e1dc; background: white; }
 .sku-story-section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 10px; }
 .sku-story-section-head h4 { margin: 0; font-size: 16px; line-height: 1.35; }
 .sku-story-section-head span { color: #8c837d; font-size: 9px; text-align: right; line-height: 1.35; }
-.sku-story-clinical-grid { display: grid; gap: 8px; grid-template-columns: repeat(var(--card-count),minmax(0,1fr)); }
+.sku-story-clinical-grid { display: grid; gap: 10px; grid-template-columns: repeat(var(--card-columns),minmax(0,1fr)); }
 .sku-story-clinical-card {
   min-width: 0;
-  padding: 10px 9px 8px;
+  padding: 13px 11px 11px;
   border: 1px solid color-mix(in srgb,var(--story-accent) 22%,#eee);
   border-radius: 10px;
   background: color-mix(in srgb,var(--story-accent) 6%,#fff);
 }
-.sku-story-clinical-card strong { display: block; color: var(--story-accent); font-size: 21px; line-height: 1.2; letter-spacing: -.5px; }
-.sku-story-clinical-card b { display: block; margin-top: 2px; font-size: 10px; line-height: 1.35; }
-.sku-story-clinical-card small { display: block; margin-top: 3px; color: #857c76; font-size: 8px; line-height: 1.4; }
-.sku-story-clinical-card a { display: block; margin-top: 6px; padding: 3px; border-radius: 6px; background: white; }
-.sku-story-clinical-card img { display: block; width: 100%; height: 118px; object-fit: contain; }
+.sku-story-clinical-card strong { display: block; color: var(--story-accent); font-size: 30px; line-height: 1.08; letter-spacing: -.9px; }
+.sku-story-clinical-card b { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.35; word-break: keep-all; }
+.sku-story-clinical-card small { display: block; margin-top: 4px; min-height: 15px; color: #756d68; font-size: 9.5px; line-height: 1.4; }
+.sku-story-evidence-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  margin-top: 9px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb,var(--story-accent) 18%,#e9e4e0);
+  border-radius: 8px;
+  background: white;
+  color: #4f4844;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.sku-story-evidence-thumb.photo { height: 172px; }
+.sku-story-evidence-thumb.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+  transform: scale(1.025);
+}
+.sku-story-evidence-thumb.photo::after {
+  content: '전후 비교 크게 보기';
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 4px 7px;
+  border-radius: 14px;
+  background: rgba(24,21,19,.78);
+  color: white;
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: .1px;
+}
+.sku-story-evidence-thumb.chart {
+  min-height: 54px;
+  padding: 8px 9px;
+  background: color-mix(in srgb,var(--story-accent) 5%,#fff);
+  font-size: 9px;
+  font-weight: 850;
+}
+.sku-story-evidence-thumb.chart span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--story-accent);
+  font-size: 15px;
+  line-height: 1;
+}
+.sku-story-evidence-thumb:hover { border-color: var(--story-accent); box-shadow: 0 5px 14px rgba(55,39,31,.09); }
 .sku-story-clinical-card.no-image { min-height: 154px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
 .sku-story-must { display: flex; flex-direction: column; background: #211e1c; border-color: #211e1c; color: white; }
 .sku-story-must-title { color: color-mix(in srgb,var(--story-accent) 75%,white); font-size: 10px; font-weight: 950; letter-spacing: 1px; line-height: 1.35; }
@@ -1550,7 +1600,79 @@ body {
 .sku-modal-content .sku-story-hero { min-height: 275px; }
 .sku-modal-content .sku-story-scene img { min-height: 275px; }
 .sku-modal-content .sku-story-strength { font-size: 23px; }
-.sku-modal-content .sku-story-clinical-card img { height: 124px; }
+.sku-modal-content .sku-story-evidence-thumb.photo img { height: 100%; }
+
+/* 임상 원본 팝업 */
+.clinical-evidence-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10020;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 54px 70px;
+  background: rgba(18,15,14,.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.clinical-evidence-modal.open { display: flex; animation: skuBackdropIn .2s ease both; }
+.clinical-evidence-shell {
+  position: relative;
+  width: 930px;
+  max-height: 680px;
+  display: grid;
+  grid-template-columns: minmax(0,1.35fr) minmax(290px,.65fr);
+  overflow: hidden;
+  border-radius: 18px;
+  background: white;
+  box-shadow: 0 28px 80px rgba(0,0,0,.34);
+}
+.clinical-evidence-image {
+  min-width: 0;
+  min-height: 570px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f2ef;
+}
+.clinical-evidence-image img {
+  display: block;
+  width: 100%;
+  height: 526px;
+  object-fit: contain;
+}
+.clinical-evidence-copy {
+  min-width: 0;
+  padding: 34px 30px 28px;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #ebe5e0;
+}
+.clinical-evidence-kicker { color: var(--evidence-accent); font-size: 10px; font-weight: 900; letter-spacing: 1.4px; }
+.clinical-evidence-product { margin-top: 7px; color: #625a55; font-size: 12px; font-weight: 750; line-height: 1.45; }
+.clinical-evidence-metric { margin-top: 24px; color: var(--evidence-accent); font-size: 46px; font-weight: 950; line-height: 1; letter-spacing: -1.4px; }
+.clinical-evidence-label { margin-top: 8px; font-size: 20px; font-weight: 900; line-height: 1.3; word-break: keep-all; }
+.clinical-evidence-note { margin-top: 7px; color: #786f69; font-size: 12px; font-weight: 700; }
+.clinical-evidence-divider { height: 1px; margin: 22px 0 18px; background: #ebe5e0; }
+.clinical-evidence-info b { display: block; margin-bottom: 6px; color: #332e2b; font-size: 11px; }
+.clinical-evidence-info p { color: #6d645f; font-size: 10px; line-height: 1.6; word-break: keep-all; }
+.clinical-evidence-source { margin-top: auto; padding-top: 18px; color: #978d87; font-size: 8.5px; line-height: 1.5; }
+.clinical-evidence-close {
+  position: absolute;
+  top: 12px;
+  right: 13px;
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: #211e1c;
+  color: white;
+  font-size: 21px;
+  line-height: 1;
+  cursor: pointer;
+}
 
 /* ═══════════════════════════════════
    TAB 4: 가격 & 입점
@@ -3534,8 +3656,76 @@ SKU_MODAL_PRODUCTS.forEach((product,index)=>Object.assign(product,SKU_STORIES[in
 
 let _skuModalIndex=0, _skuModalBusy=false, _skuPointerStartX=0;
 
+const CLINICAL_PHOTO_PREVIEWS = new Set([
+  'ampoule-barrier.png','ampoule-trouble.png',
+  'bubble-glow.png','bubble-moisture.png','bubble-soothing.png','bubble-texture.png',
+  'cleansing-makeup.png','cleansing-waste.png',
+  'comfort-moisture.png','comfort-soothing.png','comfort-texture.png',
+  'essence-moisture.png','essence-texture.png',
+  'gel-immediate-moisture.png','gel-sebum.png',
+  'rich-density.png','rich-lifting.png','rich-moisture.png',
+  'serum-eye-wrinkle.png','serum-glow.png','serum-mouth-wrinkle.png',
+  'soothing-cream-moisture.png'
+]);
+
 function skuAsset(src) {
   return /^https?:/.test(src) ? src : encodeURI(src);
+}
+
+function hasClinicalPhotoPreview(src='') {
+  return CLINICAL_PHOTO_PREVIEWS.has(src.split('/').pop());
+}
+
+function ensureClinicalEvidenceModal() {
+  let modal=document.getElementById('clinical-evidence-modal');
+  if(modal)return modal;
+  modal=document.createElement('div');
+  modal.id='clinical-evidence-modal';
+  modal.className='clinical-evidence-modal';
+  modal.setAttribute('aria-hidden','true');
+  modal.innerHTML=`
+    <div class="clinical-evidence-shell" role="dialog" aria-modal="true" aria-label="임상 근거 전체 보기">
+      <button class="clinical-evidence-close" type="button" aria-label="임상 팝업 닫기" onclick="closeClinicalEvidence()">×</button>
+      <div class="clinical-evidence-image"><img id="clinical-evidence-image" alt=""></div>
+      <div class="clinical-evidence-copy" id="clinical-evidence-copy"></div>
+    </div>`;
+  modal.addEventListener('click',e=>{if(e.target===modal)closeClinicalEvidence();});
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function openClinicalEvidence(productIndex,cardIndex) {
+  const p=SKU_MODAL_PRODUCTS[productIndex];
+  const card=p?.clinicalCards?.[cardIndex];
+  if(!p||!card||!card.image)return;
+  const hasPhoto=hasClinicalPhotoPreview(card.image);
+  const modal=ensureClinicalEvidenceModal();
+  modal.style.setProperty('--evidence-accent',p.accent);
+  const image=modal.querySelector('#clinical-evidence-image');
+  image.src=skuAsset(card.image);
+  image.alt=`${p.name} ${card.label} 전체 임상 자료`;
+  modal.querySelector('#clinical-evidence-copy').innerHTML=`
+    <div class="clinical-evidence-kicker">CLINICAL EVIDENCE</div>
+    <div class="clinical-evidence-product">${p.name}</div>
+    <div class="clinical-evidence-metric">${card.metric}</div>
+    <div class="clinical-evidence-label">${card.label}</div>
+    <div class="clinical-evidence-note">${card.note||''}</div>
+    <div class="clinical-evidence-divider"></div>
+    <div class="clinical-evidence-info">
+      <b>${hasPhoto?'그래프와 전후 비교 전체 보기':'그래프 전체 보기'}</b>
+      <p>${p.proof||'제품 인체적용시험 결과'}를 바탕으로 한 제품별 임상 근거입니다. ${hasPhoto?'그래프와 사용 전후 비교를 포함한 원본 구성입니다.':'수치 변화와 시험 시점을 원본 그래프로 확인할 수 있습니다.'}</p>
+    </div>
+    <div class="clinical-evidence-source">시험 결과는 일시적 효과이며 개인차가 있을 수 있습니다. 상세 시험 조건과 표본 정보는 원본 셀링시트 및 시험보고서를 기준으로 확인해 주세요.</div>`;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  modal.querySelector('.clinical-evidence-close').focus({preventScroll:true});
+}
+
+function closeClinicalEvidence() {
+  const modal=document.getElementById('clinical-evidence-modal');
+  if(!modal)return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
 }
 
 function ensureSkuModal() {
@@ -3609,15 +3799,18 @@ function skuStoryHtml(p,index,isModal=false) {
   const enrich=SKU_ENRICH[index];
   const cards=p.clinicalCards||[];
   const cardCount=Math.max(1,Math.min(cards.length,4));
-  const clinicalCards=cards.map(card=>`
+  const cardColumns=Math.min(cardCount,2);
+  const clinicalCards=cards.map((card,cardIndex)=>{
+    const hasPhoto=card.image&&hasClinicalPhotoPreview(card.image);
+    return `
     <article class="sku-story-clinical-card${card.image?'':' no-image'}">
       <strong>${card.metric}</strong>
       <b>${card.label}</b>
       <small>${card.note||''}</small>
-      ${card.image?`<a href="${skuAsset(card.image)}" target="_blank" rel="noopener" aria-label="${p.name} ${card.label} 임상 이미지 크게 보기">
-        <img src="${skuAsset(card.image)}" alt="${p.name} ${card.label} 임상 그래프와 전후 이미지">
-      </a>`:''}
-    </article>`).join('');
+      ${card.image?`<button class="sku-story-evidence-thumb ${hasPhoto?'photo':'chart'}" type="button" onclick="openClinicalEvidence(${index},${cardIndex})" aria-label="${p.name} ${card.label} 전체 임상 자료 팝업 열기">
+        ${hasPhoto?`<img src="${skuAsset(card.image)}" alt="${p.name} ${card.label} 사용 전후 비교">`:`<span>↗</span>그래프 전체 보기`}
+      </button>`:''}
+    </article>`}).join('');
   return `
     <div class="sku-story${isModal?' sku-story-modal':''}" style="--story-accent:${p.accent}">
       ${isModal?'':`<button class="sku-inline-close" type="button" aria-label="선택 상품 닫기" onclick="closeSkuInline()">×</button>`}
@@ -3653,7 +3846,7 @@ function skuStoryHtml(p,index,isModal=false) {
             <h4>${p.evidenceTitle||'임상 근거 한눈에 확인'}</h4>
             <span>${cards.some(card=>card.image)?'이미지를 누르면 크게 보기':'제품 표시 기준'}</span>
           </div>
-          <div class="sku-story-clinical-grid" style="--card-count:${cardCount}">${clinicalCards}</div>
+          <div class="sku-story-clinical-grid" style="--card-columns:${cardColumns}">${clinicalCards}</div>
           <div class="sku-story-section-head" style="margin:9px 0 0;">
             <span>${p.proof}${cards.some(card=>card.image)?' · 일시적 효과 및 개인차 있음':''}</span>
           </div>
@@ -3751,6 +3944,11 @@ function stepSkuModal(delta) {
 }
 
 document.addEventListener('keydown',e=>{
+  const evidenceModal=document.getElementById('clinical-evidence-modal');
+  if(evidenceModal?.classList.contains('open')){
+    if(e.key==='Escape')closeClinicalEvidence();
+    return;
+  }
   const modal=document.getElementById('sku-modal');
   if(!modal||!modal.classList.contains('open'))return;
   if(e.key==='ArrowRight')stepSkuModal(1);

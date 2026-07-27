@@ -653,7 +653,8 @@ body {
 /* 텍스트 바 — 상단 고정, 완전 불투명, 겹침 없음 */
 .pvt-chars {
   position: absolute; top: 0; left: 0; right: 0; z-index: 6;
-  padding: 7px 10px 8px;
+  min-height: 52px;
+  padding: 8px 10px 9px;
   background: rgba(14,12,11,0.96);
   border-bottom: 1px solid rgba(255,255,255,0.07);
   display: flex; flex-wrap: wrap; align-items: center; gap: 4px;
@@ -663,7 +664,7 @@ body {
 }
 /* 제형 텍스처 — 왼쪽 패널, 텍스트 바 아래 */
 .pvt-texture {
-  position: absolute; top: 44px; left: 0; bottom: 0;
+  position: absolute; top: 52px; left: 0; bottom: 0;
   width: 57%; overflow: hidden;
   animation: pvtKenBurns 9s ease-in-out infinite alternate;
 }
@@ -675,7 +676,7 @@ body {
 }
 /* 제품 이미지 — 오른쪽 패널, 밝게, 텍스트와 분리 */
 .pvt-product {
-  position: absolute; right: 0; top: 70px; bottom: 10px;
+  position: absolute; right: 0; top: 74px; bottom: 10px;
   width: 47%; z-index: 3;
   animation: pvtFloat 3.5s ease-in-out infinite;
   filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5)) brightness(1.3);
@@ -684,13 +685,13 @@ body {
 .pvt-product img { width: 100%; height: 100%; object-fit: contain; object-position: center center; }
 /* 텍스처-제품 경계 그라디언트 */
 .pvt-gradient {
-  position: absolute; top: 44px; left: 50%; bottom: 0; width: 16%; z-index: 2; pointer-events: none;
+  position: absolute; top: 52px; left: 50%; bottom: 0; width: 16%; z-index: 2; pointer-events: none;
   background: linear-gradient(to right, rgba(14,12,11,0.6) 0%, transparent 100%);
 }
-.pvt-video { position: absolute; top: 44px; left: 0; bottom: 0; width: 57%; overflow: hidden; }
+.pvt-video { position: absolute; top: 52px; left: 0; bottom: 0; width: 57%; overflow: hidden; }
 .pvt-video video { width: 100%; height: 100%; object-fit: cover; }
 .pvt-tag {
-  display: inline-block; font-size: 8.5px; font-weight: 900;
+  display: inline-block; font-size: 9.5px; font-weight: 900;
   padding: 2px 6px; border-radius: 3px; margin-right: 3px; margin-bottom: 3px;
   letter-spacing: 0.2px; vertical-align: middle;
 }
@@ -698,9 +699,10 @@ body {
 .pvt-tag.wht { background: rgba(255,255,255,0.22); color: white; border: 1px solid rgba(255,255,255,0.4); }
 .pvt-tag.blu { background: var(--blue); color: white; }
 .pvt-line {
-  font-size: 8.5px; font-weight: 600; color: rgba(255,255,255,0.82);
-  line-height: 1.7; margin-top: 2px; letter-spacing: 0.1px;
+  font-size: 9.5px; font-weight: 650; color: rgba(255,255,255,0.88);
+  line-height: 1.5; margin-top: 2px; letter-spacing: 0.1px;
 }
+.pvt-chars > span[style] { font-size: 9px !important; line-height: 1.35; }
 /* bubble animation overlay */
 .pvt-bubble {
   position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none;
@@ -913,13 +915,14 @@ body {
 ═══════════════════════════════════ */
 .product-tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
 .prod-tab {
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-size: 13px;
+  min-height: 40px;
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   border: 1.5px solid var(--border);
@@ -936,10 +939,10 @@ body {
 .product-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  gap: 13px;
 }
 .product-grid.relief { grid-template-columns: repeat(4, 1fr); }
-.product-grid.inner { grid-template-columns: repeat(1, 1fr); max-width: 400px; }
+.product-grid.inner { grid-template-columns: minmax(0, 700px); max-width: 700px; }
 
 .prod-card {
   background: var(--white);
@@ -969,28 +972,28 @@ body {
   padding: 3px 7px;
   border-radius: 4px;
 }
-.prod-body { padding: 16px; flex: 1; }
-.prod-line { margin-bottom: 6px; }
-.prod-name { font-size: 14px; font-weight: 800; color: var(--dark); margin-bottom: 3px; line-height: 1.4; }
+.prod-body { padding: 17px 16px 18px; flex: 1; }
+.prod-line { margin-bottom: 7px; }
+.prod-name { font-size: 15px; font-weight: 850; color: var(--dark); margin-bottom: 4px; line-height: 1.38; word-break: keep-all; }
 .prod-form { font-size: 10px; font-weight: 600; color: var(--mid); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
 .prod-form .form-tag { background: #f0f0ee; border-radius: 4px; padding: 1px 6px; font-size: 10px; font-weight: 700; color: #666; }
 .prod-form .form-tag.blue { background: var(--blue-lt); color: var(--blue); }
 .prod-form .form-tag.inner { background: #F3EAF9; color: #8B5CF6; }
-.prod-price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.prod-price { font-size: 16px; font-weight: 900; color: var(--dark); }
-.prod-consumer { font-size: 11px; color: #bbb; text-decoration: line-through; }
-.prod-moq { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+.prod-price-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 11px; }
+.prod-price { font-size: 17px; font-weight: 900; color: var(--dark); }
+.prod-consumer { font-size: 11.5px; color: #aaa; text-decoration: line-through; }
+.prod-moq { flex-shrink: 0; font-size: 10.5px; font-weight: 750; padding: 4px 8px; border-radius: 5px; }
 .moq-std-tag { background: var(--light); color: var(--mid); border: 1px solid var(--border); }
 .moq-rrp-tag { background: var(--orange-lt); color: var(--orange); border: 1px solid var(--orange-mid); }
 .moq-bonus-tag { background: #F3EAF9; color: #8B5CF6; }
 .prod-points { list-style: none; }
 .prod-points li {
-  font-size: 12px;
+  font-size: 12.5px;
   color: var(--mid);
-  padding: 3px 0;
-  padding-left: 14px;
+  padding: 3.5px 0 3.5px 14px;
   position: relative;
-  line-height: 1.5;
+  line-height: 1.52;
+  word-break: keep-all;
 }
 .prod-points li::before { content: '·'; position: absolute; left: 0; color: var(--orange); font-weight: 900; }
 .prod-points li.blue::before { color: var(--blue); }
@@ -1410,11 +1413,11 @@ body {
 @keyframes skuEnterRight { from { opacity:0; transform:translateX(-38px) } to { opacity:1; transform:none } }
 
 /* 제품 강점 · USP · 임상 통합 스토리 */
-.sku-inline-detail.open { max-height: 980px; }
+.sku-inline-detail.open { max-height: 1400px; }
 .sku-story {
   --story-accent: var(--orange);
   position: relative;
-  padding: 18px;
+  padding: 20px;
   background: #fbfaf8;
   color: #1d1a18;
 }
@@ -1422,18 +1425,18 @@ body {
   display: grid;
   grid-template-columns: minmax(300px,1fr) auto auto;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 13px;
+  gap: 16px;
+  margin-bottom: 15px;
 }
 .sku-story-kicker {
   margin-bottom: 4px;
   color: var(--story-accent);
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 950;
   letter-spacing: 1.7px;
 }
-.sku-story-name { font-size: 23px; font-weight: 950; letter-spacing: -.7px; }
-.sku-story-meta { color: #746d68; font-size: 10px; font-weight: 750; white-space: nowrap; }
+.sku-story-name { font-size: 25px; font-weight: 950; letter-spacing: -.7px; line-height: 1.25; }
+.sku-story-meta { color: #746d68; font-size: 11.5px; font-weight: 750; white-space: nowrap; }
 .sku-story-badges { display: flex; gap: 6px; align-items: center; }
 .sku-story-badges .sku-cert-pill {
   min-width: 58px;
@@ -1448,7 +1451,7 @@ body {
 .sku-story-hero {
   display: grid;
   grid-template-columns: 37% 63%;
-  min-height: 275px;
+  min-height: 300px;
   overflow: hidden;
   border: 1px solid #e8e0db;
   border-radius: 15px;
@@ -1456,7 +1459,7 @@ body {
   box-shadow: 0 9px 24px rgba(52,38,30,.06);
 }
 .sku-story-scene { position: relative; min-width: 0; overflow: hidden; background: #eee7e2; }
-.sku-story-scene img { display: block; width: 100%; height: 100%; min-height: 275px; object-fit: cover; }
+.sku-story-scene img { display: block; width: 100%; height: 100%; min-height: 300px; object-fit: cover; }
 .sku-story-scene img.packshot { object-fit: contain; padding: 18px; background: linear-gradient(145deg,#f5efeb,#fff); }
 .sku-story-scene-tag {
   position: absolute;
@@ -1466,88 +1469,88 @@ body {
   border-radius: 20px;
   background: rgba(255,255,255,.92);
   color: #3f3935;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: 900;
   box-shadow: 0 4px 14px rgba(0,0,0,.12);
 }
-.sku-story-copy { min-width: 0; padding: 22px 27px 20px; display: flex; flex-direction: column; }
+.sku-story-copy { min-width: 0; padding: 24px 28px 23px; display: flex; flex-direction: column; }
 .sku-story-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 11px; }
-.sku-story-chip { padding: 4px 7px; border-radius: 5px; background: #f0eeec; font-size: 7.5px; font-weight: 900; }
+.sku-story-chip { padding: 5px 8px; border-radius: 6px; background: #f0eeec; font-size: 9px; font-weight: 900; }
 .sku-story-chip.hot { background: var(--story-accent); color: white; }
 .sku-story-strength {
   max-width: 730px;
-  font-size: 24px;
-  line-height: 1.25;
+  font-size: 25px;
+  line-height: 1.28;
   font-weight: 950;
   letter-spacing: -.8px;
   word-break: keep-all;
 }
 .sku-story-strength em { color: var(--story-accent); font-style: normal; }
-.sku-story-formula { margin-top: 8px; color: #615a56; font-size: 10.5px; line-height: 1.5; }
-.sku-story-mechanisms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; margin-top: auto; padding-top: 13px; }
+.sku-story-formula { margin-top: 9px; color: #615a56; font-size: 12px; line-height: 1.58; word-break: keep-all; }
+.sku-story-mechanisms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: auto; padding-top: 15px; }
 .sku-story-mechanism {
   position: relative;
   min-width: 0;
-  min-height: 70px;
-  padding: 10px;
+  min-height: 83px;
+  padding: 11px;
   border-radius: 9px;
   background: #f3efec;
 }
-.sku-story-mechanism b { display: block; margin-bottom: 4px; font-size: 9px; }
-.sku-story-mechanism span { display: block; color: #756d68; font-size: 7.7px; line-height: 1.45; }
-.sku-story-evidence { display: grid; grid-template-columns: 1.56fr .74fr; gap: 12px; margin-top: 12px; }
+.sku-story-mechanism b { display: block; margin-bottom: 5px; font-size: 10.5px; line-height: 1.35; }
+.sku-story-mechanism span { display: block; color: #756d68; font-size: 9px; line-height: 1.5; word-break: keep-all; }
+.sku-story-evidence { display: grid; grid-template-columns: 1.48fr .82fr; gap: 13px; margin-top: 13px; align-items: stretch; }
 .sku-story-clinical,
-.sku-story-must { min-width: 0; padding: 15px; border-radius: 13px; border: 1px solid #e9e1dc; background: white; }
+.sku-story-must { min-width: 0; padding: 17px; border-radius: 13px; border: 1px solid #e9e1dc; background: white; }
 .sku-story-section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 10px; }
-.sku-story-section-head h4 { margin: 0; font-size: 14px; }
-.sku-story-section-head span { color: #8c837d; font-size: 7.5px; }
-.sku-story-clinical-grid { display: grid; gap: 7px; grid-template-columns: repeat(var(--card-count),minmax(0,1fr)); }
+.sku-story-section-head h4 { margin: 0; font-size: 16px; line-height: 1.35; }
+.sku-story-section-head span { color: #8c837d; font-size: 9px; text-align: right; line-height: 1.35; }
+.sku-story-clinical-grid { display: grid; gap: 8px; grid-template-columns: repeat(var(--card-count),minmax(0,1fr)); }
 .sku-story-clinical-card {
   min-width: 0;
-  padding: 9px 8px 7px;
+  padding: 10px 9px 8px;
   border: 1px solid color-mix(in srgb,var(--story-accent) 22%,#eee);
   border-radius: 10px;
   background: color-mix(in srgb,var(--story-accent) 6%,#fff);
 }
-.sku-story-clinical-card strong { display: block; color: var(--story-accent); font-size: 18px; letter-spacing: -.5px; }
-.sku-story-clinical-card b { display: block; margin-top: 1px; font-size: 8.5px; }
-.sku-story-clinical-card small { display: block; margin-top: 2px; color: #857c76; font-size: 6.8px; }
+.sku-story-clinical-card strong { display: block; color: var(--story-accent); font-size: 21px; line-height: 1.2; letter-spacing: -.5px; }
+.sku-story-clinical-card b { display: block; margin-top: 2px; font-size: 10px; line-height: 1.35; }
+.sku-story-clinical-card small { display: block; margin-top: 3px; color: #857c76; font-size: 8px; line-height: 1.4; }
 .sku-story-clinical-card a { display: block; margin-top: 6px; padding: 3px; border-radius: 6px; background: white; }
-.sku-story-clinical-card img { display: block; width: 100%; height: 104px; object-fit: contain; }
-.sku-story-clinical-card.no-image { min-height: 133px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+.sku-story-clinical-card img { display: block; width: 100%; height: 118px; object-fit: contain; }
+.sku-story-clinical-card.no-image { min-height: 154px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
 .sku-story-must { display: flex; flex-direction: column; background: #211e1c; border-color: #211e1c; color: white; }
-.sku-story-must-title { color: color-mix(in srgb,var(--story-accent) 75%,white); font-size: 8px; font-weight: 950; letter-spacing: 1.2px; }
-.sku-story-must-list { display: grid; gap: 8px; margin-top: 10px; }
-.sku-story-must-item { display: grid; grid-template-columns: 21px 1fr; gap: 7px; align-items: start; }
-.sku-story-must-item i { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; background: var(--story-accent); font-size: 8px; font-style: normal; font-weight: 950; }
-.sku-story-must-item b { display: block; margin-bottom: 2px; font-size: 9px; }
-.sku-story-must-item span { display: block; color: #cfc8c3; font-size: 7.3px; line-height: 1.4; }
-.sku-story-talk { margin-top: auto; padding-top: 9px; border-top: 1px solid rgba(255,255,255,.13); color: white; font-size: 8px; line-height: 1.45; font-weight: 800; }
+.sku-story-must-title { color: color-mix(in srgb,var(--story-accent) 75%,white); font-size: 10px; font-weight: 950; letter-spacing: 1px; line-height: 1.35; }
+.sku-story-must-list { display: grid; gap: 11px; margin-top: 13px; }
+.sku-story-must-item { display: grid; grid-template-columns: 24px 1fr; gap: 8px; align-items: start; }
+.sku-story-must-item i { width: 23px; height: 23px; display: grid; place-items: center; border-radius: 50%; background: var(--story-accent); font-size: 9px; font-style: normal; font-weight: 950; }
+.sku-story-must-item b { display: block; margin-bottom: 3px; font-size: 10.5px; line-height: 1.35; }
+.sku-story-must-item span { display: block; color: #d8d1cc; font-size: 9px; line-height: 1.5; word-break: keep-all; }
+.sku-story-talk { margin-top: auto; padding-top: 11px; border-top: 1px solid rgba(255,255,255,.13); color: white; font-size: 9.5px; line-height: 1.5; font-weight: 800; word-break: keep-all; }
 .sku-story-guide { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 11px; }
-.sku-story-guide > div { padding: 9px 12px; border: 1px solid #e8e0db; border-radius: 9px; background: white; }
-.sku-story-guide b { margin-right: 10px; color: var(--story-accent); font-size: 8px; }
-.sku-story-guide span { color: #5b544f; font-size: 8px; line-height: 1.4; }
+.sku-story-guide > div { display: flex; align-items: flex-start; gap: 10px; padding: 11px 13px; border: 1px solid #e8e0db; border-radius: 9px; background: white; }
+.sku-story-guide b { flex-shrink: 0; color: var(--story-accent); font-size: 9.5px; line-height: 1.45; }
+.sku-story-guide span { color: #5b544f; font-size: 9.5px; line-height: 1.5; word-break: keep-all; }
 .sku-story-more {
   margin-top: 10px;
-  height: 32px;
+  min-height: 38px;
   padding: 0 14px;
   border: 0;
   border-radius: 7px;
   background: var(--story-accent);
   color: white;
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: 900;
   cursor: pointer;
 }
 .sku-story > .sku-inline-close { z-index: 3; }
 .sku-modal-shell { width: 1120px; height: 650px; }
 .sku-modal-content { display: block; overflow-y: auto; background: #fbfaf8; }
-.sku-modal-content .sku-story { min-height: 100%; padding: 15px 18px 20px; }
+.sku-modal-content .sku-story { min-height: 100%; padding: 18px 20px 22px; }
 .sku-modal-content .sku-story-head { display: none; }
-.sku-modal-content .sku-story-hero { min-height: 250px; }
-.sku-modal-content .sku-story-scene img { min-height: 250px; }
-.sku-modal-content .sku-story-strength { font-size: 22px; }
-.sku-modal-content .sku-story-clinical-card img { height: 118px; }
+.sku-modal-content .sku-story-hero { min-height: 275px; }
+.sku-modal-content .sku-story-scene img { min-height: 275px; }
+.sku-modal-content .sku-story-strength { font-size: 23px; }
+.sku-modal-content .sku-story-clinical-card img { height: 124px; }
 
 /* ═══════════════════════════════════
    TAB 4: 가격 & 입점
@@ -2379,17 +2382,6 @@ body {
           </div>
         </div>
 
-        <!-- NMN USP 썸네일 -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
-          <div style="border-radius:10px;overflow:hidden;background:#fafaf8;border:1px solid #eeece8;">
-            <div style="font-size:10px;font-weight:800;color:var(--orange);padding:8px 12px 4px;letter-spacing:0.5px">NMN 피부 메커니즘</div>
-            <img src="https://drive.google.com/thumbnail?id=1r8XR8C8YXVIy1PKZzucfAuaVHsfsoBVL&sz=w600" alt="NMN 메커니즘" style="width:100%;max-height:160px;object-fit:contain;padding:6px 10px 10px;" onerror="this.parentElement.style.display='none'">
-          </div>
-          <div style="border-radius:10px;overflow:hidden;background:#fafaf8;border:1px solid #eeece8;">
-            <div style="font-size:10px;font-weight:800;color:var(--orange);padding:8px 12px 4px;letter-spacing:0.5px">피부 고민별 추천 라인</div>
-            <img src="https://drive.google.com/thumbnail?id=1R38-5U_B89JsA31qgzEP2ITwVjvddEvC&sz=w600" alt="피부고민 시오레 추천" style="width:100%;max-height:160px;object-fit:contain;padding:6px 10px 10px;" onerror="this.parentElement.style.display='none'">
-          </div>
-        </div>
       </div>
 
       <!-- Relief 라인 -->
@@ -2504,7 +2496,7 @@ body {
         <div class="hl-box" style="margin-bottom:16px;border-color:#8B5CF6;background:#F3EAF9"><strong style="color:#8B5CF6">이너뷰티 — 속부터 채우는 PDRN 200</strong> &nbsp;|&nbsp; PDRN 200mg + 피쉬콜라겐 1,000mg + NMN 포뮬러 · HACCP 인증</div>
         <div class="product-grid inner">
           <div class="prod-card" style="max-width:700px">
-            <div class="prod-vid-top" style="height:190px;background:linear-gradient(135deg,#1e0a2e,#3d1f52);">
+            <div class="prod-vid-top" style="height:194px;background:linear-gradient(135deg,#1e0a2e,#3d1f52);">
               <div class="pvt-texture" style="animation:pvtKenBurns 12s ease-in-out infinite alternate;width:52%;">
                 <img src="https://drive.google.com/thumbnail?id=1rTGTGOU2UP43ireunVLt2YNQB08k8iN_&sz=w600" alt="PDRN 단상자" style="object-fit:contain;object-position:center bottom;filter:brightness(1.15);" onerror="this.parentElement.style.background='#2a1a38'">
               </div>
@@ -2518,21 +2510,21 @@ body {
                 <div class="pvt-line">PDRN 200mg · 피쉬콜라겐 1,000mg · NMN 171mg · 포도 액상스틱</div>
               </div>
             </div>
-            <div class="prod-body" style="padding:14px 18px">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div class="prod-body" style="padding:18px 20px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
                 <!-- 좌: 제품 정보 + 스펙 -->
                 <div>
                   <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
                     <span class="tag inner">이너뷰티</span>
-                    <span class="prod-moq moq-bonus-tag" style="font-size:10px;">10+1 / 20+2</span>
+                    <span class="prod-moq moq-bonus-tag" style="font-size:11px;">10+1 / 20+2</span>
                   </div>
-                  <div class="prod-name" style="font-size:14px;margin-bottom:4px;">SIORE PDRN 200 어드밴스드</div>
-                  <div style="color:var(--mid);font-size:11px;margin-bottom:8px;">달콤 적포도 액상스틱 · 15g×15포</div>
+                  <div class="prod-name" style="font-size:16px;margin-bottom:4px;">SIORE PDRN 200 어드밴스드</div>
+                  <div style="color:var(--mid);font-size:12px;margin-bottom:9px;">달콤 적포도 액상스틱 · 15g×15포</div>
                   <div class="prod-price-row" style="margin-bottom:8px;">
                     <div><div class="prod-price" style="font-size:17px;">33,500원</div><div class="prod-consumer">소비자가 40,000원</div></div>
                   </div>
                   <!-- 스펙 테이블 -->
-                  <table style="width:100%;border-collapse:collapse;font-size:10.5px;">
+                  <table style="width:100%;border-collapse:collapse;font-size:11.5px;">
                     <tr style="background:#f3eaf9;">
                       <td style="padding:3px 6px;font-weight:800;color:#8B5CF6;border-radius:3px 0 0 3px;">PDRN</td>
                       <td style="padding:3px 6px;font-weight:700;color:var(--dark);">200mg · 순도 86%↑ (일본 Maruha)</td>
@@ -2545,18 +2537,18 @@ body {
                 </div>
                 <!-- 우: 썸머 패키지 프로모션 -->
                 <div style="border-left:2px solid #e9d5ff;padding-left:12px;">
-                  <div style="font-size:10px;font-weight:800;color:#8B5CF6;letter-spacing:0.5px;margin-bottom:6px;">🌞 여름 한정 프로모션</div>
+                  <div style="font-size:11.5px;font-weight:800;color:#8B5CF6;letter-spacing:0.4px;margin-bottom:7px;">🌞 여름 한정 프로모션</div>
                   <img src="https://drive.google.com/thumbnail?id=1yxsK0aY70PJULa7_vOOVqf4g9matoyh6&sz=w400" alt="썸머패키지" style="width:100%;border-radius:6px;object-fit:cover;max-height:70px;margin-bottom:6px;" onerror="this.style.display='none'">
                   <div style="display:flex;flex-direction:column;gap:4px;">
-                    <div style="background:#f3eaf9;border-radius:5px;padding:4px 7px;font-size:10px;">
+                    <div style="background:#f3eaf9;border-radius:5px;padding:5px 8px;font-size:11px;">
                       <span style="font-weight:800;color:#8B5CF6;">패키지A</span>
                       <span style="color:var(--mid);"> 릴리프 3종 + PDRN 5EA 증정</span>
                     </div>
-                    <div style="background:#f3eaf9;border-radius:5px;padding:4px 7px;font-size:10px;">
+                    <div style="background:#f3eaf9;border-radius:5px;padding:5px 8px;font-size:11px;">
                       <span style="font-weight:800;color:#8B5CF6;">패키지B</span>
                       <span style="color:var(--mid);"> 릴리프 집중 + PDRN 7EA 증정</span>
                     </div>
-                    <div style="background:#8B5CF6;border-radius:5px;padding:4px 7px;font-size:10px;">
+                    <div style="background:#8B5CF6;border-radius:5px;padding:5px 8px;font-size:11px;">
                       <span style="font-weight:800;color:white;">전품목 10+1 / 20+2</span>
                       <span style="color:#e9d5ff;"> 할증 상시 진행</span>
                     </div>

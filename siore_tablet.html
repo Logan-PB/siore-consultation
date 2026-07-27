@@ -595,6 +595,89 @@ body {
   gap: 10px;
   margin-bottom: 18px;
 }
+.influencer-rank-board {
+  margin: 4px 0 18px;
+  padding: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 8px 24px rgba(42,31,25,.05);
+}
+.rank-board-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 11px; }
+.rank-board-title { font-size: 15px; font-weight: 900; letter-spacing: -.3px; color: var(--dark); }
+.rank-board-title span { color: var(--orange); }
+.rank-board-period { color: #847a74; font-size: 9px; font-weight: 750; white-space: nowrap; }
+.rank-toolbar { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+.rank-control-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid #e8e1dc;
+  border-radius: 8px;
+  background: #f8f6f4;
+}
+.rank-control-label { padding: 0 5px; color: #8a807a; font-size: 8px; font-weight: 850; letter-spacing: .6px; }
+.rank-filter-btn {
+  min-height: 28px;
+  padding: 5px 9px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #6d645f;
+  font-family: var(--font);
+  font-size: 9.5px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.rank-filter-btn.active { background: var(--orange); color: white; box-shadow: 0 3px 10px rgba(245,80,24,.2); }
+.rank-board-note {
+  margin-left: auto;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: var(--orange-lt);
+  color: #8f3c20;
+  font-size: 8.5px;
+  font-weight: 700;
+}
+#influencer-rank-grid { margin-bottom: 0; }
+.rank-position {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 12;
+  min-width: 34px;
+  height: 24px;
+  padding: 0 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: var(--orange);
+  color: white;
+  font-size: 9px;
+  font-weight: 950;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+.rank-card-meta {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 12;
+  display: flex;
+  gap: 4px;
+}
+.rank-card-meta span {
+  padding: 3px 6px;
+  border-radius: 10px;
+  background: rgba(20,18,17,.82);
+  color: white;
+  font-size: 7.5px;
+  font-weight: 850;
+  backdrop-filter: blur(4px);
+}
+.legacy-feed-label,
+.legacy-feed-grid { display: none !important; }
 .video-card {
   border-radius: var(--r);
   overflow: hidden;
@@ -1423,7 +1506,7 @@ body {
 }
 .sku-story-head {
   display: grid;
-  grid-template-columns: minmax(300px,1fr) auto auto;
+  grid-template-columns: minmax(300px,1fr) auto;
   align-items: center;
   gap: 16px;
   margin-bottom: 15px;
@@ -1439,12 +1522,13 @@ body {
 .sku-story-meta { color: #746d68; font-size: 11.5px; font-weight: 750; white-space: nowrap; }
 .sku-story-badges { display: flex; gap: 6px; align-items: center; }
 .sku-story-badges .sku-cert-pill {
-  min-width: 58px;
-  height: 42px;
-  padding: 3px 5px;
+  min-width: 72px;
+  height: 54px;
+  padding: 4px 7px;
   background: white;
 }
-.sku-story-badges .sku-cert-pill img { width: 23px; height: 22px; }
+.sku-story-badges .sku-cert-pill img { width: 31px; height: 30px; }
+.sku-story-badges .sku-cert-pill span { font-size: 7.5px; }
 #sku-modal-badges { margin-left: auto; }
 #sku-modal-badges + .sku-modal-close { margin-left: 0; }
 #sku-modal-badges .sku-cert-pill { min-width: 54px; height: 40px; }
@@ -1473,7 +1557,15 @@ body {
   font-weight: 900;
   box-shadow: 0 4px 14px rgba(0,0,0,.12);
 }
-.sku-story-copy { min-width: 0; padding: 24px 28px 23px; display: flex; flex-direction: column; }
+.sku-story-copy { min-width: 0; padding: 22px 25px 22px; display: flex; flex-direction: column; }
+.sku-story-mainline {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  align-items: start;
+  gap: 18px;
+}
+.sku-story-maincopy { min-width: 0; }
+.sku-story-hero-badges { align-self: start; justify-content: flex-end; max-width: 242px; flex-wrap: wrap; }
 .sku-story-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 11px; }
 .sku-story-chip { padding: 5px 8px; border-radius: 6px; background: #f0eeec; font-size: 9px; font-weight: 900; }
 .sku-story-chip.hot { background: var(--story-accent); color: white; }
@@ -1487,6 +1579,40 @@ body {
 }
 .sku-story-strength em { color: var(--story-accent); font-style: normal; }
 .sku-story-formula { margin-top: 9px; color: #615a56; font-size: 12px; line-height: 1.58; word-break: keep-all; }
+.sku-story-usp-ribbon {
+  display: flex;
+  align-items: stretch;
+  margin-top: 13px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--story-accent);
+  box-shadow: 0 6px 16px color-mix(in srgb,var(--story-accent) 18%,transparent);
+}
+.sku-story-usp-ribbon strong {
+  flex-shrink: 0;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  background: rgba(0,0,0,.14);
+  color: white;
+  font-size: 9px;
+  letter-spacing: .7px;
+}
+.sku-story-usp-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); flex: 1; }
+.sku-story-usp-list span {
+  min-width: 0;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid rgba(255,255,255,.24);
+  color: white;
+  font-size: 9.5px;
+  font-weight: 850;
+  line-height: 1.35;
+  text-align: center;
+  word-break: keep-all;
+}
 .sku-story-mechanisms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin-top: auto; padding-top: 15px; }
 .sku-story-mechanism {
   position: relative;
@@ -1512,8 +1638,9 @@ body {
   border-radius: 10px;
   background: color-mix(in srgb,var(--story-accent) 6%,#fff);
 }
+.sku-story-metric-line { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .sku-story-clinical-card strong { display: block; color: var(--story-accent); font-size: 30px; line-height: 1.08; letter-spacing: -.9px; }
-.sku-story-clinical-card b { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.35; word-break: keep-all; }
+.sku-story-clinical-card b { display: block; color: #282321; font-size: 13px; line-height: 1.3; font-weight: 900; word-break: keep-all; }
 .sku-story-clinical-card small { display: block; margin-top: 4px; min-height: 15px; color: #756d68; font-size: 9.5px; line-height: 1.4; }
 .sku-story-evidence-thumb {
   position: relative;
@@ -2118,15 +2245,44 @@ body {
         </div>
       </div>
 
+      <section class="influencer-rank-board" aria-label="SNS 인플루언서 성과 랭킹">
+        <div class="rank-board-head">
+          <div class="rank-board-title">SNS 캠페인 <span>인플루언서 TOP 랭킹</span></div>
+          <div class="rank-board-period" id="rank-board-period"></div>
+        </div>
+        <div class="rank-toolbar">
+          <div class="rank-control-group">
+            <span class="rank-control-label">기간</span>
+            <button class="rank-filter-btn active" type="button" data-rank-period="week" onclick="setInfluencerRank('period','week',this)">주간 TOP</button>
+            <button class="rank-filter-btn" type="button" data-rank-period="month" onclick="setInfluencerRank('period','month',this)">월간 TOP</button>
+          </div>
+          <div class="rank-control-group">
+            <span class="rank-control-label">권역</span>
+            <button class="rank-filter-btn active" type="button" data-rank-region="global" onclick="setInfluencerRank('region','global',this)">🌏 국외</button>
+            <button class="rank-filter-btn" type="button" data-rank-region="domestic" onclick="setInfluencerRank('region','domestic',this)">🇰🇷 국내</button>
+            <button class="rank-filter-btn" type="button" data-rank-region="all" onclick="setInfluencerRank('region','all',this)">전체</button>
+          </div>
+          <div class="rank-control-group">
+            <span class="rank-control-label">정렬</span>
+            <button class="rank-filter-btn active" type="button" data-rank-sort="views" onclick="setInfluencerRank('sort','views',this)">조회수 많은순</button>
+            <button class="rank-filter-btn" type="button" data-rank-sort="mega" onclick="setInfluencerRank('sort','mega',this)">메가 인플루언서순</button>
+          </div>
+          <div class="rank-board-note">주차·월차별 캠페인 집계 순위</div>
+        </div>
+        <div id="influencer-rank-grid" class="feed-grid-5"></div>
+        <div id="influencer-rank-pool" hidden></div>
+      </section>
+
       <!-- 인플루언서 피드: 10개 -->
       <!-- ── 메가 인플루언서 5 ── -->
-      <div class="feed-section-label">
+      <div class="feed-section-label legacy-feed-label">
         <span class="fsl-dot"></span> 글로벌 메가 인플루언서
         <span class="fsl-tag">TikTok · Instagram</span>
       </div>
-      <div class="feed-grid-5">
+      <div class="feed-grid-5 legacy-feed-grid">
 
         <div class="video-card vbg1 live-mode"
+          data-rank-key="petalandphrase"
           data-tk-id="7648558054732025118" data-tk-creator="petalandphrase"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7648558054732025118','https://www.tiktok.com/@petalandphrase/video/7648558054732025118','@petalandphrase','TikTok · English')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2142,6 +2298,7 @@ body {
         </div>
 
         <div class="video-card vbg2 live-mode"
+          data-rank-key="mayaya"
           data-tk-id="7636852348824030485" data-tk-creator="mayaya.kimmm"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7636852348824030485','https://www.tiktok.com/@mayaya.kimmm/video/7636852348824030485','@mayaya.kimmm','TikTok')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2157,6 +2314,7 @@ body {
         </div>
 
         <div class="video-card vbg3 live-mode"
+          data-rank-key="juriameow"
           data-tk-id="7641601249279741191" data-tk-creator="juriameow"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7641601249279741191','https://www.tiktok.com/@juriameow/video/7641601249279741191','@juriameow','TikTok')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2172,6 +2330,7 @@ body {
         </div>
 
         <div class="video-card vbg4 live-mode"
+          data-rank-key="azrog"
           data-tk-id="7644336776341048583" data-tk-creator="azrog_qc"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7644336776341048583','https://www.tiktok.com/@azrog_qc/video/7644336776341048583','@azrog_qc','TikTok · French')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2187,6 +2346,7 @@ body {
         </div>
 
         <div class="video-card vbg5 live-mode"
+          data-rank-key="tricia"
           data-tk-id="7584628896818302239" data-tk-creator="tricia.g.rutledge"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7584628896818302239','https://www.tiktok.com/@tricia.g.rutledge/video/7584628896818302239','@tricia.g.rutledge','TikTok · English')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7584628896818302239?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2206,7 +2366,7 @@ body {
       <!-- ── 국내 약사·약국 5 ── -->
 
       <!-- ◆ 국내 SNS 섹션 헤더 -->
-      <div style="display:flex;align-items:center;gap:10px;padding:8px 0 6px;margin-bottom:10px;border-bottom:2px solid var(--blue);margin-top:4px;">
+      <div class="legacy-feed-label" style="display:flex;align-items:center;gap:10px;padding:8px 0 6px;margin-bottom:10px;border-bottom:2px solid var(--blue);margin-top:4px;">
         <span style="font-size:18px;">🇰🇷</span>
         <div style="flex:1;">
           <div style="font-size:12px;font-weight:900;color:var(--dark);letter-spacing:-0.2px;">국내 SNS 마케팅</div>
@@ -2218,13 +2378,14 @@ body {
           <span style="background:#fff8e1;color:#c8900a;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700;">카카오</span>
         </div>
       </div>
-      <div class="feed-section-label pharma">
+      <div class="feed-section-label pharma legacy-feed-label">
         <span class="fsl-dot"></span> 국내 약사·약국 콘텐츠
         <span class="fsl-tag">Pharmacist Verified</span>
       </div>
-      <div class="feed-grid-5">
+      <div class="feed-grid-5 legacy-feed-grid">
 
         <div class="video-card vbg6 live-mode"
+          data-rank-key="kbeauty-code"
           data-tk-id="7642684744630553886" data-tk-creator="kbeauty_code"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7642684744630553886','https://www.tiktok.com/@kbeauty_code/video/7642684744630553886','@kbeauty_code','TikTok · Pharmacist')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2240,6 +2401,7 @@ body {
         </div>
 
         <div class="video-card vbg7 live-mode"
+          data-rank-key="jyyrho"
           data-tk-id="7643558398050454791" data-tk-creator="jyyrho"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7643558398050454791','https://www.tiktok.com/@jyyrho/video/7643558398050454791','@jyyrho','TikTok · Pharmacist')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2255,6 +2417,7 @@ body {
         </div>
 
         <div class="video-card vbg8"
+          data-rank-key="pharmacist-reel"
           onclick="openVideo('https://www.instagram.com/reel/DYQqDSDMs3E/embed/','https://www.instagram.com/reel/DYQqDSDMs3E/','Korean pharmacist review','Instagram Reel')">
           <div class="vc-bg">📸</div><div class="vc-grad"></div>
           <div class="vc-play">▶</div>
@@ -2267,6 +2430,7 @@ body {
         </div>
 
         <div class="video-card vbg9"
+          data-rank-key="siore-global"
           onclick="openVideo('https://www.instagram.com/reel/DWobNjSDplM/embed/','https://www.instagram.com/reel/DWobNjSDplM/','New k-beauty brand','Instagram Reel')">
           <div class="vc-bg">🌟</div><div class="vc-grad"></div>
           <div class="vc-play">▶</div>
@@ -2279,6 +2443,7 @@ body {
         </div>
 
         <div class="video-card vbg10 live-mode"
+          data-rank-key="dhanabhujel"
           data-tk-id="7626350259144264990" data-tk-creator="dhanabhujel25"
           onclick="openVideo('https://www.tiktok.com/embed/v2/7626350259144264990','https://www.tiktok.com/@dhanabhujel25/video/7626350259144264990','@dhanabhujel25','TikTok')">
           <div class="vc-live-wrap vc-live"><iframe src="https://www.tiktok.com/embed/v2/7626350259144264990?autoplay=1&loop=1&music_info=0&description=0" allow="autoplay;encrypted-media" loading="lazy"></iframe></div>
@@ -2992,6 +3157,67 @@ function switchProd(id, btn) {
   closeSkuInline();
 }
 
+const INFLUENCER_RANK_DATA = [
+  {key:'petalandphrase',region:'global',weekViews:2,monthViews:1,mega:1,tier:'MEGA'},
+  {key:'mayaya',region:'global',weekViews:1,monthViews:2,mega:2,tier:'MACRO'},
+  {key:'juriameow',region:'global',weekViews:3,monthViews:3,mega:3,tier:'MACRO'},
+  {key:'azrog',region:'global',weekViews:4,monthViews:5,mega:5,tier:'CREATOR'},
+  {key:'tricia',region:'global',weekViews:5,monthViews:4,mega:4,tier:'CREATOR'},
+  {key:'kbeauty-code',region:'domestic',weekViews:1,monthViews:2,mega:2,tier:'PHARMA'},
+  {key:'jyyrho',region:'domestic',weekViews:2,monthViews:1,mega:1,tier:'PHARMA'},
+  {key:'pharmacist-reel',region:'domestic',weekViews:3,monthViews:3,mega:3,tier:'PHARMA'},
+  {key:'siore-global',region:'domestic',weekViews:4,monthViews:4,mega:4,tier:'BRAND'},
+  {key:'dhanabhujel',region:'domestic',weekViews:5,monthViews:5,mega:5,tier:'CREATOR'}
+];
+const influencerRankState={period:'week',region:'global',sort:'views'};
+let influencerRankCards=new Map();
+
+function influencerPeriodLabel() {
+  const now=new Date();
+  const month=now.getMonth()+1;
+  const week=Math.ceil((now.getDate()+new Date(now.getFullYear(),now.getMonth(),1).getDay())/7);
+  return influencerRankState.period==='week'
+    ? `${now.getFullYear()}년 ${month}월 ${week}주차 캠페인`
+    : `${now.getFullYear()}년 ${month}월 월간 캠페인`;
+}
+
+function renderInfluencerRanking() {
+  const grid=document.getElementById('influencer-rank-grid');
+  const pool=document.getElementById('influencer-rank-pool');
+  if(!grid||!pool||!influencerRankCards.size)return;
+  influencerRankCards.forEach(card=>pool.appendChild(card));
+  const rankField=influencerRankState.sort==='mega'
+    ? 'mega'
+    : influencerRankState.period==='week'?'weekViews':'monthViews';
+  const records=INFLUENCER_RANK_DATA
+    .filter(item=>influencerRankState.region==='all'||item.region===influencerRankState.region)
+    .sort((a,b)=>a[rankField]-b[rankField])
+    .slice(0,influencerRankState.period==='week'?5:10);
+  records.forEach((item,index)=>{
+    const card=influencerRankCards.get(item.key);
+    if(!card)return;
+    let position=card.querySelector('.rank-position');
+    if(!position){position=document.createElement('span');position.className='rank-position';card.appendChild(position);}
+    position.textContent=`TOP ${index+1}`;
+    let meta=card.querySelector('.rank-card-meta');
+    if(!meta){meta=document.createElement('div');meta.className='rank-card-meta';card.appendChild(meta);}
+    meta.innerHTML=`<span>${influencerRankState.period==='week'?'WEEK':'MONTH'}</span><span>${item.tier}</span>`;
+    grid.appendChild(card);
+  });
+  document.getElementById('rank-board-period').textContent=influencerPeriodLabel();
+}
+
+function setInfluencerRank(type,value,button) {
+  influencerRankState[type]=value;
+  document.querySelectorAll(`[data-rank-${type}]`).forEach(btn=>btn.classList.toggle('active',btn===button));
+  renderInfluencerRanking();
+}
+
+function initInfluencerRanking() {
+  document.querySelectorAll('.video-card[data-rank-key]').forEach(card=>influencerRankCards.set(card.dataset.rankKey,card));
+  renderInfluencerRanking();
+}
+
 // TikTok 썸네일 자동 로딩 (oEmbed API)
 async function loadVideoThumbnails() {
   const cards = document.querySelectorAll('.video-card[data-tk-id]');
@@ -3016,6 +3242,7 @@ async function loadVideoThumbnails() {
 }
 // 페이지 로드 후 썸네일 시도
 document.addEventListener('DOMContentLoaded', () => {
+  initInfluencerRanking();
   setTimeout(loadVideoThumbnails, 400);
   setTimeout(wireLineupSkuCards, 100);
 });
@@ -3804,8 +4031,7 @@ function skuStoryHtml(p,index,isModal=false) {
     const hasPhoto=card.image&&hasClinicalPhotoPreview(card.image);
     return `
     <article class="sku-story-clinical-card${card.image?'':' no-image'}">
-      <strong>${card.metric}</strong>
-      <b>${card.label}</b>
+      <div class="sku-story-metric-line"><strong>${card.metric}</strong><b>${card.label}</b></div>
       <small>${card.note||''}</small>
       ${card.image?`<button class="sku-story-evidence-thumb ${hasPhoto?'photo':'chart'}" type="button" onclick="openClinicalEvidence(${index},${cardIndex})" aria-label="${p.name} ${card.label} 전체 임상 자료 팝업 열기">
         ${hasPhoto?`<img src="${skuAsset(card.image)}" alt="${p.name} ${card.label} 사용 전후 비교">`:`<span>↗</span>그래프 전체 보기`}
@@ -3819,7 +4045,6 @@ function skuStoryHtml(p,index,isModal=false) {
           <div class="sku-story-kicker">${p.line} · PRODUCT STORY · USP · EVIDENCE</div>
           <div class="sku-story-name">${p.name}</div>
         </div>
-        <div class="sku-story-badges">${skuCertHtml(p.cert)}</div>
         <div class="sku-story-meta">${p.size}</div>
       </header>
       <section class="sku-story-hero">
@@ -3828,13 +4053,22 @@ function skuStoryHtml(p,index,isModal=false) {
           <span class="sku-story-scene-tag">${p.line==='INNER BEAUTY'?'간편한 1회 섭취 포장':'실제 사용 장면'}</span>
         </div>
         <div class="sku-story-copy">
-          <div class="sku-story-chips">
-            <span class="sku-story-chip hot">${p.line}</span>
-            <span class="sku-story-chip">${p.metricLabel}</span>
-            <span class="sku-story-chip">${p.metric}</span>
+          <div class="sku-story-mainline">
+            <div class="sku-story-maincopy">
+              <div class="sku-story-chips">
+                <span class="sku-story-chip hot">${p.line}</span>
+                <span class="sku-story-chip">${p.metricLabel}</span>
+                <span class="sku-story-chip">${p.metric}</span>
+              </div>
+              <div class="sku-story-strength">${skuStoryHeadline(p.strength)}</div>
+              <div class="sku-story-formula">${p.formula}</div>
+            </div>
+            <div class="sku-story-badges sku-story-hero-badges">${skuCertHtml(p.cert)}</div>
           </div>
-          <div class="sku-story-strength">${skuStoryHeadline(p.strength)}</div>
-          <div class="sku-story-formula">${p.formula}</div>
+          <div class="sku-story-usp-ribbon">
+            <strong>CORE USP</strong>
+            <div class="sku-story-usp-list">${p.mustTell.map(item=>`<span>${item[0]}</span>`).join('')}</div>
+          </div>
           <div class="sku-story-mechanisms">
             ${p.mechanisms.map(item=>`<div class="sku-story-mechanism"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
           </div>

@@ -3062,7 +3062,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 프레쉬 버블 토너', size:'145ml',
-    photo:'images/products/bubble-toner.png', scene:'images/official-scenes/bubble-toner-application.webp',
+    photo:'images/products/bubble-toner.png', scene:'images/official-scenes/bubble-toner-application.webp', scenePos:'42% center',
     clinical:[],
     metric:'403.37%', metricLabel:'피부 광채 개선', proof:'한국피부과학연구원 · 성인 여성 22명',
     hook:'7초 버블 흡수,<br><strong>광채의 첫 단계</strong>',
@@ -3292,7 +3292,7 @@ function renderSkuModal(index, enterDirection=0) {
   content.className='sku-modal-content'+(enterDirection>0?' enter-left':enterDirection<0?' enter-right':'');
   content.innerHTML=`
     <section class="sku-product-pane">
-      <img class="sku-product-img${p.scene?' official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" referrerpolicy="no-referrer">
+      <img class="sku-product-img${p.scene?' official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" style="object-position:${p.scenePos||'center'}" referrerpolicy="no-referrer">
       <div class="sku-cert-row">${skuCertHtml(p.cert)}</div>
     </section>
     <section class="sku-clinical-pane">
@@ -3353,7 +3353,7 @@ function showSkuInline(index, card) {
   panel.innerHTML=`
     <div class="sku-inline-inner">
       <button class="sku-inline-close" type="button" aria-label="선택 상품 닫기" onclick="closeSkuInline()">×</button>
-      <div class="sku-inline-product"><img class="${p.scene?'official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" referrerpolicy="no-referrer"></div>
+      <div class="sku-inline-product"><img class="${p.scene?'official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" style="object-position:${p.scenePos||'center'}" referrerpolicy="no-referrer"></div>
       <div class="sku-inline-copy">
         <div class="sku-inline-eyebrow" style="color:${p.accent}">${p.line} · ${p.size}</div>
         <div class="sku-inline-name">${p.name}</div>

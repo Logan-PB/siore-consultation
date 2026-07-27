@@ -134,6 +134,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  text-decoration: none;
 }
 .tab-btn .t-icon { font-size: 15px; }
 .tab-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.09); }
@@ -2064,9 +2065,9 @@ body {
     <button class="tab-btn" onclick="switchTab('pricing',this)">
       <span class="t-icon">💰</span> 판매가
     </button>
-    <button id="tab-clinical-btn" class="tab-btn" onclick="switchTab('clinical',this)">
-      <span class="t-icon">📋</span> 제품상세
-    </button>
+    <a class="tab-btn" href="https://logan-pb.github.io/siore-consultation/" target="_blank" rel="noopener" aria-label="피부상담 새 창으로 열기">
+      <span class="t-icon">🩺</span> 피부상담
+    </a>
     <button class="tab-btn" onclick="switchTab('faq',this)">
       <span class="t-icon">💬</span> FAQ
     </button>

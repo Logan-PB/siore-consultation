@@ -1024,6 +1024,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   border-right: 1px solid #eee4de;
   background: linear-gradient(145deg,#f8f2ed,#fff);
 }
@@ -1032,6 +1033,13 @@ body {
   height: 238px;
   object-fit: contain;
   filter: drop-shadow(0 10px 12px rgba(62,39,29,.13));
+}
+.sku-inline-product img.official-scene {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: none;
 }
 .sku-inline-copy { padding: 21px 24px 18px; min-width: 0; }
 .sku-inline-eyebrow { font-size: 9px; font-weight: 900; letter-spacing: 1.4px; margin-bottom: 5px; }
@@ -1208,6 +1216,12 @@ body {
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 14px 16px rgba(60,35,25,.12));
+}
+.sku-product-img.official-scene {
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+  filter: none;
 }
 .sku-cert-row { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; }
 .sku-cert-pill {
@@ -3039,7 +3053,7 @@ function openSkuDetail(line, idx) {
 const SKU_MODAL_PRODUCTS = [
   {
     line:'NMN', accent:'#F55018', name:'NMN 하이드로 캡슐 클렌징 밀크', size:'150ml',
-    photo:'images/products/cleansing.png', clinical:['images/clinical/cleansing-clinical.jpg'], clinicalPos:'50% 42%',
+    photo:'images/products/cleansing.png', scene:'images/official-scenes/cleansing-application.webp', clinical:['images/clinical/cleansing-clinical.jpg'], clinicalPos:'50% 42%',
     metric:'99.48%', metricLabel:'노폐물 세정효과', proof:'제품 사용 직후 세정효과 인체적용시험',
     hook:'씻어낼수록,<br><strong>피부 장벽은 편안하게</strong>',
     formula:'판테놀 캡슐을 담은 약산성 밀크 제형으로 마찰과 세안 후 당김을 줄였습니다.',
@@ -3048,7 +3062,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 프레쉬 버블 토너', size:'145ml',
-    photo:'images/products/bubble-toner.png',
+    photo:'images/products/bubble-toner.png', scene:'images/official-scenes/bubble-toner-application.webp',
     clinical:[],
     metric:'403.37%', metricLabel:'피부 광채 개선', proof:'한국피부과학연구원 · 성인 여성 22명',
     hook:'7초 버블 흡수,<br><strong>광채의 첫 단계</strong>',
@@ -3058,7 +3072,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 인텐시브 세럼', size:'50ml',
-    photo:'images/products/serum.png', clinical:['images/clinical/serum-clinical.jpg'], clinicalPos:'50% 55%',
+    photo:'images/products/serum.png', scene:'images/official-scenes/serum-application.webp', clinical:['images/clinical/serum-clinical.jpg'], clinicalPos:'50% 55%',
     metric:'564.64%', metricLabel:'크림 병행 1회 피부 광채 개선', proof:'NMN 리치크림 병행 사용 기준',
     hook:'바르는 순간,<br><strong>광채의 기준이 바뀝니다</strong>',
     formula:'고순도 NMN 10,000ppm과 PDRN·알파리포산 복합 포뮬러',
@@ -3067,7 +3081,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 하이드레이팅 수딩 크림', size:'50ml',
-    photo:'images/products/soothing-cream.png',
+    photo:'images/products/soothing-cream.png', scene:'images/official-scenes/soothing-cream-application.webp',
     clinical:[],
     metric:'148.87%', metricLabel:'즉각적 보습량 개선', proof:'24시간 보습 지속력 인체적용시험',
     hook:'유분 부담 없이,<br><strong>수분만 깊고 오래</strong>',
@@ -3077,7 +3091,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'NMN', accent:'#F55018', name:'NMN 딥 글로우 리치 크림', size:'50ml',
-    photo:'images/products/rich-cream.png',
+    photo:'images/products/rich-cream.png', scene:'images/official-scenes/rich-cream-application.webp',
     clinical:[],
     metric:'17.15%', metricLabel:'피부 치밀도 증가', proof:'한국피부과학연구원 인체적용시험',
     hook:'밤사이 채우는,<br><strong>밀도 있는 깊은 윤광</strong>',
@@ -3087,7 +3101,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 에센스 토너', size:'150ml',
-    photo:'images/products/essence-toner.png', clinical:['images/clinical/essence-toner-clinical.jpg'], clinicalPos:'50% 45%',
+    photo:'images/products/essence-toner.png', scene:'images/official-scenes/essence-toner-application.webp', clinical:['images/clinical/essence-toner-clinical.jpg'], clinicalPos:'50% 45%',
     metric:'136.58%', metricLabel:'피부 수분량 개선', proof:'민감 피부 대상 인체적용시험',
     hook:'정제수 대신 감나무잎수,<br><strong>수분길을 열다</strong>',
     formula:'감나무잎수 85% 베이스가 피지 밸런스를 잡고 다음 단계 흡수를 돕습니다.',
@@ -3096,7 +3110,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 리페어 앰플', size:'30ml',
-    photo:'images/products/ampoule.png',
+    photo:'images/products/ampoule.png', scene:'images/official-scenes/repair-ampoule-application.webp',
     clinical:[],
     metric:'475%', metricLabel:'1회 피부 광채 개선', proof:'한국피부과학연구원 인체적용시험',
     hook:'무너진 컨디션에,<br><strong>집중 회복 SOS</strong>',
@@ -3106,7 +3120,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 카밍 수딩 젤', size:'80ml',
-    photo:'images/products/soothing-gel.png',
+    photo:'images/products/soothing-gel.png', scene:'images/official-scenes/soothing-gel-texture.webp',
     clinical:[],
     metric:'10.041℃', metricLabel:'피부 온도 즉각 감소', proof:'가온 자극 후 1회 도포 · N=22, p<0.001',
     hook:'열 오른 피부에,<br><strong>빠르고 산뜻한 쿨다운</strong>',
@@ -3116,7 +3130,7 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 컴포트 크림', size:'50ml',
-    photo:'images/products/comfort-cream.png', clinical:['images/clinical/comfort-cream-clinical.jpg'], clinicalPos:'50% 46%',
+    photo:'images/products/comfort-cream.png', scene:'images/official-scenes/comfort-cream-application.webp', clinical:['images/clinical/comfort-cream-clinical.jpg'], clinicalPos:'50% 46%',
     metric:'110%', metricLabel:'1회 피부 보습 개선', proof:'한국피부과학연구원 인체적용시험',
     hook:'수분은 잠그고,<br><strong>장벽은 편안하게</strong>',
     formula:'앰플 농축 밀도의 보습막이 끈적임 없이 속건조와 민감 피부를 감쌉니다.',
@@ -3278,7 +3292,7 @@ function renderSkuModal(index, enterDirection=0) {
   content.className='sku-modal-content'+(enterDirection>0?' enter-left':enterDirection<0?' enter-right':'');
   content.innerHTML=`
     <section class="sku-product-pane">
-      <img class="sku-product-img" src="${skuAsset(p.photo)}" alt="${p.name}" referrerpolicy="no-referrer">
+      <img class="sku-product-img${p.scene?' official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" referrerpolicy="no-referrer">
       <div class="sku-cert-row">${skuCertHtml(p.cert)}</div>
     </section>
     <section class="sku-clinical-pane">
@@ -3339,7 +3353,7 @@ function showSkuInline(index, card) {
   panel.innerHTML=`
     <div class="sku-inline-inner">
       <button class="sku-inline-close" type="button" aria-label="선택 상품 닫기" onclick="closeSkuInline()">×</button>
-      <div class="sku-inline-product"><img src="${skuAsset(p.photo)}" alt="${p.name}" referrerpolicy="no-referrer"></div>
+      <div class="sku-inline-product"><img class="${p.scene?'official-scene':''}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} 공식 사용 이미지" referrerpolicy="no-referrer"></div>
       <div class="sku-inline-copy">
         <div class="sku-inline-eyebrow" style="color:${p.accent}">${p.line} · ${p.size}</div>
         <div class="sku-inline-name">${p.name}</div>

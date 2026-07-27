@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SIORE 제품 강점 일러스트 목업</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    :root{
+      --ink:#211d1b;--muted:#776b66;--line:#e8d9d2;--paper:#f7f3f0;
+      --orange:#f4511e;--peach:#f8d9ca;--rose:#b96e59;--aqua:#55aeca;--white:#fff;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#e9e5e2;color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button{font:inherit}
+    .shell{max-width:1500px;margin:auto;padding:18px}
+    .topbar{position:sticky;top:10px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:14px;padding:12px 16px;border:1px solid rgba(255,255,255,.75);border-radius:18px;background:rgba(255,255,255,.88);box-shadow:0 10px 34px rgba(70,47,38,.08);backdrop-filter:blur(14px)}
+    .brand{font-size:21px;font-weight:500;letter-spacing:7px}
+    .intro{flex:1;color:var(--muted);font-size:12px}
+    .tabs{display:flex;gap:7px}
+    .tabs a{padding:8px 12px;border-radius:999px;color:#514743;text-decoration:none;font-size:11px;font-weight:800;background:#f4efec}
+    .tabs a:first-child{background:var(--ink);color:#fff}
+    .concept{min-height:760px;margin-bottom:18px;padding:38px;border-radius:26px;background:#fff;box-shadow:0 22px 70px rgba(70,47,38,.08)}
+    .concept-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:30px}
+    .eyebrow{display:block;margin-bottom:9px;color:var(--orange);font-size:11px;font-weight:900;letter-spacing:2.8px}
+    h1,h2,p{margin:0}
+    h1{font-size:32px;letter-spacing:-1.5px}
+    h2{font-size:28px;letter-spacing:-1.1px}
+    .concept-head p{max-width:560px;color:var(--muted);font-size:13px;line-height:1.65;text-align:right}
+    .caption{margin-top:22px;color:#8b7f79;font-size:11px;line-height:1.7;text-align:center}
+
+    /* CSS line illustrations */
+    .ill{position:relative;isolation:isolate;display:grid;place-items:center;width:92px;height:92px;flex:0 0 92px;border-radius:50%;background:#fbf3ee;color:var(--rose)}
+    .ill:before,.ill:after,.ill i:before,.ill i:after{content:"";position:absolute;display:block}
+    .ill i{position:relative;display:block;width:56px;height:56px}
+    .nmn i:before{left:10px;top:10px;width:31px;height:31px;border:1.7px solid currentColor;border-radius:50%}
+    .nmn i:after{left:24px;top:0;width:7px;height:7px;border:1.7px solid currentColor;border-radius:50%;box-shadow:-24px 29px 0 -1px #fbf3ee, -24px 29px 0 1px currentColor,35px 30px 0 -1px #fbf3ee,35px 30px 0 1px currentColor,11px 46px 0 -1px #fbf3ee,11px 46px 0 1px currentColor}
+    .nmn:after{width:19px;height:8px;border-top:1.7px solid currentColor;border-radius:50%;transform:rotate(-24deg);box-shadow:18px 18px 0 -3px #fbf3ee,18px 18px 0 -1.3px currentColor,-18px 19px 0 -3px #fbf3ee,-18px 19px 0 -1.3px currentColor}
+    .cool i:before{left:23px;top:4px;width:10px;height:38px;border:1.7px solid currentColor;border-radius:8px}
+    .cool i:after{left:18px;top:36px;width:20px;height:20px;border:1.7px solid currentColor;border-radius:50%;background:#fbf3ee;box-shadow:inset 0 0 0 5px #fbf3ee,inset 0 0 0 7px currentColor}
+    .cool:before{left:14px;top:31px;width:18px;height:1px;background:currentColor;box-shadow:57px 0 currentColor}
+    .cool:after{left:23px;top:17px;width:1px;height:18px;background:currentColor;transform:rotate(-45deg);box-shadow:43px 43px currentColor,43px 0 currentColor,0 43px currentColor}
+    .pore i:before{left:8px;top:7px;width:40px;height:42px;border:1.7px solid currentColor;border-radius:46% 46% 52% 52%;clip-path:polygon(0 0,100% 0,100% 84%,50% 100%,0 84%)}
+    .pore i:after{left:18px;top:16px;width:4px;height:4px;border:1.4px solid currentColor;border-radius:50%;box-shadow:14px 0 0 -1px #fbf3ee,14px 0 0 0 currentColor,7px 11px 0 -1px #fbf3ee,7px 11px 0 0 currentColor,-2px 21px 0 -1px #fbf3ee,-2px 21px 0 0 currentColor,17px 22px 0 -1px #fbf3ee,17px 22px 0 0 currentColor}
+    .pore:after{left:39px;top:28px;width:16px;height:7px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg)}
+    .skin i:before{left:14px;top:5px;width:31px;height:43px;border:1.7px solid currentColor;border-radius:48% 48% 45% 45%}
+    .skin i:after{left:20px;top:24px;width:3px;height:3px;border-radius:50%;background:currentColor;box-shadow:14px 0 currentColor,7px 12px currentColor}
+    .skin:after{right:14px;top:17px;width:18px;height:26px;border-right:1.7px solid currentColor;border-radius:50%;transform:rotate(-12deg);box-shadow:5px 3px 0 -4px #fbf3ee,7px 3px 0 -5px currentColor}
+
+    /* A */
+    .a-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #e7c9ba;border-radius:18px;overflow:hidden}
+    .a-card{min-height:390px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 25px;border-right:1px solid #e7c9ba;text-align:center}
+    .a-card:last-child{border-right:0}
+    .a-card h3{margin:24px 0 6px;font-size:19px}
+    .a-card .en{color:#a89389;font-size:10px;font-weight:800;letter-spacing:1.5px}
+    .a-card strong{display:block;margin-top:30px;color:var(--orange);font-size:26px;letter-spacing:-1px}
+    .a-card p{max-width:220px;margin-top:11px;color:var(--muted);font-size:12px;line-height:1.6}
+    .a-card .chip{margin-top:19px;padding:7px 12px;border:1px solid #ead6cc;border-radius:999px;color:#7e6257;font-size:10px;font-weight:800}
+
+    /* B */
+    .b-wrap{padding:30px;border-radius:22px;background:var(--ink);color:#fff}
+    .b-grid{display:grid;grid-template-columns:1.15fr 1fr 1fr 1fr;gap:12px}
+    .b-card{position:relative;min-height:390px;overflow:hidden;padding:24px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:#2a2523}
+    .b-card:first-child{background:linear-gradient(145deg,#5c3328,#2a2523)}
+    .b-card .num{display:block;color:#ffb59c;font-size:11px;font-weight:900;letter-spacing:2px}
+    .b-card strong{display:block;margin-top:13px;font-size:clamp(27px,3vw,46px);line-height:.98;letter-spacing:-2px}
+    .b-card:first-child strong{font-size:clamp(34px,4vw,61px)}
+    .b-card p{position:absolute;left:24px;right:24px;bottom:23px;color:#d7ceca;font-size:12px;line-height:1.6}
+    .b-card .ill{position:absolute;right:18px;top:18px;width:78px;height:78px;opacity:.95;transform:scale(.88);transform-origin:center}
+    .b-card:not(:first-child) .ill{top:116px;left:50%;right:auto;transform:translateX(-50%) scale(.98)}
+    .b-card .metric{display:block;margin-top:13px;color:#ff7a4f;font-size:13px;font-weight:900}
+
+    /* C */
+    .c-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .c-card{display:grid;grid-template-columns:180px 1fr;min-height:240px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fdfbf9}
+    .c-art{position:relative;display:grid;place-items:center;background:#f8e8df}
+    .c-card:nth-child(2) .c-art{background:#e6f4f7;color:#2a89a7}.c-card:nth-child(2) .ill{background:#f0fafc;color:#2a89a7}
+    .c-card:nth-child(3) .c-art{background:#f2e5df}.c-card:nth-child(4) .c-art{background:#f7efea}
+    .c-art:after{content:"";position:absolute;inset:18px;border:1px solid rgba(126,86,69,.16);border-radius:50%}
+    .c-copy{padding:28px}
+    .c-copy small{color:var(--orange);font-size:10px;font-weight:900;letter-spacing:1.7px}
+    .c-copy h3{margin:10px 0 7px;font-size:22px;letter-spacing:-.8px}
+    .c-copy strong{display:block;margin:17px 0 7px;font-size:17px}
+    .c-copy p{color:var(--muted);font-size:12px;line-height:1.6}
+    .recommend{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:20px;padding:18px 22px;border-radius:16px;background:#fff2ec}
+    .recommend strong{font-size:16px}.recommend span{color:#836f66;font-size:11px}
+    .recommend b{padding:8px 13px;border-radius:999px;background:var(--orange);color:#fff;font-size:10px}
+
+    @media(max-width:980px){
+      .concept{min-height:auto;padding:26px}.concept-head{align-items:start;flex-direction:column}.concept-head p{text-align:left}
+      .a-grid{grid-template-columns:repeat(2,1fr)}.a-card:nth-child(2){border-right:0}.a-card:nth-child(-n+2){border-bottom:1px solid #e7c9ba}
+      .b-grid{grid-template-columns:repeat(2,1fr)}.b-card:first-child{grid-column:1/-1}
+      .c-card{grid-template-columns:125px 1fr}
+    }
+    @media(max-width:640px){
+      .shell{padding:8px}.topbar{align-items:start;flex-direction:column}.intro{display:none}.tabs{width:100%}.tabs a{flex:1;text-align:center}
+      .concept{padding:20px;border-radius:20px}.a-grid,.b-grid,.c-grid{grid-template-columns:1fr}
+      .a-card{min-height:330px;border-right:0!important;border-bottom:1px solid #e7c9ba}.a-card:last-child{border-bottom:0}
+      .b-card:first-child{grid-column:auto}.b-card{min-height:330px}
+      .c-card{grid-template-columns:110px 1fr}.c-copy{padding:22px 16px}.c-copy h3{font-size:18px}
+      .recommend{align-items:start;flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">SIORÉ</div>
+      <div class="intro">제품 사진을 쓰지 않은 제품력 일러스트 목업 · 3가지 방향</div>
+      <nav class="tabs" aria-label="목업 선택">
+        <a href="#option-a">A 선화형</a><a href="#option-b">B 임상형</a><a href="#option-c">C 카드형</a>
+      </nav>
+    </header>
+
+    <section class="concept" id="option-a">
+      <div class="concept-head">
+        <div><span class="eyebrow">OPTION A · PHARMACY COUNSELING</span><h1>약국 상담형 선화 아이콘</h1></div>
+        <p>첨부해주신 예시와 가장 가까운 방향입니다. 따뜻한 로즈 선화와 충분한 여백으로 전문적이면서 부담 없이 읽힙니다.</p>
+      </div>
+      <div class="a-grid">
+        <article class="a-card"><div class="ill nmn"><i></i></div><h3>안티에이징</h3><span class="en">CELL ENERGY</span><strong>NMN 10,000ppm</strong><p>99% 이상 고순도 NMN을 담아 피부 에너지와 탄력 케어</p><span class="chip">약사가 설계한 NMN 스킨케어</span></article>
+        <article class="a-card"><div class="ill cool"><i></i></div><h3>즉각 쿨링</h3><span class="en">INSTANT COOLING</span><strong>-10.041°C</strong><p>카밍 수딩 젤 1회 사용 직후 확인된 피부 온도 감소</p><span class="chip">NEW CLINICAL</span></article>
+        <article class="a-card"><div class="ill pore"><i></i></div><h3>여드름성 피부</h3><span class="en">NON-COMEDOGENIC</span><strong>인증 품목 보유</strong><p>모공 막힘 부담을 낮춘 논코메도제닉 시험 완료 품목</p><span class="chip">ACNE-PRONE SKIN TESTED</span></article>
+        <article class="a-card"><div class="ill skin"><i></i></div><h3>모든 피부 사용</h3><span class="en">NON-IRRITATING</span><strong>피부자극 0.00</strong><p>민감한 피부까지 고려한 무자극 판정 포뮬러</p><span class="chip">DERMATOLOGICALLY TESTED</span></article>
+      </div>
+      <p class="caption">추천 용도: 브랜드 첫 화면 · 약사에게 차분하고 신뢰감 있게 설명할 때</p>
+    </section>
+
+    <section class="concept" id="option-b">
+      <div class="concept-head">
+        <div><span class="eyebrow">OPTION B · CLINICAL PROOF</span><h2>숫자가 먼저 보이는 임상 배지형</h2></div>
+        <p>현장 영업에서 3초 안에 강점을 전달하는 구성입니다. 이미지는 보조 역할로 줄이고 핵심 수치와 인증을 전면에 둡니다.</p>
+      </div>
+      <div class="b-wrap">
+        <div class="b-grid">
+          <article class="b-card"><span class="num">01 · NMN ANTI-AGING</span><strong>10,000<br>ppm</strong><span class="metric">99%+ HIGH PURITY NMN</span><div class="ill nmn"><i></i></div><p>피부 에너지와 탄력을 위한 시오레 NMN 안티에이징 솔루션</p></article>
+          <article class="b-card"><span class="num">02 · COOLING</span><strong>-10.041°C</strong><div class="ill cool"><i></i></div><p>카밍 수딩 젤<br>1회 사용 직후 즉각 쿨링</p></article>
+          <article class="b-card"><span class="num">03 · ACNE-PRONE</span><strong>NON<br>COMEDO</strong><div class="ill pore"><i></i></div><p>논코메도제닉 인증 품목 보유<br>여드름성 피부 사용 적합</p></article>
+          <article class="b-card"><span class="num">04 · LOW IRRITATION</span><strong>0.00</strong><div class="ill skin"><i></i></div><p>피부자극지수 0.00<br>모든 피부 사용 가능</p></article>
+        </div>
+      </div>
+      <p class="caption">추천 용도: 갤럭시탭 영업 화면 · 짧은 시간에 임상 숫자를 강하게 보여줄 때</p>
+    </section>
+
+    <section class="concept" id="option-c">
+      <div class="concept-head">
+        <div><span class="eyebrow">OPTION C · EDITORIAL BENEFIT</span><h2>내용까지 읽히는 에디토리얼 카드형</h2></div>
+        <p>이미지와 설명을 한 덩어리로 묶어 제품 강점의 의미까지 전달합니다. 모바일에서도 두 장씩 자연스럽게 이어집니다.</p>
+      </div>
+      <div class="c-grid">
+        <article class="c-card"><div class="c-art"><div class="ill nmn"><i></i></div></div><div class="c-copy"><small>01 · CELL ENERGY</small><h3>피부 에너지를 깨우는 NMN</h3><strong>10,000ppm · 순도 99%+</strong><p>노화의 다양한 원인을 복합적으로 케어하는 시오레만의 고함량 NMN 안티에이징 라인.</p></div></article>
+        <article class="c-card"><div class="c-art"><div class="ill cool"><i></i></div></div><div class="c-copy"><small>02 · INSTANT COOLING</small><h3>열 오른 피부를 빠르게</h3><strong>-10.041°C 즉각 쿨링</strong><p>카밍 수딩 젤을 한 번 사용한 직후 확인된 피부 온도 감소 임상 결과.</p></div></article>
+        <article class="c-card"><div class="c-art"><div class="ill pore"><i></i></div></div><div class="c-copy"><small>03 · NON-COMEDOGENIC</small><h3>트러블 피부도 편안하게</h3><strong>논코메도제닉 인증 품목 보유</strong><p>모공을 막지 않는지 확인하는 시험을 거쳐 여드름성 피부까지 고려했습니다.</p></div></article>
+        <article class="c-card"><div class="c-art"><div class="ill skin"><i></i></div></div><div class="c-copy"><small>04 · NON-IRRITATING</small><h3>피부 타입을 가리지 않는 신뢰</h3><strong>피부자극지수 0.00</strong><p>민감한 피부까지 매일 사용할 수 있도록 저자극 포뮬러로 설계했습니다.</p></div></article>
+      </div>
+      <div class="recommend"><div><strong>추천 조합: A의 선화 + B의 수치 강조</strong><br><span>현재 첫 화면에는 이 조합이 가장 잘 맞습니다. 정돈된 전문성과 현장 훅킹을 동시에 가져갈 수 있습니다.</span></div><b>BEST FIT</b></div>
+    </section>
+  </main>
+</body>
+</html>

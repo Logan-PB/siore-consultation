@@ -18,15 +18,18 @@
     .a-grid{display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:0 20px 70px rgba(71,45,34,.07)}
     .card{min-width:0;border-right:1px solid var(--line)}
     .card:last-child{border-right:0}
-    .media{position:relative;height:285px;overflow:hidden;background:#eee}
-    .media img{width:100%;height:100%;object-fit:cover}
+    .media{position:relative;height:285px;overflow:hidden;background:#302a28}
+    .media:before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(180deg,rgba(28,23,22,.16),rgba(28,23,22,.42))}
+    .media img{position:absolute;inset:-12px;width:calc(100% + 24px);height:calc(100% + 24px);object-fit:cover;filter:blur(6px) saturate(.68) brightness(.78);transform:scale(1.04)}
     .nmn .media img{object-position:50% 45%}
-    .cooling .media img{object-position:50% 42%;filter:saturate(.78) contrast(1.03)}
-    .cooling .media:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(85,184,216,.23),transparent 55%)}
-    .noncom .media{background:#fff}.noncom .media img{object-position:48% 27%;object-fit:cover}
+    .cooling .media img{object-position:50% 42%;filter:blur(7px) saturate(.58) brightness(.81)}
+    .cooling .media:after{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(135deg,rgba(46,168,207,.34),rgba(19,82,108,.12))}
+    .noncom .media{background:#e9dfd9}.noncom .media img{object-position:48% 27%;object-fit:cover;filter:blur(5px) saturate(.5) brightness(.84)}
     .allskin .media img{object-position:50% 44%}
-    .image-label{position:absolute;z-index:2;left:15px;top:15px;padding:7px 10px;border:1px solid rgba(255,255,255,.75);border-radius:999px;background:rgba(35,29,27,.55);color:#fff;font-size:8px;font-weight:900;letter-spacing:1.1px;backdrop-filter:blur(9px)}
-    .metric{position:absolute;z-index:2;right:14px;bottom:14px;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.91);color:var(--ink);font-size:19px;font-weight:900;letter-spacing:-.8px;box-shadow:0 8px 24px rgba(55,38,32,.13)}
+    .emoji-badge{position:absolute;z-index:3;left:50%;top:50%;display:grid;place-items:center;width:104px;height:104px;border:1px solid rgba(255,255,255,.72);border-radius:30px;background:rgba(255,255,255,.78);font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:51px;line-height:1;transform:translate(-50%,-50%);box-shadow:0 16px 34px rgba(38,25,21,.18),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(13px)}
+    .emoji-badge small{position:absolute;right:-7px;bottom:-7px;display:grid;place-items:center;min-width:31px;height:31px;padding:0 7px;border:3px solid rgba(255,255,255,.9);border-radius:999px;background:var(--orange);color:#fff;font-family:Pretendard,sans-serif;font-size:10px;font-weight:900}
+    .image-label{position:absolute;z-index:3;left:15px;top:15px;padding:7px 10px;border:1px solid rgba(255,255,255,.75);border-radius:999px;background:rgba(35,29,27,.55);color:#fff;font-size:8px;font-weight:900;letter-spacing:1.1px;backdrop-filter:blur(9px)}
+    .metric{position:absolute;z-index:3;right:14px;bottom:14px;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.91);color:var(--ink);font-size:19px;font-weight:900;letter-spacing:-.8px;box-shadow:0 8px 24px rgba(55,38,32,.13)}
     .cooling .metric{color:#157b9d}.noncom .metric{font-size:13px;color:#8d4f3b}
     .copy{min-height:280px;padding:26px 24px 25px;text-align:center}
     .copy h2{margin:0;font-size:19px;letter-spacing:-.6px}
@@ -49,22 +52,22 @@
 
     <section class="a-grid" aria-label="시오레 핵심 제품력">
       <article class="card nmn">
-        <div class="media"><img src="../images/mockups/a-photo-nmn.jpg" alt="탄력 있는 피부를 표현한 시오레 모델 클로즈업"><span class="image-label">SKIN LONGEVITY</span><b class="metric">10,000ppm</b></div>
+        <div class="media"><img src="../images/mockups/a-photo-nmn.jpg" alt="탄력 있는 피부를 표현한 시오레 모델 클로즈업"><span class="image-label">SKIN LONGEVITY</span><span class="emoji-badge" aria-label="세포 에너지">🧬<small>99%+</small></span><b class="metric">10,000ppm</b></div>
         <div class="copy"><h2>안티에이징</h2><span class="en">HIGH-PURITY NMN 99%+</span><strong>피부 에너지·탄력 케어</strong><p>99% 이상 고순도 NMN을 담아 피부 본연의 건강함과 탄력을 케어합니다.</p><span class="chip">약사가 설계한 NMN 스킨케어</span></div>
       </article>
 
       <article class="card cooling">
-        <div class="media"><img src="../images/mockups/a-photo-cooling.jpg" alt="수딩 젤을 피부에 도포한 시오레 모델"><span class="image-label">INSTANT COOLING</span><b class="metric">-10.041°C</b></div>
+        <div class="media"><img src="../images/mockups/a-photo-cooling.jpg" alt="수딩 젤을 피부에 도포한 시오레 모델"><span class="image-label">INSTANT COOLING</span><span class="emoji-badge" aria-label="즉각 쿨링">❄️<small>↓</small></span><b class="metric">-10.041°C</b></div>
         <div class="copy"><h2>즉각 쿨링</h2><span class="en">NEW COOLING CLINICAL</span><strong>1회 사용 직후</strong><p>카밍 수딩 젤 사용 직후 확인된 피부 온도 감소 결과를 직관적으로 보여줍니다.</p><span class="chip">열 오른 피부를 빠르게</span></div>
       </article>
 
       <article class="card noncom">
-        <div class="media"><img src="../images/mockups/a-photo-noncom.jpg" alt="논코메도제닉 인체적용시험 완료 자료"><span class="image-label">TESTED EVIDENCE</span><b class="metric">시험 완료</b></div>
+        <div class="media"><img src="../images/mockups/a-photo-noncom.jpg" alt="논코메도제닉 인체적용시험 완료 자료"><span class="image-label">TESTED EVIDENCE</span><span class="emoji-badge" aria-label="논코메도제닉 인증">🛡️<small>✓</small></span><b class="metric">시험 완료</b></div>
         <div class="copy"><h2>여드름성 피부</h2><span class="en">NON-COMEDOGENIC</span><strong>인증 품목 보유</strong><p>모공 막힘 부담을 낮춘 논코메도제닉 인체적용시험 완료 품목을 보유했습니다.</p><span class="chip">ACNE-PRONE SKIN TESTED</span></div>
       </article>
 
       <article class="card allskin">
-        <div class="media"><img src="../images/mockups/a-photo-allskin.jpg" alt="다양한 피부 톤을 가진 시오레 모델"><span class="image-label">FOR EVERY SKIN</span><b class="metric">0.00</b></div>
+        <div class="media"><img src="../images/mockups/a-photo-allskin.jpg" alt="다양한 피부 톤을 가진 시오레 모델"><span class="image-label">FOR EVERY SKIN</span><span class="emoji-badge" aria-label="모든 피부 사용 가능">🫶<small>ALL</small></span><b class="metric">0.00</b></div>
         <div class="copy"><h2>모든 피부 사용</h2><span class="en">NON-IRRITATING</span><strong>피부자극지수 0.00</strong><p>다양한 피부 타입과 민감한 피부까지 고려한 무자극 판정 포뮬러입니다.</p><span class="chip">DERMATOLOGICALLY TESTED</span></div>
       </article>
     </section>

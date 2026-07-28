@@ -2286,6 +2286,336 @@ body {
 }
 .legacy-brand { display: none !important; }
 
+/* Home: pharmacy opportunity first */
+.home-stage {
+  height: calc(800px - var(--nav-h));
+  display: grid;
+  grid-template-rows: minmax(0,1fr) 168px;
+  overflow: hidden;
+  background: #171515;
+}
+.home-main {
+  position: relative;
+  display: grid;
+  grid-template-columns: 49% 51%;
+  min-height: 0;
+  overflow: hidden;
+}
+.home-main::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg,rgba(19,17,17,.98) 0,rgba(19,17,17,.92) 43%,rgba(19,17,17,.2) 68%,rgba(19,17,17,.03) 100%);
+}
+.home-copy {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 38px 22px 34px 50px;
+  color: #fff;
+}
+.home-pharmacy-mark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 15px;
+  color: #ff8a60;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.7px;
+}
+.home-cross {
+  width: 27px;
+  height: 27px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: #f4511e;
+  color: #fff;
+  font-size: 19px;
+  box-shadow: 0 8px 20px rgba(244,81,30,.28);
+}
+.home-copy h1 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 950;
+  line-height: 1.08;
+  letter-spacing: -2.2px;
+}
+.home-copy h1 em {
+  color: #ff5a25;
+  font-style: normal;
+}
+.home-copy .home-lead {
+  max-width: 510px;
+  margin-top: 18px;
+  color: rgba(255,255,255,.78);
+  font-size: 14px;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+.home-sku-hook {
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr);
+  align-items: center;
+  gap: 13px;
+  max-width: 500px;
+  margin-top: 21px;
+  padding: 12px 15px;
+  border: 1px solid rgba(255,126,78,.44);
+  border-radius: 12px;
+  background: rgba(244,81,30,.12);
+}
+.home-sku-hook b {
+  color: #ff6a35;
+  font-size: 23px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.home-sku-hook span {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+.home-art {
+  min-width: 0;
+  overflow: hidden;
+}
+.home-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(1.13) saturate(1.1) brightness(1.06);
+}
+.home-founder-strip {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46% 54%;
+  overflow: hidden;
+  border-top: 2px solid rgba(255,255,255,.3);
+  background: #dce9ff;
+}
+.home-founder-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.home-founder-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 18px 34px;
+  color: #08204a;
+  background: linear-gradient(90deg,rgba(220,233,255,.86),#dce9ff);
+}
+.home-founder-message small {
+  color: #2b65c9;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+}
+.home-founder-message strong {
+  margin-top: 5px;
+  font-size: 21px;
+  line-height: 1.2;
+  letter-spacing: -.8px;
+  word-break: keep-all;
+}
+.home-founder-message span {
+  margin-top: 6px;
+  color: #415575;
+  font-size: 10px;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+/* Brand: five proof categories, then origin story */
+.brand-strength-section {
+  padding: 18px 20px 20px;
+  background: #f6f2ef;
+}
+.brand-strength-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 13px;
+}
+.brand-strength-head small {
+  color: var(--orange);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+}
+.brand-strength-head h2 {
+  margin-top: 4px;
+  font-size: 27px;
+  font-weight: 950;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+.brand-strength-head p {
+  max-width: 430px;
+  color: #756861;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: right;
+  word-break: keep-all;
+}
+.brand-strength-grid {
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  overflow: hidden;
+  border: 1px solid #e4d5cd;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(68,44,33,.08);
+}
+.brand-strength-card {
+  min-width: 0;
+  border-right: 1px solid #e4d5cd;
+  background: #fff;
+}
+.brand-strength-card:last-child { border-right: 0; }
+.brand-strength-media {
+  position: relative;
+  height: 218px;
+  overflow: hidden;
+  background: #eaded8;
+}
+.brand-strength-media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(1px) saturate(.88) brightness(.92);
+  transform: scale(1.02);
+}
+.brand-strength-card.noncom .brand-strength-media > img {
+  object-fit: contain;
+  transform: scale(.86);
+  filter: blur(.7px) saturate(.8) brightness(.98);
+}
+.brand-strength-card.derma .brand-strength-media {
+  background: linear-gradient(145deg,#eef8ff,#c8e3f5);
+}
+.brand-strength-card.derma .brand-strength-media > img {
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  width: 108px;
+  height: 138px;
+  padding: 9px;
+  border: 1px solid rgba(255,255,255,.85);
+  border-radius: 24px;
+  background: rgba(255,255,255,.58);
+  object-fit: contain;
+  filter: drop-shadow(0 12px 20px rgba(16,83,123,.2));
+  transform: translate(-50%,-50%);
+}
+.strength-benefit {
+  position: absolute;
+  z-index: 3;
+  left: 12px;
+  right: 12px;
+  top: 11px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: rgba(244,81,30,.95);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.25;
+  text-align: center;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+.strength-icon {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 53%;
+  width: 87px;
+  height: 87px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.78);
+  border-radius: 27px;
+  background: rgba(255,255,255,.43);
+  font-size: 39px;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 14px 30px rgba(41,28,23,.17);
+  backdrop-filter: blur(7px);
+}
+.strength-metric {
+  position: absolute;
+  z-index: 3;
+  right: 12px;
+  bottom: 11px;
+  padding: 7px 9px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.92);
+  color: #231f1d;
+  font-size: 14px;
+  font-weight: 950;
+  letter-spacing: -.5px;
+  white-space: nowrap;
+}
+.brand-strength-copy {
+  display: grid;
+  grid-template-rows: 28px 15px 54px minmax(58px,auto);
+  min-height: 186px;
+  padding: 20px 16px 18px;
+  text-align: center;
+}
+.brand-strength-copy h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -.6px;
+  white-space: nowrap;
+}
+.brand-strength-copy small {
+  color: #9d887f;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.brand-strength-copy strong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--orange);
+  font-size: 19px;
+  line-height: 1.22;
+  letter-spacing: -.7px;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+.brand-strength-copy p {
+  margin: 0;
+  color: #6f625d;
+  font-size: 10px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+.brand-proof-hero { display: none; }
+
 </style>
 </head>
 <body>
@@ -2301,7 +2631,10 @@ body {
 
   <!-- 탭 메뉴 -->
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('brand',this)">
+    <button class="tab-btn active" onclick="switchTab('home',this)">
+      <span class="t-icon">✚</span> 홈
+    </button>
+    <button class="tab-btn" onclick="switchTab('brand',this)">
       <span class="t-icon">🏷️</span> 브랜드
     </button>
     <button class="tab-btn" onclick="switchTab('marketing',this)">
@@ -2328,9 +2661,62 @@ body {
 <!-- ═══════════ MAIN ═══════════ -->
 <div class="main">
 
+  <!-- ════ HOME: 신규 약국 첫 접근 ════ -->
+  <div id="panel-home" class="panel active">
+    <div class="home-stage">
+      <section class="home-main" aria-labelledby="home-title">
+        <div class="home-copy">
+          <div class="home-pharmacy-mark"><span class="home-cross">✚</span> K-BEAUTY · TRUSTED PHARMACY</div>
+          <h1 id="home-title">K-Beauty 시장의 다음 주역,<br><em>신뢰 기반 약국</em>입니다.</h1>
+          <p class="home-lead">관광객과 고객은 이제 제품만이 아니라 전문적인 설명과 신뢰까지 함께 찾습니다. 약국은 K-Beauty를 가장 설득력 있게 제안할 수 있는 새로운 접점입니다.</p>
+          <div class="home-sku-hook"><b>SIORÉ</b><span>그 시장에서 약국의 경쟁력을 만드는<br>약사 설계 더마스킨케어 SKU</span></div>
+        </div>
+        <div class="home-art">
+          <img src="images/hero/siore-nmn-cinematic-v2.png" alt="K-Beauty 약국 경쟁 SKU 시오레 NMN 라인">
+        </div>
+      </section>
+      <section class="home-founder-strip" aria-label="약사 대표 신뢰 메시지">
+        <img src="images/k_beauty_pharmacist_header.png" alt="K-Beauty의 다음 무대 K-약국과 약사, 파마브로스 대표약사">
+        <div class="home-founder-message">
+          <small>PHARMACIST-LED K-BEAUTY</small>
+          <strong>제품을 파는 약국에서,<br>신뢰를 설명하는 K-Beauty 약국으로</strong>
+          <span>약사가 설계하고 임상으로 증명한 시오레가 전문상담 약국의 새로운 경쟁 SKU가 됩니다.</span>
+        </div>
+      </section>
+    </div>
+  </div>
+
   <!-- ════ TAB 1: 브랜드 ════ -->
-  <div id="panel-brand" class="panel active">
+  <div id="panel-brand" class="panel">
     <div class="brand-final">
+      <section class="brand-strength-section" aria-labelledby="brand-strength-title">
+        <div class="brand-strength-head">
+          <div><small>BRAND COMPETITIVENESS · 5 PROOFS</small><h2 id="brand-strength-title">시오레를 선택해야 하는 5가지 제품력</h2></div>
+          <p>홈에서 약국의 시장 기회를 제시한 뒤, 브랜드 탭에서는 임상·안전성·성분으로 시오레의 경쟁력을 설명합니다.</p>
+        </div>
+        <div class="brand-strength-grid">
+          <article class="brand-strength-card">
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-nmn.jpg" alt="NMN 안티에이징 피부 이미지"><span class="strength-benefit">약사가 설계한 NMN 스킨케어</span><span class="strength-icon">🧬</span><b class="strength-metric">10,000ppm</b></div>
+            <div class="brand-strength-copy"><h3>안티에이징</h3><small>HIGH-PURITY NMN 99%+</small><strong>피부 에너지·탄력 케어</strong><p>99% 이상 고순도 NMN을 담아 피부 본연의 건강한 탄력을 케어합니다.</p></div>
+          </article>
+          <article class="brand-strength-card">
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-cooling.jpg" alt="쿨링 수딩 젤 피부 이미지"><span class="strength-benefit">열 오른 피부를 빠르게</span><span class="strength-icon">❄️🌡️</span><b class="strength-metric" style="color:#157b9d;">-10.041°C</b></div>
+            <div class="brand-strength-copy"><h3>즉각 쿨링</h3><small>NEW COOLING CLINICAL</small><strong>1회 사용 직후</strong><p>카밍 수딩 젤 사용 직후 확인된 피부 온도 감소 결과를 직관적으로 보여줍니다.</p></div>
+          </article>
+          <article class="brand-strength-card noncom">
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-noncom.jpg" alt="논코메도제닉 시험 자료"><span class="strength-benefit">여드름성 피부 사용 적합</span><span class="strength-icon">🛡️</span><b class="strength-metric" style="font-size:10px;">논코메도제닉 인증</b></div>
+            <div class="brand-strength-copy"><h3>여드름성 피부</h3><small>NON-COMEDOGENIC</small><strong>논코메도제닉 인증 보유</strong><p>모공 막힘 부담을 낮춘 논코메도제닉 인체적용시험 완료 품목을 보유했습니다.</p></div>
+          </article>
+          <article class="brand-strength-card">
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-allskin.jpg" alt="다양한 피부 타입 이미지"><span class="strength-benefit">모든 피부 사용 가능</span><span class="strength-icon">🫶</span><b class="strength-metric" style="font-size:11px;">피부자극 0.00</b></div>
+            <div class="brand-strength-copy"><h3>모든 피부 사용</h3><small>NON-IRRITATING</small><strong>피부 자극지수 0.00</strong><p>다양한 피부 타입과 민감한 피부까지 고려한 무자극 판정 포뮬러입니다.</p></div>
+          </article>
+          <article class="brand-strength-card derma">
+            <div class="brand-strength-media"><img src="images/cert/dermatest-excellent-2025.png" alt="독일 더마테스트 EXCELLENT 2025 인증"><span class="strength-benefit">독일 피부과학 평가 최고등급</span><b class="strength-metric" style="font-size:10px;color:#07578f;">EXCELLENT 2025</b></div>
+            <div class="brand-strength-copy"><h3>독일 더마테스트</h3><small>DERMATEST® EXCELLENT</small><strong>EXCELLENT ★★★★★</strong><p>독일 피부과학 전문기관의 피부 적용성 평가를 통과한 최고등급 인증입니다.</p></div>
+          </article>
+        </div>
+      </section>
       <section class="brand-proof-hero" aria-labelledby="brand-proof-title">
         <div class="brand-proof-copy">
           <div class="brand-kicker">PHARMACIST-DESIGNED · CLINICALLY PROVEN</div>

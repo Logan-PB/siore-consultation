@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="t d">
+  <title id="t">카밍 수딩 젤 피부 온도 감소 그래프</title>
+  <desc id="d">가온 자극 후 제품을 한 번 사용했을 때 피부 온도가 10.041도 감소한 결과</desc>
+  <defs>
+    <linearGradient id="cool" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#87d9ed"/>
+      <stop offset="1" stop-color="#2379a5"/>
+    </linearGradient>
+    <linearGradient id="hot" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffb39b"/>
+      <stop offset="1" stop-color="#f55018"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="430" rx="28" fill="#f5fbfe"/>
+  <text x="48" y="55" font-family="Pretendard,Arial,sans-serif" font-size="19" font-weight="800" fill="#277fa5">NEW COOLING CLINICAL</text>
+  <text x="48" y="105" font-family="Pretendard,Arial,sans-serif" font-size="34" font-weight="900" fill="#17222a">1회 사용 직후 피부 온도</text>
+  <text x="705" y="105" text-anchor="end" font-family="Pretendard,Arial,sans-serif" font-size="42" font-weight="950" fill="#157b9d">-10.041°C</text>
+  <line x1="80" y1="340" x2="680" y2="340" stroke="#9eb4bf" stroke-width="2"/>
+  <line x1="80" y1="275" x2="680" y2="275" stroke="#dce8ed" stroke-width="1"/>
+  <line x1="80" y1="210" x2="680" y2="210" stroke="#dce8ed" stroke-width="1"/>
+  <rect x="190" y="168" width="120" height="172" rx="28" fill="url(#hot)"/>
+  <rect x="450" y="264" width="120" height="76" rx="28" fill="url(#cool)"/>
+  <text x="250" y="151" text-anchor="middle" font-family="Pretendard,Arial,sans-serif" font-size="27" font-weight="900" fill="#d84717">39.409°C</text>
+  <text x="510" y="247" text-anchor="middle" font-family="Pretendard,Arial,sans-serif" font-size="27" font-weight="900" fill="#157b9d">29.368°C</text>
+  <path d="M330 185 C365 205 395 230 430 260" fill="none" stroke="#157b9d" stroke-width="7" stroke-linecap="round"/>
+  <path d="M416 244 L432 261 L409 267" fill="#157b9d"/>
+  <text x="250" y="378" text-anchor="middle" font-family="Pretendard,Arial,sans-serif" font-size="20" font-weight="750" fill="#6b7175">가온 자극 후</text>
+  <text x="510" y="378" text-anchor="middle" font-family="Pretendard,Arial,sans-serif" font-size="20" font-weight="850" fill="#17222a">1회 사용 직후</text>
+  <text x="380" y="412" text-anchor="middle" font-family="Pretendard,Arial,sans-serif" font-size="14" font-weight="650" fill="#7d8b92">N=22 · p&lt;0.001 · 일시적 효과 및 개인차 있음</text>
+</svg>

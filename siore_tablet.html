@@ -4589,6 +4589,7 @@ const SKU_STORIES = [
       ['시술 후·트러블 피부','논코메도제닉 · 알코올 무첨가']
     ],
     clinicalCards:[
+      {metric:'-10.041°C',label:'피부 온도 즉각 감소',note:'가온 자극 후 1회 사용 직후 · N=22 · p<0.001',image:'images/clinical/cards/gel-temperature.svg',direct:true},
       {metric:'76.04%',label:'즉각적 겉수분 개선',note:'1회 사용 직후',image:'images/clinical/cards/gel-immediate-moisture.png'},
       {metric:'24H',label:'수분 홀딩',note:'24시간 보습 지속',image:'images/clinical/cards/gel-24h.png'},
       {metric:'42.18%',label:'피부 각질 개선',note:'사용 후 측정',image:'images/clinical/cards/gel-sebum.png'}
@@ -4788,9 +4789,11 @@ function skuStoryHtml(p,index,isModal=false) {
     <article class="sku-story-clinical-card${card.image?'':' no-image'}">
       <div class="sku-story-metric-line"><strong>${card.metric}</strong><b>${card.label}</b></div>
       <small>${card.note||''}</small>
-      ${card.image?`<button class="sku-story-evidence-thumb ${hasPhoto?'photo':'chart'}" type="button" onclick="openClinicalEvidence(${index},${cardIndex})" aria-label="${p.name} ${card.label} 전체 임상 자료 팝업 열기">
-        ${hasPhoto?`<img src="${skuAsset(card.image)}" alt="${p.name} ${card.label} 사용 전후 비교">`:`<span>↗</span>그래프 전체 보기`}
-      </button>`:''}
+      ${card.image?(card.direct
+        ?`<div class="sku-story-evidence-thumb direct-chart"><img src="${skuAsset(card.image)}" alt="${p.name} ${card.label} 그래프"></div>`
+        :`<button class="sku-story-evidence-thumb ${hasPhoto?'photo':'chart'}" type="button" onclick="openClinicalEvidence(${index},${cardIndex})" aria-label="${p.name} ${card.label} 전체 임상 자료 팝업 열기">
+          ${hasPhoto?`<img src="${skuAsset(card.image)}" alt="${p.name} ${card.label} 사용 전후 비교">`:`<span>↗</span>그래프 전체 보기`}
+        </button>`):''}
     </article>`}).join('');
   return `
     <div class="sku-story${isModal?' sku-story-modal':''}" style="--story-accent:${p.accent}">
@@ -5011,5 +5014,198 @@ function wireLineupSkuCards() {
     });
   })();
   </script>
+<style id="sales-refresh-20260728">
+  .home-art{position:relative}
+  .home-art-logo{position:absolute;right:4.2%;top:7%;width:clamp(96px,11vw,164px)!important;height:auto!important;max-height:58px;object-fit:contain!important;z-index:3;filter:drop-shadow(0 3px 12px rgba(255,255,255,.92))!important}
+
+  #panel-brand{background:#f7f4f1}
+  .brand-onepage{height:calc(100vh - 72px);min-height:690px;max-height:900px;display:grid;grid-template-rows:minmax(0,1fr) 228px;overflow:hidden}
+  .brand-onepage-main{display:grid;grid-template-columns:35% 65%;min-height:0;background:#fff}
+  .brand-origin-visual{position:relative;overflow:hidden;background:#eee6e0}
+  .brand-origin-visual>img{width:100%;height:100%;object-fit:cover;object-position:left center;display:block}
+  .brand-origin-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 58%,rgba(255,255,255,.96) 77%,#fff 100%)}
+  .brand-origin-question{position:absolute;right:18px;top:28px;z-index:2;text-align:right;font-size:clamp(18px,2vw,32px);line-height:1.16;font-weight:950;letter-spacing:-1.1px;color:#171414}
+  .brand-origin-question em{display:block;color:#f55018;font-style:normal}
+  .brand-origin-copy{padding:clamp(20px,2.6vw,42px);display:grid;grid-template-rows:auto auto 1fr auto;min-width:0;overflow:hidden}
+  .brand-origin-copy small{font-size:10px;letter-spacing:2.1px;font-weight:900;color:#f55018}
+  .brand-origin-copy h2{font-size:clamp(24px,2.5vw,39px);line-height:1.08;letter-spacing:-1.4px;margin:9px 0 10px;color:#171414}
+  .brand-origin-copy h2 em{color:#f55018;font-style:normal}
+  .brand-origin-copy>p{font-size:clamp(11px,1.05vw,15px);line-height:1.62;color:#635b56;margin:0 0 12px;max-width:720px}
+  .brand-origin-product{display:grid;grid-template-columns:minmax(0,1fr) 118px;align-items:center;gap:16px;border:1px solid #ecd8ce;background:linear-gradient(100deg,#fff6f1,#fff);border-radius:18px;padding:13px 17px;min-height:126px;overflow:hidden}
+  .brand-origin-product strong{font-size:clamp(16px,1.6vw,24px);line-height:1.2;color:#251c18;display:block}
+  .brand-origin-product strong em{font-style:normal;color:#f55018}
+  .brand-origin-product span{display:block;margin-top:7px;font-size:11px;line-height:1.48;color:#6d625c}
+  .brand-origin-product img{width:100%;height:116px;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(66,37,20,.15))}
+  .skin-concern-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#f55018;border-radius:9px;overflow:hidden;margin-top:10px}
+  .skin-concern-row span{padding:7px 5px;text-align:center;background:#f55018;color:#fff;font-size:10px;font-weight:850;white-space:nowrap;border-right:1px solid rgba(255,255,255,.28)}
+  .brand-proof-bottom{display:grid;grid-template-columns:repeat(5,1fr);background:#171414;color:#fff;border-top:3px solid #f55018}
+  .brand-proof-item{display:grid;grid-template-columns:54px 1fr;align-items:center;gap:10px;padding:16px 14px;border-right:1px solid rgba(255,255,255,.12);min-width:0}
+  .brand-proof-item:last-child{border-right:0}
+  .brand-proof-item img{width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fff;padding:5px}
+  .brand-proof-item b{display:block;font-size:clamp(14px,1.4vw,21px);line-height:1.05;color:#fff;white-space:nowrap}
+  .brand-proof-item b.orange{color:#ff6534}
+  .brand-proof-item small{display:block;margin-top:4px;font-size:9px;line-height:1.32;color:#bfb7b2;font-weight:700}
+
+  #panel-marketing{background:#f5f2ef}
+  .marketing-onepage{height:calc(100vh - 72px);min-height:690px;max-height:900px;padding:18px 24px 22px;display:grid;grid-template-rows:auto 1fr;gap:14px;overflow:hidden}
+  .marketing-head{display:flex;justify-content:space-between;align-items:end;gap:18px}
+  .marketing-head small{font-size:10px;letter-spacing:2px;font-weight:900;color:#f55018}
+  .marketing-head h2{font-size:clamp(24px,2.7vw,40px);letter-spacing:-1.3px;line-height:1.05;margin:5px 0 0;color:#171414}
+  .marketing-head p{font-size:11px;line-height:1.5;color:#6e6661;max-width:520px;text-align:right}
+  .marketing-layout{display:grid;grid-template-columns:35% 65%;gap:14px;min-height:0}
+  .marketing-stat-card{position:relative;border-radius:22px;background:#f55018;color:#fff;padding:26px 26px 22px;display:flex;flex-direction:column;overflow:hidden}
+  .marketing-stat-card:after{content:"";position:absolute;width:270px;height:270px;border:1px solid rgba(255,255,255,.2);border-radius:50%;right:-90px;bottom:-100px}
+  .marketing-stat-card .growth{font-size:clamp(52px,6vw,88px);font-weight:950;letter-spacing:-4px;line-height:.95}
+  .marketing-stat-card .growth-note{font-size:12px;line-height:1.55;font-weight:750;margin-top:10px}
+  .marketing-support-hook{margin:auto 0;text-align:center;padding:22px 8px;border-top:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);font-size:clamp(21px,2.5vw,36px);font-weight:950;line-height:1.2;letter-spacing:-1px}
+  .marketing-support-hook small{display:block;margin-top:9px;font-size:10px;letter-spacing:1.6px;color:#ffe2d7}
+  .marketing-stat-card footer{font-size:9.5px;line-height:1.45;color:#ffe8df}
+  .influencer-wall{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;min-height:0}
+  .influencer-card{position:relative;overflow:hidden;border-radius:16px;background:#111;min-height:0}
+  .influencer-card iframe{width:100%;height:100%;border:0;display:block;background:#111}
+  .influencer-card .ic-label{position:absolute;left:10px;bottom:10px;background:rgba(17,17,17,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:9px;padding:6px 9px;font-size:9px;font-weight:850;pointer-events:none}
+
+  .sku-story-evidence-thumb.direct-chart{display:block!important;height:auto!important;min-height:150px;border:0!important;background:#f5fbfe!important;padding:0!important;overflow:hidden}
+  .sku-story-evidence-thumb.direct-chart img{display:block;width:100%;height:auto;max-height:260px;object-fit:contain}
+
+  .vmd-onepage{height:calc(100vh - 72px);min-height:690px;max-height:900px;padding:18px 24px 22px;background:#f6f3f0;display:grid;grid-template-rows:auto 1fr;gap:13px;overflow:hidden}
+  .vmd-onepage-head{display:flex;align-items:end;justify-content:space-between;gap:16px}
+  .vmd-onepage-head small{font-size:10px;letter-spacing:2px;font-weight:900;color:#f55018}
+  .vmd-onepage-head h2{font-size:clamp(24px,2.6vw,39px);line-height:1.05;margin:5px 0 0;letter-spacing:-1.2px}
+  .vmd-onepage-head p{font-size:11px;color:#6c635e;text-align:right;margin:0}
+  .vmd-real-layout{display:grid;grid-template-columns:1.45fr 1fr;gap:12px;min-height:0}
+  .vmd-real-hero,.vmd-real-thumb{position:relative;border-radius:17px;overflow:hidden;background:#ddd;cursor:pointer;border:1px solid #ded5cf}
+  .vmd-real-hero img,.vmd-real-thumb img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .25s ease}
+  .vmd-real-hero:hover img,.vmd-real-thumb:hover img{transform:scale(1.025)}
+  .vmd-real-caption{position:absolute;left:12px;right:12px;bottom:12px;padding:9px 11px;border-radius:10px;background:rgba(20,16,14,.72);backdrop-filter:blur(8px);color:#fff;font-size:10px;font-weight:800}
+  .vmd-real-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:9px;min-height:0}
+  .vmd-case-modal{position:fixed;inset:0;background:rgba(8,7,7,.91);z-index:9999;display:none;align-items:center;justify-content:center;padding:22px}
+  .vmd-case-modal.open{display:flex}
+  .vmd-case-shell{width:min(1180px,96vw);height:min(800px,92vh);display:grid;grid-template-rows:1fr auto;gap:10px}
+  .vmd-case-main{position:relative;border-radius:18px;overflow:hidden;background:#111}
+  .vmd-case-main img{width:100%;height:100%;object-fit:contain;display:block}
+  .vmd-case-close{position:absolute;right:14px;top:14px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#111;font-size:27px;font-weight:800;cursor:pointer}
+  .vmd-case-thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:3px}
+  .vmd-case-thumbs button{flex:0 0 112px;height:72px;border:2px solid transparent;border-radius:9px;overflow:hidden;padding:0;background:#222;cursor:pointer}
+  .vmd-case-thumbs button.active{border-color:#f55018}
+  .vmd-case-thumbs img{width:100%;height:100%;object-fit:cover}
+
+  @media(max-width:800px){
+    .brand-onepage,.marketing-onepage,.vmd-onepage{height:auto;max-height:none;overflow:visible}
+    .brand-onepage{grid-template-rows:auto auto}.brand-onepage-main{grid-template-columns:1fr}.brand-origin-visual{min-height:330px}
+    .brand-proof-bottom{grid-template-columns:1fr 1fr}.brand-proof-item:last-child{grid-column:1/-1}
+    .marketing-layout,.vmd-real-layout{grid-template-columns:1fr}.marketing-stat-card{min-height:430px}.influencer-wall{height:680px}
+    .vmd-real-hero{min-height:430px}.vmd-real-grid{height:640px}
+  }
+</style>
+<script>
+(function(){
+  const logo=document.createElement('img');
+  logo.className='home-art-logo';
+  logo.src='images/brand/siore-logo-official-black.png';
+  logo.alt='SIORÉ';
+  document.querySelector('.home-art')?.appendChild(logo);
+
+  const marketingButton=[...document.querySelectorAll('.tab-btn')].find(el=>String(el.getAttribute('onclick')).includes("'marketing'"));
+  if(marketingButton) marketingButton.innerHTML='<span class="t-icon">📱</span> 마케팅';
+
+  const brand=document.querySelector('#panel-brand .brand-final');
+  if(brand) brand.innerHTML=`
+    <div class="brand-onepage">
+      <div class="brand-onepage-main">
+        <div class="brand-origin-visual">
+          <img src="images/brand/siore-brand-real-skin.webp" alt="실제 피부 고민에서 출발한 시오레 브랜드 스토리">
+          <div class="brand-origin-question">“어떤 제품을<em>써야 할까요?”</em></div>
+        </div>
+        <div class="brand-origin-copy">
+          <small>BRAND STORY · FROM REAL SKIN CONCERNS</small>
+          <h2>약국 카운터의 질문에서 시작된<br><em>약사가 설계한 피부 영양</em></h2>
+          <p>시오레는 피부 고민을 가리는 제품이 아니라 피부가 스스로 건강한 균형을 되찾도록 돕는 처방형 스킨케어입니다. 약사의 현장 질문, 검증 원료, 측정 가능한 임상으로 약국 상담의 근거를 만듭니다.</p>
+          <div>
+            <div class="brand-origin-product">
+              <div><strong>99% 이상 고순도 NMN<br><em>최대 10,000ppm 인텐시브 처방</em></strong><span>NMN 인텐시브 세럼을 중심으로 광채·주름·탄력까지 한 번에 설명할 수 있는 약국 상담형 안티에이징 라인입니다.</span></div>
+              <img src="images/nmn-intensive-serum.png" alt="NMN 인텐시브 세럼">
+            </div>
+            <div class="skin-concern-row" aria-label="실제 피부 고민 카테고리"><span>실제 피부 고민</span><span>건조·속당김</span><span>민감·열감</span><span>탄력·주름</span><span>트러블·피지</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="brand-proof-bottom" aria-label="시오레 제품 인증과 핵심 근거">
+        <div class="brand-proof-item"><img src="images/mockups/a-photo-nmn.jpg" alt=""><div><b class="orange">10,000ppm</b><small>99%+ 고순도 NMN<br>피부 에너지·탄력 케어</small></div></div>
+        <div class="brand-proof-item"><img src="images/mockups/a-photo-cooling.jpg" alt=""><div><b>-10.041°C</b><small>카밍 수딩 젤<br>1회 사용 직후 쿨링</small></div></div>
+        <div class="brand-proof-item"><img src="images/mockups/a-photo-noncom.jpg" alt=""><div><b>논코메도제닉</b><small>여드름성 피부 사용<br>적합 인증 보유</small></div></div>
+        <div class="brand-proof-item"><img src="images/mockups/a-photo-allskin.jpg" alt=""><div><b>피부자극 0.00</b><small>민감 피부를 고려한<br>모든 피부 사용 포뮬러</small></div></div>
+        <div class="brand-proof-item"><img src="images/cert/dermatest-excellent-2025.png" alt=""><div><b>EXCELLENT</b><small>독일 더마테스트<br>피부 적용성 최고등급</small></div></div>
+      </div>
+    </div>`;
+
+  const marketing=document.getElementById('panel-marketing');
+  if(marketing) marketing.innerHTML=`
+    <div class="marketing-onepage">
+      <header class="marketing-head">
+        <div><small>MARKETING · PHARMACY TRAFFIC</small><h2>SNS에서 관심을 만들고,<br>약국에서 구매로 연결합니다.</h2></div>
+        <p>시오레가 인플루언서 섭외·콘텐츠 확산을 지원해 약국이 따로 마케팅을 준비하지 않아도 고객 유입 명분을 만듭니다.</p>
+      </header>
+      <div class="marketing-layout">
+        <section class="marketing-stat-card">
+          <div class="growth">+206%</div>
+          <div class="growth-note">외국인 관광객의 한국 약국 구매액 증가율<br><small>2023년 대비 2025년 · 주요 외국인 상권 기준</small></div>
+          <div class="marketing-support-hook">SNS 마케팅<br>(인플루언서) 지원<small>TIKTOK · INSTAGRAM · XIAOHONGSHU</small></div>
+          <footer>시오레 입점 약국과 제품을 콘텐츠로 연결해 현장 판매직원의 설명 전부터 브랜드 관심도를 높입니다.</footer>
+        </section>
+        <section class="influencer-wall" aria-label="시오레 SNS 인플루언서 콘텐츠">
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">GLOBAL · NMN SERUM</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7584628896818302239?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">K-BEAUTY · ROUTINE</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">PHARMACIST VERIFIED</span></article>
+          <article class="influencer-card"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">INSTAGRAM · PHARMACY PICK</span></article>
+        </section>
+      </div>
+    </div>`;
+
+  const vmdImages=[
+    ['1u348J70x5eE5OKZM5wjTxfeIjpkyAQ74','실제 약국 세팅 대표 사례'],
+    ['10IytJojdNkbrvRZK-sPvu8d00xh49O57','진열장 전체 구성'],
+    ['1iqjeAeuQFcVcNj7WRQ53j9K9FPERfA4J','카운터 제품 진열'],
+    ['1y7EMlJzuoVsmTXeHXxfk4s63noFx5nIA','시오레 전용 존'],
+    ['18bxOfscWgUYESMhmxwIwgJYr4zlQXDzH','약국 선반 세팅'],
+    ['1BwQ_jTxLNy4snubwR2CAOeNBXJez74Pp','제품 라인별 진열'],
+    ['1GqICDl70bD36ICs30QCkv4OBp2Xpp6Ha','매대 디스플레이'],
+    ['1QOvoABUkMvx-jHMjoLGmiPdZDi-wRFO2','NMN 라인 진열'],
+    ['1tHwAWEnRiQ0KIGlfwfWJvKPZ3SYpWYft','데일리 릴리프 라인 진열'],
+    ['1-csVuL35goU7DZsfnwfRzfyp1V0QUN1A','판매 공간 세팅'],
+    ['1BhZNHtqmihPZGFyt2uG91VZvUM946CEI','현장 진열 사례'],
+    ['1So_kohqy2qzuLvWnNqN_joskmnfpiS0B','약국 VMD 완성 사례']
+  ];
+  window.SIORE_VMD_IMAGES=vmdImages;
+  const thumb=(id,size=1400)=>`https://drive.google.com/thumbnail?id=${id}&sz=w${size}`;
+  const vmd=document.getElementById('panel-vmd');
+  if(vmd) vmd.innerHTML=`
+    <div class="vmd-onepage">
+      <header class="vmd-onepage-head">
+        <div><small>REAL PHARMACY SETUP</small><h2>실제 약국 세팅 사례</h2></div>
+        <p>대표 이미지를 누르면 현장 세팅 사진을 연속으로 확인할 수 있습니다.<br>약국 공간에 맞춘 진열 사례 중심으로 구성했습니다.</p>
+      </header>
+      <div class="vmd-real-layout">
+        <div class="vmd-real-hero" onclick="openVmdCase(0)"><img src="${thumb(vmdImages[0][0],1800)}" alt="${vmdImages[0][1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption">실제 세팅 대표사진 · 눌러서 전체 사례 보기</div></div>
+        <div class="vmd-real-grid">${vmdImages.slice(1,7).map((item,i)=>`<div class="vmd-real-thumb" onclick="openVmdCase(${i+1})"><img src="${thumb(item[0],900)}" alt="${item[1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption">${item[1]}</div></div>`).join('')}</div>
+      </div>
+    </div>
+    <div class="vmd-case-modal" id="vmd-case-modal" onclick="if(event.target===this)closeVmdCase()">
+      <div class="vmd-case-shell">
+        <div class="vmd-case-main"><img id="vmd-case-main-image" alt="시오레 실제 약국 세팅 사례" referrerpolicy="no-referrer"><button class="vmd-case-close" onclick="closeVmdCase()" aria-label="닫기">×</button></div>
+        <div class="vmd-case-thumbs">${vmdImages.map((item,i)=>`<button onclick="openVmdCase(${i})" aria-label="${item[1]}"><img src="${thumb(item[0],500)}" alt="" referrerpolicy="no-referrer"></button>`).join('')}</div>
+      </div>
+    </div>`;
+  window.openVmdCase=function(index){
+    const modal=document.getElementById('vmd-case-modal');
+    const item=SIORE_VMD_IMAGES[index];
+    if(!modal||!item)return;
+    document.getElementById('vmd-case-main-image').src=thumb(item[0],2200);
+    modal.querySelectorAll('.vmd-case-thumbs button').forEach((b,i)=>b.classList.toggle('active',i===index));
+    modal.classList.add('open');
+  };
+  window.closeVmdCase=function(){document.getElementById('vmd-case-modal')?.classList.remove('open')};
+})();
+</script>
 </body>
 </html>

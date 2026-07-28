@@ -2803,6 +2803,12 @@ body {
   <span aria-hidden="true">⛶</span><b>화면 꽉 채우기</b>
 </button>
 
+<a id="sales-coach-btn" class="sales-coach-btn"
+   href="sales_script_mobile.html" target="_blank" rel="noopener"
+   aria-label="90초 입점 영업 멘트와 제품별 멘트 듣기">
+  <span aria-hidden="true">🎧</span><b>90초 영업 멘트</b>
+</a>
+
 <!-- ═══════════ MAIN ═══════════ -->
 <div class="main">
 
@@ -5566,5 +5572,84 @@ function wireLineupSkuCards() {
   window.closeVmdCase=function(){document.getElementById('vmd-case-modal')?.classList.remove('open')};
 })();
 </script>
+<style id="field-sales-readability-20260729">
+  /* 현장 영업용 공통 가독성 */
+  body,.main,button,input,select,textarea{
+    font-family:Pretendard,"Pretendard Variable",-apple-system,BlinkMacSystemFont,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;
+  }
+  h1,h2,h3,.fq-text,.prod-name,.vmd-name{
+    word-break:keep-all;
+    overflow-wrap:normal;
+    text-wrap:balance;
+  }
+  .home-founder-message small{font-size:10px}
+  .home-founder-message strong{font-size:22px;line-height:1.18}
+  .home-founder-message span{font-size:11px;line-height:1.45}
+
+  /* 브랜드: 다섯 근거 카드의 제목·수치·설명 기준선 통일 */
+  .brand-proof-bottom .brand-strength-copy,
+  .brand-proof-copy{padding:14px 12px 12px}
+  .brand-proof-bottom .brand-strength-copy p,
+  .brand-proof-copy p{font-size:10.5px;line-height:1.46;margin-top:9px}
+  .brand-proof-copy strong{margin-top:9px}
+
+  /* 마케팅: 30/70 + 간격으로 생기던 가로 넘침 제거 */
+  .marketing-layout{grid-template-columns:minmax(0,3fr) minmax(0,7fr)}
+  .marketing-stat-card,.influencer-wall,.influencer-card{min-width:0}
+  .marketing-head p{font-size:12px;line-height:1.55}
+  .influencer-card .ic-label{font-size:9.5px;padding:7px 8px}
+  .influencer-card .ic-region{font-size:9px}
+
+  /* 제품 카드: 태블릿 거리에서도 제품명과 핵심 문장이 먼저 읽히도록 */
+  .product-grid{gap:11px}
+  .prod-body{padding:16px 15px 15px}
+  .prod-name{font-size:16px;line-height:1.32}
+  .prod-points li{font-size:13px;line-height:1.52;padding-left:14px}
+  .prod-benefit{font-size:12px;line-height:1.45}
+  .prod-price{font-size:23px}
+  .sku-story-evidence-thumb.direct-chart{min-height:240px}
+
+  /* 가격: 한 페이지 안에서 표와 입점 조건을 동시에 설명 */
+  #panel-pricing,#panel-faq{height:calc(800px - var(--nav-h));overflow:hidden}
+  #panel-pricing .page-hero,#panel-faq .page-hero{padding:16px 28px 13px}
+  #panel-pricing .page-hero h2,#panel-faq .page-hero h2{font-size:30px}
+  #panel-pricing .page-hero p,#panel-faq .page-hero p{font-size:12px}
+  #panel-pricing .content-area{padding:14px 28px 16px}
+  #panel-pricing .price-wrap{margin-bottom:12px!important}
+  #panel-pricing .price-table th{padding:7px 9px;font-size:11px}
+  #panel-pricing .price-table td{padding:6px 9px;font-size:12px;line-height:1.25}
+  #panel-pricing .price-note{padding:6px 10px;font-size:10px}
+  #panel-pricing .vmd-grid{gap:10px}
+  #panel-pricing .vmd-card{padding:12px 14px}
+  #panel-pricing .vmd-type{font-size:10px}
+  #panel-pricing .vmd-name{font-size:15px;margin:4px 0}
+  #panel-pricing .vmd-desc{font-size:11px;line-height:1.38}
+
+  /* FAQ: 질문-답변 행 간격을 동일하게 맞추고 QR 가입 동선 강조 */
+  #panel-faq .content-area{padding:14px 28px 18px}
+  #panel-faq .faq-grid{gap:10px}
+  #panel-faq .faq-card{padding:14px 16px}
+  #panel-faq .fq{gap:9px;margin-bottom:8px}
+  #panel-faq .fq-text{font-size:15px;line-height:1.35}
+  #panel-faq .fa{font-size:12.5px;line-height:1.55}
+  #panel-faq .fa-note{margin-top:8px;padding:7px 9px}
+  #panel-faq .faq-b2b-join{min-width:142px}
+
+  /* 실제 세팅 사진: 세로 사진은 세워서, 캡션은 멀리서도 읽히게 */
+  .vmd-real-caption{font-size:11.5px;line-height:1.35;padding:10px 12px}
+  .vmd-real-caption span{font-size:9px}
+
+  .sales-coach-btn{
+    position:fixed;right:166px;bottom:14px;z-index:999;
+    height:42px;padding:0 14px;border-radius:12px;
+    display:flex;align-items:center;gap:7px;text-decoration:none;
+    color:#fff;background:#176f99;border:1px solid rgba(255,255,255,.55);
+    box-shadow:0 8px 24px rgba(23,111,153,.28);
+    transition:transform .18s ease,background .18s ease;
+  }
+  .sales-coach-btn:hover{transform:translateY(-2px);background:#0f5c82}
+  .sales-coach-btn span{font-size:17px}
+  .sales-coach-btn b{font-size:12px;font-weight:900;white-space:nowrap}
+</style>
 </body>
 </html>

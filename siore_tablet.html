@@ -4045,7 +4045,7 @@ function switchTab(id, btn) {
   const tabOrder=['home','brand','marketing','product','salesguide','vmd','pricing','faq'];
   let startX=0,startY=0,active=false;
   main.addEventListener('pointerdown',event=>{
-    if(event.target.closest('button,a,input,select,textarea,iframe,.sku-modal,.vmd-case-modal,.clinical-evidence-modal,.prod-grid,.product-grid'))return;
+    if(event.target.closest('button,a,input,select,textarea,iframe,.sku-modal,.vmd-case-modal,.clinical-evidence-modal,.sales-set-card,.sales-set-modal,.prod-grid,.product-grid'))return;
     startX=event.clientX;
     startY=event.clientY;
     active=true;
@@ -5784,7 +5784,7 @@ function wireLineupSkuCards() {
   .sales-guide-rule div{padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #eadfd9;font-size:10px;line-height:1.4;color:#6a5e58}
   .sales-guide-rule b{display:block;margin-bottom:3px;color:#f55018;font-size:11px}
   .sales-set-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-  .sales-set-card{display:grid;grid-template-columns:36% 64%;min-height:222px;overflow:hidden;border-radius:17px;background:#fff;border:1px solid #e3d8d2;box-shadow:0 8px 22px rgba(59,38,27,.07);cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+  .sales-set-card{display:grid;grid-template-columns:36% 64%;min-height:222px;overflow:hidden;border-radius:17px;background:#fff;border:1px solid #e3d8d2;box-shadow:0 8px 22px rgba(59,38,27,.07);cursor:pointer;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent;transition:transform .2s ease,box-shadow .2s ease}
   .sales-set-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(59,38,27,.13)}
   .sales-set-photo{position:relative;min-width:0;background:#eee}
   .sales-set-photo img{width:100%;height:100%;object-fit:cover}

@@ -2035,6 +2035,257 @@ body {
 .sbar-n { font-size: 20px; font-weight: 900; color: white; line-height: 1; }
 .sbar-l { font-size: 10px; color: rgba(255,255,255,0.8); margin-top: 3px; }
 
+/* Brand intro: proof first, story second */
+.brand-final {
+  background: #f7f4f2;
+  color: var(--dark);
+}
+.brand-proof-hero {
+  position: relative;
+  min-height: 338px;
+  display: grid;
+  grid-template-columns: 47% 53%;
+  overflow: hidden;
+  background: #181616;
+  color: #fff;
+}
+.brand-proof-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 24px 132px 42px;
+}
+.brand-proof-copy .brand-kicker {
+  color: #ff8a60;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2.2px;
+}
+.brand-proof-copy h2 {
+  margin: 9px 0 10px;
+  font-size: 35px;
+  font-weight: 950;
+  line-height: 1.08;
+  letter-spacing: -1.7px;
+}
+.brand-proof-copy h2 em {
+  color: #ff5a25;
+  font-style: normal;
+}
+.brand-proof-copy p {
+  max-width: 490px;
+  color: rgba(255,255,255,.76);
+  font-size: 12px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+.brand-proof-art {
+  position: relative;
+  min-width: 0;
+}
+.brand-proof-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,#181616 0,rgba(24,22,22,.22) 38%,rgba(24,22,22,.02) 100%);
+}
+.brand-proof-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: contrast(1.12) saturate(1.08);
+}
+.brand-proof-grid {
+  position: absolute;
+  z-index: 3;
+  left: 28px;
+  right: 28px;
+  bottom: 18px;
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 13px;
+  background: rgba(20,18,18,.88);
+  box-shadow: 0 16px 36px rgba(0,0,0,.28);
+  backdrop-filter: blur(12px);
+}
+.brand-proof-card {
+  min-width: 0;
+  height: 98px;
+  display: grid;
+  grid-template-columns: 62px minmax(0,1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-right: 1px solid rgba(255,255,255,.12);
+}
+.brand-proof-card:last-child { border-right: 0; }
+.brand-proof-media {
+  width: 62px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #292525;
+}
+.brand-proof-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.brand-proof-card.derma .brand-proof-media {
+  background: linear-gradient(145deg,#eef8ff,#c9e5f6);
+}
+.brand-proof-card.derma .brand-proof-media img {
+  padding: 6px;
+  object-fit: contain;
+}
+.brand-proof-text {
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 15px 34px 25px;
+  align-content: center;
+}
+.brand-proof-text small {
+  color: #ff9872;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .75px;
+  white-space: nowrap;
+}
+.brand-proof-text strong {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.15;
+  letter-spacing: -.45px;
+  word-break: keep-all;
+  text-wrap: balance;
+}
+.brand-proof-text span {
+  display: flex;
+  align-items: flex-start;
+  color: #d3cbc7;
+  font-size: 7.5px;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+.brand-story-final {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  min-height: 376px;
+  margin: 14px 20px 18px;
+  overflow: hidden;
+  border: 1px solid #e5ddd8;
+  border-radius: 16px;
+  background: #fff;
+}
+.brand-story-visual {
+  position: relative;
+  overflow: hidden;
+  min-height: 376px;
+}
+.brand-story-visual > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.brand-story-question {
+  position: absolute;
+  right: 20px;
+  top: 48%;
+  width: 42%;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -.6px;
+  text-align: right;
+  text-shadow: 0 2px 12px rgba(36,20,13,.46);
+  word-break: keep-all;
+}
+.brand-story-copy-final {
+  padding: 22px 28px 24px;
+}
+.brand-story-founder {
+  width: 100%;
+  height: 82px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #dce9ff;
+}
+.brand-story-founder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.brand-story-copy-final .brand-kicker {
+  color: var(--orange);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+}
+.brand-story-copy-final h3 {
+  margin: 7px 0 8px;
+  font-size: 25px;
+  font-weight: 950;
+  line-height: 1.16;
+  letter-spacing: -1px;
+}
+.brand-story-copy-final > p {
+  color: var(--mid);
+  font-size: 11px;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+.brand-story-steps {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+.brand-story-step {
+  min-width: 0;
+  min-height: 102px;
+  padding: 13px 12px;
+  border: 1px solid #eadfd9;
+  border-radius: 10px;
+  background: #fbf8f6;
+}
+.brand-story-step b {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--orange);
+  font-size: 10px;
+}
+.brand-story-step strong {
+  display: block;
+  min-height: 32px;
+  font-size: 13px;
+  line-height: 1.25;
+  letter-spacing: -.4px;
+  word-break: keep-all;
+}
+.brand-story-step span {
+  display: block;
+  margin-top: 6px;
+  color: #776a65;
+  font-size: 9px;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+.legacy-brand { display: none !important; }
+
 </style>
 </head>
 <body>
@@ -2043,7 +2294,7 @@ body {
 <nav class="nav">
   <!-- 로고 -->
   <div class="logo">
-    <img src="https://drive.google.com/thumbnail?id=13UfIBlqDkiBRpLLuJEqZoyfztW_PdRJb&sz=w300"
+    <img src="images/brand/siore-logo-official-black.png"
          alt="SIORÉ" style="height:34px; width:auto; filter:brightness(0) invert(1); object-fit:contain;">
     <div class="logo-sub">Topical Nutrition for Skin</div>
   </div>
@@ -2079,6 +2330,60 @@ body {
 
   <!-- ════ TAB 1: 브랜드 ════ -->
   <div id="panel-brand" class="panel active">
+    <div class="brand-final">
+      <section class="brand-proof-hero" aria-labelledby="brand-proof-title">
+        <div class="brand-proof-copy">
+          <div class="brand-kicker">PHARMACIST-DESIGNED · CLINICALLY PROVEN</div>
+          <h2 id="brand-proof-title">약국 더마스킨케어의<br><em>새로운 기준, SIORÉ</em></h2>
+          <p>99% 이상 고순도 NMN을 최대 10,000ppm 담고, 피부 고민별 임상과 안전성 평가로 제품력을 증명합니다.</p>
+        </div>
+        <div class="brand-proof-art">
+          <img src="images/hero/siore-nmn-cinematic-v2.png" alt="시오레 NMN 라인 제품과 피부 과학 비주얼">
+        </div>
+        <div class="brand-proof-grid" aria-label="시오레 핵심 제품력">
+          <article class="brand-proof-card">
+            <div class="brand-proof-media"><img src="images/hero/strength-nmn-v1.jpg" alt="NMN 안티에이징 이미지"></div>
+            <div class="brand-proof-text"><small>HIGH-PURITY NMN</small><strong>10,000ppm</strong><span>99% 이상 고순도 NMN</span></div>
+          </article>
+          <article class="brand-proof-card">
+            <div class="brand-proof-media"><img src="images/hero/strength-cooling-v1.jpg" alt="쿨링과 피부 온도 이미지"></div>
+            <div class="brand-proof-text"><small>NEW COOLING CLINICAL</small><strong>-10.041°C</strong><span>1회 사용 직후 피부 온도 감소</span></div>
+          </article>
+          <article class="brand-proof-card">
+            <div class="brand-proof-media"><img src="images/hero/strength-noncomedogenic-v1.jpg" alt="여드름성 피부 이미지"></div>
+            <div class="brand-proof-text"><small>NON-COMEDOGENIC</small><strong>논코메도제닉</strong><span>인체적용시험 인증 보유</span></div>
+          </article>
+          <article class="brand-proof-card">
+            <div class="brand-proof-media"><img src="images/hero/strength-all-skin-v1.jpg" alt="모든 피부 사용 가능 이미지"></div>
+            <div class="brand-proof-text"><small>NON-IRRITATING</small><strong>피부자극 0.00</strong><span>모든 피부 사용 가능</span></div>
+          </article>
+          <article class="brand-proof-card derma">
+            <div class="brand-proof-media"><img src="images/cert/dermatest-excellent-2025.png" alt="독일 더마테스트 EXCELLENT 2025 인증"></div>
+            <div class="brand-proof-text"><small>DERMATEST®</small><strong>EXCELLENT</strong><span>독일 피부과학 평가 최고등급</span></div>
+          </article>
+        </div>
+      </section>
+      <section class="brand-story-final" aria-labelledby="brand-story-final-title">
+        <div class="brand-story-visual">
+          <img src="images/brand/siore-brand-real-skin.webp" alt="실제 피부 고민에서 시작된 시오레 브랜드 스토리">
+          <div class="brand-story-question">“어떤 제품을<br>써야 할까요?”</div>
+        </div>
+        <div class="brand-story-copy-final">
+          <div class="brand-story-founder">
+            <img src="images/k_beauty_pharmacist_header.png" alt="K-Beauty의 다음 무대, K-약국과 약사">
+          </div>
+          <div class="brand-kicker">BRAND STORY · FROM REAL SKIN CONCERNS</div>
+          <h3 id="brand-story-final-title">약국 카운터의 질문에서 시작된<br>약사가 설계한 피부 영양</h3>
+          <p>시오레는 피부 고민을 가리는 제품보다, 피부가 건강한 균형을 되찾도록 돕는 처방형 스킨케어를 제안합니다.</p>
+          <div class="brand-story-steps">
+            <article class="brand-story-step"><b>01</b><strong>실제 피부 고민</strong><span>고객이 약사에게 건넨 질문과 현장의 필요에서 출발합니다.</span></article>
+            <article class="brand-story-step"><b>02</b><strong>약사 기반 설계</strong><span>검증된 원료와 피부 고민별 사용 맥락을 정밀하게 설계합니다.</span></article>
+            <article class="brand-story-step"><b>03</b><strong>피부 균형과 회복</strong><span>수치 나열을 넘어 매일 지속 가능한 피부 영양 루틴을 완성합니다.</span></article>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="legacy-brand" hidden>
     <div class="page-hero" style="padding:0;display:grid;grid-template-columns:1fr 1.45fr;min-height:250px;background:var(--white);overflow:hidden;border-bottom:1.5px solid var(--border);">
       <div style="padding:30px 28px 24px 36px;display:flex;flex-direction:column;justify-content:center;">
         <div style="font-size:11px;font-weight:800;letter-spacing:2.5px;color:var(--orange);text-transform:uppercase;margin-bottom:8px;">Topical Nutrition for Skin</div>
@@ -2198,6 +2503,7 @@ body {
   </div>
 
   <!-- ════ TAB 2: 마케팅 ════ -->
+  </div>
   <div id="panel-marketing" class="panel">
     <div class="page-hero">
       <div class="ph-eyebrow">SNS &amp; Influencer Marketing</div>

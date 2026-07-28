@@ -5085,7 +5085,8 @@ function wireLineupSkuCards() {
   .vmd-real-hero img,.vmd-real-thumb img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .25s ease}
   .vmd-real-hero:hover img,.vmd-real-thumb:hover img{transform:scale(1.025)}
   .vmd-real-caption{position:absolute;left:12px;right:12px;bottom:12px;padding:9px 11px;border-radius:10px;background:rgba(20,16,14,.72);backdrop-filter:blur(8px);color:#fff;font-size:10px;font-weight:800}
-  .vmd-real-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:9px;min-height:0}
+  .vmd-real-caption span{display:inline-block;margin-right:7px;padding:3px 6px;border-radius:5px;background:#f55018;color:#fff;font-size:8px;letter-spacing:.8px;vertical-align:1px}
+  .vmd-real-grid{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(5,1fr);gap:8px;min-height:0}
   .vmd-case-modal{position:fixed;inset:0;background:rgba(8,7,7,.91);z-index:9999;display:none;align-items:center;justify-content:center;padding:22px}
   .vmd-case-modal.open{display:flex}
   .vmd-case-shell{width:min(1180px,96vw);height:min(800px,92vh);display:grid;grid-template-rows:1fr auto;gap:10px}
@@ -5230,6 +5231,11 @@ function wireLineupSkuCards() {
 
   const vmdImages=[
     ['1FF4l2zy6xyP3duJI6d4UwPO67trP8BDS','NMN · Daily Relief 실제 세팅 대표 사례'],
+    ['images/vmd/pop-best3.jpg','약사 추천 베스트 3'],
+    ['images/vmd/pop-recovery.jpg','시술 후 피부 회복 케어'],
+    ['images/vmd/pop-heat-redness.jpg','열감·홍조 집중 케어'],
+    ['images/vmd/pop-antiaging.jpg','NMN 안티에이징·광채'],
+    ['images/vmd/pop-noncomedogenic.jpg','여드름성 피부·논코메도제닉'],
     ['10IytJojdNkbrvRZK-sPvu8d00xh49O57','진열장 전체 구성'],
     ['1iqjeAeuQFcVcNj7WRQ53j9K9FPERfA4J','카운터 제품 진열'],
     ['1y7EMlJzuoVsmTXeHXxfk4s63noFx5nIA','시오레 전용 존'],
@@ -5243,7 +5249,7 @@ function wireLineupSkuCards() {
     ['1So_kohqy2qzuLvWnNqN_joskmnfpiS0B','약국 VMD 완성 사례']
   ];
   window.SIORE_VMD_IMAGES=vmdImages;
-  const thumb=(id,size=1400)=>`https://drive.google.com/thumbnail?id=${id}&sz=w${size}`;
+  const thumb=(id,size=1400)=>id.startsWith('images/')?id:`https://drive.google.com/thumbnail?id=${id}&sz=w${size}`;
   const vmd=document.getElementById('panel-vmd');
   if(vmd) vmd.innerHTML=`
     <div class="vmd-onepage">
@@ -5253,7 +5259,7 @@ function wireLineupSkuCards() {
       </header>
       <div class="vmd-real-layout">
         <div class="vmd-real-hero" onclick="openVmdCase(0)"><img src="${thumb(vmdImages[0][0],1800)}" alt="${vmdImages[0][1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption">실제 세팅 대표사진 · 눌러서 전체 사례 보기</div></div>
-        <div class="vmd-real-grid">${vmdImages.slice(1,7).map((item,i)=>`<div class="vmd-real-thumb" onclick="openVmdCase(${i+1})"><img src="${thumb(item[0],900)}" alt="${item[1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption">${item[1]}</div></div>`).join('')}</div>
+        <div class="vmd-real-grid">${vmdImages.slice(1,6).map((item,i)=>`<div class="vmd-real-thumb" onclick="openVmdCase(${i+1})"><img src="${thumb(item[0],1200)}" alt="${item[1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption"><span>POP</span>${item[1]}</div></div>`).join('')}</div>
       </div>
     </div>
     <div class="vmd-case-modal" id="vmd-case-modal" onclick="if(event.target===this)closeVmdCase()">

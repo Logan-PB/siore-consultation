@@ -4358,7 +4358,7 @@ const SKU_MODAL_PRODUCTS = [
     line:'DAILY RELIEF', accent:'#6DA5CB', name:'데일리 릴리프 카밍 수딩 젤', size:'80ml',
     photo:'images/products/soothing-gel.png', scene:'images/official-scenes/soothing-gel-texture.webp',
     clinical:[],
-    metric:'10.041℃', metricLabel:'피부 온도 즉각 감소', proof:'가온 자극 후 1회 도포 · N=22, p<0.001',
+    metric:'10.041℃', metricLabel:'피부 온도 즉각 감소', proof:'가온 자극 후 1회 도포 · N=22, p<0.05',
     hook:'열 오른 피부에,<br><strong>빠르고 산뜻한 쿨다운</strong>',
     formula:'알코올 없이 열감·붉은기·피지를 동시에 케어하는 올라운드 수딩 젤',
     benefits:['붉은기 회복률 63.829%','즉각 겉수분 76.04% 개선','2주 후 피지량 15.77% 개선'],
@@ -4589,9 +4589,9 @@ const SKU_STORIES = [
       ['시술 후·트러블 피부','논코메도제닉 · 알코올 무첨가']
     ],
     clinicalCards:[
-      {metric:'-10.041°C',label:'피부 온도 즉각 감소',note:'가온 자극 후 1회 사용 직후 · N=22 · p<0.001',image:'images/clinical/cards/gel-temperature.svg',direct:true},
+      {metric:'-10.041°C',label:'피부 온도 즉각 감소',note:'가온 자극 후 1회 사용 직후 · N=22 · p<0.05',image:'images/clinical/cards/gel-temperature.svg',direct:true},
       {metric:'76.04%',label:'즉각적 겉수분 개선',note:'1회 사용 직후',image:'images/clinical/cards/gel-immediate-moisture.png'},
-      {metric:'24H',label:'수분 홀딩',note:'24시간 보습 지속',image:'images/clinical/cards/gel-24h.png'},
+      {metric:'+20.20%',label:'24시간 후 수분 증가',note:'사용 전 41.78 → 24시간 후 50.22',image:'images/clinical/cards/gel-24h.png',direct:true},
       {metric:'42.18%',label:'피부 각질 개선',note:'사용 후 측정',image:'images/clinical/cards/gel-sebum.png'}
     ]
   },
@@ -4840,7 +4840,7 @@ function skuStoryHtml(p,index,isModal=false) {
         <div class="sku-story-clinical">
           <div class="sku-story-section-head">
             <h4>${p.evidenceTitle||'임상 근거 한눈에 확인'}</h4>
-            <span>${cards.some(card=>card.image)?'이미지를 누르면 크게 보기':'제품 표시 기준'}</span>
+            <span>${cards.some(card=>card.direct)?'주요 그래프 상시 표시 · 나머지는 눌러 크게 보기':cards.some(card=>card.image)?'이미지를 누르면 크게 보기':'제품 표시 기준'}</span>
           </div>
           <div class="sku-story-clinical-grid" style="--card-columns:${cardColumns}">${clinicalCards}</div>
           <div class="sku-story-section-head" style="margin:9px 0 0;">
@@ -5065,7 +5065,7 @@ function wireLineupSkuCards() {
   .marketing-head small{font-size:10px;letter-spacing:2px;font-weight:900;color:#f55018}
   .marketing-head h2{font-size:clamp(24px,2.7vw,40px);letter-spacing:-1.3px;line-height:1.05;margin:5px 0 0;color:#171414}
   .marketing-head p{font-size:11px;line-height:1.5;color:#6e6661;max-width:520px;text-align:right}
-  .marketing-layout{display:grid;grid-template-columns:35% 65%;gap:14px;min-height:0}
+  .marketing-layout{display:grid;grid-template-columns:30% 70%;gap:14px;min-height:0}
   .marketing-stat-card{position:relative;border-radius:22px;background:#f55018;color:#fff;padding:26px 26px 22px;display:flex;flex-direction:column;overflow:hidden}
   .marketing-stat-card:after{content:"";position:absolute;width:270px;height:270px;border:1px solid rgba(255,255,255,.2);border-radius:50%;right:-90px;bottom:-100px}
   .marketing-stat-card .growth{font-size:clamp(52px,6vw,88px);font-weight:950;letter-spacing:-4px;line-height:.95}
@@ -5073,13 +5073,15 @@ function wireLineupSkuCards() {
   .marketing-support-hook{margin:auto 0;text-align:center;padding:22px 8px;border-top:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);font-size:clamp(21px,2.5vw,36px);font-weight:950;line-height:1.2;letter-spacing:-1px}
   .marketing-support-hook small{display:block;margin-top:9px;font-size:10px;letter-spacing:1.6px;color:#ffe2d7}
   .marketing-stat-card footer{font-size:9.5px;line-height:1.45;color:#ffe8df}
-  .influencer-wall{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;min-height:0}
+  .influencer-wall{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:9px;min-height:0}
   .influencer-card{position:relative;overflow:hidden;border-radius:16px;background:#111;min-height:0}
   .influencer-card iframe{width:100%;height:100%;border:0;display:block;background:#111}
-  .influencer-card .ic-label{position:absolute;left:10px;bottom:10px;background:rgba(17,17,17,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:9px;padding:6px 9px;font-size:9px;font-weight:850;pointer-events:none}
+  .influencer-card .ic-region{position:absolute;left:8px;top:8px;z-index:2;background:#f55018;color:#fff;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900;letter-spacing:.6px;pointer-events:none}
+  .influencer-card.domestic .ic-region{background:#176f99}
+  .influencer-card .ic-label{position:absolute;left:8px;right:8px;bottom:8px;background:rgba(17,17,17,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:9px;padding:6px 7px;font-size:8px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 
-  .sku-story-evidence-thumb.direct-chart{display:block!important;height:auto!important;min-height:150px;border:0!important;background:#f5fbfe!important;padding:0!important;overflow:hidden}
-  .sku-story-evidence-thumb.direct-chart img{display:block;width:100%;height:auto;max-height:260px;object-fit:contain}
+  .sku-story-evidence-thumb.direct-chart{display:flex!important;align-items:center;justify-content:center;height:auto!important;min-height:260px;border:0!important;background:#f5fbfe!important;padding:0!important;overflow:hidden}
+  .sku-story-evidence-thumb.direct-chart img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
 
   .vmd-onepage{height:calc(100vh - 72px);min-height:690px;max-height:900px;padding:18px 24px 22px;background:#f6f3f0;display:grid;grid-template-rows:auto 1fr;gap:13px;overflow:hidden}
   .vmd-onepage-head{display:flex;align-items:end;justify-content:space-between;gap:16px}
@@ -5089,15 +5091,21 @@ function wireLineupSkuCards() {
   .vmd-real-layout{display:grid;grid-template-columns:1.45fr 1fr;gap:12px;min-height:0}
   .vmd-real-hero,.vmd-real-thumb{position:relative;border-radius:17px;overflow:hidden;background:#ddd;cursor:pointer;border:1px solid #ded5cf}
   .vmd-real-hero img,.vmd-real-thumb img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .25s ease}
+  .vmd-real-thumb.portrait{background:#eee8e4}
+  .vmd-real-thumb.portrait img{object-fit:contain}
   .vmd-real-hero:hover img,.vmd-real-thumb:hover img{transform:scale(1.025)}
   .vmd-real-caption{position:absolute;left:12px;right:12px;bottom:12px;padding:9px 11px;border-radius:10px;background:rgba(20,16,14,.72);backdrop-filter:blur(8px);color:#fff;font-size:10px;font-weight:800}
   .vmd-real-caption span{display:inline-block;margin-right:7px;padding:3px 6px;border-radius:5px;background:#f55018;color:#fff;font-size:8px;letter-spacing:.8px;vertical-align:1px}
-  .vmd-real-grid{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(5,1fr);gap:8px;min-height:0}
+  .vmd-real-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr);gap:8px;min-height:0}
   .vmd-case-modal{position:fixed;inset:0;background:rgba(8,7,7,.91);z-index:9999;display:none;align-items:center;justify-content:center;padding:22px}
   .vmd-case-modal.open{display:flex}
   .vmd-case-shell{width:min(1180px,96vw);height:min(800px,92vh);display:grid;grid-template-rows:1fr auto;gap:10px}
-  .vmd-case-main{position:relative;border-radius:18px;overflow:hidden;background:#111}
-  .vmd-case-main img{width:100%;height:100%;object-fit:contain;display:block}
+  .vmd-case-main{position:relative;border-radius:18px;overflow:hidden;background:#111;touch-action:pan-y;cursor:grab;user-select:none}
+  .vmd-case-main.dragging{cursor:grabbing}
+  .vmd-case-main img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;transition:opacity .16s ease,transform .16s ease}
+  .vmd-case-main.dragging img{opacity:.78}
+  .vmd-case-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:64px;border:0;border-radius:12px;background:rgba(255,255,255,.84);color:#111;font-size:34px;font-weight:800;cursor:pointer}
+  .vmd-case-nav.prev{left:14px}.vmd-case-nav.next{right:14px}
   .vmd-case-close{position:absolute;right:14px;top:14px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#111;font-size:27px;font-weight:800;cursor:pointer}
   .vmd-case-thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:3px}
   .vmd-case-thumbs button{flex:0 0 112px;height:72px;border:2px solid transparent;border-radius:9px;overflow:hidden;padding:0;background:#222;cursor:pointer}
@@ -5233,11 +5241,15 @@ function wireLineupSkuCards() {
           <div class="marketing-support-hook">SNS 마케팅<br>(인플루언서) 지원<small>TIKTOK · INSTAGRAM · XIAOHONGSHU</small></div>
           <footer>시오레 입점 약국과 제품을 콘텐츠로 연결해 현장 판매직원의 설명 전부터 브랜드 관심도를 높입니다.</footer>
         </section>
-        <section class="influencer-wall" aria-label="시오레 SNS 인플루언서 콘텐츠">
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">GLOBAL · NMN SERUM</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7584628896818302239?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">K-BEAUTY · ROUTINE</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">PHARMACIST VERIFIED</span></article>
-          <article class="influencer-card"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-label">INSTAGRAM · PHARMACY PICK</span></article>
+        <section class="influencer-wall" aria-label="시오레 국내·해외 SNS 인플루언서 콘텐츠">
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · NMN SERUM</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · K-BEAUTY ROUTINE</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · SKIN GLOW</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · SERUM REVIEW</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">약사 · 성분 분석</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">약사 · NMN 리뷰</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">INSTAGRAM · PHARMACY PICK</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DWobNjSDplM/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">INSTAGRAM · K-BEAUTY</span></article>
         </section>
       </div>
     </div>`;
@@ -5274,23 +5286,49 @@ function wireLineupSkuCards() {
       </header>
       <div class="vmd-real-layout">
         <div class="vmd-real-hero" onclick="openVmdCase(0)"><img src="${thumb(vmdImages[0][0],1800)}" alt="${vmdImages[0][1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption">실제 세팅 대표사진 · 눌러서 전체 사례 보기</div></div>
-        <div class="vmd-real-grid">${vmdImages.slice(1,6).map((item,i)=>`<div class="vmd-real-thumb" onclick="openVmdCase(${i+1})"><img src="${thumb(item[0],1200)}" alt="${item[1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption"><span>POP</span>${item[1]}</div></div>`).join('')}</div>
+        <div class="vmd-real-grid">${[6,7,1,2,3,4].map(i=>{const item=vmdImages[i];const portrait=i===6||i===7;return `<div class="vmd-real-thumb${portrait?' portrait':''}" onclick="openVmdCase(${i})"><img src="${thumb(item[0],1200)}" alt="${item[1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption"><span>${portrait?'실제 세팅':'POP'}</span>${item[1]}</div></div>`}).join('')}</div>
       </div>
     </div>
     <div class="vmd-case-modal" id="vmd-case-modal" onclick="if(event.target===this)closeVmdCase()">
       <div class="vmd-case-shell">
-        <div class="vmd-case-main"><img id="vmd-case-main-image" alt="시오레 실제 약국 세팅 사례" referrerpolicy="no-referrer"><button class="vmd-case-close" onclick="closeVmdCase()" aria-label="닫기">×</button></div>
+        <div class="vmd-case-main" id="vmd-case-main"><img id="vmd-case-main-image" alt="시오레 실제 약국 세팅 사례" referrerpolicy="no-referrer"><button class="vmd-case-nav prev" onclick="event.stopPropagation();stepVmdCase(-1)" aria-label="이전 사진">‹</button><button class="vmd-case-nav next" onclick="event.stopPropagation();stepVmdCase(1)" aria-label="다음 사진">›</button><button class="vmd-case-close" onclick="closeVmdCase()" aria-label="닫기">×</button></div>
         <div class="vmd-case-thumbs">${vmdImages.map((item,i)=>`<button onclick="openVmdCase(${i})" aria-label="${item[1]}"><img src="${thumb(item[0],500)}" alt="" referrerpolicy="no-referrer"></button>`).join('')}</div>
       </div>
     </div>`;
+  let vmdCaseIndex=0;
   window.openVmdCase=function(index){
     const modal=document.getElementById('vmd-case-modal');
     const item=SIORE_VMD_IMAGES[index];
     if(!modal||!item)return;
+    vmdCaseIndex=index;
     document.getElementById('vmd-case-main-image').src=thumb(item[0],2200);
     modal.querySelectorAll('.vmd-case-thumbs button').forEach((b,i)=>b.classList.toggle('active',i===index));
     modal.classList.add('open');
   };
+  window.stepVmdCase=function(direction){
+    openVmdCase((vmdCaseIndex+direction+SIORE_VMD_IMAGES.length)%SIORE_VMD_IMAGES.length);
+  };
+  const vmdCaseMain=document.getElementById('vmd-case-main');
+  let vmdDragStartX=0;
+  let vmdDragging=false;
+  vmdCaseMain?.addEventListener('pointerdown',event=>{
+    if(event.target.closest('button'))return;
+    vmdDragStartX=event.clientX;
+    vmdDragging=true;
+    vmdCaseMain.classList.add('dragging');
+    vmdCaseMain.setPointerCapture?.(event.pointerId);
+  });
+  vmdCaseMain?.addEventListener('pointerup',event=>{
+    if(!vmdDragging)return;
+    const delta=event.clientX-vmdDragStartX;
+    vmdDragging=false;
+    vmdCaseMain.classList.remove('dragging');
+    if(Math.abs(delta)>45)stepVmdCase(delta<0?1:-1);
+  });
+  vmdCaseMain?.addEventListener('pointercancel',()=>{
+    vmdDragging=false;
+    vmdCaseMain.classList.remove('dragging');
+  });
   window.closeVmdCase=function(){document.getElementById('vmd-case-modal')?.classList.remove('open')};
 })();
 </script>

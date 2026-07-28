@@ -64,6 +64,8 @@
     .cert-highlight span{font-size:11px;line-height:1.45;font-weight:900}
     .cert-highlight small{display:block;margin-top:2px;font-size:8px;color:#4d7868;font-weight:650}
     .set-target{margin-top:8px;font-size:10px;line-height:1.45;color:#81736c}
+    .set-listen{width:100%;margin-top:11px;border:0;border-radius:10px;padding:10px 12px;background:var(--set);color:#fff;font-size:11px;font-weight:900;cursor:pointer}
+    .set-card.playing{border:2px solid var(--set);box-shadow:0 10px 28px color-mix(in srgb,var(--set) 18%,transparent)}
     .player{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(24,20,18,.97);color:#fff;padding:10px 14px max(10px,env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.2);backdrop-filter:blur(15px)}
     .player-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}
     .now{min-width:0}.now small{display:block;color:#a9a09b;font-size:9px;letter-spacing:1px;font-weight:800}.now strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;font-size:13px}
@@ -124,7 +126,7 @@
         </article>
         <article class="set-card" style="--set:#f55018">
           <div class="set-photo"><img src="images/vmd/pop-antiaging.jpg" alt="NMN 안티에이징 3종 세트 진열"><span>NMN ANTI-AGING</span><b class="bestseller-crown">👑 ANTI-AGING</b></div>
-          <div class="set-copy"><small>ANTI-AGING</small><h3>광채·탄력 안티에이징</h3>
+          <div class="set-copy"><small>ANTI-AGING</small><h3>광채·탄력 안티에이징 3종</h3>
             <div class="set-skus"><span>캡슐 클렌징 밀크</span><span>인텐시브 세럼</span><span>리치 크림</span></div>
             <p>수분 캡슐 클렌징으로 피부 바탕을 편안하게 준비하고, 고함량 세럼으로 탄력을 집중 관리한 뒤 리치 크림으로 윤광과 보습을 잠급니다.</p>
             <div class="set-metric"><strong>564.64%</strong><span>세럼 + 리치 크림 병행<br>1회 사용 후 피부 광채 개선<small>제품 인체적용시험 결과 · 일시적 효과 및 개인차 있음</small></span></div>
@@ -134,7 +136,7 @@
         </article>
         <article class="set-card" style="--set:#8b5cf6">
           <div class="set-photo"><img src="images/vmd/pop-recovery.jpg" alt="시술 후 회복 세트 진열"><span>RECOVERY 3-STEP</span></div>
-          <div class="set-copy"><small>POST-PROCEDURE</small><h3>시술 후 진정·장벽 회복</h3>
+          <div class="set-copy"><small>POST-PROCEDURE</small><h3>시술 후 진정·장벽 회복 3종</h3>
             <div class="set-skus"><span>버블 토너</span><span>카밍 수딩 젤</span><span>컴포트 크림</span></div>
             <p>버블 토너를 문지르지 않고 폭신하게 밀착해 수분을 채우고, 카밍 수딩 젤로 시술 후 열감과 붉음을 빠르게 진정한 뒤 컴포트 크림으로 수분과 장벽을 편안하게 보호합니다.</p>
             <div class="set-talk">“시술 후에는 화장솜으로 닦지 말고 버블을 가볍게 흡수시킨 뒤, 수딩 젤로 열감을 낮추고 컴포트 크림으로 장벽을 보호해 주세요.”</div>
@@ -143,7 +145,7 @@
         </article>
         <article class="set-card" style="--set:#1597a8">
           <div class="set-photo"><img src="images/vmd/pop-heat-redness.jpg" alt="열감성 피부 세트 진열"><span>COOLING 3-STEP</span></div>
-          <div class="set-copy"><small>HEAT &amp; REDNESS</small><h3>피부 마찰은 줄이고, 열감은 빠르게 진정</h3>
+          <div class="set-copy"><small>HEAT &amp; REDNESS</small><h3>피부 열감 진정 3종</h3>
             <div class="set-skus"><span>클렌징 밀크</span><span>버블 토너</span><span>카밍 수딩 젤</span></div>
             <p>약산성 밀크 제형으로 세안 마찰 부담을 줄이고, 버블 토너를 피부에 폭신하게 밀착시킨 뒤 카밍 수딩 젤로 달아오른 피부를 빠르게 진정하는 3단계입니다.</p>
             <div class="set-metric"><strong>−10.041℃</strong><span>카밍 수딩 젤 1회 사용 직후<br>가온 자극 후 피부 온도 감소<small>제품 인체적용시험 결과 · 일시적 효과 및 개인차 있음</small></span></div>
@@ -153,7 +155,7 @@
         </article>
         <article class="set-card" style="--set:#2f7d64">
           <div class="set-photo"><img src="images/vmd/pop-noncomedogenic.jpg" alt="여드름성 피부 세트 진열"><span>NON-COMEDO 3-STEP</span></div>
-          <div class="set-copy"><small>ACNE-PRONE · NON-COMEDOGENIC</small><h3>여드름성 피부를 위한 논코메도제닉 3종</h3>
+          <div class="set-copy"><small>ACNE-PRONE · NON-COMEDOGENIC</small><h3>여드름성 피부 논코메도제닉 3종</h3>
             <div class="set-skus"><span>클렌징 밀크</span><span>리페어 앰플</span><span>컴포트 크림</span></div>
             <p>부드러운 클렌징으로 노폐물을 제거하고, 리페어 앰플로 진정·트러블 흔적을 관리한 뒤 컴포트 크림으로 속건조와 장벽을 편안하게 케어합니다.</p>
             <div class="cert-highlight"><strong>🛡️ 3/3</strong><span>세 제품 모두 논코메도제닉 인증 완료<small>여드름성 피부 사용 적합성 평가 완료</small></span></div>
@@ -198,9 +200,17 @@
       {page:"RELIEF 04",time:"15초",title:"컴포트 크림",text:"속건조를 마지막에 잠그는 장벽 크림입니다. 병풀, 밀싹, 판테놀, 세라마이드로 1회 보습 110.79%, 각질 64.28% 개선을 확인했고 논코메도제닉입니다."},
       {page:"INNER BEAUTY",time:"15초",title:"마시는 PDRN 200 어드밴스드",text:"바르는 루틴을 안에서 이어가는 한 포입니다. PDRN 200밀리그램, 피쉬 콜라겐 1,000밀리그램, NMN 171.45밀리그램을 적포도 액상 스틱 하나에 담아 이너뷰티 입문이 쉽습니다."}
     ];
+    const guideNarration=[
+      {page:"BEST 4",time:"25초",title:"시오레 판매 베스트셀러 4종",text:"시오레에서 가장 반응이 좋은 베스트셀러 네 종입니다. 버블 토너로 수분과 광채 바탕을 만들고, 인텐시브 세럼과 리치 크림으로 광채와 탄력을 집중 관리합니다. 세럼과 리치 크림 병행 일 회 사용 후 피부 광채 오백육십사 점 육사 퍼센트 개선을 확인했습니다. 피부 열감이 느껴질 때는 카밍 수딩 젤로 편안하게 마무리해 주세요."},
+      {page:"ANTI-AGING",time:"22초",title:"광채·탄력 안티에이징 3종",text:"캡슐 클렌징 밀크로 세안 후 당김과 마찰 부담을 낮추고, 인텐시브 세럼으로 탄력을 집중 관리한 뒤 리치 크림으로 윤광과 보습을 잠그는 안티에이징 삼 단계입니다. 세럼과 리치 크림 병행 일 회 사용 후 피부 광채 오백육십사 점 육사 퍼센트 개선을 확인했습니다."},
+      {page:"RECOVERY",time:"20초",title:"시술 후 진정·장벽 회복 3종",text:"시술 후에는 버블 토너를 문지르지 않고 가볍게 흡수시켜 수분을 채워 주세요. 카밍 수딩 젤로 열감과 붉음을 빠르게 진정한 뒤, 컴포트 크림으로 수분과 피부 장벽을 편안하게 보호합니다."},
+      {page:"COOLING",time:"20초",title:"피부 열감 진정 3종",text:"열감 피부는 세안할 때부터 자극을 줄이는 것이 중요합니다. 약산성 클렌징 밀크로 마찰 부담을 낮추고, 버블 토너로 수분을 채운 뒤 카밍 수딩 젤로 빠르게 진정해 주세요. 카밍 수딩 젤은 일 회 사용 직후 피부 온도 십 점 영사일 도 감소를 확인했습니다."},
+      {page:"ACNE-PRONE",time:"20초",title:"여드름성 피부 논코메도제닉 3종",text:"클렌징 밀크, 리페어 앰플, 컴포트 크림 세 제품 모두 논코메도제닉 인증을 완료했습니다. 부드러운 세안 후 앰플로 진정과 트러블 흔적을 관리하고, 컴포트 크림으로 속건조와 피부 장벽을 편안하게 케어해 주세요."}
+    ];
 
     let activeSet="pitch",queue=[],cursor=0,paused=false;
     const synth=window.speechSynthesis;
+    const sets={pitch,sku,guide:guideNarration};
     const cardArea={pitch:document.getElementById("pitch-cards"),sku:document.getElementById("sku-cards")};
     function render(set){
       cardArea[set].innerHTML=(set==="pitch"?pitch:sku).map((item,index)=>`
@@ -212,6 +222,11 @@
         </article>`).join("");
     }
     render("pitch");render("sku");
+    document.querySelectorAll("#guide .set-card").forEach((card,index)=>{
+      card.dataset.set="guide";
+      card.dataset.index=String(index);
+      card.insertAdjacentHTML("beforeend",`<button class="set-listen" type="button">▶ 이 판매 전략 듣기</button>`);
+    });
     document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
       stopAll();activeSet=btn.dataset.target;
       document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===btn));
@@ -219,26 +234,36 @@
       document.getElementById("play-all").textContent="▶ 전체 듣기";
     }));
     document.addEventListener("click",event=>{
+      const guideButton=event.target.closest(".set-listen");
+      if(guideButton){
+        const guideCard=guideButton.closest(".set-card");
+        activeSet="guide";
+        queue=[guideNarration[Number(guideCard.dataset.index)]];
+        cursor=0;playNext();return;
+      }
       const card=event.target.closest(".script-card");
       if(!card)return;
       activeSet=card.dataset.set;
-      queue=[(activeSet==="pitch"?pitch:sku)[Number(card.dataset.index)]];
+      queue=[sets[activeSet][Number(card.dataset.index)]];
       cursor=0;playNext();
     });
     function voice(){
       const voices=synth.getVoices();
-      return voices.find(v=>v.lang==="ko-KR"&&/Google|Microsoft|Yuna|SunHi|Heami/i.test(v.name))||voices.find(v=>v.lang.startsWith("ko"));
+      const korean=voices.filter(v=>v.lang==="ko-KR"||v.lang.startsWith("ko"));
+      return korean.find(v=>/SunHi|선희|Yuna|유나|Heami|해미|Sora|소라|female|여성/i.test(v.name))
+        ||korean.find(v=>/Google|Microsoft|Apple/i.test(v.name))
+        ||korean[0];
     }
     function playNext(){
       if(cursor>=queue.length){finish();return}
       synth.cancel();paused=false;
       const item=queue[cursor];
       document.getElementById("now-title").textContent=item.title;
-      document.querySelectorAll(".script-card").forEach(c=>c.classList.remove("playing"));
-      const full=(activeSet==="pitch"?pitch:sku).indexOf(item);
-      document.querySelector(`.script-card[data-set="${activeSet}"][data-index="${full}"]`)?.classList.add("playing");
+      document.querySelectorAll(".script-card,.set-card").forEach(c=>c.classList.remove("playing"));
+      const full=sets[activeSet].indexOf(item);
+      document.querySelector(`[data-set="${activeSet}"][data-index="${full}"]`)?.classList.add("playing");
       const utter=new SpeechSynthesisUtterance(item.text);
-      utter.lang="ko-KR";utter.rate=Number(document.getElementById("rate").value);utter.pitch=1;
+      utter.lang="ko-KR";utter.rate=Number(document.getElementById("rate").value);utter.pitch=1.08;
       const selected=voice();if(selected)utter.voice=selected;
       utter.onend=()=>{cursor++;playNext()};
       utter.onerror=()=>{cursor++;playNext()};
@@ -246,7 +271,7 @@
       document.getElementById("play-all").textContent="⏸ 잠시 멈춤";
     }
     function finish(){
-      document.querySelectorAll(".script-card").forEach(c=>c.classList.remove("playing"));
+      document.querySelectorAll(".script-card,.set-card").forEach(c=>c.classList.remove("playing"));
       document.getElementById("play-all").textContent="▶ 전체 듣기";
       document.getElementById("now-title").textContent="재생이 끝났습니다";
       queue=[];cursor=0;paused=false;
@@ -255,8 +280,7 @@
     document.getElementById("play-all").addEventListener("click",()=>{
       if(synth.speaking&&!paused){synth.pause();paused=true;document.getElementById("play-all").textContent="▶ 계속 듣기";return}
       if(paused){synth.resume();paused=false;document.getElementById("play-all").textContent="⏸ 잠시 멈춤";return}
-      if(activeSet==="guide")return;
-      queue=[...(activeSet==="pitch"?pitch:sku)];cursor=0;playNext();
+      queue=[...sets[activeSet]];cursor=0;playNext();
     });
     document.getElementById("stop").addEventListener("click",stopAll);
     window.addEventListener("beforeunload",()=>synth.cancel());

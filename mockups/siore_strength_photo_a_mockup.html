@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SIORE A타입 직접 이미지 목업</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <style>
+    :root{--ink:#241f1d;--muted:#7f7069;--orange:#f4511e;--line:#e9d2c7;--paper:#f3efec}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .page{max-width:1480px;margin:auto;padding:20px}
+    header{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:16px;padding:28px 32px;border-radius:22px;background:#fff}
+    .logo{margin-bottom:16px;font-size:19px;letter-spacing:7px}
+    .eyebrow{color:var(--orange);font-size:10px;font-weight:900;letter-spacing:2.3px}
+    h1{margin:8px 0 0;font-size:31px;letter-spacing:-1.4px}
+    header p{max-width:520px;margin:0;color:var(--muted);font-size:12px;line-height:1.7;text-align:right}
+    .a-grid{display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:0 20px 70px rgba(71,45,34,.07)}
+    .card{min-width:0;border-right:1px solid var(--line)}
+    .card:last-child{border-right:0}
+    .media{position:relative;height:285px;overflow:hidden;background:#eee}
+    .media img{width:100%;height:100%;object-fit:cover}
+    .nmn .media img{object-position:50% 45%}
+    .cooling .media img{object-position:50% 42%;filter:saturate(.78) contrast(1.03)}
+    .cooling .media:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(85,184,216,.23),transparent 55%)}
+    .noncom .media{background:#fff}.noncom .media img{object-position:48% 27%;object-fit:cover}
+    .allskin .media img{object-position:50% 44%}
+    .image-label{position:absolute;z-index:2;left:15px;top:15px;padding:7px 10px;border:1px solid rgba(255,255,255,.75);border-radius:999px;background:rgba(35,29,27,.55);color:#fff;font-size:8px;font-weight:900;letter-spacing:1.1px;backdrop-filter:blur(9px)}
+    .metric{position:absolute;z-index:2;right:14px;bottom:14px;padding:9px 11px;border-radius:12px;background:rgba(255,255,255,.91);color:var(--ink);font-size:19px;font-weight:900;letter-spacing:-.8px;box-shadow:0 8px 24px rgba(55,38,32,.13)}
+    .cooling .metric{color:#157b9d}.noncom .metric{font-size:13px;color:#8d4f3b}
+    .copy{min-height:280px;padding:26px 24px 25px;text-align:center}
+    .copy h2{margin:0;font-size:19px;letter-spacing:-.6px}
+    .en{display:block;margin-top:6px;color:#a69187;font-size:9px;font-weight:800;letter-spacing:1.4px}
+    .copy strong{display:block;margin-top:23px;color:var(--orange);font-size:24px;letter-spacing:-.9px}
+    .copy p{max-width:250px;margin:10px auto 0;color:var(--muted);font-size:11px;line-height:1.65}
+    .chip{display:inline-block;margin-top:17px;padding:7px 11px;border:1px solid #ead6cc;border-radius:999px;color:#84675b;font-size:9px;font-weight:800}
+    .source{margin-top:14px;padding:16px 18px;border-radius:16px;background:#fff;color:#84756e;font-size:10px;line-height:1.7;text-align:center}
+    .source b{color:var(--ink)}
+    @media(max-width:980px){.a-grid{grid-template-columns:repeat(2,1fr)}.card:nth-child(2){border-right:0}.card:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+    @media(max-width:620px){.page{padding:8px}header{align-items:start;flex-direction:column;padding:22px}header p{text-align:left}.a-grid{grid-template-columns:1fr}.card{border-right:0;border-bottom:1px solid var(--line)}.card:last-child{border-bottom:0}.media{height:260px}.copy{min-height:0}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div><div class="logo">SIORÉ</div><span class="eyebrow">OPTION A · DIRECT VISUAL VERSION</span><h1>제품력 관련 직접 이미지 목업</h1></div>
+      <p>A타입의 4분할 구조와 여백은 유지하고, 아이콘 대신 시오레 브랜드 자료의 실제 모델·임상 이미지를 사용했습니다.</p>
+    </header>
+
+    <section class="a-grid" aria-label="시오레 핵심 제품력">
+      <article class="card nmn">
+        <div class="media"><img src="../images/mockups/a-photo-nmn.jpg" alt="탄력 있는 피부를 표현한 시오레 모델 클로즈업"><span class="image-label">SKIN LONGEVITY</span><b class="metric">10,000ppm</b></div>
+        <div class="copy"><h2>안티에이징</h2><span class="en">HIGH-PURITY NMN 99%+</span><strong>피부 에너지·탄력 케어</strong><p>99% 이상 고순도 NMN을 담아 피부 본연의 건강함과 탄력을 케어합니다.</p><span class="chip">약사가 설계한 NMN 스킨케어</span></div>
+      </article>
+
+      <article class="card cooling">
+        <div class="media"><img src="../images/mockups/a-photo-cooling.jpg" alt="수딩 젤을 피부에 도포한 시오레 모델"><span class="image-label">INSTANT COOLING</span><b class="metric">-10.041°C</b></div>
+        <div class="copy"><h2>즉각 쿨링</h2><span class="en">NEW COOLING CLINICAL</span><strong>1회 사용 직후</strong><p>카밍 수딩 젤 사용 직후 확인된 피부 온도 감소 결과를 직관적으로 보여줍니다.</p><span class="chip">열 오른 피부를 빠르게</span></div>
+      </article>
+
+      <article class="card noncom">
+        <div class="media"><img src="../images/mockups/a-photo-noncom.jpg" alt="논코메도제닉 인체적용시험 완료 자료"><span class="image-label">TESTED EVIDENCE</span><b class="metric">시험 완료</b></div>
+        <div class="copy"><h2>여드름성 피부</h2><span class="en">NON-COMEDOGENIC</span><strong>인증 품목 보유</strong><p>모공 막힘 부담을 낮춘 논코메도제닉 인체적용시험 완료 품목을 보유했습니다.</p><span class="chip">ACNE-PRONE SKIN TESTED</span></div>
+      </article>
+
+      <article class="card allskin">
+        <div class="media"><img src="../images/mockups/a-photo-allskin.jpg" alt="다양한 피부 톤을 가진 시오레 모델"><span class="image-label">FOR EVERY SKIN</span><b class="metric">0.00</b></div>
+        <div class="copy"><h2>모든 피부 사용</h2><span class="en">NON-IRRITATING</span><strong>피부자극지수 0.00</strong><p>다양한 피부 타입과 민감한 피부까지 고려한 무자극 판정 포뮬러입니다.</p><span class="chip">DERMATOLOGICALLY TESTED</span></div>
+      </article>
+    </section>
+
+    <p class="source"><b>이미지 출처:</b> 사용자가 제공한 시오레 브랜드 소개서의 공식 모델 컷 및 임상 자료 · 별도 생성형 이미지 미사용</p>
+  </main>
+</body>
+</html>

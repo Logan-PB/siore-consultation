@@ -2005,6 +2005,47 @@ body {
   color: var(--orange);
 }
 .fa-note.blue { background: var(--blue-lt); color: var(--blue); }
+.faq-order-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 124px;
+  gap: 14px;
+  align-items: center;
+}
+.faq-order-copy { min-width: 0; }
+.faq-b2b-join {
+  min-width: 0;
+  padding: 10px 9px;
+  border: 1px solid #bad8e8;
+  border-radius: 12px;
+  background: linear-gradient(150deg, #f7fcff, #eaf6fc);
+  color: var(--blue);
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 7px 18px rgba(23,111,153,.1);
+}
+.faq-b2b-join img {
+  display: block;
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 7px;
+  border-radius: 7px;
+  background: #fff;
+}
+.faq-b2b-join strong {
+  display: block;
+  color: #075f88;
+  font-size: 11px;
+  line-height: 1.25;
+}
+.faq-b2b-url {
+  display: block;
+  margin-top: 3px;
+  color: #347f9f;
+  font-size: 8.5px;
+  font-weight: 750;
+  line-height: 1.25;
+  word-break: break-all;
+}
 
 /* 오브젝션 */
 .obj-box {
@@ -2602,6 +2643,24 @@ body {
   box-shadow: 0 14px 30px rgba(41,28,23,.17);
   backdrop-filter: blur(7px);
 }
+.strength-icon.cooling-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  font-size: 0;
+}
+.strength-icon.cooling-icon span {
+  display: block;
+  flex: 0 0 auto;
+  line-height: 1;
+  transform: none;
+}
+.strength-icon.cooling-icon .cooling-snow { font-size: 35px; }
+.strength-icon.cooling-icon .cooling-thermo {
+  margin-left: -5px;
+  font-size: 31px;
+}
 .strength-metric {
   position: absolute;
   z-index: 3;
@@ -2740,23 +2799,23 @@ body {
         </div>
         <div class="brand-strength-grid">
           <article class="brand-strength-card">
-            <div class="brand-strength-media"><img src="images/mockups/a-photo-nmn.jpg" alt="NMN 안티에이징 피부 이미지"><span class="strength-benefit">약사가 설계한 NMN 스킨케어</span><span class="strength-icon">🧬</span><b class="strength-metric">10,000ppm</b></div>
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-nmn.jpg" alt="NMN 안티에이징 피부 이미지"><span class="strength-icon">🧬</span><b class="strength-metric">10,000ppm</b></div>
             <div class="brand-strength-copy"><h3>안티에이징</h3><small>HIGH-PURITY NMN 99%+</small><strong>피부 에너지·탄력 케어</strong><p>99% 이상 고순도 NMN을 담아 피부 본연의 건강한 탄력을 케어합니다.</p></div>
           </article>
           <article class="brand-strength-card">
-            <div class="brand-strength-media"><img src="images/mockups/a-photo-cooling.jpg" alt="쿨링 수딩 젤 피부 이미지"><span class="strength-benefit">열 오른 피부를 빠르게</span><span class="strength-icon">❄️🌡️</span><b class="strength-metric" style="color:#157b9d;">-10.041°C</b></div>
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-cooling.jpg" alt="쿨링 수딩 젤 피부 이미지"><span class="strength-icon cooling-icon"><span class="cooling-snow">❄️</span><span class="cooling-thermo">🌡️</span></span><b class="strength-metric" style="color:#157b9d;">-10.041°C</b></div>
             <div class="brand-strength-copy"><h3>즉각 쿨링</h3><small>NEW COOLING CLINICAL</small><strong>1회 사용 직후</strong><p>카밍 수딩 젤 사용 직후 확인된 피부 온도 감소 결과를 직관적으로 보여줍니다.</p></div>
           </article>
           <article class="brand-strength-card noncom">
-            <div class="brand-strength-media"><img src="images/mockups/a-photo-noncom.jpg" alt="논코메도제닉 시험 자료"><span class="strength-benefit">여드름성 피부 사용 적합</span><span class="strength-icon">🛡️</span><b class="strength-metric" style="font-size:10px;">논코메도제닉 인증</b></div>
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-noncom.jpg" alt="논코메도제닉 시험 자료"><span class="strength-icon">🛡️</span><b class="strength-metric" style="font-size:10px;">논코메도제닉 인증</b></div>
             <div class="brand-strength-copy"><h3>여드름성 피부</h3><small>NON-COMEDOGENIC</small><strong>논코메도제닉 인증 보유</strong><p>모공 막힘 부담을 낮춘 논코메도제닉 인체적용시험 완료 품목을 보유했습니다.</p></div>
           </article>
           <article class="brand-strength-card">
-            <div class="brand-strength-media"><img src="images/mockups/a-photo-allskin.jpg" alt="다양한 피부 타입 이미지"><span class="strength-benefit">모든 피부 사용 가능</span><span class="strength-icon">🫶</span><b class="strength-metric" style="font-size:11px;">피부자극 0.00</b></div>
+            <div class="brand-strength-media"><img src="images/mockups/a-photo-allskin.jpg" alt="다양한 피부 타입 이미지"><span class="strength-icon">🫶</span><b class="strength-metric" style="font-size:11px;">피부자극 0.00</b></div>
             <div class="brand-strength-copy"><h3>모든 피부 사용</h3><small>NON-IRRITATING</small><strong>피부 자극지수 0.00</strong><p>다양한 피부 타입과 민감한 피부까지 고려한 무자극 판정 포뮬러입니다.</p></div>
           </article>
           <article class="brand-strength-card derma">
-            <div class="brand-strength-media"><img src="images/cert/dermatest-excellent-2025.png" alt="독일 더마테스트 EXCELLENT 2025 인증"><span class="strength-benefit">독일 피부과학 평가 최고등급</span><b class="strength-metric" style="font-size:10px;color:#07578f;">EXCELLENT 2025</b></div>
+            <div class="brand-strength-media"><img src="images/cert/dermatest-excellent-2025.png" alt="독일 더마테스트 EXCELLENT 2025 인증"><b class="strength-metric" style="font-size:10px;color:#07578f;">EXCELLENT 2025</b></div>
             <div class="brand-strength-copy"><h3>독일 더마테스트</h3><small>DERMATEST® EXCELLENT</small><strong>EXCELLENT ★★★★★</strong><p>독일 피부과학 전문기관의 피부 적용성 평가를 통과한 최고등급 인증입니다.</p></div>
           </article>
         </div>
@@ -3756,12 +3815,21 @@ body {
             <div class="fa-note">베스트 추천: NMN 세럼 + 버블토너 + 릴리프 앰플</div>
           </div>
         </div>
-        <div class="faq-card">
+        <div class="faq-card faq-order-card">
           <div class="fq"><span class="fq-num">2</span><span class="fq-text">주문은 어떻게 하나요?</span></div>
-          <div class="fa"><strong>시오레 약사 전용 B2B몰</strong>을 통해 발주합니다.<br><br>
-          ① 약국 사업자등록증 + 개설등록증 + 계약서 수령 이메일 제출<br>
-          ② ID 등업 진행 → ③ B2B몰 로그인 후 필요한 만큼 발주
-            <div class="fa-note blue">B2B몰 등록 완료 후 QR 발주 → 영업일 2~3일 도착</div>
+          <div class="fa">
+            <div class="faq-order-layout">
+              <div class="faq-order-copy"><strong>시오레 약사 전용 B2B몰</strong>을 통해 발주합니다.<br><br>
+              ① 약국 사업자등록증 + 개설등록증 + 계약서 수령 이메일 제출<br>
+              ② ID 등업 진행 → ③ B2B몰 로그인 후 필요한 만큼 발주
+                <div class="fa-note blue">현장에서 즉시 회원가입 · 등록 완료 후 QR 발주 → 영업일 2~3일 도착</div>
+              </div>
+              <a class="faq-b2b-join" href="https://siorekorea.co.kr/" target="_blank" rel="noopener" aria-label="시오레 B2B몰 회원가입 페이지 열기">
+                <img src="images/faq/siore-b2b-qr.png" alt="시오레 B2B몰 QR 코드">
+                <strong>현장 즉시 가입</strong>
+                <span class="faq-b2b-url">siorekorea.co.kr</span>
+              </a>
+            </div>
           </div>
         </div>
         <div class="faq-card">
@@ -3791,16 +3859,6 @@ body {
         </div>
       </div>
 
-      <!-- 오브젝션 -->
-      <div class="obj-box">
-        <div class="obj-q"><span class="obj-q-badge">Q</span>"우리 약국엔 아직 물어본 사람이 없는데요?"</div>
-        <div class="obj-steps">
-          <div class="obj-step"><div class="os-n">01</div><div class="os-title">공감</div><div class="os-text">"아직 생소한 브랜드라 당연합니다."</div></div>
-          <div class="obj-step"><div class="os-n">02</div><div class="os-title">핵심</div><div class="os-text"><strong>진열 안 된 제품은 물어볼 수가 없습니다. 보여야 질문이 생깁니다.</strong></div></div>
-          <div class="obj-step"><div class="os-n">03</div><div class="os-title">연결</div><div class="os-text"><strong>"NMN 드시는 분께 바르는 것도 있습니다"</strong> — 한 마디면 됩니다.</div></div>
-          <div class="obj-step"><div class="os-n">04</div><div class="os-title">제안</div><div class="os-text">베스트 3종으로 가볍게 시작. <strong>테스터 세팅 후 2주 뒤 방문드리겠습니다.</strong></div></div>
-        </div>
-      </div>
         </div>
   </div>
 
@@ -5262,7 +5320,6 @@ function wireLineupSkuCards() {
         <article class="brand-strength-card">
           <div class="brand-strength-media">
             <img src="images/mockups/a-photo-nmn.jpg" alt="고순도 NMN 안티에이징 비주얼">
-            <span class="strength-benefit">약사가 설계한 NMN 스킨케어</span>
             <span class="strength-icon">🧬</span>
             <b class="strength-metric">10,000ppm</b>
           </div>
@@ -5276,8 +5333,7 @@ function wireLineupSkuCards() {
         <article class="brand-strength-card">
           <div class="brand-strength-media">
             <img src="images/mockups/a-photo-cooling.jpg" alt="즉각 쿨링 임상 비주얼">
-            <span class="strength-benefit">열 오른 피부를 빠르게</span>
-            <span class="strength-icon">❄️🌡️</span>
+            <span class="strength-icon cooling-icon"><span class="cooling-snow">❄️</span><span class="cooling-thermo">🌡️</span></span>
             <b class="strength-metric" style="color:#157b9d">-10.041°C</b>
           </div>
           <div class="brand-strength-copy">
@@ -5290,7 +5346,6 @@ function wireLineupSkuCards() {
         <article class="brand-strength-card noncom">
           <div class="brand-strength-media">
             <img src="images/mockups/a-photo-noncom.jpg" alt="논코메도제닉 시험 비주얼">
-            <span class="strength-benefit">여드름성 피부 사용 적합</span>
             <span class="strength-icon">🛡️</span>
             <b class="strength-metric">논코메도제닉 인증</b>
           </div>
@@ -5304,7 +5359,6 @@ function wireLineupSkuCards() {
         <article class="brand-strength-card">
           <div class="brand-strength-media">
             <img src="images/mockups/a-photo-allskin.jpg" alt="모든 피부 사용 비주얼">
-            <span class="strength-benefit">모든 피부 사용 가능</span>
             <span class="strength-icon">🫶</span>
             <b class="strength-metric">피부자극 0.00</b>
           </div>
@@ -5318,7 +5372,6 @@ function wireLineupSkuCards() {
         <article class="brand-strength-card derma">
           <div class="brand-strength-media">
             <img src="images/cert/dermatest-excellent-2025.png" alt="독일 더마테스트 엑설런트 인증">
-            <span class="strength-benefit">독일 피부과학 평가 최고등급</span>
             <b class="strength-metric">EXCELLENT 2025</b>
           </div>
           <div class="brand-strength-copy">

@@ -5414,7 +5414,10 @@ function wireLineupSkuCards() {
   .vmd-real-hero,.vmd-real-thumb{position:relative;border-radius:17px;overflow:hidden;background:#ddd;cursor:pointer;border:1px solid #ded5cf}
   .vmd-real-hero img,.vmd-real-thumb img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .25s ease}
   .vmd-real-thumb.portrait{background:#eee8e4}
-  .vmd-real-thumb.portrait img{object-fit:contain}
+  .vmd-real-thumb.portrait img{object-fit:contain;transform:rotate(90deg) scale(.56)}
+  .vmd-real-thumb.portrait:hover img{transform:rotate(90deg) scale(.59)}
+  .vmd-case-main img.rotated{transform:rotate(90deg) scale(.56)}
+  .vmd-case-thumbs img.rotated{transform:rotate(90deg) scale(.58)}
   .vmd-real-hero:hover img,.vmd-real-thumb:hover img{transform:scale(1.025)}
   .vmd-real-caption{position:absolute;left:12px;right:12px;bottom:12px;padding:9px 11px;border-radius:10px;background:rgba(20,16,14,.72);backdrop-filter:blur(8px);color:#fff;font-size:10px;font-weight:800}
   .vmd-real-caption span{display:inline-block;margin-right:7px;padding:3px 6px;border-radius:5px;background:#f55018;color:#fff;font-size:8px;letter-spacing:.8px;vertical-align:1px}
@@ -5642,7 +5645,7 @@ function wireLineupSkuCards() {
     <div class="vmd-case-modal" id="vmd-case-modal" onclick="if(event.target===this)closeVmdCase()">
       <div class="vmd-case-shell">
         <div class="vmd-case-main" id="vmd-case-main"><img id="vmd-case-main-image" alt="시오레 실제 약국 세팅 사례" referrerpolicy="no-referrer"><button class="vmd-case-nav prev" onclick="event.stopPropagation();stepVmdCase(-1)" aria-label="이전 사진">‹</button><button class="vmd-case-nav next" onclick="event.stopPropagation();stepVmdCase(1)" aria-label="다음 사진">›</button><button class="vmd-case-close" onclick="closeVmdCase()" aria-label="닫기">×</button></div>
-        <div class="vmd-case-thumbs">${vmdImages.map((item,i)=>`<button onclick="openVmdCase(${i})" aria-label="${item[1]}"><img src="${thumb(item[0],500)}" alt="" referrerpolicy="no-referrer"></button>`).join('')}</div>
+        <div class="vmd-case-thumbs">${vmdImages.map((item,i)=>`<button onclick="openVmdCase(${i})" aria-label="${item[1]}"><img class="${i===1||i===2?'rotated':''}" src="${thumb(item[0],500)}" alt="" referrerpolicy="no-referrer"></button>`).join('')}</div>
       </div>
     </div>`;
   let vmdCaseIndex=0;
@@ -5651,7 +5654,9 @@ function wireLineupSkuCards() {
     const item=SIORE_VMD_IMAGES[index];
     if(!modal||!item)return;
     vmdCaseIndex=index;
-    document.getElementById('vmd-case-main-image').src=thumb(item[0],2200);
+    const mainImage=document.getElementById('vmd-case-main-image');
+    mainImage.src=thumb(item[0],2200);
+    mainImage.classList.toggle('rotated',index===1||index===2);
     modal.querySelectorAll('.vmd-case-thumbs button').forEach((b,i)=>b.classList.toggle('active',i===index));
     modal.classList.add('open');
   };

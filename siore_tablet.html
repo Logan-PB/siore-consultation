@@ -2311,8 +2311,8 @@ body {
   z-index: 3;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 38px 22px 34px 50px;
+  justify-content: flex-start;
+  padding: 42px 48px 38px 50px;
   color: #fff;
   background:
     radial-gradient(circle at 92% 42%,rgba(244,81,30,.12),transparent 34%),
@@ -2322,7 +2322,7 @@ body {
   display: flex;
   align-items: center;
   gap: 9px;
-  margin-bottom: 15px;
+  margin-bottom: 22px;
   color: #ff8a60;
   font-size: 10px;
   font-weight: 900;
@@ -2341,9 +2341,9 @@ body {
 }
 .home-copy h1 {
   margin: 0;
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 950;
-  line-height: 1.08;
+  line-height: 1.12;
   letter-spacing: -2.2px;
 }
 .home-copy h1 em {
@@ -2351,36 +2351,39 @@ body {
   font-style: normal;
 }
 .home-copy .home-lead {
-  max-width: 510px;
-  margin-top: 18px;
-  color: rgba(255,255,255,.78);
-  font-size: 14px;
-  line-height: 1.65;
+  max-width: 520px;
+  margin-top: 26px;
+  color: rgba(255,255,255,.82);
+  font-size: 15px;
+  line-height: 1.78;
+  letter-spacing: -.1px;
   word-break: keep-all;
 }
 .home-sku-hook {
   display: grid;
   grid-template-columns: auto minmax(0,1fr);
   align-items: center;
-  gap: 13px;
-  max-width: 500px;
-  margin-top: 21px;
-  padding: 12px 15px;
+  gap: 20px;
+  width: 100%;
+  max-width: 520px;
+  margin-top: auto;
+  padding: 17px 20px;
   border: 1px solid rgba(255,126,78,.44);
-  border-radius: 12px;
+  border-radius: 14px;
   background: rgba(244,81,30,.12);
 }
 .home-sku-hook b {
   color: #ff6a35;
-  font-size: 23px;
+  font-size: 38px;
+  font-weight: 950;
   line-height: 1;
   white-space: nowrap;
 }
 .home-sku-hook span {
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
-  line-height: 1.4;
+  line-height: 1.5;
   word-break: keep-all;
 }
 .home-art {
@@ -2396,35 +2399,6 @@ body {
   object-fit: cover;
   object-position: 50% 48%;
   filter: contrast(1.04) saturate(1.03);
-}
-.home-nmn-signature {
-  position: absolute;
-  z-index: 2;
-  top: 24px;
-  right: 26px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  color: #f4511e;
-  text-shadow: 0 2px 12px rgba(255,255,255,.92);
-}
-.home-nmn-signature strong {
-  font-size: 52px;
-  font-weight: 950;
-  line-height: .9;
-  letter-spacing: -3px;
-}
-.home-nmn-signature span {
-  margin-top: 8px;
-  padding: 6px 10px;
-  border: 1px solid rgba(32,28,26,.16);
-  border-radius: 999px;
-  background: rgba(255,255,255,.82);
-  color: #342b27;
-  font-size: 9px;
-  font-weight: 900;
-  letter-spacing: 1.3px;
-  backdrop-filter: blur(6px);
 }
 .home-founder-strip {
   position: relative;
@@ -2704,11 +2678,10 @@ body {
           <div class="home-pharmacy-mark"><span class="home-cross">✚</span> K-BEAUTY · PHARMACY TRUST</div>
           <h1 id="home-title">K-Beauty의 선택 기준,<br><em>이제 약국의 신뢰입니다.</em></h1>
           <p class="home-lead">제품이 넘치는 시장에서 고객이 찾는 것은 믿고 선택할 수 있는 전문적인 설명입니다. 시오레는 약국의 신뢰를 차별화된 K-Beauty 경쟁력으로 전환합니다.</p>
-          <div class="home-sku-hook"><b>THIS IS NMN</b><span>PDRN이 아닙니다. 시오레의 중심은<br>99% 이상 고순도 NMN · 최대 10,000ppm입니다.</span></div>
+          <div class="home-sku-hook"><b>NMN</b><span>99% 이상 고순도<br>최대 10,000ppm</span></div>
         </div>
         <div class="home-art">
           <img src="images/brand/official-about-03.png" alt="시오레 공식 브랜드 모델과 NMN·데일리 밸런스 전 제품 라인업">
-          <div class="home-nmn-signature"><strong>NMN</strong><span>SKIN ENERGY · LONGEVITY CARE</span></div>
         </div>
       </section>
       <section class="home-founder-strip" aria-label="약사 대표 신뢰 메시지">

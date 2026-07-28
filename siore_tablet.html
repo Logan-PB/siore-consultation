@@ -5714,6 +5714,18 @@ function wireLineupSkuCards() {
   .marketing-head p{font-size:12px;line-height:1.55}
   .influencer-card .ic-label{font-size:7.6px;padding:4px 6px;line-height:1.25}
   .influencer-card .ic-region{font-size:7.4px;line-height:1.2}
+  .influencer-card iframe{
+    width:calc(100% + 22px);
+    height:calc(100% + 20px);
+    transform:translate(-5px,-8px) scale(1.025);
+    transform-origin:center;
+  }
+  .influencer-card iframe[src*="instagram.com"]{
+    width:calc(100% + 28px);
+    height:calc(100% + 68px);
+    transform:translate(-7px,-51px) scale(1.05);
+    transform-origin:top center;
+  }
   .main,.sku-modal-shell{touch-action:pan-y}
 
   /* 제품 카드: 태블릿 거리에서도 제품명과 핵심 문장이 먼저 읽히도록 */

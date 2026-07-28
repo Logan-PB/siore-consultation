@@ -2290,11 +2290,12 @@ body {
 .home-stage {
   height: calc(800px - var(--nav-h));
   display: grid;
-  grid-template-rows: minmax(0,1fr) 168px;
+  grid-template-rows: 154px minmax(0,1fr);
   overflow: hidden;
   background: #171515;
 }
 .home-main {
+  grid-row: 2;
   position: relative;
   display: grid;
   grid-template-columns: 49% 51%;
@@ -2384,18 +2385,49 @@ body {
   word-break: keep-all;
 }
 .home-art {
+  position: relative;
   min-width: 0;
   overflow: hidden;
+  background: #d8c9c0;
 }
 .home-art img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  filter: contrast(1.13) saturate(1.1) brightness(1.06);
+  object-position: 55% center;
+  filter: contrast(1.05) saturate(1.03) brightness(.98);
+}
+.home-nmn-signature {
+  position: absolute;
+  z-index: 2;
+  right: 28px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: #fff;
+  text-shadow: 0 3px 16px rgba(63,32,22,.36);
+}
+.home-nmn-signature strong {
+  font-size: 62px;
+  font-weight: 950;
+  line-height: .9;
+  letter-spacing: -3px;
+}
+.home-nmn-signature span {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255,255,255,.62);
+  border-radius: 999px;
+  background: rgba(34,25,22,.2);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+  backdrop-filter: blur(6px);
 }
 .home-founder-strip {
   position: relative;
+  grid-row: 1;
   display: grid;
   grid-template-columns: 46% 54%;
   overflow: hidden;
@@ -2405,7 +2437,7 @@ body {
 .home-founder-strip img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 .home-founder-message {
@@ -2666,21 +2698,22 @@ body {
     <div class="home-stage">
       <section class="home-main" aria-labelledby="home-title">
         <div class="home-copy">
-          <div class="home-pharmacy-mark"><span class="home-cross">✚</span> K-BEAUTY · TRUSTED PHARMACY</div>
-          <h1 id="home-title">K-Beauty 시장의 다음 주역,<br><em>신뢰 기반 약국</em>입니다.</h1>
-          <p class="home-lead">관광객과 고객은 이제 제품만이 아니라 전문적인 설명과 신뢰까지 함께 찾습니다. 약국은 K-Beauty를 가장 설득력 있게 제안할 수 있는 새로운 접점입니다.</p>
-          <div class="home-sku-hook"><b>SIORÉ</b><span>그 시장에서 약국의 경쟁력을 만드는<br>약사 설계 더마스킨케어 SKU</span></div>
+          <div class="home-pharmacy-mark"><span class="home-cross">✚</span> K-BEAUTY · PHARMACY TRUST</div>
+          <h1 id="home-title">K-Beauty의 선택 기준,<br><em>이제 약국의 신뢰입니다.</em></h1>
+          <p class="home-lead">제품이 넘치는 시장에서 고객이 찾는 것은 믿고 선택할 수 있는 전문적인 설명입니다. 시오레는 약국의 신뢰를 차별화된 K-Beauty 경쟁력으로 전환합니다.</p>
+          <div class="home-sku-hook"><b>THIS IS NMN</b><span>PDRN이 아닙니다. 시오레의 중심은<br>99% 이상 고순도 NMN · 최대 10,000ppm입니다.</span></div>
         </div>
         <div class="home-art">
-          <img src="images/hero/siore-nmn-cinematic-v2.png" alt="K-Beauty 약국 경쟁 SKU 시오레 NMN 라인">
+          <img src="images/mockups/a-photo-nmn.jpg" alt="시오레 NMN 안티에이징 브랜드 모델">
+          <div class="home-nmn-signature"><strong>NMN</strong><span>SKIN ENERGY · LONGEVITY CARE</span></div>
         </div>
       </section>
       <section class="home-founder-strip" aria-label="약사 대표 신뢰 메시지">
         <img src="images/k_beauty_pharmacist_header.png" alt="K-Beauty의 다음 무대 K-약국과 약사, 파마브로스 대표약사">
         <div class="home-founder-message">
           <small>PHARMACIST-LED K-BEAUTY</small>
-          <strong>제품을 파는 약국에서,<br>신뢰를 설명하는 K-Beauty 약국으로</strong>
-          <span>약사가 설계하고 임상으로 증명한 시오레가 전문상담 약국의 새로운 경쟁 SKU가 됩니다.</span>
+          <strong>약사의 신뢰가 K-Beauty의<br>선택 기준이 됩니다</strong>
+          <span>약사가 설계하고 임상으로 증명한 NMN 스킨케어, 시오레가 전문상담 약국의 경쟁 SKU가 됩니다.</span>
         </div>
       </section>
     </div>

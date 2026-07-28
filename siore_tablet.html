@@ -2288,6 +2288,7 @@ body {
 
 /* Home: pharmacy opportunity first */
 .home-stage {
+  --home-split: 49%;
   height: calc(800px - var(--nav-h));
   display: grid;
   grid-template-rows: 154px minmax(0,1fr);
@@ -2298,17 +2299,12 @@ body {
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-columns: 49% 51%;
+  grid-template-columns: var(--home-split) minmax(0,1fr);
   min-height: 0;
   overflow: hidden;
 }
 .home-main::before {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(90deg,rgba(19,17,17,.98) 0,rgba(19,17,17,.92) 43%,rgba(19,17,17,.2) 68%,rgba(19,17,17,.03) 100%);
+  display: none;
 }
 .home-copy {
   position: relative;
@@ -2318,6 +2314,9 @@ body {
   justify-content: center;
   padding: 38px 22px 34px 50px;
   color: #fff;
+  background:
+    radial-gradient(circle at 92% 42%,rgba(244,81,30,.12),transparent 34%),
+    linear-gradient(135deg,#181515 0%,#0f0e0e 100%);
 }
 .home-pharmacy-mark {
   display: flex;
@@ -2388,28 +2387,29 @@ body {
   position: relative;
   min-width: 0;
   overflow: hidden;
-  background: #d8c9c0;
+  border-left: 1px solid rgba(255,255,255,.18);
+  background: #f5f4f2;
 }
 .home-art img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 55% center;
-  filter: contrast(1.05) saturate(1.03) brightness(.98);
+  object-position: 50% 48%;
+  filter: contrast(1.04) saturate(1.03);
 }
 .home-nmn-signature {
   position: absolute;
   z-index: 2;
-  right: 28px;
-  bottom: 24px;
+  top: 24px;
+  right: 26px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  color: #fff;
-  text-shadow: 0 3px 16px rgba(63,32,22,.36);
+  color: #f4511e;
+  text-shadow: 0 2px 12px rgba(255,255,255,.92);
 }
 .home-nmn-signature strong {
-  font-size: 62px;
+  font-size: 52px;
   font-weight: 950;
   line-height: .9;
   letter-spacing: -3px;
@@ -2417,9 +2417,10 @@ body {
 .home-nmn-signature span {
   margin-top: 8px;
   padding: 6px 10px;
-  border: 1px solid rgba(255,255,255,.62);
+  border: 1px solid rgba(32,28,26,.16);
   border-radius: 999px;
-  background: rgba(34,25,22,.2);
+  background: rgba(255,255,255,.82);
+  color: #342b27;
   font-size: 9px;
   font-weight: 900;
   letter-spacing: 1.3px;
@@ -2429,7 +2430,7 @@ body {
   position: relative;
   grid-row: 1;
   display: grid;
-  grid-template-columns: 46% 54%;
+  grid-template-columns: var(--home-split) minmax(0,1fr);
   overflow: hidden;
   border-top: 2px solid rgba(255,255,255,.3);
   background: #dce9ff;
@@ -2437,14 +2438,16 @@ body {
 .home-founder-strip img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;
+  object-position: center center;
 }
 .home-founder-message {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-width: 0;
   padding: 18px 34px;
+  border-left: 1px solid rgba(43,101,201,.2);
   color: #08204a;
   background: linear-gradient(90deg,rgba(220,233,255,.86),#dce9ff);
 }
@@ -2704,7 +2707,7 @@ body {
           <div class="home-sku-hook"><b>THIS IS NMN</b><span>PDRN이 아닙니다. 시오레의 중심은<br>99% 이상 고순도 NMN · 최대 10,000ppm입니다.</span></div>
         </div>
         <div class="home-art">
-          <img src="images/mockups/a-photo-nmn.jpg" alt="시오레 NMN 안티에이징 브랜드 모델">
+          <img src="images/brand/official-about-03.png" alt="시오레 공식 브랜드 모델과 NMN·데일리 밸런스 전 제품 라인업">
           <div class="home-nmn-signature"><strong>NMN</strong><span>SKIN ENERGY · LONGEVITY CARE</span></div>
         </div>
       </section>

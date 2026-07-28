@@ -1653,6 +1653,41 @@ body {
   font-weight: 950;
   letter-spacing: .65px;
 }
+.sku-story-ingredients {
+  display: grid;
+  grid-template-columns: repeat(var(--ingredient-columns),minmax(0,1fr));
+  gap: 7px;
+  padding: 8px;
+  border-top: 1px solid color-mix(in srgb,var(--story-accent) 16%,#e8e1dc);
+  background: color-mix(in srgb,var(--story-accent) 5%,#fff);
+}
+.sku-story-ingredient {
+  min-width: 0;
+  min-height: 62px;
+  padding: 9px 10px;
+  border: 1px solid color-mix(in srgb,var(--story-accent) 17%,#e8e2de);
+  border-radius: 9px;
+  background: #fff;
+}
+.sku-story-ingredient b {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--story-accent);
+  font-size: 10.5px;
+  line-height: 1.3;
+  word-break: keep-all;
+}
+.sku-story-ingredient span {
+  display: block;
+  color: #6f6762;
+  font-size: 8.8px;
+  font-weight: 700;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+@media (max-width: 900px) {
+  .sku-story-ingredients { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
 .sku-story-mechanisms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; padding: 8px; }
 .sku-story-mechanism {
   position: relative;
@@ -2813,7 +2848,7 @@ body {
         <!-- 1. 독일 더마테스트 -->
         <div class="cert-card cert-badge-card">
           <div class="cert-img-wrap">
-            <img src="https://drive.google.com/thumbnail?id=1cbcFvzRjpMGAJzCwZRxxp9vrMe4aplpA&sz=w300" alt="DERMATEST EXCELLENT"
+            <img src="images/cert/dermatest-excellent-2025.png" alt="DERMATEST EXCELLENT"
               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
             <div class="cert-fallback" style="display:none;background:linear-gradient(135deg,#C0392B,#E74C3C);">
               <span style="color:white;font-size:11px;font-weight:900;">DERMATEST<br>EXCELLENT</span>
@@ -2829,7 +2864,7 @@ body {
         <!-- 2. 피부자극지수 -->
         <div class="cert-card cert-badge-card">
           <div class="cert-img-wrap">
-            <img src="https://drive.google.com/thumbnail?id=17k_gukWy4QdrJNhLllRyJ1agijbmnKEJ&sz=w300" alt="피부자극지수 0.00"
+            <img src="images/cert/cert-irritation.png" alt="피부자극지수 0.00"
               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
             <div class="cert-fallback" style="display:none;background:linear-gradient(135deg,#1A6FA8,#2E9CCA);">
               <span style="color:white;font-size:18px;font-weight:900;">0.00</span>
@@ -2845,7 +2880,7 @@ body {
         <!-- 3. 논코메도제닉 -->
         <div class="cert-card cert-badge-card">
           <div class="cert-img-wrap">
-            <img src="https://drive.google.com/thumbnail?id=1i77AKvZFPAkdQW2dmX0lmhxG4G3qXGwI&sz=w300" alt="논코메도제닉"
+            <img src="images/cert/cert-noncomedo.png" alt="논코메도제닉"
               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
             <div class="cert-fallback" style="display:none;background:linear-gradient(135deg,#1A7A4A,#27AE60);">
               <span style="color:white;font-size:10px;font-weight:900;">NON-COMEDOGENIC</span>
@@ -3280,8 +3315,8 @@ body {
         <div class="product-grid">
           <div class="prod-card">
             <div class="prod-vid-top">
-            <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=15MD6nwL4DPPCQxuPigwG0sgoBFwJOZeq&sz=w600" alt=""></div>
-            <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1uWgNGwLFI19MwjuQHvtL635zb--DrNM3&sz=w300" alt=""></div>
+            <div class="pvt-texture"><img src="images/textures/cleansing-texture.jpg" alt=""></div>
+            <div class="pvt-product"><img src="images/products/cleansing.png" alt=""></div>
             <div class="pvt-gradient"></div>
             <div class="pvt-chars">
               <span class="pvt-tag wht">NMN</span><span class="pvt-tag wht">리퀴드 밀크</span><span style="background:rgba(245,80,24,0.9);color:#fff;font-size:7.5px;font-weight:900;padding:2px 6px;border-radius:3px;letter-spacing:0.2px;flex-shrink:0;">NMN 500ppm</span>
@@ -3305,7 +3340,7 @@ body {
           </div>
           <div class="prod-card">
             <div class="prod-vid-top" style="position:relative;">
-              <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=1eEkY98Q1tUc7mxQm-mwfbJdolU-GSlgg&sz=w600" alt=""></div>
+              <div class="pvt-texture"><img src="images/textures/bubble-texture.jpg" alt=""></div>
               <!-- 버블 파티클 -->
               <div class="pvt-bubble">
                 <span style="width:12px;height:12px;left:15%;animation-duration:2.8s;animation-delay:0s"></span>
@@ -3314,7 +3349,7 @@ body {
                 <span style="width:7px;height:7px;left:75%;animation-duration:3.6s;animation-delay:0.3s"></span>
                 <span style="width:10px;height:10px;left:25%;animation-duration:3s;animation-delay:1.8s"></span>
               </div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1M37ukstOfj0gdpEieGXjqIwN7u2TSbQJ&sz=w300" alt=""></div>
+              <div class="pvt-product"><img src="images/products/bubble-toner.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag org">BEST 1</span><span class="pvt-tag wht">버블 젤 제형</span><span style="background:rgba(245,80,24,0.9);color:#fff;font-size:7.5px;font-weight:900;padding:2px 6px;border-radius:3px;letter-spacing:0.2px;flex-shrink:0;">10,000ppm</span>
@@ -3341,7 +3376,7 @@ body {
               <!-- 실제 세럼 텍스처 영상 (Drive) -->
               <!-- 세럼 제형 텍스처 이미지 (좌측) -->
               <div class="pvt-texture">
-                <img src="https://drive.google.com/thumbnail?id=1eo0A4pXn2-sH52jMjAz0gCfYO-J5-kmi&sz=w600" alt="세럼 제형"
+                <img src="images/textures/serum-texture.jpg" alt="세럼 제형"
                   onerror="this.parentElement.style.background='linear-gradient(180deg,#1a0a00,#3d1800)'">
               </div>
               <!-- 세럼 영상 (있을 때만 표시) -->
@@ -3350,7 +3385,7 @@ body {
                   <source src="https://drive.google.com/uc?export=download&id=1yY-hUHII7X5QiXVsqsTALu9xLjZNcjJ8" type="video/mp4">
                 </video>
               </div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1s-EVQIK4OoG4tWMMcf5iDgFAo60a61B3&sz=w300" alt=""></div>
+              <div class="pvt-product"><img src="images/products/serum.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag org">BEST 2</span><span class="pvt-tag wht">고농축 세럼</span><span style="background:rgba(245,80,24,0.9);color:#fff;font-size:7.5px;font-weight:900;padding:2px 6px;border-radius:3px;letter-spacing:0.2px;flex-shrink:0;">10,000ppm</span>
@@ -3374,8 +3409,8 @@ body {
           </div>
           <div class="prod-card">
             <div class="prod-vid-top">
-              <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=1o8JnEP-Lc427zdUx_C-yglcJcSqXikU3&sz=w600" alt=""></div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1AMWKWF2beMBFa_MO0FuZ3uJ_2bESHhqN&sz=w300" alt=""></div>
+              <div class="pvt-texture"><img src="images/textures/soothing-cream-texture.jpg" alt=""></div>
+              <div class="pvt-product"><img src="images/products/soothing-cream.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag wht">NMN</span><span class="pvt-tag wht">수분 크림</span><span style="background:rgba(245,80,24,0.9);color:#fff;font-size:7.5px;font-weight:900;padding:2px 6px;border-radius:3px;letter-spacing:0.2px;flex-shrink:0;">10,000ppm</span>
@@ -3399,8 +3434,8 @@ body {
           </div>
           <div class="prod-card">
             <div class="prod-vid-top">
-              <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=1cOVNTBFfnKvfz1CP0iSUpKgiulrWFOph&sz=w600" alt=""></div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1yt5Hp7gAmJ7jFz3bYoACsRKsPx-xff0T&sz=w300" alt=""></div>
+              <div class="pvt-texture"><img src="images/textures/rich-cream-texture.jpg" alt=""></div>
+              <div class="pvt-product"><img src="images/products/rich-cream.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag wht">NMN</span><span class="pvt-tag wht">글로시 리치크림</span><span style="background:rgba(245,80,24,0.9);color:#fff;font-size:7.5px;font-weight:900;padding:2px 6px;border-radius:3px;letter-spacing:0.2px;flex-shrink:0;">10,000ppm</span>
@@ -3432,8 +3467,8 @@ body {
         <div class="product-grid relief">
           <div class="prod-card">
             <div class="prod-vid-top">
-              <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=1FB9UZnlu19zKIiMPDZF6GLY4442GedwP&sz=w600" alt=""></div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1PPfoaSPz_FE966fe2X3R2oC3xV_RmS_Q&sz=w300" alt=""></div>
+              <div class="pvt-texture"><img src="images/textures/essence-toner-texture.jpg" alt=""></div>
+              <div class="pvt-product"><img src="images/products/essence-toner.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag blu">RELIEF</span><span class="pvt-tag wht">에센스 토너</span>
@@ -3457,8 +3492,8 @@ body {
           </div>
           <div class="prod-card">
             <div class="prod-vid-top">
-              <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=1DcFQh_NPZF5YmqNagNeyIVn0jYnWMqCf&sz=w600" alt=""></div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1VnMckE_dW74AbB863DilMXdQX9HiE1DA&sz=w300" alt=""></div>
+              <div class="pvt-texture"><img src="images/textures/ampoule-texture.jpg" alt=""></div>
+              <div class="pvt-product"><img src="images/products/ampoule.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag blu">RELIEF</span><span class="pvt-tag wht">리페어 앰플</span>
@@ -3482,8 +3517,8 @@ body {
           </div>
           <div class="prod-card">
             <div class="prod-vid-top">
-              <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=1HiQ5uK8aQAAZiQN5n1WnOL_6z9aOQ-b_&sz=w600" alt=""></div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=1rGqbcDoRgibkF_oKCeqkaVDCkjqc9Yq9&sz=w300" alt=""></div>
+              <div class="pvt-texture"><img src="images/textures/soothing-gel-texture.jpg" alt=""></div>
+              <div class="pvt-product"><img src="images/products/soothing-gel.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag org">BEST 3</span><span class="pvt-tag wht">카밍 수딩젤</span>
@@ -3507,8 +3542,8 @@ body {
           </div>
           <div class="prod-card">
             <div class="prod-vid-top">
-              <div class="pvt-texture"><img src="https://drive.google.com/thumbnail?id=15xNU5qDXRA1ZAUwsdB1H8-14oNL8NBnY&sz=w600" alt=""></div>
-              <div class="pvt-product"><img src="https://drive.google.com/thumbnail?id=10VM5krWAGsczZWCDWMHdc9QOMT_YojiK&sz=w300" alt=""></div>
+              <div class="pvt-texture"><img src="images/textures/comfort-cream-texture.jpg" alt=""></div>
+              <div class="pvt-product"><img src="images/products/comfort-cream.png" alt=""></div>
               <div class="pvt-gradient"></div>
               <div class="pvt-chars">
                 <span class="pvt-tag blu">RELIEF</span><span class="pvt-tag wht">컴포트 크림</span>
@@ -3540,10 +3575,10 @@ body {
           <div class="prod-card" style="max-width:700px">
             <div class="prod-vid-top" style="height:194px;background:linear-gradient(135deg,#1e0a2e,#3d1f52);">
               <div class="pvt-texture" style="animation:pvtKenBurns 12s ease-in-out infinite alternate;width:52%;">
-                <img src="https://drive.google.com/thumbnail?id=1rTGTGOU2UP43ireunVLt2YNQB08k8iN_&sz=w600" alt="PDRN 단상자" style="object-fit:contain;object-position:center bottom;filter:brightness(1.15);" onerror="this.parentElement.style.background='#2a1a38'">
+                <img src="images/products/pdrn-200-box.jpg" alt="PDRN 단상자" style="object-fit:contain;object-position:center bottom;filter:brightness(1.15);" onerror="this.parentElement.style.background='#2a1a38'">
               </div>
               <div class="pvt-product" style="width:36%;">
-                <img src="https://drive.google.com/thumbnail?id=1SDWtvcj07CYGc66riUTzN0qp3ekf-eow&sz=w300" alt="PDRN 스틱포" onerror="this.style.display='none'">
+                <img src="images/products/pdrn-200-stick.jpg" alt="PDRN 스틱포" onerror="this.style.display='none'">
               </div>
               <div class="pvt-gradient" style="background:linear-gradient(160deg,rgba(42,10,60,0.75) 0%,transparent 50%,rgba(0,0,0,0.3) 100%);"></div>
               <div class="pvt-chars">
@@ -3580,7 +3615,7 @@ body {
                 <!-- 우: 썸머 패키지 프로모션 -->
                 <div style="border-left:2px solid #e9d5ff;padding-left:12px;">
                   <div style="font-size:11.5px;font-weight:800;color:#8B5CF6;letter-spacing:0.4px;margin-bottom:7px;">🌞 여름 한정 프로모션</div>
-                  <img src="https://drive.google.com/thumbnail?id=1yxsK0aY70PJULa7_vOOVqf4g9matoyh6&sz=w400" alt="썸머패키지" style="width:100%;border-radius:6px;object-fit:cover;max-height:70px;margin-bottom:6px;" onerror="this.style.display='none'">
+                  <img src="images/products/pdrn-summer-package.jpg" alt="썸머패키지" style="width:100%;border-radius:6px;object-fit:cover;max-height:70px;margin-bottom:6px;" onerror="this.style.display='none'">
                   <div style="display:flex;flex-direction:column;gap:4px;">
                     <div style="background:#f3eaf9;border-radius:5px;padding:5px 8px;font-size:11px;">
                       <span style="font-weight:800;color:#8B5CF6;">패키지A</span>
@@ -4085,7 +4120,7 @@ const DET_DATA = {
            ['약산성 밀크 제형','잔여감과 당김을 줄인 촉촉한 클렌징']],
      claims:['피부 자극 테스트: 무자극','논코메도제닉 인증완료','여드름성 피부 사용 적합','노폐물 세정효과 99.48%','메이크업 세정효과 91.59%'],
      trial:'한국피부과학연구원 | 2025.6.12~7.14 | 31~58세 성인 여성 23명',
-     photo:'1uWgNGwLFI19MwjuQHvtL635zb--DrNM3'},
+     photo:'images/products/cleansing.png'},
     {type:'TONER',accentColor:'#F55018',name:'NMN 프레쉬 버블 토너',size:'145ml',
      tagline:'흘러내리지 않는 버블 토너 — 벌집구조로 피부에 밀착',
      usp:'버블이 깨지지 않는 벌집구조 설계 · 손 사용 최소화한 저자극 토너 · 모든 피부타입 사용 가능',
@@ -4094,7 +4129,7 @@ const DET_DATA = {
            ['글루타치온 · 레스베라트롤','NMN 활성화 복합 성분']],
      claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','피부 광채 <b style="color:#F55018">403.37%</b> 개선','피부 수분량 148.70% 증가','피부결 10.43% 개선'],
      trial:'한국피부과학연구원 | 2025.6.19~7.11 | 39~63세 성인 여성 22명',
-     photo:'1M37ukstOfj0gdpEieGXjqIwN7u2TSbQJ'},
+     photo:'images/products/bubble-toner.png'},
     {type:'SERUM',accentColor:'#F55018',name:'NMN 인텐시브 세럼',size:'50ml',
      tagline:'주름은 다리고, 광채는 올린다 — 프라이머급 안티에이징 세럼',
      usp:'주름다리미 + 광채 세럼 + 프라이머 3기능 · 오일광 없는 순수 광채 · 모공 막힘 없음',
@@ -4103,7 +4138,7 @@ const DET_DATA = {
            ['PDRN · 글루타치온 · 카르노신','NMN 활성화 복합 성분']],
      claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','크림 병행 1회 피부 광채 <b style="color:#F55018">564.64%</b> 개선','피부 겉탄력 6.97% 증가','눈가 주름 9.12% 감소'],
      trial:'한국피부과학연구원 | 2025.6.20~8.1 | 34~69세 성인 여성 23명',
-     photo:'1s-EVQIK4OoG4tWMMcf5iDgFAo60a61B3'},
+     photo:'images/products/serum.png'},
     {type:'CREAM',accentColor:'#F55018',name:'NMN 하이드레이팅 수딩 크림',size:'50ml',
      tagline:'유분 없이 수분만 — 피부 타입을 가리지 않는 올 시즌 수딩 크림',
      usp:'유분 Zero, 수분만 남는 크림 · 여름철 사용 가능 · 토너패드 레이어링 후도 무리 없는 흡수력',
@@ -4112,7 +4147,7 @@ const DET_DATA = {
            ['글루타치온 · 레스베라트롤','NMN 활성화 복합 성분']],
      claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','즉각적 보습량 <b style="color:#F55018">148.87%</b> 개선','24시간 보습 지속력 56.65% 개선','피부 투명도 개선'],
      trial:'한국피부과학연구원 | 2025.5.13~7.11 | 39~63세 성인 여성 22명',
-     photo:'1AMWKWF2beMBFa_MO0FuZ3uJ_2bESHhqN'},
+     photo:'images/products/soothing-cream.png'},
     {type:'CREAM',accentColor:'#F55018',name:'NMN 딥 글로우 리치 크림',size:'50ml',
      tagline:'데일리 크림에서 나이트팩까지 — 수분 락인 설계 안티에이징 리치 크림',
      usp:'데일리 크림 + 수분 락인 + 나이트팩 · 1 SKU 3가지 사용법 · 건조하고 푸석한 피부 특화',
@@ -4121,7 +4156,7 @@ const DET_DATA = {
            ['PDRN · 글루타치온 · 카르노신','NMN 활성화 복합 성분']],
      claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','피부 노화 완화 10.19% 개선','안면 전체 리프팅 4.47% 개선','피부 치밀도 <b style="color:#F55018">17.15%</b> 증가'],
      trial:'한국피부과학연구원 | 2025.6.12~8.11 | 31~58세 성인 여성 23명',
-     photo:'1yt5Hp7gAmJ7jFz3bYoACsRKsPx-xff0T'},
+     photo:'images/products/rich-cream.png'},
   ],
   balance: [
     {type:'TONER',accentColor:'#6DA5CB',name:'데일리 릴리프 에센스 토너',size:'150ml',
@@ -4132,7 +4167,7 @@ const DET_DATA = {
            ['펩타이드 · RICE-EGF','피부 활력 · 탄력 · 컨디셔닝 케어']],
      claims:['피부 자극 테스트: 무자극','미백·주름개선 2중 기능성','피부 수분량 <b style="color:#6DA5CB">136.58%</b> 개선','피부결 11.84% 개선'],
      trial:'한국피부과학연구원 | 2025.6.18~7.11 | 30~68세 성인 남녀 23명',
-     photo:'1PPfoaSPz_FE966fe2X3R2oC3xV_RmS_Q'},
+     photo:'images/products/essence-toner.png'},
     {type:'SERUM',accentColor:'#6DA5CB',name:'데일리 릴리프 리페어 앰플',size:'30ml',
      tagline:'피지는 잡고, 수분은 채우고, 광채는 올린다 — 유분 없는 데일리 케어 앰플',
      usp:'피지 조절 · 수분 충전 · 자연 광채 — 자극 없이 3가지를 동시에',
@@ -4141,7 +4176,7 @@ const DET_DATA = {
            ['펩타이드','피부 활력 및 컨디셔닝 케어']],
      claims:['여드름성 피부 사용 적합','논코메도제닉 인증완료','미백·주름개선 2중 기능성','피부 광채 개선','외부 자극에 의한 피부 장벽 개선 및 진정효과','피부 속탄력 개선'],
      trial:'한국피부과학연구원 | 2025.6.13~8.20 | 42~64세 성인 남녀 22명',
-     photo:'1VnMckE_dW74AbB863DilMXdQX9HiE1DA'},
+     photo:'images/products/ampoule.png'},
     {type:'GEL/CREAM',accentColor:'#6DA5CB',name:'데일리 릴리프 카밍 수딩 젤',size:'80ml',
      tagline:'자극 없는 쿨링 — 알코올 無, 여드름부터 시술 후 민감 피부까지',
      usp:'알코올 無 쿨링 + 여드름 케어 제품 병용 + 시술 후 케어 · 자극 없이 3가지 상황을 커버하는 올라운드 진정 젤',
@@ -4150,7 +4185,7 @@ const DET_DATA = {
            ['펩타이드','피부 활력 및 컨디셔닝 케어']],
      claims:['피부 자극 테스트: 무자극','여드름성 피부 사용 적합(논코메도제닉)','미백·주름개선 2중 기능성','피부 온도 10.041℃ 감소','붉은기 회복률 63.829%','즉각적 겉수분 76.04% 개선'],
      trial:'한국피부과학연구원 | 2025.6.13~7.11 | 21~69세 성인 남녀 22명',
-     photo:'1rGqbcDoRgibkF_oKCeqkaVDCkjqc9Yq9'},
+     photo:'images/products/soothing-gel.png'},
     {type:'CREAM',accentColor:'#6DA5CB',name:'데일리 릴리프 컴포트 크림',size:'50ml',
      tagline:'수분은 잠그고, 기미는 개선 — 수분 잠금 설계 데일리 컴포트 크림',
      usp:'앰플 농축 밀도로 보습을 잠그고, 기미까지 개선 · 끈적임 없이 장벽을 채운다',
@@ -4159,7 +4194,7 @@ const DET_DATA = {
            ['펩타이드','피부 활력 및 컨디셔닝 케어']],
      claims:['여드름성 피부 사용 적합','논코메도제닉 인증완료','미백·주름개선 2중 기능성','24시간 보습 지속력','외부 자극에 의한 피부 장벽 개선 및 진정효과','피부 각질 개선'],
      trial:'한국피부과학연구원 | 2025.6.18~8.1 | 30~48세 성인 여성 22명',
-     photo:'10VM5krWAGsczZWCDWMHdc9QOMT_YojiK'},
+     photo:'images/products/comfort-cream.png'},
   ]
 };
 
@@ -4187,12 +4222,12 @@ function detLine(line) {
 
 function detBadgeHtml(p) {
   const badges = [
-    {src:'https://drive.google.com/thumbnail?id=1cbcFvzRjpMGAJzCwZRxxp9vrMe4aplpA&sz=w120', label:'DERMATEST'},
-    {src:'https://drive.google.com/thumbnail?id=17k_gukWy4QdrJNhLllRyJ1agijbmnKEJ&sz=w120', label:'무자극'}
+    {src:'images/cert/dermatest-excellent-2025.png', label:'DERMATEST'},
+    {src:'images/cert/cert-irritation.png', label:'무자극'}
   ];
   const hasNonComedo = p.claims.some(c => c.includes('논코메도제닉')) || /클렌징|세럼/.test(p.name);
   if (hasNonComedo) {
-    badges.push({src:'https://drive.google.com/thumbnail?id=1i77AKvZFPAkdQW2dmX0lmhxG4G3qXGwI&sz=w120', label:'논코메도제닉'});
+    badges.push({src:'images/cert/cert-noncomedo.png', label:'논코메도제닉'});
   }
   return `<div class="det-cert-badges" style="display:flex;align-items:center;gap:7px;margin-top:7px;flex-wrap:wrap;">
     ${badges.map(b=>`<span style="height:30px;display:inline-flex;align-items:center;gap:5px;padding:3px 7px;border:1px solid #e8e8e8;border-radius:6px;background:#fff;">
@@ -4225,7 +4260,7 @@ function detShow(idx) {
     <div style="height:100%;display:flex;flex-direction:column;overflow:hidden;">
       <div style="padding:14px 20px 12px;background:white;border-bottom:2px solid ${ac}22;flex-shrink:0;display:flex;align-items:center;gap:16px;">
         ${p.photo ? `<div style="flex-shrink:0;width:72px;height:96px;border-radius:8px;overflow:hidden;border:1.5px solid #eee;background:#fafafa;">
-          <img src="https://drive.google.com/thumbnail?id=${p.photo}&sz=w300" style="width:100%;height:100%;object-fit:contain;object-position:center;" referrerpolicy="no-referrer"
+          <img src="${p.photo.startsWith('images/')?p.photo:`https://drive.google.com/thumbnail?id=${p.photo}&sz=w300`}" style="width:100%;height:100%;object-fit:contain;object-position:center;" referrerpolicy="no-referrer"
             onerror="this.parentElement.style.display='none'">
         </div>` : ''}
         <div style="flex:1;min-width:0;">
@@ -4375,8 +4410,8 @@ const SKU_MODAL_PRODUCTS = [
   },
   {
     line:'INNER BEAUTY', accent:'#8B5CF6', name:'SIORE PDRN 200 어드밴스드', size:'15g × 15포',
-    photo:'https://drive.google.com/thumbnail?id=1rTGTGOU2UP43ireunVLt2YNQB08k8iN_&sz=w700',
-    clinical:['https://drive.google.com/thumbnail?id=1SDWtvcj07CYGc66riUTzN0qp3ekf-eow&sz=w500'], clinicalPos:'center',
+    photo:'images/products/pdrn-200-box.jpg',
+    clinical:['images/products/pdrn-200-stick.jpg'], clinicalPos:'center',
     metric:'200mg', metricLabel:'PDRN 함량', proof:'코스맥스바이오㈜ 제조 · HACCP 인증',
     hook:'피부 속부터 채우는,<br><strong>PDRN + NMN + 콜라겐</strong>',
     formula:'달콤한 적포도 액상스틱 한 포에 핵심 이너뷰티 성분을 균형 있게 담았습니다.',
@@ -4635,7 +4670,72 @@ const SKU_STORIES = [
   }
 ];
 
-SKU_MODAL_PRODUCTS.forEach((product,index)=>Object.assign(product,SKU_STORIES[index]));
+const SKU_KEY_INGREDIENTS = [
+  [
+    ['NMN','피부 에너지·컨디셔닝'],
+    ['판테놀 캡슐','세안 중 수분·장벽 보습'],
+    ['알파리포산','항산화 케어'],
+    ['PDRN·글루타치온·카르노신','피부 활력·톤·탄력 복합']
+  ],
+  [
+    ['NMN 10,000ppm','피부 에너지·광채'],
+    ['세라마이드','피부 장벽 보습'],
+    ['병풀추출물','민감 피부 진정'],
+    ['글루타치온·레스베라트롤','항산화·맑은 톤 케어']
+  ],
+  [
+    ['NMN 10,000ppm','피부 에너지·탄력'],
+    ['알파리포산','항산화 케어'],
+    ['PDRN','피부 컨디셔닝'],
+    ['글루타치온·카르노신·피크노제놀®','광채·톤·탄력 복합']
+  ],
+  [
+    ['NMN 10,000ppm','피부 에너지·컨디셔닝'],
+    ['세라마이드','수분 장벽 보습'],
+    ['병풀추출물','진정·편안한 컨디션'],
+    ['글루타치온·레스베라트롤','항산화·맑은 톤 케어']
+  ],
+  [
+    ['NMN 10,000ppm','피부 에너지·탄력'],
+    ['알파리포산','항산화 케어'],
+    ['PDRN','피부 컨디셔닝'],
+    ['글루타치온·카르노신·피크노제놀®','광채·톤·탄력 복합']
+  ],
+  [
+    ['감나무잎수 85%','피지·수분 밸런스'],
+    ['병풀·밀싹추출물','진정·컨디셔닝'],
+    ['펩타이드','피부 활력·탄력'],
+    ['RICE-EGF','피부 컨디셔닝 케어']
+  ],
+  [
+    ['병풀·밀싹추출물','진정·밸런스'],
+    ['케어판테놀','수분·장벽 보습'],
+    ['세라마이드','피부 장벽 보호'],
+    ['펩타이드','피부 활력·컨디셔닝']
+  ],
+  [
+    ['병풀·밀싹추출물','열감 피부 진정'],
+    ['케어판테놀','수분·장벽 보습'],
+    ['세라마이드','피부 장벽 보호'],
+    ['펩타이드','피부 활력·컨디셔닝']
+  ],
+  [
+    ['병풀·밀싹추출물','진정·밸런스'],
+    ['케어판테놀','수분·장벽 보습'],
+    ['세라마이드','수분 잠금·장벽 보호'],
+    ['펩타이드','피부 활력·컨디셔닝']
+  ],
+  [
+    ['PDRN 200mg','핵심 이너뷰티 성분'],
+    ['피쉬콜라겐 1,000mg','초저분자 콜라겐'],
+    ['NMN 171.45mg','복합 이너뷰티 설계'],
+    ['병풀추출물 100mg','진정 시너지']
+  ]
+];
+
+SKU_MODAL_PRODUCTS.forEach((product,index)=>Object.assign(product,SKU_STORIES[index],{
+  keyIngredients:SKU_KEY_INGREDIENTS[index]
+}));
 
 let _skuModalIndex=0, _skuModalBusy=false, _skuPointerStartX=0;
 
@@ -4744,9 +4844,9 @@ function ensureSkuModal() {
 
 function skuCertHtml(types) {
   const badgeMap={
-    derma:{src:'https://drive.google.com/thumbnail?id=1cbcFvzRjpMGAJzCwZRxxp9vrMe4aplpA&sz=w100',label:'DERMATEST'},
-    irritation:{src:'https://drive.google.com/thumbnail?id=17k_gukWy4QdrJNhLllRyJ1agijbmnKEJ&sz=w100',label:'무자극'},
-    noncomedo:{src:'https://drive.google.com/thumbnail?id=1i77AKvZFPAkdQW2dmX0lmhxG4G3qXGwI&sz=w100',label:'논코메도제닉'}
+    derma:{src:'images/cert/dermatest-excellent-2025.png',label:'DERMATEST'},
+    irritation:{src:'images/cert/cert-irritation.png',label:'무자극'},
+    noncomedo:{src:'images/cert/cert-noncomedo.png',label:'논코메도제닉'}
   };
   return types.map(type=>{
     if(type==='haccp')return `<span class="sku-cert-pill" style="color:#8B5CF6;font-size:12px;">HACCP<br><small style="font-size:7px;color:#746b7b;">인증 제조</small></span>`;
@@ -4807,7 +4907,7 @@ function skuStoryHtml(p,index,isModal=false) {
       </header>
       <section class="sku-story-hero">
         <div class="sku-story-scene">
-          <img class="${p.scene?'':'packshot'}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} ${p.scene?'공식 사용 장면':'제품 이미지'}" style="object-position:${p.scenePos||'center'}" referrerpolicy="no-referrer">
+          <img class="${p.scene?'':'packshot'}" src="${skuAsset(p.scene||p.photo)}" alt="${p.name} ${p.scene?'공식 사용 장면':'제품 이미지'}" style="object-position:${p.scenePos||'center'}" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${skuAsset(p.photo)}';this.classList.add('packshot')">
           <span class="sku-story-scene-tag">${p.line==='INNER BEAUTY'?'간편한 1회 섭취 포장':'실제 사용 장면'}</span>
         </div>
         <div class="sku-story-copy">
@@ -4827,6 +4927,10 @@ function skuStoryHtml(p,index,isModal=false) {
             <div class="sku-story-usp-head"><strong>CORE PRODUCT USP</strong><span>판매 포인트와 제형·성분 강점을 한눈에</span></div>
             <div class="sku-story-usp-core">
               ${p.mustTell.map(item=>`<div class="sku-story-usp-item"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
+            </div>
+            <div class="sku-story-formula-head">KEY INGREDIENTS · 공식 상세 기준 주요 성분</div>
+            <div class="sku-story-ingredients" style="--ingredient-columns:${Math.min(p.keyIngredients.length,4)}">
+              ${p.keyIngredients.map(item=>`<div class="sku-story-ingredient"><b>${item[0]}</b><span>${item[1]}</span></div>`).join('')}
             </div>
             <div class="sku-story-formula-head">FORMULA &amp; DELIVERY ADVANTAGE · 제품을 차별화하는 핵심 설계</div>
             <div class="sku-story-mechanisms">

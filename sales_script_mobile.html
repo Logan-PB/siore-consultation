@@ -23,7 +23,7 @@
     h1{font-size:clamp(27px,8vw,42px);line-height:1.08;letter-spacing:-1.6px;margin:8px 0 9px;word-break:keep-all}
     .intro p{font-size:14px;line-height:1.65;color:#675c56;margin:0}
     .drive-note{margin-top:12px;padding:11px 12px;border-radius:11px;background:#fff3d8;color:#6d4700;font-size:12px;line-height:1.45;font-weight:750}
-    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0 14px;position:sticky;top:78px;z-index:15;background:var(--paper);padding:8px 0}
+    .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 14px;position:sticky;top:78px;z-index:15;background:var(--paper);padding:8px 0}
     .tab{border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 8px;font-size:13px;font-weight:850;color:#6f625c}
     .tab.active{background:var(--orange);border-color:var(--orange);color:#fff}
     .section{display:none}.section.active{display:block}
@@ -39,6 +39,22 @@
     .script-card p{font-size:14px;line-height:1.72;margin:0;color:#4f4540;word-break:keep-all}
     .script-card button{margin-top:11px;border:0;background:#f5efec;color:#4c403a;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:850}
     .source-note{margin:13px 2px 0;color:#867871;font-size:10.5px;line-height:1.55}
+    .guide-rule{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:11px}
+    .guide-rule div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;font-size:10px;line-height:1.45;color:#695d57}
+    .guide-rule b{display:block;margin-bottom:3px;color:var(--orange);font-size:11px}
+    .set-grid{display:grid;gap:11px}
+    .set-card{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:17px;box-shadow:0 7px 22px rgba(73,45,31,.05)}
+    .set-photo{position:relative;height:164px;background:#eee}
+    .set-photo img{width:100%;height:100%;object-fit:cover}
+    .set-photo span{position:absolute;left:11px;bottom:10px;background:rgba(24,20,18,.83);color:#fff;border-radius:8px;padding:6px 8px;font-size:9px;font-weight:900}
+    .set-copy{padding:15px}
+    .set-copy small{font-size:9px;color:var(--set);font-weight:950;letter-spacing:1.2px}
+    .set-copy h3{margin:4px 0 8px;font-size:20px}
+    .set-skus{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}
+    .set-skus span{background:color-mix(in srgb,var(--set) 10%,#fff);color:var(--set);border-radius:999px;padding:5px 7px;font-size:9px;font-weight:900}
+    .set-copy p{margin:0;font-size:13px;line-height:1.65;color:#544943}
+    .set-talk{margin-top:10px;padding:10px 11px;border-radius:10px;background:#f7f2ef;font-size:12px;line-height:1.55;font-weight:850}
+    .set-target{margin-top:8px;font-size:10px;line-height:1.45;color:#81736c}
     .player{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(24,20,18,.97);color:#fff;padding:10px 14px max(10px,env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.2);backdrop-filter:blur(15px)}
     .player-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}
     .now{min-width:0}.now small{display:block;color:#a9a09b;font-size:9px;letter-spacing:1px;font-weight:800}.now strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;font-size:13px}
@@ -66,6 +82,7 @@
     <nav class="tabs" aria-label="스크립트 선택">
       <button class="tab active" data-target="pitch">90초 입점 설명</button>
       <button class="tab" data-target="sku">SKU 10개</button>
+      <button class="tab" data-target="guide">3종 판매가이드</button>
     </nav>
 
     <section id="pitch" class="section active">
@@ -77,6 +94,52 @@
       <div class="section-head"><h2>제품별 15초 스크립트</h2><span>10 SKU</span></div>
       <div class="cards sku" id="sku-cards"></div>
       <p class="source-note">성분·임상 수치는 제공된 브랜드 소개서와 셀링시트 기준입니다. 시험 조건은 영업자료 제품 상세에서 확인할 수 있습니다.</p>
+    </section>
+    <section id="guide" class="section">
+      <div class="section-head"><h2>피부 고민별 3SKU 판매전략</h2><span>4 ROUTINES</span></div>
+      <div class="guide-rule">
+        <div><b>01 질문</b>탄력·열감·트러블 중 가장 큰 고민을 확인합니다.</div>
+        <div><b>02 연결</b>핵심 1종에 앞·뒤 단계 2종을 이유와 함께 연결합니다.</div>
+        <div><b>03 약속</b>2~4주 후 피부 반응을 다시 확인합니다.</div>
+      </div>
+      <div class="set-grid">
+        <article class="set-card" style="--set:#f55018">
+          <div class="set-photo"><img src="images/vmd/album-nmn-full.jpg" alt="NMN 안티에이징 세트 진열"><span>NMN 3-STEP</span></div>
+          <div class="set-copy"><small>ANTI-AGING</small><h3>광채·탄력 안티에이징</h3>
+            <div class="set-skus"><span>버블 토너</span><span>인텐시브 세럼</span><span>리치 크림</span></div>
+            <p>버블로 수분·광채 바탕을 만들고, 세럼으로 탄력을 집중 관리한 뒤 리치 크림으로 윤광과 보습을 잠급니다.</p>
+            <div class="set-talk">“광채만 반짝이는 관리가 아니라, 탄력을 채우고 마지막에 윤광을 잠그는 3단계예요.”</div>
+            <div class="set-target">추천: 건조·칙칙함·탄력 저하가 함께 고민인 고객</div>
+          </div>
+        </article>
+        <article class="set-card" style="--set:#8b5cf6">
+          <div class="set-photo"><img src="images/vmd/pop-recovery.jpg" alt="시술 후 회복 세트 진열"><span>RECOVERY 3-STEP</span></div>
+          <div class="set-copy"><small>POST-PROCEDURE</small><h3>시술 후 진정·장벽 회복</h3>
+            <div class="set-skus"><span>에센스 토너</span><span>리페어 앰플</span><span>컴포트 크림</span></div>
+            <p>민감해진 피부에 수분길을 열고, 앰플로 집중 진정한 뒤 크림으로 편안하게 보호합니다.</p>
+            <div class="set-talk">“시술 후에는 많이 바르기보다, 자극을 줄이고 수분·장벽 순서만 정확히 잡아주세요.”</div>
+            <div class="set-target">추천: 레이저·필링 후 건조하고 예민해진 피부</div>
+          </div>
+        </article>
+        <article class="set-card" style="--set:#1597a8">
+          <div class="set-photo"><img src="images/vmd/pop-heat-redness.jpg" alt="열감성 피부 세트 진열"><span>COOLING 3-STEP</span></div>
+          <div class="set-copy"><small>HEAT &amp; REDNESS</small><h3>열감·붉음 진정</h3>
+            <div class="set-skus"><span>에센스 토너</span><span>카밍 수딩 젤</span><span>컴포트 크림</span></div>
+            <p>첫 수분을 채우고, 젤로 열감을 빠르게 낮춘 다음 크림으로 수분 증발을 막습니다.</p>
+            <div class="set-talk">“열감 피부는 무겁게 덮기 전에 먼저 식히고, 마지막에 얇게 보호해야 편안합니다.”</div>
+            <div class="set-target">추천: 마스크·운동·계절 변화로 쉽게 달아오르는 피부</div>
+          </div>
+        </article>
+        <article class="set-card" style="--set:#2f7d64">
+          <div class="set-photo"><img src="images/vmd/pop-noncomedogenic.jpg" alt="여드름성 피부 세트 진열"><span>NON-COMEDO 3-STEP</span></div>
+          <div class="set-copy"><small>ACNE-PRONE</small><h3>여드름성·트러블 피부</h3>
+            <div class="set-skus"><span>에센스 토너</span><span>리페어 앰플</span><span>카밍 수딩 젤</span></div>
+            <p>유분 부담은 낮추고 수분·진정·트러블 흔적 관리를 연결한 가벼운 3단계입니다.</p>
+            <div class="set-talk">“트러블 피부도 말리기만 하면 더 예민해져요. 유분은 가볍게, 수분과 진정은 충분히 채워주세요.”</div>
+            <div class="set-target">추천: 번들거림·속건조·붉은 흔적이 함께 고민인 고객</div>
+          </div>
+        </article>
+      </div>
     </section>
   </main>
 
@@ -102,7 +165,7 @@
       {page:"클로징",time:"10초",title:"오늘 바로 시작시키는 제안",text:"처음부터 전 품목보다 베스트 3종으로 시작해 보시죠. 직접 테스트해 보시면 사용감과 설명 근거가 바로 느껴지실 겁니다. 오늘 입점과 진열 일정까지 잡아드리겠습니다."}
     ];
     const sku=[
-      {page:"NMN 01",time:"15초",title:"하이드로 캡슐 클렌징 밀크",text:"첫 세안부터 안티에이징 루틴입니다. 약산성 밀크에 판테놀 캡슐을 담아 당김 부담을 낮추고, 메이크업 91.59%, 노폐물 99.48% 세정 근거까지 갖춘 논코메도제닉 클렌저입니다."},
+      {page:"NMN 01",time:"15초",title:"하이드로 캡슐 클렌징 밀크",text:"왜 약산성 밀크일까요? 피부와 유사한 약산성 밸런스로 세안 뒤 당김 부담을 낮추고, 폼처럼 거품 마찰을 더하지 않는 밀크 제형으로 메이크업과 노폐물을 부드럽게 녹입니다. 세정력은 높이고 피부가 견뎌야 할 마찰은 줄인 논코메도제닉 클렌저입니다."},
       {page:"NMN 02",time:"15초",title:"프레쉬 버블 토너",text:"흐르는 토너가 아니라 피부에 머무는 7초 버블입니다. NMN 10,000ppm에 세라마이드와 병풀을 더해 수분 148.70%, 광채 403.37% 개선을 보여줍니다."},
       {page:"NMN 03",time:"15초",title:"인텐시브 세럼",text:"시오레의 대표 안티에이징 SKU입니다. NMN 10,000ppm에 알파리포산과 PDRN 복합 성분을 담아, 리치 크림 병행 1회 광채 564.64%와 눈가 주름 감소까지 확인했습니다."},
       {page:"NMN 04",time:"15초",title:"하이드레이팅 수딩 크림",text:"유분은 부담스럽고 속건조는 심한 고객에게 권하기 좋습니다. NMN 10,000ppm과 세라마이드, 병풀로 즉각 보습 148.87%, 24시간 보습 지속력을 잡은 올시즌 크림입니다."},
@@ -170,6 +233,7 @@
     document.getElementById("play-all").addEventListener("click",()=>{
       if(synth.speaking&&!paused){synth.pause();paused=true;document.getElementById("play-all").textContent="▶ 계속 듣기";return}
       if(paused){synth.resume();paused=false;document.getElementById("play-all").textContent="⏸ 잠시 멈춤";return}
+      if(activeSet==="guide")return;
       queue=[...(activeSet==="pitch"?pitch:sku)];cursor=0;playNext();
     });
     document.getElementById("stop").addEventListener("click",stopAll);

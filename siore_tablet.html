@@ -4038,6 +4038,38 @@ function switchTab(id, btn) {
   if (id === 'clinical' && !_detInitialized) { detLine('nmn'); }
 }
 
+// 태블릿·모바일: 메뉴 버튼을 누르거나 본문을 좌우로 넘겨 다음 메뉴로 이동
+(function enablePanelSwipe(){
+  const main=document.querySelector('.main');
+  if(!main)return;
+  const tabOrder=['home','brand','marketing','product','salesguide','vmd','pricing','faq'];
+  let startX=0,startY=0,active=false;
+  main.addEventListener('pointerdown',event=>{
+    if(event.target.closest('button,a,input,select,textarea,iframe,.sku-modal,.vmd-case-modal,.clinical-evidence-modal,.prod-grid,.product-grid'))return;
+    startX=event.clientX;
+    startY=event.clientY;
+    active=true;
+    main.setPointerCapture?.(event.pointerId);
+  });
+  main.addEventListener('pointerup',event=>{
+    if(!active)return;
+    active=false;
+    const dx=event.clientX-startX;
+    const dy=event.clientY-startY;
+    if(Math.abs(dx)<85||Math.abs(dx)<Math.abs(dy)*1.25)return;
+    const current=document.querySelector('.panel.active')?.id?.replace('panel-','');
+    const index=tabOrder.indexOf(current);
+    if(index<0)return;
+    const nextIndex=Math.max(0,Math.min(tabOrder.length-1,index+(dx<0?1:-1)));
+    if(nextIndex===index)return;
+    const nextId=tabOrder[nextIndex];
+    const nextButton=[...document.querySelectorAll('.tab-btn')].find(button=>
+      String(button.getAttribute('onclick')).includes(`'${nextId}'`));
+    if(nextButton)switchTab(nextId,nextButton);
+  });
+  main.addEventListener('pointercancel',()=>{active=false;});
+})();
+
 // 제품 서브탭
 function switchProd(id, btn) {
   document.querySelectorAll('.prod-panel').forEach(p => p.classList.remove('active'));
@@ -4968,11 +5000,23 @@ function ensureSkuModal() {
     <button class="sku-modal-arrow next" type="button" aria-label="다음 제품" onclick="stepSkuModal(1)">›</button>`;
   modal.addEventListener('click',e=>{if(e.target===modal)closeSkuModal();});
   const shell=modal.querySelector('.sku-modal-shell');
-  shell.addEventListener('pointerdown',e=>{_skuPointerStartX=e.clientX;});
-  shell.addEventListener('pointerup',e=>{
-    const delta=e.clientX-_skuPointerStartX;
-    if(Math.abs(delta)>55)stepSkuModal(delta<0?1:-1);
+  let skuPointerStartY=0;
+  let skuPointerActive=false;
+  shell.addEventListener('pointerdown',e=>{
+    if(e.target.closest('button,a,input,iframe'))return;
+    _skuPointerStartX=e.clientX;
+    skuPointerStartY=e.clientY;
+    skuPointerActive=true;
+    shell.setPointerCapture?.(e.pointerId);
   });
+  shell.addEventListener('pointerup',e=>{
+    if(!skuPointerActive)return;
+    const delta=e.clientX-_skuPointerStartX;
+    const deltaY=e.clientY-skuPointerStartY;
+    skuPointerActive=false;
+    if(Math.abs(delta)>65&&Math.abs(delta)>Math.abs(deltaY)*1.2)stepSkuModal(delta<0?1:-1);
+  });
+  shell.addEventListener('pointercancel',()=>{skuPointerActive=false;});
   document.body.appendChild(modal);
   return modal;
 }
@@ -5015,9 +5059,28 @@ function skuStoryHeadline(text) {
 
 function skuStoryHtml(p,index,isModal=false) {
   const enrich=SKU_ENRICH[index];
+  const whyHooks=[
+    ['왜 약산성 밀크인가요?','피부와 유사한 약산성 밸런스로 세안 뒤 당김 부담을 낮추고, 오일처럼 흘러내리거나 폼처럼 거품 마찰을 더하지 않는 밀크 제형으로 노폐물과 메이크업을 부드럽게 녹여냅니다.','“세정력은 높이고, 피부가 견뎌야 할 마찰은 줄인 클렌저입니다.”'],
+    ['왜 버블 토너인가요?','손이나 화장솜의 반복 마찰 대신 풍성한 버블이 피부에 고르게 밀착되어, 첫 단계부터 수분과 광채 성분을 편안하게 전달합니다.','“닦아내는 토너보다, 피부에 폭신하게 올리는 토너입니다.”'],
+    ['왜 고함량 세럼인가요?','시오레 핵심 성분 NMN 10,000ppm을 중심으로 광채·탄력·주름 고민을 한 번에 설명할 수 있도록 설계한 집중 안티에이징 단계입니다.','“여러 고민을 따로 바르지 말고, 한 병으로 집중 케어하세요.”'],
+    ['왜 수분 크림인가요?','유분감보다 수분 충전에 집중해 민감·건성 피부도 매일 편안하게 쓰고, 24시간 보습 지속력으로 데일리 장벽 루틴을 완성합니다.','“무겁게 덮는 보습이 아니라, 오래 머무는 수분 보습입니다.”'],
+    ['왜 리치 크림인가요?','크림·수분 팩·나이트 팩으로 활용할 수 있는 고영양 제형으로, 건조로 무너진 탄력과 윤광을 마지막 단계에서 밀도 있게 채웁니다.','“탄력이 고민인 날은 크림, 더 건조한 날은 슬리핑 팩으로 쓰세요.”'],
+    ['왜 에센스 토너인가요?','민감 피부의 첫 단계에서 수분길을 열고 다음 제품이 편안하게 이어지도록, 물토너보다 촉촉한 에센스 제형으로 설계했습니다.','“예민할수록 첫 단계부터 문지르지 말고, 수분길을 열어주세요.”'],
+    ['왜 리페어 앰플인가요?','트러블 흔적과 손상 장벽을 함께 고민하는 피부를 위해 진정·보습·피부 컨디셔닝을 한 병에 집중했습니다.','“올라온 트러블만 보지 말고, 흔적과 장벽까지 함께 관리하세요.”'],
+    ['왜 카밍 젤인가요?','열감이 느껴지는 순간 빠르게 펼쳐지는 젤 제형이 끈적임 없이 피부를 식히고 수분을 채워, 얼굴과 바디에 모두 활용하기 좋습니다.','“열감 피부는 먼저 식혀야 다음 보습도 편안하게 받습니다.”'],
+    ['왜 컴포트 크림인가요?','예민해진 피부의 마지막 단계에서 수분이 빠져나가지 않도록 편안하게 감싸며, 붉음·건조·장벽 고민을 매일 관리합니다.','“진정 성분을 바른 뒤, 편안한 보호막으로 마무리하세요.”'],
+    ['왜 마시는 PDRN인가요?','바르는 루틴에 이너뷰티를 더해 피부 컨디션을 안팎으로 관리하도록 1일 1포 섭취 편의성을 높였습니다.','“바르는 루틴을 챙겼다면, 하루 한 포로 안쪽 루틴도 완성하세요.”']
+  ];
+  const whyHook=whyHooks[index]||['왜 이 제품인가요?',p.formula,enrich.consult];
   const cards=p.clinicalCards||[];
   const cardCount=Math.max(1,Math.min(cards.length,4));
   const cardColumns=Math.min(cardCount,2);
+  const evidenceSummary=cards.slice(0,4).map(card=>`
+    <div>
+      <strong>${card.metric}</strong>
+      <b>${card.label}</b>
+      <small>${card.note||p.proof}</small>
+    </div>`).join('');
   const clinicalCards=cards.map((card,cardIndex)=>{
     const hasPhoto=card.image&&hasClinicalPhotoPreview(card.image);
     return `
@@ -5055,6 +5118,7 @@ function skuStoryHtml(p,index,isModal=false) {
               </div>
               <div class="sku-story-strength">${skuStoryHeadline(p.strength)}</div>
               <div class="sku-story-formula">${p.formula}</div>
+              <div class="sku-story-why"><b>${whyHook[0]}</b><span>${whyHook[1]}</span><em>${whyHook[2]}</em></div>
             </div>
             <div class="sku-story-badges sku-story-hero-badges">${skuCertHtml(p.cert)}</div>
           </div>
@@ -5079,9 +5143,11 @@ function skuStoryHtml(p,index,isModal=false) {
         <div class="sku-story-clinical">
           <div class="sku-story-section-head">
             <h4>${p.evidenceTitle||'임상 근거 한눈에 확인'}</h4>
-            <span>${cards.some(card=>card.direct)?'주요 그래프 상시 표시 · 나머지는 눌러 크게 보기':cards.some(card=>card.image)?'이미지를 누르면 크게 보기':'제품 표시 기준'}</span>
+            <span>${isModal?(cards.some(card=>card.image)?'이미지와 그래프로 상세 근거 확인':'제품 표시 기준'):'핵심 수치만 먼저 확인 · 자세한 자료는 크게 보기'}</span>
           </div>
-          <div class="sku-story-clinical-grid" style="--card-columns:${cardColumns}">${clinicalCards}</div>
+          ${isModal
+            ?`<div class="sku-story-clinical-grid" style="--card-columns:${cardColumns}">${clinicalCards}</div>`
+            :`<div class="sku-story-evidence-summary" style="--summary-columns:${Math.min(Math.max(cards.length,1),4)}">${evidenceSummary||`<div><strong>${p.metric}</strong><b>${p.metricLabel}</b><small>${p.proof}</small></div>`}</div>`}
           <div class="sku-story-section-head" style="margin:9px 0 0;">
             <span>${p.proof}${cards.some(card=>card.image)?' · 일시적 효과 및 개인차 있음':''}</span>
           </div>
@@ -5091,7 +5157,7 @@ function skuStoryHtml(p,index,isModal=false) {
         <div><b>추천 고객</b><span>${enrich.target}</span></div>
         <div><b>사용 방법</b><span>${enrich.use}</span></div>
       </footer>
-      ${isModal?'':`<button class="sku-story-more" type="button" onclick="openSkuModal(${index})">임상 원본과 제품 강점 크게 보기 →</button>`}
+      ${isModal?'':`<button class="sku-story-more" type="button" onclick="openSkuModal(${index})">제품 강점·임상 자세히 보기 →</button>`}
     </div>`;
 }
 
@@ -5279,7 +5345,16 @@ function wireLineupSkuCards() {
   .skin-concern-row span{padding:6px 5px;text-align:center;background:#f55018;color:#fff;font-size:9px;font-weight:850;white-space:nowrap;border-right:1px solid rgba(255,255,255,.28)}
   .brand-proof-bottom{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:#fff;border:1px solid #e4d5cd;border-bottom:0;border-radius:16px 16px 0 0;overflow:hidden;box-shadow:0 -8px 28px rgba(68,44,33,.06)}
   .brand-proof-bottom .brand-strength-card{display:grid;grid-template-rows:54% 46%;min-width:0;min-height:0;overflow:hidden}
-  .brand-proof-bottom .brand-strength-media{width:100%;height:100%;min-height:0;border-radius:0}
+  .brand-proof-bottom .brand-strength-media{position:relative;width:100%;height:100%;min-height:0;border-radius:0}
+  .brand-proof-bottom .brand-strength-media .strength-icon{
+    left:auto;right:13px;top:auto;bottom:54px;transform:none;
+    width:58px;height:58px;font-size:29px;border-radius:17px;
+  }
+  .brand-proof-bottom .brand-strength-media .strength-icon.cooling-icon{left:auto;right:13px;top:auto;bottom:54px;transform:none}
+  .brand-proof-bottom .brand-strength-media .strength-metric{
+    left:auto;right:12px;bottom:12px;transform:none;max-width:calc(100% - 24px);
+    text-align:right;white-space:nowrap;
+  }
   .brand-proof-bottom .brand-strength-copy{height:100%;min-height:0;padding:16px 13px 12px;grid-template-rows:25px 14px 48px minmax(0,1fr)}
   .brand-proof-bottom .brand-strength-copy h3{font-size:clamp(16px,1.45vw,21px)}
   .brand-proof-bottom .brand-strength-copy strong{font-size:clamp(16px,1.55vw,22px)}
@@ -5312,12 +5387,20 @@ function wireLineupSkuCards() {
   .marketing-support-hook{margin:auto 0;text-align:center;padding:22px 8px;border-top:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);font-size:clamp(21px,2.5vw,36px);font-weight:950;line-height:1.2;letter-spacing:-1px}
   .marketing-support-hook small{display:block;margin-top:9px;font-size:10px;letter-spacing:1.6px;color:#ffe2d7}
   .marketing-stat-card footer{font-size:9.5px;line-height:1.45;color:#ffe8df}
-  .influencer-wall{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:9px;min-height:0}
-  .influencer-card{position:relative;overflow:hidden;border-radius:16px;background:#111;min-height:0}
+  .influencer-wall{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,minmax(0,1fr));gap:7px;min-height:0}
+  .influencer-card{position:relative;overflow:hidden;border-radius:12px;background:#111;min-height:0}
   .influencer-card iframe{width:100%;height:100%;border:0;display:block;background:#111}
   .influencer-card .ic-region{position:absolute;left:8px;top:8px;z-index:2;background:#f55018;color:#fff;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900;letter-spacing:.6px;pointer-events:none}
   .influencer-card.domestic .ic-region{background:#176f99}
-  .influencer-card .ic-label{position:absolute;left:8px;right:8px;bottom:8px;background:rgba(17,17,17,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:9px;padding:6px 7px;font-size:8px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+  .influencer-card .ic-label{position:absolute;left:6px;right:6px;bottom:6px;background:rgba(17,17,17,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:8px;padding:5px 6px;font-size:7.5px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+  .price-sku-head{width:54px}
+  .price-sku-cell{width:54px;padding:3px!important;text-align:center}
+  .price-sku-image{display:block;width:46px;height:46px;margin:auto;object-fit:contain;filter:drop-shadow(0 3px 5px rgba(40,25,15,.12))}
+  .sku-story-evidence-summary{display:grid;grid-template-columns:repeat(var(--summary-columns,3),minmax(0,1fr));gap:8px}
+  .sku-story-evidence-summary>div{border:1px solid color-mix(in srgb,var(--story-accent) 25%,#e9e2de);border-radius:12px;background:#fff;padding:10px 12px;min-width:0}
+  .sku-story-evidence-summary strong{display:block;color:var(--story-accent);font-size:clamp(18px,1.8vw,27px);line-height:1;font-weight:950}
+  .sku-story-evidence-summary b{display:block;margin-top:5px;font-size:11px;line-height:1.25;color:#28221f;word-break:keep-all}
+  .sku-story-evidence-summary small{display:block;margin-top:4px;font-size:8.5px;line-height:1.3;color:#827872;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
   .sku-story-evidence-thumb.direct-chart{display:flex!important;align-items:center;justify-content:center;height:auto!important;min-height:260px;border:0!important;background:#f5fbfe!important;padding:0!important;overflow:hidden}
   .sku-story-evidence-thumb.direct-chart img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
@@ -5371,6 +5454,42 @@ function wireLineupSkuCards() {
 
   const marketingButton=[...document.querySelectorAll('.tab-btn')].find(el=>String(el.getAttribute('onclick')).includes("'marketing'"));
   if(marketingButton) marketingButton.innerHTML='<span class="t-icon">📱</span> 마케팅';
+
+  // 판매가표 단품 컷: 제품 라인업과 동일한 이미지 소스를 자동 연결
+  const pricingHead=document.querySelector('#price-tbl thead tr');
+  if(pricingHead&&!pricingHead.querySelector('.price-sku-head')){
+    const head=document.createElement('th');
+    head.className='price-sku-head';
+    head.textContent='제품';
+    pricingHead.insertBefore(head,pricingHead.children[1]);
+  }
+  document.querySelectorAll('#price-tbl tbody tr').forEach((row,index)=>{
+    if(row.querySelector('.price-sku-cell')||!SKU_MODAL_PRODUCTS[index])return;
+    const cell=document.createElement('td');
+    cell.className='price-sku-cell';
+    cell.innerHTML=`<img class="price-sku-image" src="${skuAsset(SKU_MODAL_PRODUCTS[index].photo)}" alt="${SKU_MODAL_PRODUCTS[index].name} 단품 이미지" referrerpolicy="no-referrer">`;
+    row.insertBefore(cell,row.children[1]);
+  });
+
+  // 가격표 아래의 중복 VMD 안내는 전용 VMD 탭으로 통합
+  const pricingVmd=document.querySelector('#panel-pricing .vmd-grid');
+  if(pricingVmd){
+    const pricingVmdLabel=pricingVmd.previousElementSibling;
+    pricingVmd.remove();
+    if(pricingVmdLabel?.classList.contains('label'))pricingVmdLabel.remove();
+  }
+
+  // FAQ 최신 거래 기준 반영
+  const faqCards=[...document.querySelectorAll('#panel-faq .faq-card')];
+  const returnCard=faqCards.find(card=>card.querySelector('.fq-num')?.textContent.trim()==='1');
+  const returnAnswer=returnCard?.querySelector('.fa');
+  if(returnAnswer) returnAnswer.innerHTML=`
+    <strong>출고일자 기준 90일 이내 반품 가능</strong>합니다.<br>
+    불량·하자 제품은 확인 후 교환 또는 반품으로 신속히 처리해드립니다.
+    <div class="fa-note">반품 접수 시 제품명·수량·출고일자를 함께 알려주세요.</div>`;
+  faqCards
+    .filter(card=>['5','6'].includes(card.querySelector('.fq-num')?.textContent.trim()))
+    .forEach(card=>card.remove());
 
   const brand=document.querySelector('#panel-brand .brand-final');
   if(brand) brand.innerHTML=`
@@ -5476,38 +5595,35 @@ function wireLineupSkuCards() {
           <footer>시오레 입점 약국과 제품을 콘텐츠로 연결해 현장 판매직원의 설명 전부터 브랜드 관심도를 높입니다.</footer>
         </section>
         <section class="influencer-wall" aria-label="시오레 국내·해외 SNS 인플루언서 콘텐츠">
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · NMN SERUM</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · K-BEAUTY ROUTINE</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · SKIN GLOW</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외</span><span class="ic-label">GLOBAL · SERUM REVIEW</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">약사 · 성분 분석</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">약사 · NMN 리뷰</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">INSTAGRAM · PHARMACY PICK</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DWobNjSDplM/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내</span><span class="ic-label">INSTAGRAM · K-BEAUTY</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 1</span><span class="ic-label">조회수 상위 · NMN SERUM</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 2</span><span class="ic-label">좋아요 상위 · K-BEAUTY ROUTINE</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 3</span><span class="ic-label">반응 급상승 · SKIN GLOW</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 4</span><span class="ic-label">리뷰 이슈 · INTENSIVE SERUM</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7584628896818302239?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 5</span><span class="ic-label">CREATOR PICK · ANTI-AGING</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7626350259144264990?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 6</span><span class="ic-label">GLOBAL ISSUE · K-SKINCARE</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 7</span><span class="ic-label">INGREDIENT TALK · NMN 10,000ppm</span></article>
+          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 8</span><span class="ic-label">CREATOR REVIEW · PHARMACY BEAUTY</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 1</span><span class="ic-label">조회수 상위 · 약사 추천</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DWobNjSDplM/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 2</span><span class="ic-label">좋아요 상위 · K-BEAUTY</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 3</span><span class="ic-label">약사 콘텐츠 · 성분 분석</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 4</span><span class="ic-label">약사 콘텐츠 · NMN 리뷰</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 5</span><span class="ic-label">매장 상담 이슈 · 세럼</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 6</span><span class="ic-label">루틴 이슈 · 광채 케어</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 7</span><span class="ic-label">반응 급상승 · 피부 에너지</span></article>
+          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 8</span><span class="ic-label">판매 훅 · 안티에이징</span></article>
         </section>
       </div>
     </div>`;
 
   const vmdImages=[
     ['1FF4l2zy6xyP3duJI6d4UwPO67trP8BDS','NMN · Daily Relief 실제 세팅 대표 사례'],
-    ['images/vmd/pop-best3.jpg','약사 추천 베스트 3'],
-    ['images/vmd/pop-recovery.jpg','시술 후 피부 회복 케어'],
-    ['images/vmd/pop-heat-redness.jpg','열감·홍조 집중 케어'],
+    ['images/vmd/album-nmn-full.jpg','NMN 라인 전체 진열'],
+    ['images/vmd/album-daily-relief-full.jpg','Daily Relief 라인 전체 진열'],
     ['images/vmd/pop-antiaging.jpg','NMN 안티에이징·광채'],
+    ['images/vmd/pop-best3.jpg','약사 추천 베스트 3'],
     ['images/vmd/pop-noncomedogenic.jpg','여드름성 피부·논코메도제닉'],
-    ['images/vmd/album-daily-relief-full.jpg','Daily Relief 라인 전체 세팅'],
-    ['images/vmd/album-nmn-full.jpg','NMN 라인 전체 세팅'],
-    ['10IytJojdNkbrvRZK-sPvu8d00xh49O57','진열장 전체 구성'],
-    ['1iqjeAeuQFcVcNj7WRQ53j9K9FPERfA4J','카운터 제품 진열'],
-    ['1y7EMlJzuoVsmTXeHXxfk4s63noFx5nIA','시오레 전용 존'],
-    ['18bxOfscWgUYESMhmxwIwgJYr4zlQXDzH','약국 선반 세팅'],
-    ['1BwQ_jTxLNy4snubwR2CAOeNBXJez74Pp','제품 라인별 진열'],
-    ['1GqICDl70bD36ICs30QCkv4OBp2Xpp6Ha','매대 디스플레이'],
-    ['1QOvoABUkMvx-jHMjoLGmiPdZDi-wRFO2','NMN 라인 진열'],
-    ['1tHwAWEnRiQ0KIGlfwfWJvKPZ3SYpWYft','데일리 릴리프 라인 진열'],
-    ['1-csVuL35goU7DZsfnwfRzfyp1V0QUN1A','판매 공간 세팅'],
-    ['1BhZNHtqmihPZGFyt2uG91VZvUM946CEI','현장 진열 사례'],
-    ['1So_kohqy2qzuLvWnNqN_joskmnfpiS0B','약국 VMD 완성 사례']
+    ['images/vmd/pop-heat-redness.jpg','열감·홍조 집중 케어'],
+    ['images/vmd/pop-recovery.jpg','시술 후 피부 회복 케어']
   ];
   window.SIORE_VMD_IMAGES=vmdImages;
   const thumb=(id,size=1400)=>id.startsWith('images/')?id:`https://drive.google.com/thumbnail?id=${id}&sz=w${size}`;
@@ -5520,7 +5636,7 @@ function wireLineupSkuCards() {
       </header>
       <div class="vmd-real-layout">
         <div class="vmd-real-hero" onclick="openVmdCase(0)"><img src="${thumb(vmdImages[0][0],1800)}" alt="${vmdImages[0][1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption">실제 세팅 대표사진 · 눌러서 전체 사례 보기</div></div>
-        <div class="vmd-real-grid">${[6,7,1,2,3,4].map(i=>{const item=vmdImages[i];const portrait=i===6||i===7;return `<div class="vmd-real-thumb${portrait?' portrait':''}" onclick="openVmdCase(${i})"><img src="${thumb(item[0],1200)}" alt="${item[1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption"><span>${portrait?'실제 세팅':'POP'}</span>${item[1]}</div></div>`}).join('')}</div>
+        <div class="vmd-real-grid">${[1,2,3,4,5,6].map(i=>{const item=vmdImages[i];const portrait=i===1||i===2;return `<div class="vmd-real-thumb${portrait?' portrait':''}" onclick="openVmdCase(${i})"><img src="${thumb(item[0],1200)}" alt="${item[1]}" referrerpolicy="no-referrer"><div class="vmd-real-caption"><span>${portrait?'실제 세팅':'POP'}</span>${item[1]}</div></div>`}).join('')}</div>
       </div>
     </div>
     <div class="vmd-case-modal" id="vmd-case-modal" onclick="if(event.target===this)closeVmdCase()">
@@ -5591,8 +5707,9 @@ function wireLineupSkuCards() {
   .marketing-layout{grid-template-columns:minmax(0,3fr) minmax(0,7fr)}
   .marketing-stat-card,.influencer-wall,.influencer-card{min-width:0}
   .marketing-head p{font-size:12px;line-height:1.55}
-  .influencer-card .ic-label{font-size:9.5px;padding:7px 8px}
-  .influencer-card .ic-region{font-size:9px}
+  .influencer-card .ic-label{font-size:7.6px;padding:4px 6px;line-height:1.25}
+  .influencer-card .ic-region{font-size:7.4px;line-height:1.2}
+  .main,.sku-modal-shell{touch-action:pan-y}
 
   /* 제품 카드: 태블릿 거리에서도 제품명과 핵심 문장이 먼저 읽히도록 */
   .product-grid{gap:11px}
@@ -5634,5 +5751,105 @@ function wireLineupSkuCards() {
   .vmd-real-caption span{font-size:9px}
 
 </style>
+<style id="sales-guide-20260729">
+  .sku-story-why{margin-top:10px;padding:11px 13px;border-radius:13px;background:color-mix(in srgb,var(--story-accent) 8%,#fff);border-left:4px solid var(--story-accent)}
+  .sku-story-why b{display:block;font-size:12px;color:var(--story-accent)}
+  .sku-story-why span{display:block;margin-top:4px;font-size:10px;line-height:1.5;color:#554b46}
+  .sku-story-why em{display:block;margin-top:6px;font-size:11px;font-style:normal;font-weight:900;color:#211b18}
+  #panel-salesguide{background:#f7f4f1;min-height:calc(100vh - var(--nav-h))}
+  .sales-guide-hero{padding:22px 28px 17px;background:linear-gradient(115deg,#1f1a18 0%,#442c23 66%,#f55018 145%);color:#fff}
+  .sales-guide-hero small{font-size:9px;font-weight:900;letter-spacing:2px;color:#ff9b78}
+  .sales-guide-hero h2{margin:6px 0 5px;font-size:30px;line-height:1.12}
+  .sales-guide-hero h2 em{font-style:normal;color:#ff8154}
+  .sales-guide-hero p{font-size:11px;line-height:1.55;color:#eadfd9}
+  .sales-guide-body{padding:15px 28px 24px}
+  .sales-guide-rule{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .sales-guide-rule div{padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #eadfd9;font-size:10px;line-height:1.4;color:#6a5e58}
+  .sales-guide-rule b{display:block;margin-bottom:3px;color:#f55018;font-size:11px}
+  .sales-set-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+  .sales-set-card{display:grid;grid-template-columns:36% 64%;min-height:222px;overflow:hidden;border-radius:17px;background:#fff;border:1px solid #e3d8d2;box-shadow:0 8px 22px rgba(59,38,27,.07)}
+  .sales-set-photo{position:relative;min-width:0;background:#eee}
+  .sales-set-photo img{width:100%;height:100%;object-fit:cover}
+  .sales-set-photo span{position:absolute;left:8px;bottom:8px;padding:5px 7px;border-radius:7px;background:rgba(20,16,14,.82);color:#fff;font-size:8px;font-weight:850}
+  .sales-set-copy{padding:13px 14px}
+  .sales-set-copy small{font-size:8px;font-weight:900;letter-spacing:1.2px;color:var(--set-accent)}
+  .sales-set-copy h3{margin:4px 0 6px;font-size:18px;line-height:1.25;color:#251d19}
+  .sales-set-skus{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+  .sales-set-skus span{padding:4px 6px;border-radius:999px;background:color-mix(in srgb,var(--set-accent) 10%,#fff);color:var(--set-accent);font-size:8px;font-weight:850}
+  .sales-set-copy p{font-size:10px;line-height:1.5;color:#5f5550}
+  .sales-set-talk{margin-top:8px;padding:8px 9px;border-radius:9px;background:#f8f5f3;font-size:10px;line-height:1.45;font-weight:800;color:#2d2521}
+  .sales-set-close{margin-top:7px;font-size:9px;line-height:1.4;color:#7b6f69}
+  @media(max-width:900px){
+    .sales-set-card{grid-template-columns:32% 68%}
+    .sales-set-copy h3{font-size:16px}
+  }
+</style>
+<script>
+(function buildSalesGuide(){
+  const productButton=[...document.querySelectorAll('.tab-btn')].find(button=>String(button.getAttribute('onclick')).includes("'product'"));
+  if(!productButton||document.getElementById('panel-salesguide'))return;
+  const button=document.createElement('button');
+  button.className='tab-btn';
+  button.setAttribute('onclick',"switchTab('salesguide',this)");
+  button.innerHTML='<span class="t-icon">🎯</span> 판매가이드';
+  productButton.insertAdjacentElement('afterend',button);
+
+  const panel=document.createElement('div');
+  panel.id='panel-salesguide';
+  panel.className='panel';
+  panel.innerHTML=`
+    <div class="sales-guide-hero">
+      <small>3 SKU SOLUTION SELLING</small>
+      <h2>단품을 설명하지 말고, <em>피부 고민의 순서</em>를 판매하세요.</h2>
+      <p>고객 고민을 한 문장으로 확인한 뒤 ‘준비 → 집중 → 마무리’ 3단계로 제안하면 선택이 쉬워지고 객단가와 재구매 루틴이 함께 만들어집니다.</p>
+    </div>
+    <div class="sales-guide-body">
+      <div class="sales-guide-rule">
+        <div><b>01 질문</b>“요즘 가장 신경 쓰이는 게 탄력, 열감, 트러블 중 어느 쪽인가요?”</div>
+        <div><b>02 연결</b>고민에 맞는 핵심 1종을 먼저 잡고, 앞·뒤 단계 2종을 이유와 함께 연결합니다.</div>
+        <div><b>03 마무리</b>“세 제품을 2~4주 루틴으로 써보고 피부 반응을 다시 확인해 드릴게요.”</div>
+      </div>
+      <div class="sales-set-grid">
+        <article class="sales-set-card" style="--set-accent:#f55018">
+          <div class="sales-set-photo"><img src="images/vmd/album-nmn-full.jpg" alt="NMN 안티에이징 세트 진열"><span>NMN 3-STEP</span></div>
+          <div class="sales-set-copy"><small>01 ANTI-AGING</small><h3>광채·탄력 안티에이징</h3>
+            <div class="sales-set-skus"><span>버블 토너</span><span>인텐시브 세럼</span><span>리치 크림</span></div>
+            <p>버블로 수분·광채 바탕을 만들고, 고함량 세럼으로 탄력을 집중 관리한 뒤 리치 크림으로 윤광과 보습을 잠급니다.</p>
+            <div class="sales-set-talk">“광채만 반짝이는 관리가 아니라, 탄력을 채우고 마지막에 윤광을 잠그는 3단계예요.”</div>
+            <div class="sales-set-close">추천: 건조·칙칙함·탄력 저하가 함께 고민인 고객</div>
+          </div>
+        </article>
+        <article class="sales-set-card" style="--set-accent:#8b5cf6">
+          <div class="sales-set-photo"><img src="images/vmd/pop-recovery.jpg" alt="시술 후 회복 세트 진열"><span>RECOVERY 3-STEP</span></div>
+          <div class="sales-set-copy"><small>02 POST-PROCEDURE</small><h3>시술 후 진정·장벽 회복</h3>
+            <div class="sales-set-skus"><span>에센스 토너</span><span>리페어 앰플</span><span>컴포트 크림</span></div>
+            <p>민감해진 피부에 수분길을 열고, 앰플로 집중 진정·컨디셔닝한 뒤 크림으로 편안하게 보호합니다.</p>
+            <div class="sales-set-talk">“시술 후에는 많이 바르기보다, 자극을 줄이고 수분·장벽 순서만 정확히 잡아주세요.”</div>
+            <div class="sales-set-close">추천: 레이저·필링 등 시술 후 건조하고 예민해진 피부</div>
+          </div>
+        </article>
+        <article class="sales-set-card" style="--set-accent:#1597a8">
+          <div class="sales-set-photo"><img src="images/vmd/pop-heat-redness.jpg" alt="열감성 피부 세트 진열"><span>COOLING 3-STEP</span></div>
+          <div class="sales-set-copy"><small>03 HEAT &amp; REDNESS</small><h3>열감·붉음 진정 루틴</h3>
+            <div class="sales-set-skus"><span>에센스 토너</span><span>카밍 수딩 젤</span><span>컴포트 크림</span></div>
+            <p>첫 수분을 가볍게 채우고, 젤로 열감을 빠르게 낮춘 다음 크림으로 수분 증발을 막는 구조입니다.</p>
+            <div class="sales-set-talk">“열감 피부는 무겁게 덮기 전에 먼저 식히고, 마지막에 얇게 보호해야 편안합니다.”</div>
+            <div class="sales-set-close">추천: 마스크·운동·계절 변화로 쉽게 달아오르고 붉어지는 피부</div>
+          </div>
+        </article>
+        <article class="sales-set-card" style="--set-accent:#2f7d64">
+          <div class="sales-set-photo"><img src="images/vmd/pop-noncomedogenic.jpg" alt="여드름성 피부 세트 진열"><span>NON-COMEDO 3-STEP</span></div>
+          <div class="sales-set-copy"><small>04 ACNE-PRONE</small><h3>여드름성·트러블 피부</h3>
+            <div class="sales-set-skus"><span>에센스 토너</span><span>리페어 앰플</span><span>카밍 수딩 젤</span></div>
+            <p>유분 부담은 낮추고 수분·진정·트러블 흔적 관리를 연결한 가벼운 3단계입니다.</p>
+            <div class="sales-set-talk">“트러블 피부도 말리기만 하면 더 예민해져요. 유분은 가볍게, 수분과 진정은 충분히 채워주세요.”</div>
+            <div class="sales-set-close">추천: 번들거림과 속건조, 붉은 트러블 흔적이 함께 고민인 고객</div>
+          </div>
+        </article>
+      </div>
+    </div>`;
+  document.querySelector('.main').appendChild(panel);
+})();
+</script>
 </body>
 </html>

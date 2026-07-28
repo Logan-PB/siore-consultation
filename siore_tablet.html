@@ -5789,6 +5789,7 @@ function wireLineupSkuCards() {
   .sales-set-photo{position:relative;min-width:0;background:#eee}
   .sales-set-photo img{width:100%;height:100%;object-fit:cover}
   .sales-set-photo span{position:absolute;left:8px;bottom:8px;padding:5px 7px;border-radius:7px;background:rgba(20,16,14,.82);color:#fff;font-size:8px;font-weight:850}
+  .sales-set-badge{position:absolute;right:9px;top:9px;padding:6px 8px;border-radius:999px;background:linear-gradient(135deg,#ffcb45,#ff6a00);color:#3a1b00;font-size:8px;font-weight:950;box-shadow:0 5px 15px rgba(91,45,0,.24)}
   .sales-set-copy{padding:13px 14px}
   .sales-set-copy small{font-size:8px;font-weight:900;letter-spacing:1.2px;color:var(--set-accent)}
   .sales-set-copy h3{margin:4px 0 6px;font-size:18px;line-height:1.25;color:#251d19}
@@ -5797,28 +5798,41 @@ function wireLineupSkuCards() {
   .sales-set-copy p{font-size:10px;line-height:1.5;color:#5f5550}
   .sales-set-talk{margin-top:8px;padding:8px 9px;border-radius:9px;background:#f8f5f3;font-size:10px;line-height:1.45;font-weight:800;color:#2d2521}
   .sales-set-close{margin-top:7px;font-size:9px;line-height:1.4;color:#7b6f69}
+  .sales-set-metric{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:9px;margin-top:8px;padding:9px 10px;border-radius:10px;background:linear-gradient(135deg,#2a1710,#6a2914);color:#fff}
+  .sales-set-metric strong{font-size:21px;line-height:1;color:#ff875d;letter-spacing:-.8px}
+  .sales-set-metric span{font-size:9px;line-height:1.4;font-weight:850}
+  .sales-set-metric small{display:block;margin-top:2px;color:#dec9c1;font-size:7px;font-weight:650;letter-spacing:0}
+  .sales-set-cert{display:flex;align-items:center;gap:8px;margin-top:8px;padding:9px 10px;border-radius:10px;background:#ebfaf3;border:1px solid #9bd8bc;color:#17503a}
+  .sales-set-cert strong{font-size:20px;line-height:1;white-space:nowrap}
+  .sales-set-cert span{font-size:9px;line-height:1.4;font-weight:900}
+  .sales-set-cert small{display:block;margin-top:2px;font-size:7px;color:#527c6c;font-weight:650}
   .sales-set-modal{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;background:rgba(15,11,9,.76);backdrop-filter:blur(8px);padding:28px}
   .sales-set-modal.open{display:flex}
-  .sales-set-modal-shell{position:relative;display:grid;grid-template-columns:46% 54%;width:min(1080px,92vw);height:min(650px,86vh);overflow:hidden;border-radius:24px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.34);touch-action:pan-y}
+  .sales-set-modal-shell{position:relative;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(210px,42%) minmax(0,58%);width:min(1080px,92vw);height:min(760px,88vh);overflow:hidden;border-radius:24px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.34);touch-action:pan-y}
   .sales-set-modal-scene{position:relative;min-width:0;background:#211814;overflow:hidden}
-  .sales-set-modal-scene>img{width:100%;height:100%;object-fit:cover;display:block}
-  .sales-set-modal-scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(18,12,9,.86) 100%)}
-  .sales-set-modal-kicker{position:absolute;z-index:2;left:24px;bottom:22px;color:#fff}
+  .sales-set-modal-scene>img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+  .sales-set-modal-scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(18,12,9,.82) 100%)}
+  .sales-set-modal-kicker{position:absolute;z-index:2;left:25px;bottom:17px;color:#fff}
   .sales-set-modal-kicker small{display:block;font-size:10px;font-weight:950;letter-spacing:1.5px;color:#ff9b78}
-  .sales-set-modal-kicker strong{display:block;margin-top:5px;font-size:26px;line-height:1.18}
-  .sales-set-modal-body{display:flex;flex-direction:column;min-width:0;padding:27px 30px 24px}
+  .sales-set-modal-kicker strong{display:block;margin-top:4px;font-size:25px;line-height:1.15}
+  .sales-set-modal-body{display:flex;flex-direction:column;min-width:0;overflow:auto;padding:17px 24px 19px}
   .sales-set-modal-body>small{font-size:9px;font-weight:950;letter-spacing:1.4px;color:var(--modal-accent)}
-  .sales-set-modal-body h3{margin:5px 0 7px;font-size:27px;line-height:1.2;color:#201915}
-  .sales-set-modal-lead{font-size:12px;line-height:1.55;color:#655952}
-  .sales-set-modal-products{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}
-  .sales-set-modal-product{position:relative;display:grid;grid-template-rows:122px auto;min-width:0;border:1px solid #eadfd9;border-radius:15px;overflow:hidden;background:#fbf8f6}
+  .sales-set-modal-body h3{margin:3px 0 5px;font-size:22px;line-height:1.18;color:#201915}
+  .sales-set-modal-lead{font-size:11px;line-height:1.45;color:#655952}
+  .sales-set-modal-highlight{display:flex;align-items:center;gap:9px;margin-top:8px;padding:8px 11px;border-radius:11px;background:color-mix(in srgb,var(--modal-accent) 10%,#fff);color:#2a211d}
+  .sales-set-modal-highlight strong{font-size:22px;line-height:1;color:var(--modal-accent);white-space:nowrap}
+  .sales-set-modal-highlight span{font-size:10px;line-height:1.4;font-weight:900}
+  .sales-set-modal-highlight small{display:block;margin-top:1px;font-size:7px;color:#756761;font-weight:650}
+  .sales-set-modal-products{display:grid;grid-template-columns:repeat(var(--product-count,3),minmax(0,1fr));gap:9px;margin-top:10px}
+  .sales-set-modal-product{position:relative;display:grid;grid-template-columns:88px minmax(0,1fr);min-width:0;min-height:100px;border:1px solid #eadfd9;border-radius:14px;overflow:hidden;background:#fbf8f6}
   .sales-set-modal-product figure{position:relative;display:flex;align-items:center;justify-content:center;margin:0;background:linear-gradient(150deg,#fff,#f4ede9)}
-  .sales-set-modal-product img{width:78%;height:108px;object-fit:contain;filter:drop-shadow(0 7px 8px rgba(60,37,24,.14))}
+  .sales-set-modal-product img{width:78%;height:88px;object-fit:contain;filter:drop-shadow(0 7px 8px rgba(60,37,24,.14))}
   .sales-set-modal-step{position:absolute;left:8px;top:8px;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:var(--modal-accent);color:#fff;font-size:10px;font-weight:950}
-  .sales-set-modal-product div{padding:9px 10px 11px}
-  .sales-set-modal-product b{display:block;font-size:11px;line-height:1.3;color:#241d19;word-break:keep-all}
-  .sales-set-modal-product>div>span{display:block;margin-top:4px;font-size:9px;line-height:1.4;color:#776b65;word-break:keep-all}
-  .sales-set-modal-talk{margin-top:auto;padding:12px 14px;border-radius:13px;background:color-mix(in srgb,var(--modal-accent) 9%,#fff);border-left:4px solid var(--modal-accent);font-size:11px;line-height:1.5;font-weight:850;color:#2c2420}
+  .sales-set-modal-product div{display:flex;flex-direction:column;justify-content:center;padding:9px 9px 9px 10px}
+  .sales-set-modal-product b{display:block;font-size:10px;line-height:1.3;color:#241d19;word-break:keep-all}
+  .sales-set-modal-product>div>span{display:block;margin-top:4px;font-size:8px;line-height:1.35;color:#776b65;word-break:keep-all}
+  .sales-set-modal-talk{margin-top:9px;padding:9px 12px;border-radius:11px;background:color-mix(in srgb,var(--modal-accent) 9%,#fff);border-left:4px solid var(--modal-accent);font-size:10px;line-height:1.45;font-weight:850;color:#2c2420}
+  .sales-set-modal-target{margin-top:6px;font-size:8px;line-height:1.35;color:#756a64}
   .sales-set-modal-close,.sales-set-modal-arrow{position:absolute;z-index:4;border:0;color:#fff;background:rgba(20,15,12,.65);backdrop-filter:blur(5px);cursor:pointer}
   .sales-set-modal-close{right:15px;top:15px;width:38px;height:38px;border-radius:50%;font-size:24px}
   .sales-set-modal-arrow{top:50%;width:42px;height:66px;transform:translateY(-50%);font-size:34px}
@@ -5829,11 +5843,24 @@ function wireLineupSkuCards() {
     .sales-set-card{grid-template-columns:32% 68%}
     .sales-set-copy h3{font-size:16px}
     .sales-set-modal{padding:16px}
-    .sales-set-modal-shell{grid-template-columns:42% 58%;height:min(620px,88vh)}
-    .sales-set-modal-body{padding:22px 20px}
-    .sales-set-modal-body h3{font-size:22px}
-    .sales-set-modal-product{grid-template-rows:105px auto}
-    .sales-set-modal-product img{height:94px}
+    .sales-set-modal-shell{grid-template-rows:minmax(190px,38%) minmax(0,62%);height:min(720px,90vh)}
+    .sales-set-modal-body{padding:14px 17px 16px}
+    .sales-set-modal-body h3{font-size:20px}
+    .sales-set-modal-product{grid-template-columns:70px minmax(0,1fr);min-height:86px}
+    .sales-set-modal-product img{height:74px}
+  }
+  @media(max-width:620px){
+    .sales-set-grid{grid-template-columns:1fr}
+    .sales-set-card{grid-template-columns:34% 66%}
+    .sales-set-modal{padding:8px}
+    .sales-set-modal-shell{grid-template-rows:30% minmax(0,70%);width:96vw;height:92vh;border-radius:18px}
+    .sales-set-modal-kicker{left:17px;bottom:12px}
+    .sales-set-modal-kicker strong{font-size:19px}
+    .sales-set-modal-products{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .sales-set-modal-product{grid-template-columns:58px minmax(0,1fr);min-height:76px}
+    .sales-set-modal-product img{height:64px}
+    .sales-set-modal-product b{font-size:9px}
+    .sales-set-modal-arrow{width:34px;height:56px;font-size:28px}
   }
 </style>
 <script>
@@ -5862,39 +5889,52 @@ function wireLineupSkuCards() {
         <div><b>03 마무리</b>“세 제품을 2~4주 루틴으로 써보고 피부 반응을 다시 확인해 드릴게요.”</div>
       </div>
       <div class="sales-set-grid">
-        <article class="sales-set-card" style="--set-accent:#f55018" role="button" tabindex="0" onclick="openSalesSetModal(0)" onkeydown="if(event.key==='Enter')openSalesSetModal(0)">
-          <div class="sales-set-photo"><img src="images/vmd/pop-antiaging.jpg" alt="NMN 안티에이징 3종 세트 진열"><span>NMN ANTI-AGING · 크게 보기</span></div>
-          <div class="sales-set-copy"><small>01 ANTI-AGING</small><h3>광채·탄력 안티에이징</h3>
+        <article class="sales-set-card" style="--set-accent:#e44916" role="button" tabindex="0" onclick="openSalesSetModal(0)" onkeydown="if(event.key==='Enter')openSalesSetModal(0)">
+          <div class="sales-set-photo"><img src="images/vmd/pharmacy-best3-glow-firming.jpg" alt="약국에 진열된 시오레 판매 베스트셀러 4종"><span>PHARMACY BESTSELLER 4 · 크게 보기</span><b class="sales-set-badge">👑 BEST SELLER</b></div>
+          <div class="sales-set-copy"><small>01 BESTSELLER</small><h3>시오레 판매 베스트셀러 4종</h3>
+            <div class="sales-set-skus"><span>버블 토너</span><span>인텐시브 세럼</span><span>카밍 수딩 젤</span><span>리치 크림</span></div>
+            <p>버블 토너로 수분·광채 바탕을 만들고, 세럼과 리치 크림으로 광채·탄력을 집중 관리하며, 카밍 수딩 젤로 피부 열감까지 관리하는 시오레 대표 구성입니다.</p>
+            <div class="sales-set-metric"><strong>564.64%</strong><span>세럼+리치 크림 병행 1회 사용 후 피부 광채 개선<small>제품 인체적용시험 결과이며 일시적 효과 및 개인차가 있을 수 있음</small></span></div>
+            <div class="sales-set-talk">“광채·탄력 집중 관리부터 피부 열감 진정까지, 시오레의 대표 제품력을 한 번에 설명할 수 있는 베스트 구성입니다.”</div>
+            <div class="sales-set-close">추천: 시오레를 처음 접하거나 핵심 베스트 제품을 한 번에 원하는 고객</div>
+          </div>
+        </article>
+        <article class="sales-set-card" style="--set-accent:#f55018" role="button" tabindex="0" onclick="openSalesSetModal(1)" onkeydown="if(event.key==='Enter')openSalesSetModal(1)">
+          <div class="sales-set-photo"><img src="images/vmd/pop-antiaging.jpg" alt="NMN 광채 탄력 안티에이징 3종 세트 진열"><span>NMN ANTI-AGING · 크게 보기</span></div>
+          <div class="sales-set-copy"><small>02 ANTI-AGING</small><h3>광채·탄력 안티에이징 3종</h3>
             <div class="sales-set-skus"><span>캡슐 클렌징 밀크</span><span>인텐시브 세럼</span><span>리치 크림</span></div>
-            <p>수분 캡슐 클렌징으로 피부 바탕을 편안하게 준비하고, 고함량 세럼으로 탄력을 집중 관리한 뒤 리치 크림으로 윤광과 보습을 잠급니다.</p>
-            <div class="sales-set-talk">“세안부터 당김 부담을 낮추고, NMN 세럼으로 탄력을 채운 뒤 리치 크림으로 윤광을 잠그는 3단계예요.”</div>
+            <p>당김과 마찰 부담을 줄인 클렌징으로 시작해 고함량 세럼으로 집중 관리하고, 리치 크림으로 윤광과 보습을 마무리합니다.</p>
+            <div class="sales-set-metric"><strong>564.64%</strong><span>세럼+리치 크림 병행 1회 사용 후 피부 광채 개선<small>제품 인체적용시험 결과이며 일시적 효과 및 개인차가 있을 수 있음</small></span></div>
+            <div class="sales-set-talk">“세안 부담은 낮추고, 세럼으로 탄력을 집중 관리한 뒤 리치 크림으로 윤광과 보습을 잠그는 3단계예요.”</div>
             <div class="sales-set-close">추천: 건조·칙칙함·탄력 저하가 함께 고민인 고객</div>
           </div>
         </article>
-        <article class="sales-set-card" style="--set-accent:#8b5cf6" role="button" tabindex="0" onclick="openSalesSetModal(1)" onkeydown="if(event.key==='Enter')openSalesSetModal(1)">
+        <article class="sales-set-card" style="--set-accent:#8b5cf6" role="button" tabindex="0" onclick="openSalesSetModal(2)" onkeydown="if(event.key==='Enter')openSalesSetModal(2)">
           <div class="sales-set-photo"><img src="images/vmd/pop-recovery.jpg" alt="시술 후 회복 세트 진열"><span>RECOVERY 3-STEP · 크게 보기</span></div>
-          <div class="sales-set-copy"><small>02 POST-PROCEDURE</small><h3>시술 후 진정·장벽 회복</h3>
-            <div class="sales-set-skus"><span>에센스 토너</span><span>리페어 앰플</span><span>컴포트 크림</span></div>
-            <p>민감해진 피부에 수분길을 열고, 앰플로 집중 진정·컨디셔닝한 뒤 크림으로 편안하게 보호합니다.</p>
-            <div class="sales-set-talk">“시술 후에는 많이 바르기보다, 자극을 줄이고 수분·장벽 순서만 정확히 잡아주세요.”</div>
+          <div class="sales-set-copy"><small>03 POST-PROCEDURE</small><h3>시술 후 진정·장벽 회복 3종</h3>
+            <div class="sales-set-skus"><span>버블 토너</span><span>카밍 수딩 젤</span><span>컴포트 크림</span></div>
+            <p>버블 토너를 문지르지 않고 밀착해 수분을 공급하고, 카밍 수딩 젤로 시술 후 열감과 붉음을 진정한 뒤 컴포트 크림으로 수분·장벽을 보호합니다.</p>
+            <div class="sales-set-talk">“시술 후에는 화장솜으로 닦지 말고 버블을 가볍게 흡수시킨 뒤, 수딩 젤로 열감을 낮추고 컴포트 크림으로 장벽을 보호해 주세요.”</div>
             <div class="sales-set-close">추천: 레이저·필링 등 시술 후 건조하고 예민해진 피부</div>
           </div>
         </article>
-        <article class="sales-set-card" style="--set-accent:#1597a8" role="button" tabindex="0" onclick="openSalesSetModal(2)" onkeydown="if(event.key==='Enter')openSalesSetModal(2)">
+        <article class="sales-set-card" style="--set-accent:#1597a8" role="button" tabindex="0" onclick="openSalesSetModal(3)" onkeydown="if(event.key==='Enter')openSalesSetModal(3)">
           <div class="sales-set-photo"><img src="images/vmd/pop-heat-redness.jpg" alt="열감성 피부 세트 진열"><span>COOLING 3-STEP · 크게 보기</span></div>
-          <div class="sales-set-copy"><small>03 HEAT &amp; REDNESS</small><h3>열감·붉음 진정 루틴</h3>
-            <div class="sales-set-skus"><span>에센스 토너</span><span>카밍 수딩 젤</span><span>컴포트 크림</span></div>
-            <p>첫 수분을 가볍게 채우고, 젤로 열감을 빠르게 낮춘 다음 크림으로 수분 증발을 막는 구조입니다.</p>
-            <div class="sales-set-talk">“열감 피부는 무겁게 덮기 전에 먼저 식히고, 마지막에 얇게 보호해야 편안합니다.”</div>
-            <div class="sales-set-close">추천: 마스크·운동·계절 변화로 쉽게 달아오르고 붉어지는 피부</div>
+          <div class="sales-set-copy"><small>04 HEAT &amp; REDNESS</small><h3>피부 열감 진정 3종</h3>
+            <div class="sales-set-skus"><span>클렌징 밀크</span><span>버블 토너</span><span>카밍 수딩 젤</span></div>
+            <p>약산성 밀크 제형으로 세안 마찰 부담을 완화하고, 버블 토너로 수분을 공급한 뒤 카밍 수딩 젤로 열감을 진정합니다.</p>
+            <div class="sales-set-metric"><strong>−10.041℃</strong><span>카밍 수딩 젤 1회 사용 직후 가온 자극 후 피부 온도 감소<small>제품 인체적용시험 결과이며 일시적 효과 및 개인차가 있을 수 있음</small></span></div>
+            <div class="sales-set-talk">“열감 피부는 세안할 때부터 문지르는 자극을 줄이고, 버블로 수분을 채운 뒤 수딩 젤로 빠르게 식혀주세요.”</div>
+            <div class="sales-set-close">추천: 마스크·운동·시술·계절 변화로 쉽게 달아오르고 붉어지는 피부</div>
           </div>
         </article>
-        <article class="sales-set-card" style="--set-accent:#2f7d64" role="button" tabindex="0" onclick="openSalesSetModal(3)" onkeydown="if(event.key==='Enter')openSalesSetModal(3)">
+        <article class="sales-set-card" style="--set-accent:#2f7d64" role="button" tabindex="0" onclick="openSalesSetModal(4)" onkeydown="if(event.key==='Enter')openSalesSetModal(4)">
           <div class="sales-set-photo"><img src="images/vmd/pop-noncomedogenic.jpg" alt="여드름성 피부 세트 진열"><span>NON-COMEDO 3-STEP · 크게 보기</span></div>
-          <div class="sales-set-copy"><small>04 ACNE-PRONE</small><h3>여드름성·트러블 피부</h3>
-            <div class="sales-set-skus"><span>에센스 토너</span><span>리페어 앰플</span><span>카밍 수딩 젤</span></div>
-            <p>유분 부담은 낮추고 수분·진정·트러블 흔적 관리를 연결한 가벼운 3단계입니다.</p>
-            <div class="sales-set-talk">“트러블 피부도 말리기만 하면 더 예민해져요. 유분은 가볍게, 수분과 진정은 충분히 채워주세요.”</div>
+          <div class="sales-set-copy"><small>05 ACNE-PRONE · NON-COMEDOGENIC</small><h3>여드름성 피부 논코메도제닉 3종</h3>
+            <div class="sales-set-skus"><span>클렌징 밀크</span><span>리페어 앰플</span><span>컴포트 크림</span></div>
+            <p>부드러운 클렌징으로 시작해 리페어 앰플로 집중 진정·트러블 흔적을 관리하고, 컴포트 크림으로 속건조와 장벽을 보습합니다.</p>
+            <div class="sales-set-cert"><strong>🛡️ 3/3</strong><span>세 제품 모두 논코메도제닉 인증 완료<small>여드름성 피부 사용 적합성 평가 완료</small></span></div>
+            <div class="sales-set-talk">“트러블 피부는 제품 하나만 바꾸기보다 세안·집중 진정·보습까지 모공을 막지 않는 3종으로 루틴을 맞추는 것이 핵심입니다.”</div>
             <div class="sales-set-close">추천: 번들거림과 속건조, 붉은 트러블 흔적이 함께 고민인 고객</div>
           </div>
         </article>
@@ -5917,43 +5957,73 @@ function wireLineupSkuCards() {
 
   const salesSetData=[
     {
-      en:'01 ANTI-AGING',title:'광채·탄력 안티에이징',accent:'#f55018',scene:'images/vmd/pop-antiaging.jpg',
-      lead:'NMN 10,000ppm 루틴으로 수분광채의 바탕부터 탄력 집중, 윤광 보습 잠금까지 연결합니다.',
-      talk:'“광채만 반짝이는 관리가 아니라, NMN으로 피부 에너지와 탄력을 채우고 마지막에 윤광을 잠그는 3단계예요.”',
+      en:'01 BESTSELLER',title:'시오레 판매 베스트셀러 4종',accent:'#e44916',scene:'images/vmd/pharmacy-best3-glow-firming.jpg',
+      lead:'버블 토너로 수분·광채 바탕을 만들고, 세럼과 리치 크림으로 광채·탄력을 집중 관리하며, 카밍 수딩 젤로 피부 열감까지 관리하는 시오레 대표 구성입니다.',
+      talk:'“광채·탄력 집중 관리부터 피부 열감 진정까지, 시오레의 대표 제품력을 한 번에 설명할 수 있는 베스트 구성입니다.”',
+      target:'추천: 시오레를 처음 접하거나 핵심 베스트 제품을 한 번에 원하는 고객',
+      badge:'👑 BEST SELLER',
+      metric:'564.64%',
+      metricLabel:'세럼+리치 크림 병행 1회 사용 후 피부 광채 개선',
+      notice:'제품 인체적용시험 결과이며 일시적 효과 및 개인차가 있을 수 있음',
       products:[
-        ['images/products/drive-latest/cleansing-drive.png','NMN 하이드로 캡슐 클렌징 밀크','STEP 1 · 저자극 세안·수분 바탕'],
-        ['images/products/drive-latest/serum-drive.png','NMN 인텐시브 세럼','STEP 2 · 탄력 집중'],
-        ['images/products/drive-latest/rich-cream-drive.png','NMN 딥 글로우 리치 크림','STEP 3 · 윤광·보습 잠금']
+        ['images/products/drive-latest/bubble-toner-drive.png','NMN 프레쉬 버블 토너','STEP 1 · 수분·광채 바탕'],
+        ['images/products/drive-latest/serum-drive.png','NMN 인텐시브 세럼','STEP 2 · 광채·탄력 집중'],
+        ['images/products/drive-latest/soothing-gel-drive.png','데일리 릴리프 카밍 수딩 젤','STEP 3 · 피부 열감 진정'],
+        ['images/products/drive-latest/rich-cream-drive.png','NMN 딥 글로우 리치 크림','STEP 4 · 윤광·보습 마무리']
       ]
     },
     {
-      en:'02 POST-PROCEDURE',title:'시술 후 진정·장벽 회복',accent:'#8b5cf6',scene:'images/vmd/pop-recovery.jpg',
-      lead:'시술 후 예민하고 건조해진 피부에 수분길을 열고, 집중 회복과 보습 보호를 순서대로 제안합니다.',
-      talk:'“시술 후에는 많이 바르기보다 자극을 줄이고, 수분 → 회복 → 장벽 보호 순서만 정확히 잡아주세요.”',
+      en:'02 ANTI-AGING',title:'광채·탄력 안티에이징 3종',accent:'#f55018',scene:'images/vmd/pop-antiaging.jpg',
+      lead:'당김과 마찰 부담을 줄인 클렌징 → 고함량 세럼 집중 관리 → 리치 크림 윤광·보습 마무리 순서로 제안합니다.',
+      talk:'“세안 부담은 낮추고, 세럼으로 탄력을 집중 관리한 뒤 리치 크림으로 윤광과 보습을 잠그는 3단계예요.”',
+      target:'추천: 건조·칙칙함·탄력 저하가 함께 고민인 고객',
+      metric:'564.64%',
+      metricLabel:'세럼+리치 크림 병행 1회 사용 후 피부 광채 개선',
+      notice:'제품 인체적용시험 결과이며 일시적 효과 및 개인차가 있을 수 있음',
       products:[
-        ['images/products/drive-latest/essence-toner-drive.png','데일리 릴리프 에센스 토너','STEP 1 · 수분길 열기'],
-        ['images/products/drive-latest/ampoule-drive.png','데일리 릴리프 리페어 앰플','STEP 2 · 집중 회복'],
-        ['images/products/drive-latest/comfort-cream-drive.png','데일리 릴리프 컴포트 크림','STEP 3 · 장벽 보호']
+        ['images/products/drive-latest/cleansing-drive.png','NMN 하이드로 캡슐 클렌징 밀크','STEP 1 · 당김·마찰 부담 완화'],
+        ['images/products/drive-latest/serum-drive.png','NMN 인텐시브 세럼','STEP 2 · 고함량 집중 관리'],
+        ['images/products/drive-latest/rich-cream-drive.png','NMN 딥 글로우 리치 크림','STEP 3 · 윤광·보습 마무리']
       ]
     },
     {
-      en:'03 HEAT & REDNESS',title:'열감·붉음 진정 루틴',accent:'#1597a8',scene:'images/vmd/pop-heat-redness.jpg',
-      lead:'첫 수분을 채운 뒤 카밍 수딩 젤로 열감을 빠르게 낮추고, 컴포트 크림으로 수분 증발을 막습니다.',
-      talk:'“열 오른 피부는 무겁게 덮기 전에 먼저 식히고, 마지막에 얇게 보호해야 편안합니다.”',
+      en:'03 POST-PROCEDURE',title:'시술 후 진정·장벽 회복 3종',accent:'#8b5cf6',scene:'images/vmd/pop-recovery.jpg',
+      lead:'버블 토너를 문지르지 않고 밀착해 수분 공급 → 카밍 수딩 젤로 시술 후 열감과 붉음 진정 → 컴포트 크림으로 수분·장벽 보호 순서입니다.',
+      talk:'“시술 후에는 화장솜으로 닦지 말고 버블을 가볍게 흡수시킨 뒤, 수딩 젤로 열감을 낮추고 컴포트 크림으로 장벽을 보호해 주세요.”',
+      target:'추천: 레이저·필링 등 시술 후 건조하고 예민해진 피부',
       products:[
-        ['images/products/drive-latest/essence-toner-drive.png','데일리 릴리프 에센스 토너','STEP 1 · 첫 수분 공급'],
-        ['images/products/drive-latest/soothing-gel-drive.png','데일리 릴리프 카밍 수딩 젤','STEP 2 · 즉각 쿨링'],
-        ['images/products/drive-latest/comfort-cream-drive.png','데일리 릴리프 컴포트 크림','STEP 3 · 수분 보호막']
+        ['images/products/drive-latest/bubble-toner-drive.png','NMN 프레쉬 버블 토너','STEP 1 · 밀착 수분 공급'],
+        ['images/products/drive-latest/soothing-gel-drive.png','데일리 릴리프 카밍 수딩 젤','STEP 2 · 열감·붉음 진정'],
+        ['images/products/drive-latest/comfort-cream-drive.png','데일리 릴리프 컴포트 크림','STEP 3 · 수분·장벽 보호']
       ]
     },
     {
-      en:'04 ACNE-PRONE',title:'여드름성·트러블 피부',accent:'#2f7d64',scene:'images/vmd/pop-noncomedogenic.jpg',
-      lead:'유분 부담은 낮추면서 수분, 회복, 진정을 연결한 논코메도제닉 중심의 가벼운 3단계 루틴입니다.',
-      talk:'“트러블 피부도 말리기만 하면 더 예민해져요. 유분은 가볍게, 수분과 진정은 충분히 채워주세요.”',
+      en:'04 HEAT & REDNESS',title:'피부 열감 진정 3종',accent:'#1597a8',scene:'images/vmd/pop-heat-redness.jpg',
+      lead:'약산성 밀크 제형으로 세안 마찰 부담 완화 → 버블 토너로 수분 공급 → 카밍 수딩 젤로 열감 진정 순서입니다.',
+      talk:'“열감 피부는 세안할 때부터 문지르는 자극을 줄이고, 버블로 수분을 채운 뒤 수딩 젤로 빠르게 식혀주세요.”',
+      target:'추천: 마스크·운동·시술·계절 변화로 쉽게 달아오르고 붉어지는 피부',
+      metric:'−10.041℃',
+      metricLabel:'카밍 수딩 젤 1회 사용 직후 가온 자극 후 피부 온도 감소',
+      notice:'제품 인체적용시험 결과이며 일시적 효과 및 개인차가 있을 수 있음',
       products:[
-        ['images/products/drive-latest/essence-toner-drive.png','데일리 릴리프 에센스 토너','STEP 1 · 수분 밸런스'],
-        ['images/products/drive-latest/ampoule-drive.png','데일리 릴리프 리페어 앰플','STEP 2 · 흔적·장벽 회복'],
-        ['images/products/drive-latest/soothing-gel-drive.png','데일리 릴리프 카밍 수딩 젤','STEP 3 · 무유분 진정']
+        ['images/products/drive-latest/cleansing-drive.png','NMN 하이드로 캡슐 클렌징 밀크','STEP 1 · 세안 마찰 부담 완화'],
+        ['images/products/drive-latest/bubble-toner-drive.png','NMN 프레쉬 버블 토너','STEP 2 · 밀착 수분 공급'],
+        ['images/products/drive-latest/soothing-gel-drive.png','데일리 릴리프 카밍 수딩 젤','STEP 3 · 피부 열감 진정']
+      ]
+    },
+    {
+      en:'05 ACNE-PRONE · NON-COMEDOGENIC',title:'여드름성 피부 논코메도제닉 3종',accent:'#2f7d64',scene:'images/vmd/pop-noncomedogenic.jpg',
+      lead:'부드러운 클렌징 → 집중 진정·트러블 흔적 관리 → 속건조·장벽 보습까지, 세 제품 모두 논코메도제닉 인증을 완료한 3단계 루틴입니다.',
+      talk:'“트러블 피부는 제품 하나만 바꾸기보다 세안·집중 진정·보습까지 모공을 막지 않는 3종으로 루틴을 맞추는 것이 핵심입니다.”',
+      target:'추천: 번들거림과 속건조, 반복되는 트러블과 붉은 흔적이 함께 고민인 고객',
+      metric:'🛡️ 3/3',
+      metricLabel:'세 제품 모두 논코메도제닉 인증 완료',
+      notice:'여드름성 피부 사용 적합성 평가 완료',
+      cert:true,
+      products:[
+        ['images/products/drive-latest/cleansing-drive.png','NMN 하이드로 캡슐 클렌징 밀크','STEP 1 · 부드러운 클렌징'],
+        ['images/products/drive-latest/ampoule-drive.png','데일리 릴리프 리페어 앰플','STEP 2 · 집중 진정·흔적 관리'],
+        ['images/products/drive-latest/comfort-cream-drive.png','데일리 릴리프 컴포트 크림','STEP 3 · 속건조·장벽 보습']
       ]
     }
   ];
@@ -5973,12 +6043,14 @@ function wireLineupSkuCards() {
       <small>${item.en}</small>
       <h3>${item.title}</h3>
       <p class="sales-set-modal-lead">${item.lead}</p>
-      <div class="sales-set-modal-products">${item.products.map((product,step)=>`
+      ${item.metric?`<div class="sales-set-modal-highlight${item.cert?' is-cert':''}"><strong>${item.metric}</strong><span>${item.metricLabel}<small>${item.notice||''}</small></span></div>`:''}
+      <div class="sales-set-modal-products" style="--product-count:${item.products.length}">${item.products.map((product,step)=>`
         <article class="sales-set-modal-product">
           <figure><span class="sales-set-modal-step">${step+1}</span><img src="${product[0]}" alt="${product[1]}"></figure>
           <div><b>${product[1]}</b><span>${product[2]}</span></div>
         </article>`).join('')}</div>
-      <div class="sales-set-modal-talk">${item.talk}</div>`;
+      <div class="sales-set-modal-talk">${item.talk}</div>
+      <div class="sales-set-modal-target">${item.target}</div>`;
     modal.classList.add('open');
   };
   window.stepSalesSetModal=function(direction){

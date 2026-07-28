@@ -47,6 +47,7 @@
     .set-photo{position:relative;height:164px;background:#eee}
     .set-photo img{width:100%;height:100%;object-fit:cover}
     .set-photo span{position:absolute;left:11px;bottom:10px;background:rgba(24,20,18,.83);color:#fff;border-radius:8px;padding:6px 8px;font-size:9px;font-weight:900}
+    .bestseller-crown{position:absolute;right:10px;top:10px;padding:7px 9px;border-radius:999px;background:linear-gradient(135deg,#ffcb45,#ff7a00);color:#331b00;font-size:10px;font-weight:950;box-shadow:0 5px 16px rgba(91,45,0,.24)}
     .set-copy{padding:15px}
     .set-copy small{font-size:9px;color:var(--set);font-weight:950;letter-spacing:1.2px}
     .set-copy h3{margin:4px 0 8px;font-size:20px}
@@ -54,6 +55,10 @@
     .set-skus span{background:color-mix(in srgb,var(--set) 10%,#fff);color:var(--set);border-radius:999px;padding:5px 7px;font-size:9px;font-weight:900}
     .set-copy p{margin:0;font-size:13px;line-height:1.65;color:#544943}
     .set-talk{margin-top:10px;padding:10px 11px;border-radius:10px;background:#f7f2ef;font-size:12px;line-height:1.55;font-weight:850}
+    .set-metric{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:10px;margin:10px 0 0;padding:11px 12px;border-radius:12px;background:linear-gradient(135deg,#2a1710,#6a2914);color:#fff}
+    .set-metric strong{font-size:25px;line-height:1;color:#ff865a;letter-spacing:-1px}
+    .set-metric span{font-size:10px;line-height:1.45;font-weight:800}
+    .set-metric small{display:block;margin-top:2px;color:#d8c4bc;font-size:8px;font-weight:650;letter-spacing:0}
     .set-target{margin-top:8px;font-size:10px;line-height:1.45;color:#81736c}
     .player{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(24,20,18,.97);color:#fff;padding:10px 14px max(10px,env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.2);backdrop-filter:blur(15px)}
     .player-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:1fr auto;gap:9px;align-items:center}
@@ -82,7 +87,7 @@
     <nav class="tabs" aria-label="스크립트 선택">
       <button class="tab active" data-target="pitch">90초 입점 설명</button>
       <button class="tab" data-target="sku">SKU 10개</button>
-      <button class="tab" data-target="guide">3종 판매가이드</button>
+      <button class="tab" data-target="guide">주요 판매가이드</button>
     </nav>
 
     <section id="pitch" class="section active">
@@ -96,7 +101,7 @@
       <p class="source-note">성분·임상 수치는 제공된 브랜드 소개서와 셀링시트 기준입니다. 시험 조건은 영업자료 제품 상세에서 확인할 수 있습니다.</p>
     </section>
     <section id="guide" class="section">
-      <div class="section-head"><h2>피부 고민별 3SKU 판매전략</h2><span>4 ROUTINES</span></div>
+      <div class="section-head"><h2>주요 판매 조합 가이드</h2><span>4 ROUTINES</span></div>
       <div class="guide-rule">
         <div><b>01 질문</b>탄력·열감·트러블 중 가장 큰 고민을 확인합니다.</div>
         <div><b>02 연결</b>핵심 1종에 앞·뒤 단계 2종을 이유와 함께 연결합니다.</div>
@@ -104,12 +109,13 @@
       </div>
       <div class="set-grid">
         <article class="set-card" style="--set:#f55018">
-          <div class="set-photo"><img src="images/vmd/pharmacy-best3-glow-firming.jpg" alt="약국에 진열된 시오레 광채 탄력 진정 베스트 3"><span>PHARMACY BEST 3</span></div>
-          <div class="set-copy"><small>GLOW · FIRMING · CALMING</small><h3>광채·탄력 + 열감 진정 베스트 3</h3>
-            <div class="set-skus"><span>버블 토너</span><span>인텐시브 세럼</span><span>카밍 수딩 젤</span></div>
-            <p>버블 토너로 수분·광채 바탕을 만들고, 인텐시브 세럼으로 탄력을 집중 관리한 뒤 수딩 젤로 달아오른 피부를 산뜻하게 진정합니다.</p>
-            <div class="set-talk">“칙칙함과 탄력은 토너·세럼으로 집중 관리하고, 열감이 느껴질 때는 수딩 젤로 빠르게 편안하게 해주세요.”</div>
-            <div class="set-target">추천: 광채·탄력 저하와 열감·붉음이 함께 고민인 고객</div>
+          <div class="set-photo"><img src="images/vmd/pharmacy-best3-glow-firming.jpg" alt="약국에 진열된 시오레 베스트셀러 4종"><span>PHARMACY BESTSELLER 4</span><b class="bestseller-crown">👑 BEST SELLER</b></div>
+          <div class="set-copy"><small>BESTSELLER · ANTI-AGING · COOLING</small><h3>광채·탄력 안티에이징 + 피부 열감 감소</h3>
+            <div class="set-skus"><span>버블 토너</span><span>인텐시브 세럼</span><span>카밍 수딩 젤</span><span>리치 크림</span></div>
+            <p>시오레 판매 베스트셀러 4종입니다. 버블 토너로 수분·광채 바탕을 만들고, 세럼과 리치 크림으로 광채·탄력을 집중 관리한 뒤 수딩 젤로 피부 열감을 편안하게 낮춰줍니다.</p>
+            <div class="set-metric"><strong>564.64%</strong><span>세럼 + 리치 크림 병행<br>1회 사용 후 피부 광채 개선<small>제품 인체적용시험 결과 · 일시적 효과 및 개인차 있음</small></span></div>
+            <div class="set-talk">“시오레에서 가장 반응이 좋은 4종이에요. 세럼과 리치 크림은 단 1회 병행 사용 후 광채 564.64% 개선을 확인했고, 열감이 느껴질 때는 수딩 젤로 마무리합니다.”</div>
+            <div class="set-target">추천: 칙칙함·탄력 저하와 피부 열감이 함께 고민인 고객</div>
           </div>
         </article>
         <article class="set-card" style="--set:#8b5cf6">

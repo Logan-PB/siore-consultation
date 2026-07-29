@@ -5835,6 +5835,9 @@ function wireLineupSkuCards() {
   .sales-set-modal-price{display:block;margin-top:5px;font-style:normal;font-size:11px;line-height:1.2;font-weight:950;color:var(--modal-accent);white-space:nowrap}
   .sales-set-modal-talk{margin-top:9px;padding:9px 12px;border-radius:11px;background:color-mix(in srgb,var(--modal-accent) 9%,#fff);border-left:4px solid var(--modal-accent);font-size:10px;line-height:1.45;font-weight:850;color:#2c2420}
   .sales-set-modal-target{margin-top:6px;font-size:8px;line-height:1.35;color:#756a64}
+  .sales-set-modal-total{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:9px;padding:9px 12px;border-radius:11px;background:#241914;color:#fff}
+  .sales-set-modal-total span{font-size:9px;font-weight:900;letter-spacing:.4px}
+  .sales-set-modal-total strong{font-size:18px;line-height:1;color:#ff7a4c;white-space:nowrap}
   .sales-set-modal-close,.sales-set-modal-arrow{position:absolute;z-index:4;border:0;color:#fff;background:rgba(20,15,12,.65);backdrop-filter:blur(5px);cursor:pointer}
   .sales-set-modal-close{right:15px;top:15px;width:38px;height:38px;border-radius:50%;font-size:24px}
   .sales-set-modal-arrow{top:50%;width:42px;height:66px;transform:translateY(-50%);font-size:34px}
@@ -5871,6 +5874,9 @@ function wireLineupSkuCards() {
     .sales-set-modal-price{margin-top:4px;font-size:8px}
     .sales-set-modal-talk{margin-top:7px;padding:7px 9px;font-size:9px}
     .sales-set-modal-target{margin-top:4px;font-size:7px}
+    .sales-set-modal-total{margin-top:7px;padding:7px 9px}
+    .sales-set-modal-total span{font-size:8px}
+    .sales-set-modal-total strong{font-size:14px}
     .sales-set-modal-arrow{width:34px;height:56px;font-size:28px}
   }
 </style>
@@ -6047,6 +6053,14 @@ function wireLineupSkuCards() {
     'ampoule-drive.png':'30,000~35,000원',
     'comfort-cream-drive.png':'33,000~39,000원'
   };
+  const getSalesSetRange=products=>{
+    const totals=products.reduce((sum,product)=>{
+      const range=salesPriceRange[product[0].split('/').pop()]||'0~0원';
+      const [minimum,maximum]=range.replace(/[^\d~]/g,'').split('~').map(Number);
+      return [sum[0]+minimum,sum[1]+maximum];
+    },[0,0]);
+    return `${totals[0].toLocaleString('ko-KR')}~${totals[1].toLocaleString('ko-KR')}원`;
+  };
   let salesSetIndex=0;
   window.openSalesSetModal=function(index){
     const item=salesSetData[index];
@@ -6066,6 +6080,7 @@ function wireLineupSkuCards() {
       ${item.metric?`<div class="sales-set-modal-highlight${item.cert?' is-cert':''}"><strong>${item.metric}</strong><span>${item.metricLabel}<small>${item.notice||''}</small></span></div>`:''}
       <div class="sales-set-modal-talk">${item.talk}</div>
       <div class="sales-set-modal-target">${item.target}</div>
+      <div class="sales-set-modal-total"><span>세트 판매가</span><strong>${getSalesSetRange(item.products)}</strong></div>
       <div class="sales-set-modal-products" style="--product-count:${item.products.length}">${item.products.map((product,step)=>`
         <article class="sales-set-modal-product">
           <figure><span class="sales-set-modal-step">${step+1}</span><img src="${product[0]}" alt="${product[1]}"></figure>

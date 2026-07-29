@@ -4045,7 +4045,7 @@ function switchTab(id, btn) {
   const tabOrder=['home','brand','marketing','product','salesguide','vmd','pricing','faq'];
   let startX=0,startY=0,active=false;
   main.addEventListener('pointerdown',event=>{
-    if(event.target.closest('button,a,input,select,textarea,iframe,.sku-modal,.vmd-case-modal,.clinical-evidence-modal,.sales-set-card,.sales-set-modal,.prod-grid,.product-grid'))return;
+    if(event.target.closest('button,a,input,select,textarea,iframe,.sku-modal,.vmd-case-modal,.vmd-real-hero,.vmd-real-thumb,.clinical-evidence-modal,.sales-set-card,.sales-set-modal,.prod-grid,.product-grid'))return;
     startX=event.clientX;
     startY=event.clientY;
     active=true;

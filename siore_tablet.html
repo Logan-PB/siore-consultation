@@ -5808,7 +5808,7 @@ function wireLineupSkuCards() {
   .sales-set-cert small{display:block;margin-top:2px;font-size:7px;color:#527c6c;font-weight:650}
   .sales-set-modal{position:fixed;inset:0;z-index:1200;display:none;align-items:center;justify-content:center;background:rgba(15,11,9,.76);backdrop-filter:blur(8px);padding:28px}
   .sales-set-modal.open{display:flex}
-  .sales-set-modal-shell{position:relative;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(210px,42%) minmax(0,58%);width:min(1080px,92vw);height:min(760px,88vh);overflow:hidden;border-radius:24px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.34);touch-action:pan-y}
+  .sales-set-modal-shell{position:relative;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(230px,43%) minmax(0,57%);width:min(1080px,92vw);height:min(780px,90vh);overflow:hidden;border-radius:24px;background:#fff;box-shadow:0 28px 80px rgba(0,0,0,.34);touch-action:pan-y}
   .sales-set-modal-scene{position:relative;min-width:0;background:#211814;overflow:hidden}
   .sales-set-modal-scene>img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
   .sales-set-modal-scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(18,12,9,.82) 100%)}
@@ -5823,14 +5823,15 @@ function wireLineupSkuCards() {
   .sales-set-modal-highlight strong{font-size:22px;line-height:1;color:var(--modal-accent);white-space:nowrap}
   .sales-set-modal-highlight span{font-size:10px;line-height:1.4;font-weight:900}
   .sales-set-modal-highlight small{display:block;margin-top:1px;font-size:7px;color:#756761;font-weight:650}
-  .sales-set-modal-products{display:grid;grid-template-columns:repeat(var(--product-count,3),minmax(0,1fr));gap:9px;margin-top:10px}
-  .sales-set-modal-product{position:relative;display:grid;grid-template-columns:88px minmax(0,1fr);min-width:0;min-height:100px;border:1px solid #eadfd9;border-radius:14px;overflow:hidden;background:#fbf8f6}
+  .sales-set-modal-products{display:grid;grid-template-columns:repeat(var(--product-count,3),minmax(0,1fr));gap:9px;margin-top:auto;padding-top:11px}
+  .sales-set-modal-product{position:relative;display:grid;grid-template-rows:minmax(78px,1fr) auto;min-width:0;min-height:146px;border:1px solid #eadfd9;border-radius:14px;overflow:hidden;background:#fbf8f6}
   .sales-set-modal-product figure{position:relative;display:flex;align-items:center;justify-content:center;margin:0;background:linear-gradient(150deg,#fff,#f4ede9)}
-  .sales-set-modal-product img{width:78%;height:88px;object-fit:contain;filter:drop-shadow(0 7px 8px rgba(60,37,24,.14))}
+  .sales-set-modal-product img{width:82%;height:84px;object-fit:contain;filter:drop-shadow(0 7px 8px rgba(60,37,24,.14))}
   .sales-set-modal-step{position:absolute;left:8px;top:8px;display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:var(--modal-accent);color:#fff;font-size:10px;font-weight:950}
-  .sales-set-modal-product div{display:flex;flex-direction:column;justify-content:center;padding:9px 9px 9px 10px}
+  .sales-set-modal-product div{display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding:8px 7px 9px;text-align:center}
   .sales-set-modal-product b{display:block;font-size:10px;line-height:1.3;color:#241d19;word-break:keep-all}
   .sales-set-modal-product>div>span{display:block;margin-top:4px;font-size:8px;line-height:1.35;color:#776b65;word-break:keep-all}
+  .sales-set-modal-price{display:block;margin-top:5px;font-style:normal;font-size:11px;line-height:1.2;font-weight:950;color:var(--modal-accent);white-space:nowrap}
   .sales-set-modal-talk{margin-top:9px;padding:9px 12px;border-radius:11px;background:color-mix(in srgb,var(--modal-accent) 9%,#fff);border-left:4px solid var(--modal-accent);font-size:10px;line-height:1.45;font-weight:850;color:#2c2420}
   .sales-set-modal-target{margin-top:6px;font-size:8px;line-height:1.35;color:#756a64}
   .sales-set-modal-close,.sales-set-modal-arrow{position:absolute;z-index:4;border:0;color:#fff;background:rgba(20,15,12,.65);backdrop-filter:blur(5px);cursor:pointer}
@@ -5843,23 +5844,32 @@ function wireLineupSkuCards() {
     .sales-set-card{grid-template-columns:32% 68%}
     .sales-set-copy h3{font-size:16px}
     .sales-set-modal{padding:16px}
-    .sales-set-modal-shell{grid-template-rows:minmax(190px,38%) minmax(0,62%);height:min(720px,90vh)}
+    .sales-set-modal-shell{grid-template-rows:minmax(205px,39%) minmax(0,61%);height:min(740px,92vh)}
     .sales-set-modal-body{padding:14px 17px 16px}
     .sales-set-modal-body h3{font-size:20px}
-    .sales-set-modal-product{grid-template-columns:70px minmax(0,1fr);min-height:86px}
-    .sales-set-modal-product img{height:74px}
+    .sales-set-modal-product{grid-template-rows:72px auto;min-height:136px}
+    .sales-set-modal-product img{height:70px}
   }
   @media(max-width:620px){
     .sales-set-grid{grid-template-columns:1fr}
     .sales-set-card{grid-template-columns:34% 66%}
     .sales-set-modal{padding:8px}
-    .sales-set-modal-shell{grid-template-rows:30% minmax(0,70%);width:96vw;height:92vh;border-radius:18px}
+    .sales-set-modal-shell{grid-template-rows:31% minmax(0,69%);width:96vw;height:94vh;border-radius:18px}
     .sales-set-modal-kicker{left:17px;bottom:12px}
     .sales-set-modal-kicker strong{font-size:19px}
-    .sales-set-modal-products{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .sales-set-modal-product{grid-template-columns:58px minmax(0,1fr);min-height:76px}
-    .sales-set-modal-product img{height:64px}
-    .sales-set-modal-product b{font-size:9px}
+    .sales-set-modal-body{padding:12px 12px 13px}
+    .sales-set-modal-lead{font-size:10px}
+    .sales-set-modal-highlight{padding:7px 9px}
+    .sales-set-modal-products{grid-template-columns:repeat(var(--product-count,3),minmax(0,1fr));gap:5px;padding-top:8px}
+    .sales-set-modal-product{grid-template-rows:61px auto;min-height:122px;border-radius:10px}
+    .sales-set-modal-product img{width:88%;height:58px}
+    .sales-set-modal-step{left:5px;top:5px;width:20px;height:20px;font-size:8px}
+    .sales-set-modal-product div{padding:6px 3px 7px}
+    .sales-set-modal-product b{font-size:8px;line-height:1.25}
+    .sales-set-modal-product>div>span{margin-top:3px;font-size:6.5px;line-height:1.25}
+    .sales-set-modal-price{margin-top:4px;font-size:8px}
+    .sales-set-modal-talk{margin-top:7px;padding:7px 9px;font-size:9px}
+    .sales-set-modal-target{margin-top:4px;font-size:7px}
     .sales-set-modal-arrow{width:34px;height:56px;font-size:28px}
   }
 </style>
@@ -6027,6 +6037,15 @@ function wireLineupSkuCards() {
       ]
     }
   ];
+  const salesPriceRange={
+    'cleansing-drive.png':'33,000~38,000원',
+    'bubble-toner-drive.png':'30,000~38,000원',
+    'serum-drive.png':'35,000~44,000원',
+    'soothing-gel-drive.png':'30,000~35,000원',
+    'rich-cream-drive.png':'35,000~44,000원',
+    'ampoule-drive.png':'30,000~35,000원',
+    'comfort-cream-drive.png':'33,000~39,000원'
+  };
   let salesSetIndex=0;
   window.openSalesSetModal=function(index){
     const item=salesSetData[index];
@@ -6044,13 +6063,13 @@ function wireLineupSkuCards() {
       <h3>${item.title}</h3>
       <p class="sales-set-modal-lead">${item.lead}</p>
       ${item.metric?`<div class="sales-set-modal-highlight${item.cert?' is-cert':''}"><strong>${item.metric}</strong><span>${item.metricLabel}<small>${item.notice||''}</small></span></div>`:''}
+      <div class="sales-set-modal-talk">${item.talk}</div>
+      <div class="sales-set-modal-target">${item.target}</div>
       <div class="sales-set-modal-products" style="--product-count:${item.products.length}">${item.products.map((product,step)=>`
         <article class="sales-set-modal-product">
           <figure><span class="sales-set-modal-step">${step+1}</span><img src="${product[0]}" alt="${product[1]}"></figure>
-          <div><b>${product[1]}</b><span>${product[2]}</span></div>
-        </article>`).join('')}</div>
-      <div class="sales-set-modal-talk">${item.talk}</div>
-      <div class="sales-set-modal-target">${item.target}</div>`;
+          <div><b>${product[1]}</b><span>${product[2]}</span><em class="sales-set-modal-price">${salesPriceRange[product[0].split('/').pop()]||''}</em></div>
+        </article>`).join('')}</div>`;
     modal.classList.add('open');
   };
   window.stepSalesSetModal=function(direction){

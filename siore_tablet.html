@@ -5379,15 +5379,35 @@ function wireLineupSkuCards() {
   .marketing-head small{font-size:10px;letter-spacing:2px;font-weight:900;color:#f55018}
   .marketing-head h2{font-size:clamp(24px,2.7vw,40px);letter-spacing:-1.3px;line-height:1.05;margin:5px 0 0;color:#171414}
   .marketing-head p{font-size:11px;line-height:1.5;color:#6e6661;max-width:520px;text-align:right}
-  .marketing-layout{display:grid;grid-template-columns:30% 70%;gap:14px;min-height:0}
-  .marketing-stat-card{position:relative;border-radius:22px;background:#f55018;color:#fff;padding:26px 26px 22px;display:flex;flex-direction:column;overflow:hidden}
+  .marketing-layout{display:grid;grid-template-columns:31% 69%;gap:14px;min-height:0}
+  .marketing-stat-card{position:relative;border-radius:22px;background:linear-gradient(155deg,#f55018 0%,#d93a0b 100%);color:#fff;padding:22px 22px 18px;display:flex;flex-direction:column;overflow:hidden}
   .marketing-stat-card:after{content:"";position:absolute;width:270px;height:270px;border:1px solid rgba(255,255,255,.2);border-radius:50%;right:-90px;bottom:-100px}
   .marketing-stat-card .growth{font-size:clamp(52px,6vw,88px);font-weight:950;letter-spacing:-4px;line-height:.95}
   .marketing-stat-card .growth-note{font-size:12px;line-height:1.55;font-weight:750;margin-top:10px}
   .marketing-support-hook{margin:auto 0;text-align:center;padding:22px 8px;border-top:1px solid rgba(255,255,255,.35);border-bottom:1px solid rgba(255,255,255,.35);font-size:clamp(21px,2.5vw,36px);font-weight:950;line-height:1.2;letter-spacing:-1px}
   .marketing-support-hook small{display:block;margin-top:9px;font-size:10px;letter-spacing:1.6px;color:#ffe2d7}
   .marketing-stat-card footer{font-size:9.5px;line-height:1.45;color:#ffe8df}
-  .influencer-wall{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,minmax(0,1fr));gap:7px;min-height:0}
+  .marketing-case-kicker{font-size:9px;font-weight:950;letter-spacing:1.8px;color:#ffe0d4}
+  .marketing-case-title{font-size:clamp(22px,2.35vw,35px);line-height:1.08;letter-spacing:-1.2px;margin:7px 0 7px;position:relative;z-index:1}
+  .marketing-case-copy{font-size:10.5px;line-height:1.5;color:#fff1eb;word-break:keep-all;position:relative;z-index:1}
+  .marketing-case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0 10px;position:relative;z-index:1}
+  .marketing-case-stat{padding:9px 5px;border-radius:11px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);text-align:center}
+  .marketing-case-stat strong{display:block;font-size:17px;line-height:1;color:#fff}
+  .marketing-case-stat span{display:block;margin-top:5px;font-size:8px;color:#ffe7dd;font-weight:800;white-space:nowrap}
+  .marketing-result-list{display:grid;gap:6px;margin-top:auto;position:relative;z-index:1}
+  .marketing-result-link{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 9px;border-radius:11px;background:#fff;color:#3d2118;text-decoration:none;box-shadow:0 6px 18px rgba(97,22,0,.16)}
+  .marketing-result-link:hover{transform:translateY(-1px)}
+  .marketing-result-icon{width:28px;height:28px;border-radius:9px;background:#ffefe9;color:#f55018;display:grid;place-items:center;font-size:14px;font-weight:950}
+  .marketing-result-name{font-size:9px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .marketing-result-meta{font-size:7.7px;color:#8c7168;margin-top:2px;white-space:nowrap}
+  .marketing-result-open{font-size:8px;font-weight:900;color:#f55018;white-space:nowrap}
+  .marketing-sheet-link{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:7px;color:#fff;text-decoration:none;font-size:8.5px;font-weight:850;position:relative;z-index:1}
+  .marketing-showcase{display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:10px;min-height:0}
+  .sns-strip{display:grid;grid-template-rows:auto minmax(0,1fr);gap:6px;min-height:0}
+  .sns-strip-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .sns-strip-head strong{font-size:11px;color:#211b18;letter-spacing:-.2px}
+  .sns-strip-head span{font-size:8px;color:#8c7c74;font-weight:750}
+  .influencer-wall{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;min-height:0}
   .influencer-card{position:relative;overflow:hidden;border-radius:12px;background:#111;min-height:0}
   .influencer-card iframe{width:100%;height:100%;border:0;display:block;background:#111}
   .influencer-card .ic-region{position:absolute;left:8px;top:8px;z-index:2;background:#f55018;color:#fff;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900;letter-spacing:.6px;pointer-events:none}
@@ -5443,7 +5463,7 @@ function wireLineupSkuCards() {
     .brand-proof-bottom{grid-template-columns:1fr 1fr}
     .brand-proof-bottom .brand-strength-card{min-height:390px}
     .brand-proof-bottom .brand-strength-card:last-child{grid-column:1/-1}
-    .marketing-layout,.vmd-real-layout{grid-template-columns:1fr}.marketing-stat-card{min-height:430px}.influencer-wall{height:680px}
+    .marketing-layout,.vmd-real-layout{grid-template-columns:1fr}.marketing-stat-card{min-height:500px}.marketing-showcase{grid-template-rows:auto auto}.influencer-wall{height:210px;grid-template-columns:repeat(5,minmax(138px,1fr));overflow-x:auto;padding-bottom:4px}.sns-strip{min-height:245px}
     .vmd-real-hero{min-height:430px}.vmd-real-grid{height:640px}
   }
 </style>
@@ -5591,29 +5611,43 @@ function wireLineupSkuCards() {
         <p>시오레가 인플루언서 섭외·콘텐츠 확산을 지원해 약국이 따로 마케팅을 준비하지 않아도 고객 유입 명분을 만듭니다.</p>
       </header>
       <div class="marketing-layout">
-        <section class="marketing-stat-card">
-          <div class="growth">+206%</div>
-          <div class="growth-note">외국인 관광객의 한국 약국 구매액 증가율<br><small>2023년 대비 2025년 · 주요 외국인 상권 기준</small></div>
-          <div class="marketing-support-hook">SNS 마케팅<br>(인플루언서) 지원<small>TIKTOK · INSTAGRAM · XIAOHONGSHU</small></div>
-          <footer>시오레 입점 약국과 제품을 콘텐츠로 연결해 현장 판매직원의 설명 전부터 브랜드 관심도를 높입니다.</footer>
+        <section class="marketing-stat-card" aria-label="블루랩약국 실제 인플루언서 지원 사례">
+          <div class="marketing-case-kicker">REAL SUPPORT CASE · BUSAN</div>
+          <h3 class="marketing-case-title">블루랩약국<br>중화권 인플루언서 지원</h3>
+          <p class="marketing-case-copy">부산 광안리 약국에 맞춰 크리에이터 방문부터 콘텐츠 결과까지 실제로 연결하고 있습니다.</p>
+          <div class="marketing-case-stats">
+            <div class="marketing-case-stat"><strong>10명</strong><span>진행 인원</span></div>
+            <div class="marketing-case-stat"><strong>3건</strong><span>결과 공개</span></div>
+            <div class="marketing-case-stat"><strong>부산</strong><span>광안리 상권</span></div>
+          </div>
+          <div class="marketing-result-list">
+            <a class="marketing-result-link" href="https://www.rednote.com/explore/6a6fe5d200000000050336f7" target="_blank" rel="noopener"><span class="marketing-result-icon">小</span><span><b class="marketing-result-name">Jinee Log</b><span class="marketing-result-meta">좋아요 32 · 댓글 1 · 저장 8</span></span><span class="marketing-result-open">결과 보기 ↗</span></a>
+            <a class="marketing-result-link" href="https://www.rednote.com/explore/6a6c6db6000000002c002ce5" target="_blank" rel="noopener"><span class="marketing-result-icon">小</span><span><b class="marketing-result-name">抹茶拿铁半糖～</b><span class="marketing-result-meta">좋아요 11 · 댓글 1 · 저장 6</span></span><span class="marketing-result-open">결과 보기 ↗</span></a>
+            <a class="marketing-result-link" href="https://www.rednote.com/explore/6a6d83b50000000025002a17" target="_blank" rel="noopener"><span class="marketing-result-icon">小</span><span><b class="marketing-result-name">圆咕隆咚咚咚咚巴拉</b><span class="marketing-result-meta">좋아요 2 · 댓글 0 · 저장 1</span></span><span class="marketing-result-open">결과 보기 ↗</span></a>
+          </div>
+          <a class="marketing-sheet-link" href="https://docs.google.com/spreadsheets/d/1mMpJPXta5j7XA-8Boe1dKbq4rKa9yAJtj5SPAvxX8Vw/edit?gid=1427871476#gid=1427871476" target="_blank" rel="noopener">진행 현황 시트 전체 보기 ↗</a>
         </section>
-        <section class="influencer-wall" aria-label="시오레 국내·해외 SNS 인플루언서 콘텐츠">
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 1</span><span class="ic-label">조회수 상위 · NMN SERUM</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 2</span><span class="ic-label">좋아요 상위 · K-BEAUTY ROUTINE</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 3</span><span class="ic-label">반응 급상승 · SKIN GLOW</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 4</span><span class="ic-label">리뷰 이슈 · INTENSIVE SERUM</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7584628896818302239?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 5</span><span class="ic-label">CREATOR PICK · ANTI-AGING</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7626350259144264990?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 6</span><span class="ic-label">GLOBAL ISSUE · K-SKINCARE</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 7</span><span class="ic-label">INGREDIENT TALK · NMN 10,000ppm</span></article>
-          <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 8</span><span class="ic-label">CREATOR REVIEW · PHARMACY BEAUTY</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 1</span><span class="ic-label">조회수 상위 · 약사 추천</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DWobNjSDplM/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 2</span><span class="ic-label">좋아요 상위 · K-BEAUTY</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 3</span><span class="ic-label">약사 콘텐츠 · 성분 분석</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 4</span><span class="ic-label">약사 콘텐츠 · NMN 리뷰</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 5</span><span class="ic-label">매장 상담 이슈 · 세럼</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 6</span><span class="ic-label">루틴 이슈 · 광채 케어</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 7</span><span class="ic-label">반응 급상승 · 피부 에너지</span></article>
-          <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 8</span><span class="ic-label">판매 훅 · 안티에이징</span></article>
+        <section class="marketing-showcase" aria-label="시오레 국내·해외 SNS 인플루언서 콘텐츠">
+          <div class="sns-strip">
+            <div class="sns-strip-head"><strong>국내 · 약사 인플루언서 중심 5</strong><span>전문가 설명이 제품 신뢰와 구매 명분을 만듭니다</span></div>
+            <div class="influencer-wall">
+              <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">약사 1</span><span class="ic-label">약사 추천 · NMN 성분 포인트</span></article>
+              <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">약사 2</span><span class="ic-label">약사 리뷰 · 인텐시브 세럼</span></article>
+              <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">약사 3</span><span class="ic-label">약사 PICK · K-BEAUTY 추천</span></article>
+              <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DWobNjSDplM/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 4</span><span class="ic-label">공식 채널 · 브랜드 이슈</span></article>
+              <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7626350259144264990?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 5</span><span class="ic-label">약국 상담용 · 풀 루틴 리뷰</span></article>
+            </div>
+          </div>
+          <div class="sns-strip">
+            <div class="sns-strip-head"><strong>국외 · 글로벌 확산 콘텐츠 5</strong><span>TikTok · Instagram · Xiaohongshu 채널별 타겟 확산</span></div>
+            <div class="influencer-wall">
+              <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 1</span><span class="ic-label">NMN SERUM · 제품 집중</span></article>
+              <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 2</span><span class="ic-label">K-BEAUTY · 루틴 콘텐츠</span></article>
+              <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 3</span><span class="ic-label">SKIN GLOW · 사용 장면</span></article>
+              <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7644336776341048583?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 4</span><span class="ic-label">INTENSIVE SERUM · 리뷰</span></article>
+              <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7584628896818302239?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 5</span><span class="ic-label">CREATOR PICK · ANTI-AGING</span></article>
+            </div>
+          </div>
         </section>
       </div>
     </div>`;

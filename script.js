@@ -412,11 +412,12 @@ function metricValue(metric) {
 
 function renderAnalyzer(items) {
   const markers = selectedConcerns.map((concern) => `<span>${translatedValue("concerns", concern)}</span>`).join("");
+  const metricIcons = { "수분": "💧", "장벽": "🛡️", "열감": "🌡️", "피부결": "✨", "탄력": "🫧" };
   const metricRows = ["수분", "장벽", "열감", "피부결", "탄력"].map((metric) => {
     const value = metricValue(metric);
     return `
       <div class="metric-row">
-        <span>${metric}</span>
+        <span class="metric-label"><span class="metric-icon" aria-hidden="true">${metricIcons[metric]}</span><span>${metric}</span></span>
         <div class="metric-track"><i style="width:${value}%"></i></div>
         <b>${value}%</b>
       </div>`;
@@ -438,43 +439,41 @@ function renderAnalyzer(items) {
 }
 
 function renderRecommendationBoard(items) {
-  const rows = items.map((product, index) => `
-    <tr>
-      <td data-label="No."><span class="rank-ribbon">${index + 1}</span></td>
-      <td data-label="SKU">
-        <div class="board-product">
-          <div class="sku-thumb">
-            <img src="${product.image}" alt="${product.short}" onerror="this.style.display='none'">
-          </div>
-          <div>
-            <strong>${productName(product)}</strong>
-            <span>${product.capacity} · ${product.routine}</span>
-          </div>
-        </div>
-      </td>
-      <td data-label="상담 포인트">${productBenefit(product)}</td>
-      <td data-label="스펙">${productSpecText(product)}</td>
-      <td data-label="근거">${productClinical(product)[0] || product.usp}</td>
-      <td data-label="가격">${priceCompareHTML(product, "compact")}</td>
-    </tr>
+  const [topProduct, ...secondary] = items;
+  const secondaryCards = secondary.map((product, index) => `
+    <article class="best-secondary-card">
+      <div class="best-rank">BEST ${index + 2}</div>
+      <div class="best-secondary-image">
+        <img src="${product.image}" alt="${product.short}" onerror="this.style.display='none'">
+      </div>
+      <div class="best-product-copy">
+        <strong>${productName(product)}</strong>
+        <span>${product.capacity} · ${product.routine}</span>
+        <p>${productBenefit(product)}</p>
+        <em>${productClinical(product)[0] || product.usp}</em>
+      </div>
+    </article>
   `).join("");
   document.getElementById("recommendation-board").innerHTML = `
-    <div class="section-heading-bar"><span>${langText(UI.labels.boardTitle)}</span></div>
-    <div class="board-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>SKU</th>
-            <th>상담 포인트</th>
-            <th>스펙</th>
-            <th>근거</th>
-            <th>가격</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
+    <div class="best-board-head">
+      <div class="section-heading-bar"><span>${langText({ ko: "피부 고민 맞춤 BEST 3", en: "Top 3 for Your Skin Concern", zh: "肌肤问题定制 BEST 3", ja: "肌悩み別 BEST 3" })}</span></div>
+      <p>${langText({ ko: "선택하신 고민과의 제품 적합도 순위입니다. 사용 순서가 아닙니다.", en: "Ranked by fit for your selected concern, not by application order.", zh: "按与所选肌肤问题的匹配度排序，并非使用顺序。", ja: "選択した肌悩みとの適合度順で、使用順ではありません。" })}</p>
     </div>
+    ${topProduct ? `
+      <article class="best-hero-card">
+        <div class="best-hero-image">
+          <img src="${topProduct.image}" alt="${topProduct.short}" onerror="this.style.display='none'">
+        </div>
+        <div class="best-product-copy">
+          <div class="best-rank one-pick">BEST 1 · ONE PICK</div>
+          <strong>${productName(topProduct)}</strong>
+          <span>${topProduct.capacity} · ${topProduct.routine}</span>
+          <p>${productBenefit(topProduct)}</p>
+          <em>${productClinical(topProduct)[0] || topProduct.usp}</em>
+        </div>
+      </article>
+    ` : ""}
+    <div class="best-secondary-grid">${secondaryCards}</div>
   `;
 }
 
@@ -484,7 +483,6 @@ function parseClinical(str) {
 }
 
 function renderClinicalHighlights(items) {
-  const topProduct = items[0];
   const stats = items.map((product) => {
     const { num, label } = parseClinical(productClinical(product)[0] || product.usp);
     return `
@@ -497,22 +495,6 @@ function renderClinicalHighlights(items) {
   document.getElementById("clinical-highlights").innerHTML = `
     <div class="section-heading-bar"><span>${langText(UI.labels.clinicalTitle)}</span></div>
     <div class="clinical-grid">${stats}</div>
-    ${topProduct ? `
-      <div class="one-pick-card">
-        <div class="one-pick-label">필수 ONE PICK!!</div>
-        <div class="one-pick-product">
-          <div class="one-pick-img">
-            <img src="${topProduct.image}" alt="${topProduct.short}" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
-            <div class="one-pick-fallback">${topProduct.emoji}</div>
-          </div>
-          <div class="one-pick-copy">
-            <span>${topProduct.routine} · ${topProduct.capacity}</span>
-            <strong>${productName(topProduct)}</strong>
-            <p>${topProduct.usp}</p>
-          </div>
-        </div>
-      </div>
-    ` : ""}
   `;
 }
 
@@ -549,7 +531,6 @@ function productItemHTML(product) {
         <div class="product-meta">${product.capacity} · ${product.routine}</div>
         <div class="product-usp">${product.usp}</div>
       </div>
-      <div class="product-price">${priceCompareHTML(product)}</div>
     </li>`;
 }
 
@@ -592,7 +573,6 @@ function setReason(items, tier = "core3") {
 
 function setCardHTML(title, subtitle, items, featured, tierClass, tier = "core3") {
   const sorted = [...items].sort((a, b) => a.routineOrder - b.routineOrder);
-  const consumerTotal = sorted.reduce((sum, product) => sum + mallPrice(product), 0);
   const rows = sorted.map((product) => productItemHTML(product)).join("");
   return `
     <div class="set-card ${tierClass}${featured ? " featured" : ""}">
@@ -608,15 +588,6 @@ function setCardHTML(title, subtitle, items, featured, tierClass, tier = "core3"
         <div class="set-rationale">
           <strong>${langText(UI.labels.rationaleTitle)}</strong>
           <span>${setReason(sorted, tier)}</span>
-        </div>
-        <div class="set-total">
-          <div>
-            <div class="total-label">제품 합계</div>
-            <div class="total-sub">소비자가 기준</div>
-          </div>
-          <div class="total-compare">
-            <div class="total-price">${won(consumerTotal)}</div>
-          </div>
         </div>
       </div>
     </div>`;

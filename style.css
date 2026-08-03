@@ -615,7 +615,7 @@ html:not([lang="ko"]) .concern-card > small:not([data-i18n]) {
   display: grid;
   grid-template-columns: 0.9fr 1.25fr;
   gap: 18px;
-  align-items: start;
+  align-items: stretch;
   margin-bottom: 20px;
 }
 
@@ -635,6 +635,7 @@ html:not([lang="ko"]) .concern-card > small:not([data-i18n]) {
 
 .analysis-section {
   overflow: hidden;
+  height: 100%;
 }
 
 .analysis-visual {
@@ -730,8 +731,8 @@ html:not([lang="ko"]) .concern-card > small:not([data-i18n]) {
 
 .metric-card {
   display: grid;
-  gap: 10px;
-  padding: 14px;
+  gap: clamp(10px, 1.2vw, 15px);
+  padding: clamp(14px, 1.6vw, 20px);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #fffaf6;
@@ -739,16 +740,35 @@ html:not([lang="ko"]) .concern-card > small:not([data-i18n]) {
 
 .metric-row {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) 38px;
-  gap: 10px;
+  grid-template-columns: minmax(88px, 0.42fr) minmax(120px, 1fr) 44px;
+  gap: clamp(9px, 1vw, 14px);
   align-items: center;
   color: var(--ink-soft);
-  font-size: 12px;
+  font-size: clamp(13px, 0.85vw, 16px);
   font-weight: 800;
 }
 
+.metric-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.metric-icon {
+  width: clamp(30px, 2.4vw, 38px);
+  height: clamp(30px, 2.4vw, 38px);
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--rose-pale);
+  font-size: clamp(16px, 1.3vw, 21px);
+}
+
 .metric-track {
-  height: 7px;
+  height: clamp(9px, 0.8vw, 12px);
   overflow: hidden;
   border-radius: 999px;
   background: #eadfd5;
@@ -769,6 +789,145 @@ html:not([lang="ko"]) .concern-card > small:not([data-i18n]) {
 .recommendation-board,
 .clinical-highlights {
   padding: 22px;
+}
+
+.best-board-head > p {
+  margin: -6px 0 18px;
+  color: var(--ink-soft);
+  font-size: clamp(13px, 0.9vw, 15px);
+  font-weight: 700;
+  word-break: keep-all;
+}
+
+.best-hero-card {
+  display: grid;
+  grid-template-columns: clamp(104px, 18%, 148px) minmax(0, 1fr);
+  gap: clamp(14px, 2vw, 24px);
+  align-items: center;
+  padding: clamp(16px, 2vw, 24px);
+  border: 1px solid rgba(125, 81, 72, 0.34);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, #fffdfb 0%, var(--rose-pale) 100%);
+}
+
+.best-hero-image {
+  min-height: clamp(124px, 16vw, 176px);
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  background: #fff;
+  overflow: hidden;
+}
+
+.best-hero-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 168px;
+  object-fit: contain;
+}
+
+.best-product-copy {
+  min-width: 0;
+}
+
+.best-product-copy > strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--rose-dark);
+  font-family: var(--serif);
+  font-size: clamp(19px, 1.8vw, 27px);
+  line-height: 1.25;
+}
+
+.best-product-copy > span {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: clamp(12px, 0.85vw, 14px);
+  font-weight: 700;
+}
+
+.best-product-copy > p {
+  margin: 9px 0 0;
+  color: var(--ink);
+  font-size: clamp(13px, 1vw, 16px);
+  font-weight: 700;
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.best-product-copy > em {
+  display: block;
+  margin-top: 8px;
+  color: var(--rose-dark);
+  font-size: clamp(12px, 0.9vw, 14px);
+  font-style: normal;
+  font-weight: 900;
+}
+
+.best-rank {
+  display: inline-flex;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--rose-dark);
+  font-size: clamp(11px, 0.8vw, 13px);
+  font-weight: 900;
+}
+
+.best-rank.one-pick {
+  background: var(--rose-dark);
+  color: #fff;
+}
+
+.best-secondary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.best-secondary-card {
+  display: grid;
+  grid-template-columns: clamp(62px, 22%, 86px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fffaf6;
+}
+
+.best-secondary-card .best-rank {
+  grid-column: 1 / -1;
+}
+
+.best-secondary-image {
+  aspect-ratio: 0.84;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.best-secondary-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.best-secondary-card .best-product-copy > strong {
+  font-size: clamp(15px, 1.25vw, 19px);
+}
+
+.best-secondary-card .best-product-copy > p {
+  font-size: clamp(12px, 0.85vw, 14px);
+}
+
+.best-secondary-card .best-product-copy > em {
+  font-size: clamp(11px, 0.78vw, 13px);
 }
 
 .board-scroll {
@@ -1058,7 +1217,7 @@ td:last-child {
 
 .product-row {
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) auto;
+  grid-template-columns: 48px minmax(0, 1fr);
   gap: 10px;
   align-items: start;
   min-height: 76px;
@@ -1955,6 +2114,22 @@ footer {
   .cert-badges {
     justify-content: flex-start;
   }
+
+  .best-hero-card {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .best-hero-image {
+    min-height: 118px;
+  }
+
+  .best-secondary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-row {
+    grid-template-columns: minmax(84px, 0.42fr) minmax(90px, 1fr) 42px;
+  }
 }
 
 @media (max-width: 420px) {
@@ -1995,6 +2170,20 @@ footer {
 
   .total-price {
     font-size: 19px;
+  }
+
+  .best-hero-card {
+    grid-template-columns: 1fr;
+  }
+
+  .best-hero-image {
+    width: min(54vw, 150px);
+    justify-self: center;
+  }
+
+  .metric-row {
+    grid-template-columns: minmax(80px, 0.48fr) minmax(72px, 1fr) 40px;
+    gap: 7px;
   }
 }
 

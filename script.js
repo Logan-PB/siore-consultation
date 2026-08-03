@@ -146,7 +146,7 @@ function applyPageLanguage() {
   document.documentElement.lang = languageMode === "zh" ? "zh-CN" : languageMode;
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     const copy = PAGE_I18N[element.dataset.i18n];
-    if (!copy?.[languageMode]) return;
+    if (!copy || !copy[languageMode]) return;
     if (languageMode === "ko") {
       element.textContent = copy.ko;
       return;
@@ -173,7 +173,7 @@ function langText(mapOrKo) {
 }
 
 function translatedValue(group, value) {
-  const translated = UI[group][value]?.[languageMode];
+  const translated = UI[group][value] && UI[group][value][languageMode];
   if (languageMode === "ko" || !translated) return value;
   return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${value}</span>`;
 }
@@ -188,19 +188,19 @@ function selectedAgeText() {
 }
 
 function productName(product) {
-  const translated = product.i18n?.[languageMode]?.name;
+  const translated = product.i18n && product.i18n[languageMode] && product.i18n[languageMode].name;
   if (languageMode === "ko" || !translated) return product.short;
   return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${product.short}</span>`;
 }
 
 function productBenefit(product) {
-  const translated = product.i18n?.[languageMode]?.benefit;
+  const translated = product.i18n && product.i18n[languageMode] && product.i18n[languageMode].benefit;
   if (languageMode === "ko" || !translated) return product.benefit;
   return `<span class="i18n-main">${translated}</span><span class="i18n-ko">${product.benefit}</span>`;
 }
 
 function productClinical(product) {
-  const translated = product.i18n?.[languageMode]?.clinical;
+  const translated = product.i18n && product.i18n[languageMode] && product.i18n[languageMode].clinical;
   if (languageMode === "ko" || !Array.isArray(translated) || !translated.length) return product.clinical || [];
   return translated;
 }
@@ -211,7 +211,7 @@ function productSpecText(product) {
 
 function consumerTip(product) {
   const clinical = productClinical(product)[0] || product.usp;
-  const benefit = product.i18n?.[languageMode]?.benefit || product.benefit;
+  const benefit = (product.i18n && product.i18n[languageMode] && product.i18n[languageMode].benefit) || product.benefit;
   return langText({
     ko: `현재 피부 고민에는 “${product.usp}”에 초점을 둔 관리가 도움이 될 수 있습니다. ${clinical}로 확인된 제품 특성을 바탕으로, 일상적인 피부 관리에 적합한 제품으로 추천드립니다.`,
     en: `This product was selected for its fit with your current skin concern. ${benefit} Its key features make it a considered choice for a comfortable, consistent daily routine.`,
@@ -324,7 +324,7 @@ function selectBalanced(ranked, size, maxByGroup) {
   const counts = {};
   ranked.forEach((product) => {
     const group = product.routineGroup || product.role;
-    const limit = maxByGroup[group] ?? 1;
+    const limit = maxByGroup[group] != null ? maxByGroup[group] : 1;
     if (selected.length < size && (counts[group] || 0) < limit) {
       selected.push(product);
       counts[group] = (counts[group] || 0) + 1;
@@ -607,7 +607,7 @@ function renderSets(sets, premium) {
 }
 
 function renderEvidence(items) {
-  const evidenceItems = items.filter((product) => product.clinical?.length);
+  const evidenceItems = items.filter((product) => product.clinical && product.clinical.length);
   const cards = evidenceItems.map((product) => `
     <article class="evidence-card">
       ${product.clinicalImage ? `<div class="evidence-media">
@@ -751,16 +751,23 @@ function syncLanguageButtons() {
   });
 }
 
-function bindEvents() {
+function setLanguage(nextLanguage) {
+  languageMode = nextLanguage || "ko";
+  syncLanguageButtons();
+  applyPageLanguage();
+  const resultPanel = document.getElementById("step3");
+  if (resultPanel && resultPanel.classList.contains("active") && products.length) showResults();
+}
+
+function bindLanguageEvents() {
   document.querySelectorAll(".language-option").forEach((button) => {
-    button.addEventListener("click", () => {
-      languageMode = button.dataset.lang;
-      syncLanguageButtons();
-      applyPageLanguage();
-      if (document.getElementById("step3").classList.contains("active")) showResults();
+    button.addEventListener("click", function () {
+      setLanguage(button.dataset.lang);
     });
   });
+}
 
+function bindEvents() {
   bindSegment("#age-options", "age", (value) => {
     selectedAge = value;
     updateStep1Ready();
@@ -798,7 +805,8 @@ function bindEvents() {
       } else {
         if (selectedSkinTypes.length >= 2) {
           const removed = selectedSkinTypes.shift();
-          document.querySelector(`.type-card[data-type="${removed}"]`)?.classList.remove("selected");
+          const removedCard = document.querySelector(`.type-card[data-type="${removed}"]`);
+          if (removedCard) removedCard.classList.remove("selected");
         }
         card.classList.add("selected");
         selectedSkinTypes.push(type);
@@ -815,16 +823,25 @@ function syncStickyHeaderOffset() {
   const header = document.querySelector(".site-header");
   if (!header) return;
   document.documentElement.style.setProperty("--sticky-header-height", `${Math.ceil(header.getBoundingClientRect().height)}px`);
+  const steps = document.querySelector(".steps-nav");
+  if (steps) document.documentElement.style.setProperty("--sticky-steps-height", `${Math.ceil(steps.getBoundingClientRect().height)}px`);
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  if (/Web0S|WebOS|SmartTV|NetCast/i.test(navigator.userAgent)) {
+    document.documentElement.classList.add("webos-kiosk");
+  }
+  bindLanguageEvents();
+  applyPageLanguage();
+  syncStickyHeaderOffset();
+  window.addEventListener("resize", syncStickyHeaderOffset, { passive: true });
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(syncStickyHeaderOffset).observe(document.querySelector(".site-header"));
+  }
   try {
     await loadProducts();
     bindEvents();
-    applyPageLanguage();
     syncStickyHeaderOffset();
-    window.addEventListener("resize", syncStickyHeaderOffset, { passive: true });
-    new ResizeObserver(syncStickyHeaderOffset).observe(document.querySelector(".site-header"));
   } catch (error) {
     document.querySelector(".wrapper").innerHTML = `
       <section class="step-panel active">

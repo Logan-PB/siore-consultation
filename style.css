@@ -2200,26 +2200,55 @@ footer {
   --touch-target: clamp(48px, 4.4vw, 64px);
   --readable-size: clamp(15px, 0.55vw + 11px, 20px);
   --sticky-header-height: 64px;
+  --sticky-steps-height: 74px;
 }
 
 html,
 body {
   width: 100%;
   min-height: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 .site-header {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 50;
 }
 
 .steps-nav {
+  position: -webkit-sticky;
   position: sticky;
   top: var(--sticky-header-height);
   z-index: 40;
   backdrop-filter: blur(14px);
+}
+
+/* Older LG webOS browsers can parse sticky but fail to keep it painted.
+   Use a fixed kiosk fallback only on those devices. */
+html.webos-kiosk .site-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+}
+
+html.webos-kiosk body {
+  padding-top: var(--sticky-header-height);
+}
+
+html.webos-kiosk .steps-nav {
+  position: fixed;
+  top: var(--sticky-header-height);
+  right: var(--page-gutter);
+  left: var(--page-gutter);
+  width: auto;
+}
+
+html.webos-kiosk .step-panel.active {
+  padding-top: calc(var(--sticky-steps-height) + 16px);
 }
 
 /* The header language selector remains visible, so the result-page duplicate

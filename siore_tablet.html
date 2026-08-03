@@ -5485,12 +5485,12 @@ function wireLineupSkuCards() {
   .marketing-case-stat{padding:7px 5px;border-radius:11px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);text-align:center}
   .marketing-case-stat strong{display:block;font-size:17px;line-height:1;color:#fff}
   .marketing-case-stat span{display:block;margin-top:5px;font-size:8px;color:#ffe7dd;font-weight:800;white-space:nowrap}
-  .marketing-apply-box{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;align-items:center;margin:1px 0 8px;padding:8px;border-radius:15px;background:rgba(255,255,255,.96);color:#33201a;position:relative;z-index:1;box-shadow:0 10px 24px rgba(103,26,3,.2)}
-  .marketing-apply-qr{display:block;width:96px;height:96px;padding:4px;border-radius:11px;background:#fff;border:1px solid #f4c5b4}
+  .marketing-apply-box{display:grid;grid-template-columns:112px minmax(0,1fr);gap:14px;align-items:center;margin:1px 0 8px;padding:10px 14px 10px 10px;border-radius:15px;background:rgba(255,255,255,.96);color:#33201a;position:relative;z-index:1;box-shadow:0 10px 24px rgba(103,26,3,.2)}
+  .marketing-apply-qr{display:block;width:112px;height:112px;padding:5px;border-radius:13px;background:#fff;border:1px solid #f4c5b4;transition:transform .18s ease,box-shadow .18s ease}
+  .marketing-apply-qr:hover{transform:translateY(-2px);box-shadow:0 9px 18px rgba(245,80,24,.2)}
   .marketing-apply-qr img{display:block;width:100%;height:100%;object-fit:contain}
-  .marketing-apply-copy small{display:block;font-size:8px;letter-spacing:1.2px;font-weight:950;color:#f55018}
-  .marketing-apply-copy strong{display:block;margin-top:4px;font-size:15px;line-height:1.18;letter-spacing:-.45px;color:#241814;word-break:keep-all}
-  .marketing-apply-copy p{margin:4px 0 5px;font-size:8px;line-height:1.35;color:#765e55;word-break:keep-all}
+  .marketing-apply-copy{display:flex;align-items:center;justify-content:center;min-width:0;text-align:center}
+  .marketing-apply-copy strong{display:block;font-size:clamp(22px,2.25vw,32px);line-height:1.12;letter-spacing:-1.05px;color:#f55018;word-break:keep-all}
   .marketing-apply-fields{display:flex;flex-wrap:wrap;gap:4px}
   .marketing-apply-fields span{padding:3px 5px;border-radius:999px;background:#fff0ea;color:#8b371d;font-size:7px;font-weight:850;white-space:nowrap}
   .marketing-apply-link{display:inline-flex;align-items:center;justify-content:center;margin-top:5px;padding:5px 8px;border-radius:8px;background:#f55018;color:#fff;text-decoration:none;font-size:8px;font-weight:950}
@@ -5720,14 +5720,10 @@ function wireLineupSkuCards() {
             <div class="marketing-case-stat"><strong>3건</strong><span>결과 공개</span></div>
             <div class="marketing-case-stat"><strong>부산</strong><span>광안리 상권</span></div>
           </div>
-          <div class="marketing-apply-box" aria-label="시오레 약국 SNS 인플루언서 마케팅 지원 신청">
-            <a class="marketing-apply-qr" href="https://docs.google.com/forms/d/e/1FAIpQLSdis-4cC3CEdohF5vvJ-_kIeHk-KZhyfpp6gf1vBt7BfL_XKw/viewform" target="_blank" rel="noopener" aria-label="마케팅 지원 신청서 열기"><img src="assets/marketing/siore_marketing_apply_qr.png" alt="시오레 약국 SNS 인플루언서 마케팅 지원 신청 QR"></a>
+          <div class="marketing-apply-box" aria-label="시오레 약국 SNS 인플루언서 방문 신청">
+            <a class="marketing-apply-qr" href="https://docs.google.com/forms/d/1AH4_NYyiVynSBGVhSOym_xTt54QA8EnFJKCj0bMZeas/edit" target="_blank" rel="noopener" title="관리자: 신청서 수정" aria-label="시오레 인플루언서 방문 신청서 관리자 화면 열기"><img src="assets/marketing/siore_marketing_apply_qr.png" alt="시오레 약국 SNS 인플루언서 방문 신청 QR"></a>
             <div class="marketing-apply-copy">
-              <small>“저도 하고 싶어요”라고 하시면</small>
-              <strong>1분 신청 후 약국별 맞춤 지원을 검토합니다.</strong>
-              <p>현장에서는 아래 6가지만 먼저 확인해 주세요.</p>
-              <div class="marketing-apply-fields"><span>약국명·지역</span><span>희망 채널</span><span>홍보 제품</span><span>촬영 범위</span><span>희망 일정</span><span>보유 SNS</span></div>
-              <a class="marketing-apply-link" href="https://docs.google.com/forms/d/e/1FAIpQLSdis-4cC3CEdohF5vvJ-_kIeHk-KZhyfpp6gf1vBt7BfL_XKw/viewform" target="_blank" rel="noopener">마케팅 지원 신청하기 ↗</a>
+              <strong>인플루언서(SNS)<br>방문 신청</strong>
             </div>
           </div>
           <div class="marketing-result-list">

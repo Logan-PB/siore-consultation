@@ -59,7 +59,7 @@ const UI = {
     boardTitle: { ko: "맞춤 SKU 추천표", en: "Matched SKU board", zh: "定制SKU推荐表", ja: "マッチSKU表" },
     clinicalTitle: { ko: "핵심 임상 근거", en: "Key clinical evidence", zh: "核心临床依据", ja: "主な臨床根拠" },
     evidenceTitle: { ko: "SKU별 근거 상담 카드", en: "SKU evidence cards", zh: "SKU依据咨询卡", ja: "SKU別根拠カード" },
-    scriptTitle: { ko: "빠른 상담 포인트", en: "Quick selling points", zh: "快速咨询重点", ja: "クイック接客ポイント" },
+    scriptTitle: { ko: "피부 고민과의 연결점", en: "How It Relates to Your Skin Concern", zh: "与肌肤问题的关联", ja: "肌悩みとのつながり" },
     rationaleTitle: { ko: "구성 근거 요약", en: "Set rationale", zh: "组合依据摘要", ja: "構成根拠の要約" },
     source: { ko: "출처", en: "Source", zh: "来源", ja: "出典" },
     routineTitle: { ko: "권장 사용 순서", en: "Recommended order", zh: "推荐使用顺序", ja: "推奨使用順" },
@@ -71,8 +71,8 @@ const UI = {
       ja: "必須1品からコア3品、プレミアム4-5品へ広げ、購入ポイントを素早く整理してください。"
     },
     specLabel: { ko: "제품 스펙", en: "Product spec", zh: "产品规格", ja: "製品スペック" },
-    uspLabel: { ko: "핵심 USP", en: "Core USP", zh: "核心USP", ja: "主なUSP" },
-    consultTip: { ko: "소비자 설명 팁", en: "Consumer explanation tip", zh: "消费者说明提示", ja: "お客様説明のコツ" },
+    uspLabel: { ko: "제품의 핵심 특징", en: "Key Product Feature", zh: "产品核心特点", ja: "製品の主な特長" },
+    consultTip: { ko: "이 제품을 추천하는 이유", en: "Why We Recommend This Product", zh: "推荐这款产品的理由", ja: "この製品をおすすめする理由" },
     profileAssist: {
       ko: "나이와 성별은 선택 시 추천 우선순위를 보정합니다. 미선택 시에는 피부 고민과 피부 타입을 기준으로 분석했습니다.",
       en: "Age and gender refine priority when selected. If skipped, the recommendation is based on concerns and skin type.",
@@ -211,7 +211,13 @@ function productSpecText(product) {
 
 function consumerTip(product) {
   const clinical = productClinical(product)[0] || product.usp;
-  return `고객에게는 "${product.usp}"를 먼저 설명하고, 이어서 ${clinical} 근거를 붙이면 구매 이유가 명확해집니다.`;
+  const benefit = product.i18n?.[languageMode]?.benefit || product.benefit;
+  return langText({
+    ko: `현재 피부 고민에는 “${product.usp}”에 초점을 둔 관리가 도움이 될 수 있습니다. ${clinical}로 확인된 제품 특성을 바탕으로, 일상적인 피부 관리에 적합한 제품으로 추천드립니다.`,
+    en: `This product was selected for its fit with your current skin concern. ${benefit} Its key features make it a considered choice for a comfortable, consistent daily routine.`,
+    zh: `这款产品根据您当前的肌肤问题而推荐。${benefit} 其核心特点适合融入舒适且持续的日常护理。`,
+    ja: `現在の肌悩みとの相性を考えて選定した製品です。${benefit} 毎日の心地よいお手入れに取り入れやすい製品としておすすめします。`
+  });
 }
 
 function goToStep(num) {

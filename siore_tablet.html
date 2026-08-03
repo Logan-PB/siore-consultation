@@ -1962,6 +1962,50 @@ body {
   background: var(--light);
   border-top: 1px solid var(--border);
 }
+.pdrn-supply-trigger {
+  min-width: 72px;
+  padding: 6px 10px;
+  border: 1px dashed #bca7e6;
+  border-radius: 8px;
+  background: #f7f3ff;
+  color: #6d4bc3;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pdrn-supply-trigger:hover,
+.pdrn-supply-trigger:focus-visible { background:#eee7ff; outline:none; }
+.pdrn-tier-picker {
+  position: fixed;
+  z-index: 99999;
+  width: 132px;
+  padding: 6px;
+  border: 1px solid #d9d0ea;
+  border-radius: 12px;
+  background: rgba(255,255,255,.98);
+  box-shadow: 0 12px 32px rgba(31,18,55,.24);
+  backdrop-filter: blur(12px);
+}
+.pdrn-tier-picker button {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:9px 10px;
+  border:0;
+  border-radius:8px;
+  background:transparent;
+  color:#2a1060;
+  font-family:var(--font);
+  font-size:12px;
+  font-weight:850;
+  cursor:pointer;
+}
+.pdrn-tier-picker button:hover { background:#f2edff; }
+.pdrn-tier-picker small { color:#8c7aaa; font-size:10px; }
 
 .vmd-grid {
   display: grid;
@@ -3765,7 +3809,7 @@ body {
         <table class="price-table" id="price-tbl">
           <thead>
             <tr>
-              <th>라인</th><th>제품명</th><th>소비자가</th><th>약국판매가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">공급가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">약국 마진율</th><th>MOQ</th>
+              <th>라인</th><th>제품명</th><th>소비자가</th><th>약국판매가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">공급가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">소비자가 기준 마진율</th><th>MOQ</th>
             </tr>
           </thead>
           <tbody>
@@ -3778,11 +3822,11 @@ body {
             <tr data-retail="35000" data-sell="30000"><td><span class="tag relief">RELIEF</span></td><td>데일리릴리프 리페어 앰플</td><td class="cross">35,000원</td><td class="bold">30,000원</td><td class="supply-col supply-price" style="display:none;font-weight:800;color:#8B5CF6;"></td><td class="supply-col margin-rate" style="display:none;font-weight:900;color:#10b981;font-size:15px;"></td><td><span class="prod-moq moq-std-tag">5개</span></td></tr>
             <tr data-retail="35000" data-sell="30000"><td><span class="tag relief">RELIEF</span></td><td>데일리릴리프 카밍 수딩젤 <span style="background:var(--blue);color:white;font-size:9px;font-weight:900;padding:2px 6px;border-radius:3px;margin-left:4px">BEST 3</span></td><td class="cross">35,000원</td><td class="bold">30,000원</td><td class="supply-col supply-price" style="display:none;font-weight:800;color:#8B5CF6;"></td><td class="supply-col margin-rate" style="display:none;font-weight:900;color:#10b981;font-size:15px;"></td><td><span class="prod-moq moq-rrp-tag" style="background:var(--blue-lt);color:var(--blue);border-color:var(--blue)">RRP 10개</span></td></tr>
             <tr data-retail="39000" data-sell="33000"><td><span class="tag relief">RELIEF</span></td><td>데일리릴리프 컴포트 크림</td><td class="cross">39,000원</td><td class="bold">33,000원</td><td class="supply-col supply-price" style="display:none;font-weight:800;color:#8B5CF6;"></td><td class="supply-col margin-rate" style="display:none;font-weight:900;color:#10b981;font-size:15px;"></td><td><span class="prod-moq moq-std-tag">5개</span></td></tr>
-            <tr data-retail="40000" data-sell="33500"><td><span class="tag inner">이너뷰티</span></td><td>마시는 PDRN 200 어드밴스드</td><td class="cross">40,000원</td><td class="bold">33,500원</td><td class="supply-col supply-price" style="display:none;font-weight:800;color:#8B5CF6;"></td><td class="supply-col margin-rate" style="display:none;font-weight:900;color:#10b981;font-size:15px;"></td><td><span class="prod-moq moq-bonus-tag">10+1</span></td></tr>
+            <tr data-retail="40000" data-sell="33500" data-fixed-pdrn="true"><td><span class="tag inner">이너뷰티</span></td><td>마시는 PDRN 200 어드밴스드</td><td class="cross">40,000원</td><td class="bold">33,500원</td><td class="supply-col supply-price" style="display:none;font-weight:800;color:#8B5CF6;"></td><td class="supply-col margin-rate" style="display:none;font-weight:900;color:#10b981;font-size:15px;"></td><td><span class="prod-moq moq-bonus-tag">10+1</span></td></tr>
           </tbody>
         </table>
-        <div class="price-note" id="price-note-default">※ RRP 조건: 소비자가 그대로 판매 시 적용 &nbsp;|&nbsp; ※ 약국 전용 유통 — 온라인 최저가 경쟁 없음</div>
-        <div class="price-note supply-col" id="price-note-supply" style="display:none;color:#8B5CF6;font-weight:600;">🔒 공급가 정보는 입점 미팅 확정 후 제공되는 기밀 정보입니다 &nbsp;|&nbsp; ※ 마진율 = (약국판매가 - 공급가) / 약국판매가 × 100%</div>
+        <div class="price-note" id="price-note-default">※ RRP 조건: 소비자가 그대로 판매 시 적용 &nbsp;|&nbsp; ※ 표시 마진율은 공식 소비자가 기준</div>
+        <div class="price-note supply-col" id="price-note-supply" style="display:none;color:#8B5CF6;font-weight:600;">🔒 공급가 정보는 입점 미팅 확정 후 제공되는 기밀 정보입니다 &nbsp;|&nbsp; ※ 마진율 = (소비자가 - 공급가) / 소비자가 × 100%</div>
       </div>
 
       <!-- VMD -->
@@ -4236,7 +4280,43 @@ document.addEventListener('fullscreenchange', updateFullscreenButton);
 document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
 document.addEventListener('DOMContentLoaded', updateFullscreenButton);
 
-// ── 공급가 / 마진율 드롭다운 ──
+// ── 공급가 / 소비자가 기준 마진율 ──
+const PDRN_FIXED_SUPPLY = { vip: 13600, partner: 16800 };
+let selectedPdrnTier = '';
+
+function closePdrnTierPicker() {
+  document.getElementById('pdrn-tier-picker')?.remove();
+}
+
+function selectPdrnTier(tier) {
+  if (!PDRN_FIXED_SUPPLY[tier]) return;
+  selectedPdrnTier = tier;
+  closePdrnTierPicker();
+  updatePricing();
+}
+
+function openPdrnTierPicker(trigger) {
+  closePdrnTierPicker();
+  const picker = document.createElement('div');
+  picker.id = 'pdrn-tier-picker';
+  picker.className = 'pdrn-tier-picker';
+  picker.innerHTML = `
+    <button type="button" onclick="selectPdrnTier('vip')"><span>VIP</span><small>13,600</small></button>
+    <button type="button" onclick="selectPdrnTier('partner')"><span>파트너</span><small>16,800</small></button>`;
+  document.body.appendChild(picker);
+  const rect = trigger.getBoundingClientRect();
+  const left = Math.min(window.innerWidth - 140, Math.max(8, rect.left + rect.width / 2 - 66));
+  const top = Math.min(window.innerHeight - 96, rect.bottom + 6);
+  picker.style.left = left + 'px';
+  picker.style.top = top + 'px';
+  setTimeout(() => document.addEventListener('pointerdown', function dismiss(event) {
+    if (!picker.contains(event.target) && event.target !== trigger) {
+      closePdrnTierPicker();
+      document.removeEventListener('pointerdown', dismiss);
+    }
+  }), 0);
+}
+
 function updatePricing() {
   const supplyEls = document.querySelectorAll('.supply-col');
   const noteDefault = document.getElementById('price-note-default');
@@ -4245,6 +4325,7 @@ function updatePricing() {
   const ratePercent = rateInput ? parseFloat(rateInput.value) : NaN;
 
   if (!Number.isFinite(ratePercent) || ratePercent <= 0 || ratePercent >= 100) {
+    closePdrnTierPicker();
     supplyEls.forEach(el => el.style.display = 'none');
     if (noteDefault) noteDefault.style.display = '';
     if (noteSupply) noteSupply.style.display = 'none';
@@ -4258,21 +4339,31 @@ function updatePricing() {
     const retail = parseInt(tr.dataset.retail || '0');
     const sell = parseInt(tr.dataset.sell || '0');
     if (!retail || !sell) return;
-    const supply = Math.round(retail * rate);
-    const margin = sell > 0 ? Math.round((sell - supply) / sell * 100) : 0;
     const spEl = tr.querySelector('.supply-price');
     const mrEl = tr.querySelector('.margin-rate');
-    if (spEl) spEl.textContent = supply.toLocaleString('ko-KR') + '원';
+    const isFixedPdrn = tr.dataset.fixedPdrn === 'true';
+    const supply = isFixedPdrn
+      ? (selectedPdrnTier ? PDRN_FIXED_SUPPLY[selectedPdrnTier] : 0)
+      : Math.round(retail * rate);
+    const margin = supply > 0 ? Math.round((retail - supply) / retail * 100) : 0;
+    if (spEl) {
+      if (isFixedPdrn) {
+        const label = supply > 0 ? supply.toLocaleString('ko-KR') + '원' : '•••';
+        spEl.innerHTML = `<button type="button" class="pdrn-supply-trigger" onclick="openPdrnTierPicker(this)" aria-label="마시는 PDRN 공급가 선택">${label}</button>`;
+      } else {
+        spEl.textContent = supply.toLocaleString('ko-KR') + '원';
+      }
+    }
     if (mrEl) {
-      mrEl.textContent = margin + '%';
-      mrEl.style.color = margin >= 40 ? '#10b981' : margin >= 30 ? '#f59e0b' : '#ef4444';
+      mrEl.textContent = supply > 0 ? margin + '%' : '—';
+      mrEl.style.color = supply > 0 ? (margin >= 40 ? '#10b981' : margin >= 30 ? '#f59e0b' : '#ef4444') : '#a69ab8';
     }
   });
 
   if (noteDefault) noteDefault.style.display = 'none';
   if (noteSupply) {
     noteSupply.style.display = '';
-    noteSupply.textContent = '🔒 입력 비율 ' + ratePercent + '% 적용 | 공급가 = 소비자가 × 입력 비율 | 마진율 = (약국판매가 − 공급가) ÷ 약국판매가 × 100%';
+    noteSupply.textContent = '🔒 입력 비율 ' + ratePercent + '% 적용 | 일반 공급가 = 소비자가 × 입력 비율 | 마진율 = (소비자가 − 공급가) ÷ 소비자가 × 100%';
   }
 }
 

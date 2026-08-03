@@ -529,13 +529,10 @@ function discountAmount(product) {
 }
 
 function priceCompareHTML(product, mode = "default") {
-  const discount = discountAmount(product);
   const compact = mode === "compact";
   return `
     <div class="price-compare ${compact ? "compact" : ""}">
-      <div class="price-line consumer"><span>소비자가</span><del>${won(mallPrice(product))}</del></div>
-      <div class="price-line pharmacy"><span>약국가</span><strong>${won(product.price)}</strong></div>
-      ${discount > 0 ? `<div class="discount-badge">${won(discount)} 혜택</div>` : ""}
+      <div class="price-line consumer"><span>소비자가</span><strong>${won(mallPrice(product))}</strong></div>
     </div>
   `;
 }
@@ -595,9 +592,7 @@ function setReason(items, tier = "core3") {
 
 function setCardHTML(title, subtitle, items, featured, tierClass, tier = "core3") {
   const sorted = [...items].sort((a, b) => a.routineOrder - b.routineOrder);
-  const total = sorted.reduce((sum, product) => sum + product.price, 0);
-  const mallTotal = sorted.reduce((sum, product) => sum + mallPrice(product), 0);
-  const discountTotal = Math.max(0, mallTotal - total);
+  const consumerTotal = sorted.reduce((sum, product) => sum + mallPrice(product), 0);
   const rows = sorted.map((product) => productItemHTML(product)).join("");
   return `
     <div class="set-card ${tierClass}${featured ? " featured" : ""}">
@@ -617,12 +612,10 @@ function setCardHTML(title, subtitle, items, featured, tierClass, tier = "core3"
         <div class="set-total">
           <div>
             <div class="total-label">제품 합계</div>
-            <div class="total-sub">공식몰 소비자가 대비</div>
+            <div class="total-sub">소비자가 기준</div>
           </div>
           <div class="total-compare">
-            <div class="total-mall"><span>공식몰</span><del>${won(mallTotal)}</del></div>
-            <div class="total-price">${won(total)}</div>
-            ${discountTotal > 0 ? `<div class="total-discount">${won(discountTotal)} 혜택</div>` : ""}
+            <div class="total-price">${won(consumerTotal)}</div>
           </div>
         </div>
       </div>
@@ -841,11 +834,20 @@ function bindEvents() {
   document.getElementById("btn-to-step3").addEventListener("click", showResults);
 }
 
+function syncStickyHeaderOffset() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+  document.documentElement.style.setProperty("--sticky-header-height", `${Math.ceil(header.getBoundingClientRect().height)}px`);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     await loadProducts();
     bindEvents();
     applyPageLanguage();
+    syncStickyHeaderOffset();
+    window.addEventListener("resize", syncStickyHeaderOffset, { passive: true });
+    new ResizeObserver(syncStickyHeaderOffset).observe(document.querySelector(".site-header"));
   } catch (error) {
     document.querySelector(".wrapper").innerHTML = `
       <section class="step-panel active">

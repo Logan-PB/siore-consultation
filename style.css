@@ -1997,3 +1997,356 @@ footer {
     font-size: 19px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Adaptive consultation shell
+   Keeps the kiosk useful across phones, tablets and rotating 16:9 displays.
+   Breakpoints use both width and orientation so a 1080px portrait display is
+   not mistaken for a desktop monitor.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --page-gutter: clamp(12px, 2.4vw, 40px);
+  --section-gap: clamp(14px, 2.2vw, 28px);
+  --touch-target: clamp(48px, 4.4vw, 64px);
+  --readable-size: clamp(15px, 0.55vw + 11px, 20px);
+  --sticky-header-height: 64px;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.steps-nav {
+  position: sticky;
+  top: var(--sticky-header-height);
+  z-index: 40;
+  backdrop-filter: blur(14px);
+}
+
+/* The header language selector remains visible, so the result-page duplicate
+   is intentionally removed. */
+.result-tools {
+  display: none;
+}
+
+body {
+  min-height: 100dvh;
+  font-size: var(--readable-size);
+}
+
+.nav-shell,
+.wrapper {
+  width: 100%;
+  max-width: 1600px;
+  padding-left: max(var(--page-gutter), env(safe-area-inset-left));
+  padding-right: max(var(--page-gutter), env(safe-area-inset-right));
+}
+
+.wrapper {
+  min-height: calc(100dvh - 64px);
+  padding-bottom: max(clamp(48px, 7vh, 96px), env(safe-area-inset-bottom));
+}
+
+.step-panel,
+.choice-block,
+.intake-card,
+.recommendation-panel,
+.recommendation-board,
+.clinical-highlights,
+.evidence-section,
+.script-section,
+.routine-section,
+.cert-section {
+  min-width: 0;
+}
+
+.segmented-grid button,
+.concern-card,
+.type-card,
+.btn-primary,
+.btn-ghost,
+.language-option {
+  min-height: var(--touch-target);
+}
+
+.panel-header p,
+.field-head span,
+.concern-card small,
+.type-card small {
+  font-size: max(0.8em, 13px);
+}
+
+.panel-header h2,
+.field-head h3,
+.board-product,
+.product-copy,
+.evidence-card,
+.script-card {
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+/* Large portrait displays such as LG StanbyME (1080 x 1920). */
+@media (max-aspect-ratio: 4/5) and (min-width: 761px) {
+  :root {
+    --page-gutter: clamp(20px, 4vw, 48px);
+    --touch-target: clamp(58px, 6vw, 72px);
+    --readable-size: clamp(17px, 1.45vw, 21px);
+  }
+
+  .nav-shell {
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .brand-slogan {
+    flex: 1 1 340px;
+    font-size: 0.8em;
+  }
+
+  .brand-language {
+    flex: 1 1 100%;
+  }
+
+  .language-option {
+    flex: 1 1 0;
+    font-size: 0.75em;
+  }
+
+  .wrapper {
+    max-width: none;
+    padding-top: clamp(16px, 2vh, 30px);
+  }
+
+  .steps-nav {
+    position: sticky;
+    top: var(--sticky-header-height);
+    z-index: 20;
+    margin-inline: calc(var(--page-gutter) * -0.35);
+    padding: 14px clamp(14px, 2.2vw, 24px);
+    backdrop-filter: blur(14px);
+  }
+
+  .step-item {
+    font-size: 0.82em;
+  }
+
+  .step-num {
+    width: clamp(42px, 5vw, 54px);
+    height: clamp(42px, 5vw, 54px);
+    font-size: 0.9em;
+  }
+
+  .panel-header {
+    max-width: 90%;
+    margin-block: clamp(24px, 3vh, 42px);
+  }
+
+  .panel-header h2 {
+    font-size: clamp(30px, 3.4vw, 42px);
+  }
+
+  .panel-header p {
+    font-size: 0.9em;
+  }
+
+  .intake-grid,
+  .intake-grid.secondary,
+  .professional-result,
+  .analysis-section,
+  .result-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .intake-card,
+  .choice-block,
+  .recommendation-board,
+  .clinical-highlights,
+  .evidence-section,
+  .script-section,
+  .routine-section,
+  .cert-section {
+    padding: clamp(20px, 3vw, 34px);
+  }
+
+  .field-head h3 {
+    font-size: 1.12em;
+  }
+
+  .segmented-grid,
+  .gender-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(8px, 1.2vw, 14px);
+  }
+
+  .concern-grid,
+  .type-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(10px, 1.5vw, 16px);
+  }
+
+  .concern-card,
+  .type-card {
+    min-height: clamp(104px, 12vh, 148px);
+    padding: 16px;
+    font-size: 1em;
+  }
+
+  .panel-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 18;
+    margin-inline: calc(var(--page-gutter) * -0.35);
+    padding: 14px max(12px, calc(var(--page-gutter) * 0.35)) max(14px, env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(125, 81, 72, 0.18);
+    background: rgba(247, 241, 239, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .btn-primary,
+  .btn-ghost {
+    min-width: min(42vw, 360px);
+    font-size: 1em;
+  }
+
+  .sets-row,
+  .script-grid,
+  .evidence-grid,
+  .clinical-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .board-scroll {
+    overflow: visible;
+  }
+
+  table,
+  thead,
+  tbody,
+  tr,
+  th,
+  td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody {
+    display: grid;
+    gap: 14px;
+  }
+
+  tr {
+    padding: clamp(14px, 2vw, 22px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fffaf6;
+  }
+
+  td {
+    display: grid;
+    grid-template-columns: minmax(88px, 22%) minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    white-space: normal;
+    font-size: 0.82em;
+  }
+
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+  }
+
+  td:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* Wide screens use available space without stretching reading lines endlessly. */
+@media (min-aspect-ratio: 5/4) and (min-width: 1100px) {
+  .wrapper,
+  .nav-shell {
+    max-width: min(94vw, 1600px);
+  }
+
+  .panel-header {
+    margin-block: clamp(18px, 2.4vh, 30px);
+  }
+
+  .intake-grid {
+    gap: clamp(14px, 1.4vw, 24px);
+  }
+
+  .choice-block,
+  .intake-card {
+    padding: clamp(20px, 2vw, 30px);
+  }
+
+  .concern-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .type-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+/* Short landscape windows: preserve controls and reduce decorative spacing. */
+@media (min-aspect-ratio: 5/4) and (max-height: 760px) {
+  .nav-shell {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .brand-slogan {
+    display: none;
+  }
+
+  .wrapper {
+    padding-top: 8px;
+    padding-bottom: 38px;
+  }
+
+  .steps-nav {
+    margin-bottom: 10px;
+    padding-block: 9px;
+  }
+
+  .panel-header {
+    margin-block: 12px;
+  }
+
+  .panel-header p {
+    margin-top: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

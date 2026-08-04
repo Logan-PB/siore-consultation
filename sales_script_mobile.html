@@ -72,6 +72,10 @@
     .controls{display:flex;align-items:center;gap:6px}
     .controls button,.controls select{height:38px;border-radius:10px;border:1px solid #514943;background:#292421;color:#fff;font-size:11px;font-weight:850;padding:0 10px}
     .controls .play{background:var(--orange);border-color:var(--orange);min-width:84px}.controls .stop{width:38px;padding:0}
+    .voice-panel{display:none;position:fixed;z-index:35;left:12px;right:12px;bottom:78px;max-width:560px;margin:auto;padding:15px;border-radius:17px;background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:0 16px 45px rgba(0,0,0,.25)}
+    .voice-panel.open{display:block}.voice-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}.voice-panel-head strong{font-size:16px}.voice-panel-head button{border:0;background:#f3ece8;border-radius:8px;width:30px;height:30px;font-weight:900}
+    .voice-device{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px;margin-bottom:10px;font-size:10px;font-weight:850;color:#6d605a}.voice-device select{min-width:0;width:100%;height:36px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 8px;font-size:11px;color:#443934}
+    .voice-samples{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.voice-sample{border:1px solid var(--line);border-radius:12px;background:#faf7f5;padding:10px 7px;color:#5f534d;text-align:left}.voice-sample.active{border:2px solid var(--orange);background:#fff2eb;color:#2f211b}.voice-sample b{display:block;font-size:11px;color:inherit}.voice-sample span{display:block;margin-top:4px;font-size:8px;line-height:1.35;color:#8c7e77}.voice-note{margin:9px 1px 0;font-size:8.5px;line-height:1.45;color:#8d817b}
     @media(min-width:700px){.cards.sku{grid-template-columns:1fr 1fr}.script-card{padding:18px 18px 18px 58px}.script-card p{font-size:14.5px}}
   </style>
 </head>
@@ -172,11 +176,22 @@
       <div class="now"><small>NOW PLAYING</small><strong id="now-title">재생할 멘트를 선택하세요</strong></div>
       <div class="controls">
         <select id="rate" aria-label="재생 속도"><option value=".9">0.9×</option><option value="1" selected>1.0×</option><option value="1.1">1.1×</option></select>
+        <button id="voice-toggle" type="button">🎙 톤</button>
         <button id="play-all" class="play">▶ 전체 듣기</button>
         <button id="stop" class="stop" aria-label="재생 정지">■</button>
       </div>
     </div>
   </footer>
+  <aside id="voice-panel" class="voice-panel" aria-label="음성 톤 선택">
+    <div class="voice-panel-head"><strong>목소리 샘플 선택</strong><button id="voice-close" type="button" aria-label="목소리 선택 닫기">×</button></div>
+    <label class="voice-device">기기 한국어 음성<select id="voice-name" aria-label="한국어 음성 선택"><option value="">자동 - 자연스러운 여성 음성 우선</option></select></label>
+    <div class="voice-samples">
+      <button class="voice-sample active" type="button" data-voice-preset="sales"><b>✨ 밝은 영업형</b><span>생기 있고 또렷한 추천 톤</span></button>
+      <button class="voice-sample" type="button" data-voice-preset="expert"><b>🎙 신뢰 전문가형</b><span>낮고 안정적인 설명 톤</span></button>
+      <button class="voice-sample" type="button" data-voice-preset="warm"><b>🌿 따뜻한 상담형</b><span>부드럽고 여유 있는 톤</span></button>
+    </div>
+    <p class="voice-note">버튼을 누르면 같은 문장으로 샘플이 재생됩니다. 선택한 톤은 개별 듣기와 전체 듣기에 모두 적용됩니다.</p>
+  </aside>
 
   <script>
     const pitch=[
@@ -211,6 +226,13 @@
     let activeSet="pitch",queue=[],cursor=0,paused=false;
     const synth=window.speechSynthesis;
     const sets={pitch,sku,guide:guideNarration};
+    const VOICE_PRESETS={
+      sales:{rate:1,pitch:1.02,sample:"약사님, 이 제품은 단순히 촉촉한 화장품이 아닙니다. 피부 고민의 순서를 정확하게 설계한 전문 케어 제품입니다."},
+      expert:{rate:.92,pitch:.96,sample:"약사님, 이 제품은 단순히 촉촉한 화장품이 아닙니다. 피부 고민의 순서를 정확하게 설계한 전문 케어 제품입니다."},
+      warm:{rate:.88,pitch:1.04,sample:"약사님, 이 제품은 단순히 촉촉한 화장품이 아닙니다. 피부 고민의 순서를 정확하게 설계한 전문 케어 제품입니다."}
+    };
+    let voicePreset=localStorage.getItem("sioreVoicePreset")||"sales";
+    let preferredVoiceName=localStorage.getItem("sioreVoiceName")||"";
     const cardArea={pitch:document.getElementById("pitch-cards"),sku:document.getElementById("sku-cards")};
     function render(set){
       cardArea[set].innerHTML=(set==="pitch"?pitch:sku).map((item,index)=>`
@@ -250,9 +272,30 @@
     function voice(){
       const voices=synth.getVoices();
       const korean=voices.filter(v=>v.lang==="ko-KR"||v.lang.startsWith("ko"));
-      return korean.find(v=>/SunHi|선희|Yuna|유나|Heami|해미|Sora|소라|female|여성/i.test(v.name))
+      return korean.find(v=>v.name===preferredVoiceName)
+        ||korean.find(v=>/Natural|Online/i.test(v.name)&&/SunHi|선희|Yuna|유나|Heami|해미|Sora|소라|female|여성/i.test(v.name))
+        ||korean.find(v=>/SunHi|선희|Yuna|유나|Heami|해미|Sora|소라|female|여성/i.test(v.name))
         ||korean.find(v=>/Google|Microsoft|Apple/i.test(v.name))
         ||korean[0];
+    }
+    function refreshVoiceOptions(){
+      const select=document.getElementById("voice-name");
+      const korean=synth.getVoices().filter(v=>v.lang==="ko-KR"||v.lang.startsWith("ko"));
+      select.innerHTML='<option value="">자동 - 자연스러운 여성 음성 우선</option>'+korean.map(v=>`<option value="${v.name.replace(/"/g,'&quot;')}">${v.name}${/Natural|Online/i.test(v.name)?' · 자연음':''}</option>`).join('');
+      select.value=korean.some(v=>v.name===preferredVoiceName)?preferredVoiceName:"";
+    }
+    function applyVoicePreset(key,playSample=true){
+      voicePreset=VOICE_PRESETS[key]?key:"sales";
+      localStorage.setItem("sioreVoicePreset",voicePreset);
+      document.querySelectorAll(".voice-sample").forEach(button=>button.classList.toggle("active",button.dataset.voicePreset===voicePreset));
+      if(!playSample)return;
+      synth.cancel();
+      const preset=VOICE_PRESETS[voicePreset];
+      const sample=new SpeechSynthesisUtterance(preset.sample);
+      sample.lang="ko-KR";sample.rate=preset.rate;sample.pitch=preset.pitch;
+      const selected=voice();if(selected)sample.voice=selected;
+      document.getElementById("now-title").textContent=`목소리 샘플 · ${voicePreset==="sales"?'밝은 영업형':voicePreset==="expert"?'신뢰 전문가형':'따뜻한 상담형'}`;
+      synth.speak(sample);
     }
     function playNext(){
       if(cursor>=queue.length){finish();return}
@@ -263,7 +306,8 @@
       const full=sets[activeSet].indexOf(item);
       document.querySelector(`[data-set="${activeSet}"][data-index="${full}"]`)?.classList.add("playing");
       const utter=new SpeechSynthesisUtterance(item.text);
-      utter.lang="ko-KR";utter.rate=Number(document.getElementById("rate").value);utter.pitch=1.08;
+      const preset=VOICE_PRESETS[voicePreset]||VOICE_PRESETS.sales;
+      utter.lang="ko-KR";utter.rate=Number(document.getElementById("rate").value)*preset.rate;utter.pitch=preset.pitch;
       const selected=voice();if(selected)utter.voice=selected;
       utter.onend=()=>{cursor++;playNext()};
       utter.onerror=()=>{cursor++;playNext()};
@@ -283,8 +327,13 @@
       queue=[...sets[activeSet]];cursor=0;playNext();
     });
     document.getElementById("stop").addEventListener("click",stopAll);
+    document.getElementById("voice-toggle").addEventListener("click",()=>document.getElementById("voice-panel").classList.toggle("open"));
+    document.getElementById("voice-close").addEventListener("click",()=>document.getElementById("voice-panel").classList.remove("open"));
+    document.querySelectorAll(".voice-sample").forEach(button=>button.addEventListener("click",()=>applyVoicePreset(button.dataset.voicePreset,true)));
+    document.getElementById("voice-name").addEventListener("change",event=>{preferredVoiceName=event.target.value;localStorage.setItem("sioreVoiceName",preferredVoiceName);applyVoicePreset(voicePreset,true)});
     window.addEventListener("beforeunload",()=>synth.cancel());
-    synth.getVoices();
+    synth.onvoiceschanged=refreshVoiceOptions;
+    synth.getVoices();refreshVoiceOptions();applyVoicePreset(voicePreset,false);
   </script>
 </body>
 </html>

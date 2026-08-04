@@ -256,21 +256,25 @@ function productMatches(product, concerns) {
   return concerns.some((concern) => product.concerns.includes(concern));
 }
 
+function selectedConcernMatches(concerns) {
+  return concerns.some((concern) => selectedConcerns.includes(concern));
+}
+
 function ageScore(product) {
   const concerns = product.concerns || [];
   let score = 0;
   if (selectedAge === "20대") {
-    if (productMatches(product, ["피지", "트러블", "열감홍조"])) score += 0.7;
+    if (selectedConcernMatches(["피지", "트러블", "열감홍조"]) && productMatches(product, ["피지", "트러블", "열감홍조"])) score += 0.7;
     if (product.routineGroup === "moisturizer" && product.key === "richCream") score -= 0.4;
   }
   if (selectedAge === "30대") {
-    if (productMatches(product, ["건조", "광채톤업", "안티에이징"])) score += 0.45;
+    if (selectedConcernMatches(["건조", "광채톤업", "안티에이징"]) && productMatches(product, ["건조", "광채톤업", "안티에이징"])) score += 0.45;
   }
   if (selectedAge === "40대") {
-    if (productMatches(product, ["안티에이징", "장벽회복", "광채톤업"])) score += 0.75;
+    if (selectedConcernMatches(["안티에이징", "장벽회복", "광채톤업"]) && productMatches(product, ["안티에이징", "장벽회복", "광채톤업"])) score += 0.75;
   }
   if (selectedAge === "50대" || selectedAge === "60대" || selectedAge === "70대 이상") {
-    if (productMatches(product, ["건조", "장벽회복", "안티에이징"])) score += 0.9;
+    if (selectedConcernMatches(["건조", "장벽회복", "안티에이징"]) && productMatches(product, ["건조", "장벽회복", "안티에이징"])) score += 0.9;
     if (product.routineGroup === "moisturizer") score += 0.25;
   }
   if (selectedAge === "70대 이상" && concerns.includes("민감")) score += 0.25;
@@ -283,7 +287,7 @@ function genderScore(product) {
     if (product.routineGroup === "cleanser") return 0.2;
   }
   if (selectedGender === "female") {
-    if (productMatches(product, ["광채톤업", "안티에이징", "건조"])) return 0.25;
+    if (selectedConcernMatches(["광채톤업", "안티에이징", "건조"]) && productMatches(product, ["광채톤업", "안티에이징", "건조"])) return 0.25;
   }
   return 0;
 }
@@ -307,6 +311,16 @@ function sensitivityScore(product) {
   return 0;
 }
 
+function clinicalPriorityScore(key) {
+  let score = 0;
+  if (selectedConcerns.includes("열감홍조")) {
+    if (key === "soothingGel") score += 2.4;
+    if (key === "soothingCream") score += 0.25;
+    if (key === "essenceToner") score += 0.2;
+  }
+  return score;
+}
+
 function getRecommendations() {
   return Object.entries(products)
     .filter(([, product]) => product.active !== false)
@@ -323,6 +337,7 @@ function getRecommendations() {
       score += genderScore({ key, ...product });
       score += textureScore({ key, ...product });
       score += sensitivityScore({ key, ...product });
+      score += clinicalPriorityScore(key);
       return { key, ...product, score };
     })
     .sort((a, b) => {

@@ -12,6 +12,18 @@ let selectedTexture = "balanced";
 let selectedSensitivity = "medium";
 let languageMode = "ko";
 
+const PRODUCT_TEXTURES = {
+  "클렌징 밀크": "images/textures/cleansing-texture.jpg",
+  "버블 토너": "images/textures/bubble-texture.jpg",
+  "에센스 토너": "images/textures/essence-toner-texture.jpg",
+  "리페어 앰플": "images/textures/ampoule-texture.jpg",
+  "인텐시브 세럼": "images/textures/serum-texture.jpg",
+  "수딩 크림": "images/textures/soothing-cream-texture.jpg",
+  "리치 크림": "images/textures/rich-cream-texture.jpg",
+  "카밍 수딩 젤": "images/official-scenes/soothing-gel-texture.webp",
+  "컴포트 크림": "images/textures/comfort-cream-texture.jpg"
+};
+
 const UI = {
   concerns: {
     "건조": { en: "Dryness", zh: "干燥", ja: "乾燥" },
@@ -367,15 +379,14 @@ function selectedPremiumSet(sets) {
 function showResults() {
   const ranked = getRecommendations();
   const sets = buildSets(ranked);
-  const premium = selectedPremiumSet(sets);
   renderSummary();
   renderAnalyzer(sets.core3);
   renderRecommendationBoard(sets.core3);
-  renderClinicalHighlights(sets.core3);
-  renderSets(sets, premium);
-  renderEvidence(sets.core3);
-  renderConsultationScripts(sets, premium);
-  renderRoutine(premium.items);
+  renderRoutineExplorer(sets);
+  document.getElementById("clinical-highlights").innerHTML = "";
+  document.getElementById("evidence-section").innerHTML = "";
+  document.getElementById("consultation-script-section").innerHTML = "";
+  document.getElementById("routine-section").innerHTML = "";
   goToStep(3);
 }
 
@@ -418,7 +429,7 @@ function metricValue(metric) {
 function renderAnalyzer(items) {
   const markers = selectedConcerns.map((concern) => `<span>${translatedValue("concerns", concern)}</span>`).join("");
   const metricIcons = { "수분": "💧", "장벽": "🛡️", "열감": "🌡️", "피부결": "✨", "탄력": "🫧" };
-  const metricRows = ["수분", "장벽", "열감", "피부결", "탄력"].map((metric) => {
+  const metricRows = ["수분", "장벽", "열감"].map((metric) => {
     const value = metricValue(metric);
     return `
       <div class="metric-row">
@@ -444,42 +455,80 @@ function renderAnalyzer(items) {
 }
 
 function renderRecommendationBoard(items) {
-  const [topProduct, ...secondary] = items;
-  const secondaryCards = secondary.map((product, index) => `
-    <article class="best-secondary-card">
-      <div class="best-rank">BEST ${index + 2}</div>
-      <div class="best-secondary-image">
-        <img src="${product.image}" alt="${product.short}" onerror="this.style.display='none'">
-      </div>
-      <div class="best-product-copy">
-        <strong>${productName(product)}</strong>
-        <span>${product.capacity} · ${product.routine}</span>
-        <p>${productBenefit(product)}</p>
-        <em>${productClinical(product)[0] || product.usp}</em>
-      </div>
-    </article>
-  `).join("");
+  const cards = items.map((product, index) => {
+    const metric = parseClinical(productClinical(product)[0] || product.usp);
+    const matched = product.concerns.filter((concern) => selectedConcerns.includes(concern));
+    const concernList = (matched.length ? matched : product.concerns).slice(0, 2);
+    return `
+      <article class="comparison-product ${index === 0 ? "is-one-pick" : ""}">
+        <div class="comparison-product-head">
+          <span class="comparison-rank">${index + 1}</span>
+          <div><strong>${productName(product)}</strong><small>${product.capacity} · ${product.routine}</small></div>
+        </div>
+        <div class="comparison-visual">
+          <img class="comparison-packshot" src="${product.image}" alt="${product.short}">
+          <img class="comparison-texture" src="${PRODUCT_TEXTURES[product.short] || product.image}" alt="${product.short} 제형">
+          <span class="visual-caption product-caption">PRODUCT</span>
+          <span class="visual-caption texture-caption">TEXTURE</span>
+        </div>
+        <div class="comparison-row concern-row"><b>고민 연결</b><div>${concernList.map((concern) => `<span>${translatedValue("concerns", concern)}</span>`).join("")}</div></div>
+        <div class="comparison-row reason-row"><b>추천 이유</b><p>${productBenefit(product)}</p></div>
+        <div class="comparison-row metric-row-compact"><b>핵심 임상</b><strong>${metric.num}</strong><small>${metric.label}</small></div>
+      </article>`;
+  }).join("");
   document.getElementById("recommendation-board").innerHTML = `
     <div class="best-board-head">
       <div class="section-heading-bar"><span>${langText({ ko: "피부 고민 맞춤 BEST 3", en: "Top 3 for Your Skin Concern", zh: "肌肤问题定制 BEST 3", ja: "肌悩み別 BEST 3" })}</span></div>
       <p>${langText({ ko: "선택하신 고민과의 제품 적합도 순위입니다. 사용 순서가 아닙니다.", en: "Ranked by fit for your selected concern, not by application order.", zh: "按与所选肌肤问题的匹配度排序，并非使用顺序。", ja: "選択した肌悩みとの適合度順で、使用順ではありません。" })}</p>
     </div>
-    ${topProduct ? `
-      <article class="best-hero-card">
-        <div class="best-hero-image">
-          <img src="${topProduct.image}" alt="${topProduct.short}" onerror="this.style.display='none'">
-        </div>
-        <div class="best-product-copy">
-          <div class="best-rank one-pick">BEST 1 · ONE PICK</div>
-          <strong>${productName(topProduct)}</strong>
-          <span>${topProduct.capacity} · ${topProduct.routine}</span>
-          <p>${productBenefit(topProduct)}</p>
-          <em>${productClinical(topProduct)[0] || topProduct.usp}</em>
-        </div>
-      </article>
-    ` : ""}
-    <div class="best-secondary-grid">${secondaryCards}</div>
+    <div class="comparison-grid">${cards}</div>
   `;
+}
+
+function routineMembership(product, sets) {
+  const inOne = sets.essential1.includes(product);
+  const inCore = sets.core3.includes(product);
+  return { inOne, inCore };
+}
+
+function renderRoutineExplorer(sets) {
+  const items = sets.premium5;
+  const cards = items.map((product) => {
+    const membership = routineMembership(product, sets);
+    const metric = parseClinical(productClinical(product)[0] || product.usp);
+    const badges = [membership.inOne ? "원픽" : "", membership.inCore ? "코어" : "", "프리미엄"].filter(Boolean);
+    const matched = product.concerns.filter((concern) => selectedConcerns.includes(concern));
+    return `
+      <article class="routine-product-card ${membership.inOne ? "in-one" : ""} ${membership.inCore ? "in-core" : ""}">
+        <div class="routine-membership">${badges.map((badge) => `<span>${badge}</span>`).join("")}</div>
+        <img src="${product.image}" alt="${product.short}">
+        <h3>${productName(product)}</h3>
+        <div class="routine-concerns">${(matched.length ? matched : product.concerns).slice(0, 2).map((concern) => `<span>${translatedValue("concerns", concern)}</span>`).join("")}</div>
+        <p>${productBenefit(product)}</p>
+        <div class="routine-metric"><small>핵심 임상</small><strong>${metric.num}</strong><span>${metric.label}</span></div>
+        <details><summary>근거 더보기</summary><ul>${productClinical(product).slice(0, 3).map((item) => `<li>${item}</li>`).join("")}</ul></details>
+      </article>`;
+  }).join("");
+  document.getElementById("sets-row").innerHTML = `
+    <section class="routine-explorer routine-tier-core3">
+      <div class="routine-explorer-head">
+        <div><span>STEP 02</span><h2>상담 목적별 맞춤 루틴</h2><p>같은 제품을 반복하지 않고, 선택한 구성에 포함되는 제품만 강조합니다.</p></div>
+        <div class="routine-tier-tabs" role="tablist">
+          <button type="button" data-tier="one" onclick="setRoutineTier('one')">원픽 1종</button>
+          <button type="button" class="active" data-tier="core3" onclick="setRoutineTier('core3')">코어 3종</button>
+          <button type="button" data-tier="premium5" onclick="setRoutineTier('premium5')">프리미엄 5종</button>
+        </div>
+      </div>
+      <div class="inclusion-rail" aria-label="원픽, 코어, 프리미엄 포함 관계"><span class="rail-one">원픽 1종</span><span class="rail-core">코어 3종</span><span class="rail-premium">프리미엄 5종</span></div>
+      <div class="routine-product-grid">${cards}</div>
+    </section>`;
+}
+
+function setRoutineTier(tier) {
+  const explorer = document.querySelector(".routine-explorer");
+  if (!explorer) return;
+  explorer.className = `routine-explorer routine-tier-${tier}`;
+  explorer.querySelectorAll(".routine-tier-tabs button").forEach((button) => button.classList.toggle("active", button.dataset.tier === tier));
 }
 
 function parseClinical(str) {

@@ -2225,9 +2225,9 @@ body {
   backdrop-filter: blur(14px);
 }
 
-/* Older LG webOS browsers can parse sticky but fail to keep it painted.
-   Use a fixed kiosk fallback only on those devices. */
-html.webos-kiosk .site-header {
+/* Keep the consultation controls visible on every browser and display.
+   Fixed positioning is more reliable than sticky on LG webOS. */
+html .site-header {
   position: fixed;
   top: 0;
   right: 0;
@@ -2235,11 +2235,11 @@ html.webos-kiosk .site-header {
   width: 100%;
 }
 
-html.webos-kiosk body {
+body {
   padding-top: var(--sticky-header-height);
 }
 
-html.webos-kiosk .steps-nav {
+html .steps-nav {
   position: fixed;
   top: var(--sticky-header-height);
   right: var(--page-gutter);
@@ -2247,7 +2247,7 @@ html.webos-kiosk .steps-nav {
   width: auto;
 }
 
-html.webos-kiosk .step-panel.active {
+html .step-panel.active {
   padding-top: calc(var(--sticky-steps-height) + 16px);
 }
 

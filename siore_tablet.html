@@ -2865,14 +2865,66 @@ body {
     <button class="tab-btn" onclick="switchTab('pricing',this)">
       <span class="t-icon">💰</span> 판매가
     </button>
-    <a class="tab-btn" href="https://logan-pb.github.io/siore-consultation/" target="_blank" rel="noopener" aria-label="피부상담 새 창으로 열기">
+    <button class="tab-btn" type="button" onclick="openSkinConsultationShare()" aria-label="피부상담 링크와 QR 열기">
       <span class="t-icon">🩺</span> 피부상담
-    </a>
+    </button>
     <button class="tab-btn" onclick="switchTab('faq',this)">
       <span class="t-icon">💬</span> FAQ
     </button>
   </div>
 </nav>
+
+<div id="skin-consultation-share" class="skin-share-modal" role="dialog" aria-modal="true" aria-labelledby="skin-share-title" onclick="if(event.target===this)closeSkinConsultationShare()">
+  <div class="skin-share-card">
+    <button class="skin-share-close" type="button" onclick="closeSkinConsultationShare()" aria-label="닫기">×</button>
+    <div class="skin-share-copy">
+      <span>SKIN CONSULTATION</span>
+      <h2 id="skin-share-title">시오레 피부상담</h2>
+      <p>현장에서 QR을 촬영하면 모바일 피부상담이 바로 시작됩니다.</p>
+      <strong>고객에게 QR을 보여주세요</strong>
+    </div>
+    <div class="skin-share-qr-wrap">
+      <img src="assets/skin-consultation-qr.svg" alt="시오레 피부상담 접속 QR 코드">
+    </div>
+    <div class="skin-share-url">logan-pb.github.io/siore-skin/?v=heat11</div>
+    <div class="skin-share-actions">
+      <a href="https://logan-pb.github.io/siore-skin/?v=heat11" target="_blank" rel="noopener">상담 페이지 열기</a>
+      <button type="button" onclick="shareSkinConsultationLink()">링크 공유</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .skin-share-modal{position:fixed;inset:0;z-index:1900;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(17,13,11,.76);backdrop-filter:blur(9px)}
+  .skin-share-modal.open{display:flex}
+  .skin-share-card{position:relative;width:min(440px,92vw);padding:28px;border-radius:24px;background:#fff;box-shadow:0 28px 90px rgba(0,0,0,.38);text-align:center;font-family:var(--font)}
+  .skin-share-close{position:absolute;right:14px;top:12px;width:36px;height:36px;border:0;border-radius:50%;background:#211b18;color:#fff;font-size:25px;line-height:1;cursor:pointer}
+  .skin-share-copy span{display:block;color:var(--orange);font-size:10px;font-weight:950;letter-spacing:1.7px}
+  .skin-share-copy h2{margin:7px 0 5px;font-size:28px;line-height:1.2;color:#1d1815}
+  .skin-share-copy p{margin:0 auto;color:#6e625d;font-size:13px;line-height:1.55;word-break:keep-all}
+  .skin-share-copy strong{display:block;margin-top:13px;color:#f55018;font-size:15px}
+  .skin-share-qr-wrap{display:flex;align-items:center;justify-content:center;width:250px;height:250px;margin:15px auto 10px;padding:12px;border:1px solid #eadfd9;border-radius:18px;background:#fff}
+  .skin-share-qr-wrap img{display:block;width:100%;height:100%;object-fit:contain}
+  .skin-share-url{padding:9px 10px;border-radius:9px;background:#f7f2ef;color:#5d514c;font-size:11px;font-weight:800;word-break:break-all}
+  .skin-share-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+  .skin-share-actions a,.skin-share-actions button{display:flex;align-items:center;justify-content:center;min-height:44px;border:0;border-radius:11px;font-family:var(--font);font-size:13px;font-weight:900;text-decoration:none;cursor:pointer}
+  .skin-share-actions a{background:#211b18;color:#fff}
+  .skin-share-actions button{background:var(--orange);color:#fff}
+  @media(max-width:560px){.skin-share-card{padding:23px 18px 19px}.skin-share-qr-wrap{width:220px;height:220px}.skin-share-copy h2{font-size:24px}}
+</style>
+
+<script>
+  const skinConsultationUrl='https://logan-pb.github.io/siore-skin/?v=heat11';
+  window.openSkinConsultationShare=function(){document.getElementById('skin-consultation-share')?.classList.add('open')};
+  window.closeSkinConsultationShare=function(){document.getElementById('skin-consultation-share')?.classList.remove('open')};
+  window.shareSkinConsultationLink=async function(){
+    try{
+      if(navigator.share){await navigator.share({title:'시오레 피부상담',text:'시오레 모바일 피부상담을 시작해보세요.',url:skinConsultationUrl});return}
+      await navigator.clipboard.writeText(skinConsultationUrl);
+      alert('피부상담 링크를 복사했습니다.');
+    }catch(error){if(error?.name!=='AbortError')window.open(skinConsultationUrl,'_blank','noopener')}
+  };
+</script>
 
 <button id="fullscreen-btn" class="fullscreen-btn" type="button"
         onclick="togglePresentationFullscreen()"

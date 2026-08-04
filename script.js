@@ -471,7 +471,7 @@ function renderRecommendationBoard(items) {
           <span class="visual-caption product-caption">PRODUCT</span>
           <span class="visual-caption texture-caption">TEXTURE</span>
         </div>
-        <div class="comparison-row concern-row"><b>고민 연결</b><div>${concernList.map((concern) => `<span>${translatedValue("concerns", concern)}</span>`).join("")}</div></div>
+        <div class="comparison-row concern-row"><b>고민 연결</b><div>${concernList.map(concernBadge).join("")}</div></div>
         <div class="comparison-row reason-row"><b>추천 이유</b><p>${productBenefit(product)}</p></div>
         <div class="comparison-row metric-row-compact"><b>핵심 임상</b><strong>${metric.num}</strong><small>${metric.label}</small></div>
       </article>`;
@@ -491,37 +491,49 @@ function routineMembership(product, sets) {
   return { inOne, inCore };
 }
 
+function concernBadge(concern) {
+  const icons = { "민감": "🫧", "건조": "💧", "열감·홍조": "🌿", "탄력": "✨", "모공·피지": "◌", "각질·결": "◇", "트러블": "🛡" };
+  return `<span class="concern-badge"><i aria-hidden="true">${icons[concern] || "·"}</i>${translatedValue("concerns", concern)}</span>`;
+}
+
 function renderRoutineExplorer(sets) {
-  const items = sets.premium5;
-  const cards = items.map((product) => {
+  const items = [...sets.premium5].sort((a, b) => a.routineOrder - b.routineOrder);
+  const cards = items.map((product, index) => {
     const membership = routineMembership(product, sets);
     const metric = parseClinical(productClinical(product)[0] || product.usp);
-    const badges = [membership.inOne ? "원픽" : "", membership.inCore ? "코어" : "", "프리미엄"].filter(Boolean);
+    const badges = [
+      membership.inOne ? { className: "one", icon: "★", label: "원픽" } : null,
+      membership.inCore ? { className: "core", icon: "◆", label: "코어" } : null,
+      { className: "premium", icon: "✦", label: "프리미엄" }
+    ].filter(Boolean);
     const matched = product.concerns.filter((concern) => selectedConcerns.includes(concern));
     return `
-      <article class="routine-product-card ${membership.inOne ? "in-one" : ""} ${membership.inCore ? "in-core" : ""}">
-        <div class="routine-membership">${badges.map((badge) => `<span>${badge}</span>`).join("")}</div>
+      <article class="routine-product-card ${membership.inOne ? "in-one" : ""} ${membership.inCore ? "in-core" : ""}" data-routine-label="${product.routine}" style="--routine-step:${index + 1}">
+        <div class="routine-membership">${badges.map((badge) => `<span class="badge-${badge.className}"><i aria-hidden="true">${badge.icon}</i>${badge.label}</span>`).join("")}</div>
+        <div class="application-step"><small>사용 단계</small><strong></strong></div>
         <img src="${product.image}" alt="${product.short}">
         <h3>${productName(product)}</h3>
-        <div class="routine-concerns">${(matched.length ? matched : product.concerns).slice(0, 2).map((concern) => `<span>${translatedValue("concerns", concern)}</span>`).join("")}</div>
+        <div class="routine-concerns">${(matched.length ? matched : product.concerns).slice(0, 2).map(concernBadge).join("")}</div>
         <p>${productBenefit(product)}</p>
         <div class="routine-metric"><small>핵심 임상</small><strong>${metric.num}</strong><span>${metric.label}</span></div>
-        <details><summary>근거 더보기</summary><ul>${productClinical(product).slice(0, 3).map((item) => `<li>${item}</li>`).join("")}</ul></details>
+        <div class="clinical-content"><strong>임상 내용</strong><ul>${productClinical(product).slice(0, 3).map((item) => `<li>${item}</li>`).join("")}</ul></div>
       </article>`;
   }).join("");
   document.getElementById("sets-row").innerHTML = `
     <section class="routine-explorer routine-tier-core3">
       <div class="routine-explorer-head">
-        <div><span>STEP 02</span><h2>상담 목적별 맞춤 루틴</h2><p>같은 제품을 반복하지 않고, 선택한 구성에 포함되는 제품만 강조합니다.</p></div>
+        <div><span>STEP 02</span><h2>상담 목적별 맞춤 루틴</h2><p><b>추천 순위와 사용 순서는 다릅니다.</b> 아래 제품은 왼쪽부터 실제 사용하는 순서로 배치했습니다.</p></div>
         <div class="routine-tier-tabs" role="tablist">
           <button type="button" data-tier="one" onclick="setRoutineTier('one')">원픽 1종</button>
           <button type="button" class="active" data-tier="core3" onclick="setRoutineTier('core3')">코어 3종</button>
           <button type="button" data-tier="premium5" onclick="setRoutineTier('premium5')">프리미엄 5종</button>
         </div>
       </div>
+      <div class="application-guide"><span>HOW TO USE</span><strong>왼쪽부터 순서대로 사용하세요</strong><i aria-hidden="true">01 → 02 → 03 → 04 → 05</i></div>
       <div class="inclusion-rail" aria-label="원픽, 코어, 프리미엄 포함 관계"><span class="rail-one">원픽 1종</span><span class="rail-core">코어 3종</span><span class="rail-premium">프리미엄 5종</span></div>
       <div class="routine-product-grid">${cards}</div>
     </section>`;
+  setRoutineTier("core3");
 }
 
 function setRoutineTier(tier) {
@@ -529,6 +541,18 @@ function setRoutineTier(tier) {
   if (!explorer) return;
   explorer.className = `routine-explorer routine-tier-${tier}`;
   explorer.querySelectorAll(".routine-tier-tabs button").forEach((button) => button.classList.toggle("active", button.dataset.tier === tier));
+  const cards = [...explorer.querySelectorAll(".routine-product-card")];
+  const activeCards = cards.filter((card) => tier === "premium5" || (tier === "core3" && card.classList.contains("in-core")) || (tier === "one" && card.classList.contains("in-one")));
+  cards.forEach((card) => {
+    const position = activeCards.indexOf(card);
+    const label = card.dataset.routineLabel;
+    const step = card.querySelector(".application-step strong");
+    if (position < 0) step.textContent = "추가 구성";
+    else if (tier === "one") step.textContent = `단독 추천 · ${label}`;
+    else step.textContent = `${String(position + 1).padStart(2, "0")} · ${label}`;
+  });
+  const guide = explorer.querySelector(".application-guide i");
+  guide.textContent = tier === "one" ? "기존 루틴의 해당 단계에 사용" : activeCards.map((_, index) => String(index + 1).padStart(2, "0")).join(" → ");
 }
 
 function parseClinical(str) {

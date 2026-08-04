@@ -1538,7 +1538,7 @@ td:last-child {
   margin: 10px 0 14px;
   overflow: hidden;
   border-radius: 12px;
-  background: linear-gradient(145deg, #fffaf7, #f0e5de);
+  background: linear-gradient(145deg, #d9cbc2, #b9a89e);
 }
 
 .comparison-visual img {
@@ -1558,6 +1558,8 @@ td:last-child {
 .comparison-texture {
   object-fit: cover !important;
   opacity: 0;
+  background: #8e776d;
+  filter: contrast(1.12) saturate(1.06);
   animation: textureReveal 7s ease-in-out infinite;
 }
 
@@ -1614,15 +1616,29 @@ td:last-child {
 }
 
 .concern-row span,
-.routine-concerns span,
-.routine-membership span {
+.routine-concerns span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 5px 8px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(169, 115, 100, 0.3);
   border-radius: 999px;
-  background: var(--ivory);
+  background: linear-gradient(135deg, #fffaf7, #efe1da);
   color: var(--rose-dark);
   font-size: 10px;
   font-weight: 900;
+  box-shadow: 0 3px 8px rgba(93, 62, 53, 0.08);
+}
+
+.concern-badge i {
+  display: grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 10px;
+  font-style: normal;
 }
 
 .reason-row p {
@@ -1688,6 +1704,33 @@ td:last-child {
   font-size: 12px;
 }
 
+.routine-explorer-head p b {
+  color: var(--rose-dark);
+}
+
+.application-guide {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-top: 17px;
+  padding: 11px 16px;
+  border: 1px solid rgba(171, 120, 104, 0.38);
+  border-radius: 12px;
+  background: linear-gradient(90deg, #efe0da, #fffaf7);
+  color: var(--ink-soft);
+}
+
+.application-guide span {
+  color: var(--rose-dark);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.application-guide strong { font-size: 12px; }
+.application-guide i { color: var(--rose-dark); font-size: 13px; font-style: normal; font-weight: 900; letter-spacing: 0.08em; }
+
 .routine-tier-tabs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1746,6 +1789,7 @@ td:last-child {
 }
 
 .routine-product-card {
+  position: relative;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -1766,20 +1810,45 @@ td:last-child {
 .routine-product-card > img {
   width: 100%;
   height: clamp(110px, 11vw, 170px);
-  margin: 8px 0;
+  margin: 12px 0 8px;
   object-fit: contain;
 }
 
 .routine-membership {
   display: flex;
-  min-height: 26px;
+  min-height: 30px;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 5px;
 }
 
 .routine-membership span {
-  padding: 3px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
   font-size: 8px;
+  font-weight: 900;
+  box-shadow: 0 4px 10px rgba(85, 54, 46, 0.09);
+}
+
+.routine-membership i { font-style: normal; }
+.routine-membership .badge-one { border-color: #a96f61; background: linear-gradient(135deg, #8e554a, #c68f80); color: #fff; }
+.routine-membership .badge-core { border-color: #d3a99d; background: linear-gradient(135deg, #f2ded7, #fff8f4); color: #804c42; }
+.routine-membership .badge-premium { border-color: #c8ad88; background: linear-gradient(135deg, #f7edda, #fffdf7); color: #806744; }
+
+.application-step {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 5px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(218, 193, 184, 0.7);
+}
+
+.application-step small { color: var(--muted); font-size: 8px; font-weight: 800; }
+.application-step strong { color: var(--rose-dark); font-size: 10px; letter-spacing: 0.08em; }
 }
 
 .routine-product-card h3 {
@@ -1824,24 +1893,23 @@ td:last-child {
   line-height: 1.4;
 }
 
-.routine-product-card details {
+.clinical-content {
   margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
   color: var(--ink-soft);
   font-size: 10px;
 }
 
-.routine-product-card summary {
-  padding: 8px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+.clinical-content > strong {
+  display: block;
+  margin-bottom: 6px;
   color: var(--rose-dark);
   font-weight: 900;
-  text-align: center;
-  cursor: pointer;
 }
 
-.routine-product-card details ul {
-  margin: 8px 0 0;
+.clinical-content ul {
+  margin: 0;
   padding-left: 16px;
   line-height: 1.5;
 }
@@ -1858,6 +1926,8 @@ td:last-child {
   .comparison-visual { height: clamp(190px, 38vw, 300px); }
   .routine-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .routine-tier-tabs button { min-height: 58px; font-size: 0.8em; }
+  .application-guide { grid-template-columns: 1fr; gap: 4px; }
+  .application-guide i { font-size: 11px; }
 }
 
 @media (max-aspect-ratio: 4/5) and (min-width: 761px) {

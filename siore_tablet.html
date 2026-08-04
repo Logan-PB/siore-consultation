@@ -3830,10 +3830,10 @@ body {
       <!-- 가격표 -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div class="label">제품별 가격표</div>
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-size:11px;color:transparent;font-weight:600;user-select:none;">공급률 입력</span>
-          <label class="hidden-rate-control" style="font-size:12px;font-weight:800;color:#2a1060;">
-            <input id="margin-rate-input" type="number" min="1" max="99" step="0.1" inputmode="decimal" placeholder="%" oninput="updatePricing()" style="width:62px;padding:6px 8px;border:1px solid #c9b8eb;border-radius:8px;font-family:var(--font);font-size:12px;font-weight:800;text-align:center;outline:none;">
+        <div style="display:flex;align-items:center;gap:8px;margin-right:clamp(12px,6vw,84px);flex:0 0 auto;">
+          <span style="font-size:11px;color:#6b5b55;font-weight:800;white-space:nowrap;">🔒 공급률 입력</span>
+          <label class="hidden-rate-control" style="display:flex;align-items:center;gap:4px;padding:5px 8px;background:#fff;border:1px solid #d9c9c2;border-radius:10px;box-shadow:0 3px 12px rgba(39,22,15,.08);font-size:12px;font-weight:800;color:#2a1060;">
+            <input id="margin-rate-input" type="number" min="1" max="99" step="0.1" inputmode="decimal" placeholder="입력" aria-label="공급률 입력" oninput="updatePricing()" style="width:66px;padding:7px 8px;border:1px solid #9d7bd8;background:#faf8ff;border-radius:7px;font-family:var(--font);font-size:13px;font-weight:900;text-align:center;outline:none;">
             %
           </label>
         </div>

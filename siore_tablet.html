@@ -228,7 +228,7 @@ body {
 .main {
   margin-top: var(--nav-h);
   height: calc(800px - var(--nav-h));
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
@@ -239,7 +239,7 @@ body {
 /* ═══════════════════════════════════
    SECTION PANELS
 ═══════════════════════════════════ */
-.panel { display: none; }
+.panel { display: none; transform-origin: top left; }
 .panel.active { display: block; }
 .panel.active.panel-flex { display: flex; }
 
@@ -1953,8 +1953,14 @@ body {
 }
 .price-table tr:last-child td { border-bottom: none; }
 .price-table tr:hover td { background: var(--light); }
-.price-table td.cross { font-size: 12px; color: #bbb; text-decoration: line-through; }
-.price-table td.bold { font-weight: 800; }
+.price-table td.retail-main,.price-table td.cross { font-size: 14px; color: #f55018; font-weight: 950; text-decoration:none; }
+.price-table td.floor-price,.price-table td.bold { font-weight: 800; color:#5f514b; }
+.price-table th.retail-head{background:#f55018;color:#fff}
+.price-table th.floor-head{background:#3f3531;color:#ffd8c9}
+.pdrn-tier-inline{display:inline-grid;grid-template-columns:repeat(2,1fr);gap:4px;min-width:86px}
+.pdrn-tier-inline button{border:1px solid #cbbce8;border-radius:7px;background:#f7f3ff;color:#6944bd;padding:5px 8px;font:900 11px/1 var(--font);cursor:pointer}
+.pdrn-tier-inline button.active{background:#6d4bc3;color:#fff;border-color:#6d4bc3}
+.pdrn-margin-bonus{display:block;margin-top:2px;font-size:8px;color:#6d4bc3;font-weight:800;white-space:nowrap}
 .price-note {
   font-size: 12px;
   color: var(--mid);
@@ -3836,7 +3842,7 @@ body {
         <table class="price-table" id="price-tbl">
           <thead>
             <tr>
-              <th>라인</th><th>제품명</th><th>소비자가</th><th>약국판매가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">공급가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">소비자가 기준 마진율</th><th>MOQ</th>
+              <th>라인</th><th>제품명</th><th class="retail-head">국내 권장 소비자가</th><th class="floor-head">약국 판매 하한가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">공급가</th><th class="supply-col" style="display:none;background:#2a1060;color:#d4b8ff;">소비자가 기준 마진율</th><th>MOQ</th>
             </tr>
           </thead>
           <tbody>
@@ -3852,7 +3858,7 @@ body {
             <tr data-retail="40000" data-sell="33500" data-fixed-pdrn="true"><td><span class="tag inner">이너뷰티</span></td><td>마시는 PDRN 200 어드밴스드</td><td class="cross">40,000원</td><td class="bold">33,500원</td><td class="supply-col supply-price" style="display:none;font-weight:800;color:#8B5CF6;"></td><td class="supply-col margin-rate" style="display:none;font-weight:900;color:#10b981;font-size:15px;"></td><td><span class="prod-moq moq-bonus-tag">10+1</span></td></tr>
           </tbody>
         </table>
-        <div class="price-note" id="price-note-default">※ RRP 조건: 소비자가 그대로 판매 시 적용 &nbsp;|&nbsp; ※ 표시 마진율은 공식 소비자가 기준</div>
+        <div class="price-note" id="price-note-default"><strong style="color:#f55018">판매 기준: 국내 권장 소비자가</strong> &nbsp;|&nbsp; 약국 판매 하한가 미만 판매 금지 &nbsp;|&nbsp; 표시 마진율은 국내 권장 소비자가 기준</div>
         <div class="price-note supply-col" id="price-note-supply" style="display:none;color:#8B5CF6;font-weight:600;">🔒 공급가 정보는 입점 미팅 확정 후 제공되는 기밀 정보입니다 &nbsp;|&nbsp; ※ 마진율 = (소비자가 - 공급가) / 소비자가 × 100%</div>
       </div>
 
@@ -4107,6 +4113,8 @@ function switchTab(id, btn) {
   document.querySelector('.main').scrollTop = 0;
   // 제품상세 탭 초기화
   if (id === 'clinical' && !_detInitialized) { detLine('nmn'); }
+  if(id==='marketing'&&typeof activateMarketingVideos==='function')activateMarketingVideos();
+  schedulePanelFit();
 }
 
 // 태블릿·모바일: 메뉴 버튼을 누르거나 본문을 좌우로 넘겨 다음 메뉴로 이동
@@ -4267,10 +4275,37 @@ function closeVideoOutside(e) {
     document.body.style.marginLeft = ml + 'px';
     document.body.style.marginTop = '0';
     document.documentElement.style.background = '#F8F6F4';
+    schedulePanelFit();
   }
   scale();
   window.addEventListener('resize', scale);
 })();
+
+// 각 메뉴 화면을 1280×800 프레젠테이션 영역 안에 자동 축소해 스크롤 없이 표시
+function fitActivePanel(){
+  const panel=document.querySelector('.panel.active');
+  if(!panel)return;
+  panel.style.zoom='1';
+  panel.style.width='100%';
+  panel.style.height='auto';
+  const navHeight=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||72;
+  const availableHeight=800-navHeight;
+  const contentHeight=Math.max(panel.scrollHeight,panel.getBoundingClientRect().height);
+  const contentWidth=Math.max(panel.scrollWidth,1280);
+  const scale=Math.max(.68,Math.min(1,availableHeight/contentHeight,1280/contentWidth));
+  panel.style.zoom=String(scale);
+  panel.style.width=(100/scale)+'%';
+  panel.style.height=(availableHeight/scale)+'px';
+  panel.dataset.fitScale=scale.toFixed(3);
+}
+var panelFitTimer=0;
+function schedulePanelFit(){
+  clearTimeout(panelFitTimer);
+  panelFitTimer=setTimeout(fitActivePanel,60);
+  setTimeout(fitActivePanel,450);
+}
+window.addEventListener('resize',schedulePanelFit);
+document.addEventListener('DOMContentLoaded',schedulePanelFit);
 
 function getFullscreenElement() {
   return document.fullscreenElement || document.webkitFullscreenElement || null;
@@ -4303,31 +4338,44 @@ async function togglePresentationFullscreen() {
   }
 }
 
-document.addEventListener('fullscreenchange', updateFullscreenButton);
-document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+document.addEventListener('fullscreenchange', ()=>{updateFullscreenButton();schedulePanelFit();});
+document.addEventListener('webkitfullscreenchange', ()=>{updateFullscreenButton();schedulePanelFit();});
 document.addEventListener('DOMContentLoaded', updateFullscreenButton);
 
 // ── 공급가 / 소비자가 기준 마진율 ──
-let manualPdrnSupply = 0;
+const PDRN_TIERS={V:{label:'VIP'},P:{label:'파트너'}};
+let selectedPdrnTier='';
+
+function getPdrnTierSupply(tier){
+  const value=parseInt(localStorage.getItem('siore-pdrn-'+tier)||'0',10);
+  return Number.isFinite(value)&&value>0?value:0;
+}
+
+function ensurePdrnTierSupply(tier){
+  const saved=getPdrnTierSupply(tier);
+  if(saved)return saved;
+  const label=PDRN_TIERS[tier]?.label||tier;
+  const entered=prompt(label+' 공급가를 입력하세요. 이 금액은 현재 기기에만 저장됩니다.','');
+  const value=parseInt(String(entered||'').replace(/[^0-9]/g,''),10);
+  if(!Number.isFinite(value)||value<=0)return 0;
+  localStorage.setItem('siore-pdrn-'+tier,String(value));
+  return value;
+}
 
 function closePdrnTierPicker() {
   document.getElementById('pdrn-tier-picker')?.remove();
 }
 
-function applyPdrnSupply() {
-  const input = document.getElementById('pdrn-manual-supply');
-  const value = Number(String(input?.value || '').replace(/[^0-9]/g, ''));
-  if (!Number.isFinite(value) || value <= 0) {
-    input?.focus();
-    return;
-  }
-  manualPdrnSupply = Math.round(value);
+function selectPdrnTier(tier) {
+  if(!PDRN_TIERS[tier])return;
+  if(!ensurePdrnTierSupply(tier))return;
+  selectedPdrnTier=tier;
   closePdrnTierPicker();
   updatePricing();
 }
 
 function clearPdrnSupply() {
-  manualPdrnSupply = 0;
+  selectedPdrnTier='';
   closePdrnTierPicker();
   updatePricing();
 }
@@ -4338,26 +4386,22 @@ function openPdrnTierPicker(trigger) {
   picker.id = 'pdrn-tier-picker';
   picker.className = 'pdrn-tier-picker';
   picker.innerHTML = `
-    <label for="pdrn-manual-supply">마시는 PDRN 공급가 직접 입력</label>
-    <input id="pdrn-manual-supply" type="password" inputmode="numeric" autocomplete="off" placeholder="금액 입력" aria-label="마시는 PDRN 공급가">
-    <p class="pdrn-tier-status">${manualPdrnSupply > 0 ? '현재 기기에 공급가가 입력되어 있습니다.' : '사이트에는 고정 공급가가 저장되지 않습니다.'}</p>
+    <label>마시는 PDRN 공급 구분</label>
+    <div class="pdrn-tier-inline" style="display:grid;margin-bottom:8px">
+      <button type="button" class="${selectedPdrnTier==='V'?'active':''}" onclick="selectPdrnTier('V')">V</button>
+      <button type="button" class="${selectedPdrnTier==='P'?'active':''}" onclick="selectPdrnTier('P')">P</button>
+    </div>
+    <p class="pdrn-tier-status">공급가는 현재 기기에만 비공개 저장<br>10+1 할증 마진 자동 반영</p>
     <div class="pdrn-tier-actions">
       <button type="button" class="clear" onclick="clearPdrnSupply()">지우기</button>
-      <button type="button" class="apply" onclick="applyPdrnSupply()">적용</button>
+      <button type="button" class="apply" onclick="closePdrnTierPicker()">닫기</button>
     </div>`;
   document.body.appendChild(picker);
-  const input = picker.querySelector('input');
-  if (manualPdrnSupply > 0) input.value = String(manualPdrnSupply);
-  input.addEventListener('keydown', event => {
-    if (event.key === 'Enter') applyPdrnSupply();
-    if (event.key === 'Escape') closePdrnTierPicker();
-  });
   const rect = trigger.getBoundingClientRect();
   const left = Math.min(window.innerWidth - 218, Math.max(8, rect.left + rect.width / 2 - 105));
   const top = Math.min(window.innerHeight - 170, rect.bottom + 6);
   picker.style.left = left + 'px';
   picker.style.top = top + 'px';
-  setTimeout(() => input.focus(), 0);
   setTimeout(() => document.addEventListener('pointerdown', function dismiss(event) {
     if (!picker.contains(event.target) && event.target !== trigger) {
       closePdrnTierPicker();
@@ -4392,19 +4436,20 @@ function updatePricing() {
     const mrEl = tr.querySelector('.margin-rate');
     const isFixedPdrn = tr.dataset.fixedPdrn === 'true';
     const supply = isFixedPdrn
-      ? manualPdrnSupply
+      ? getPdrnTierSupply(selectedPdrnTier)
       : Math.round(retail * rate);
-    const margin = supply > 0 ? Math.round((retail - supply) / retail * 100) : 0;
+    const effectiveSupply=isFixedPdrn&&supply>0?supply*10/11:supply;
+    const margin = effectiveSupply > 0 ? Math.round((retail - effectiveSupply) / retail * 100) : 0;
     if (spEl) {
       if (isFixedPdrn) {
-        const label = supply > 0 ? '입력됨' : '•••';
-        spEl.innerHTML = `<button type="button" class="pdrn-supply-trigger" onclick="openPdrnTierPicker(this)" aria-label="마시는 PDRN 공급가 직접 입력">${label}</button>`;
+        const label = supply > 0 ? `${selectedPdrnTier} ${supply.toLocaleString('ko-KR')}원` : 'V / P';
+        spEl.innerHTML = `<button type="button" class="pdrn-supply-trigger" onclick="openPdrnTierPicker(this)" aria-label="마시는 PDRN VIP 또는 파트너 공급가 선택">${label}</button>`;
       } else {
         spEl.textContent = supply.toLocaleString('ko-KR') + '원';
       }
     }
     if (mrEl) {
-      mrEl.textContent = supply > 0 ? margin + '%' : '—';
+      mrEl.innerHTML = supply > 0 ? `${margin}%${isFixedPdrn?'<span class="pdrn-margin-bonus">10+1 반영</span>':''}` : '—';
       mrEl.style.color = supply > 0 ? (margin >= 40 ? '#10b981' : margin >= 30 ? '#f59e0b' : '#ef4444') : '#a69ab8';
     }
   });
@@ -4412,7 +4457,7 @@ function updatePricing() {
   if (noteDefault) noteDefault.style.display = 'none';
   if (noteSupply) {
     noteSupply.style.display = '';
-    noteSupply.textContent = '🔒 입력 비율 ' + ratePercent + '% 적용 | 일반 공급가 = 소비자가 × 입력 비율 | 마시는 PDRN은 공급가 칸을 눌러 직접 입력 | 마진율 = (소비자가 − 공급가) ÷ 소비자가 × 100%';
+    noteSupply.textContent = '🔒 일반 공급가 입력 비율 ' + ratePercent + '% 적용 | 국내 권장 소비자가 기준 마진율 | 마시는 PDRN은 V/P 선택 및 10+1 할증 수량을 반영해 계산';
   }
 }
 
@@ -5562,6 +5607,25 @@ function wireLineupSkuCards() {
   .influencer-card .ic-region{position:absolute;left:8px;top:8px;z-index:2;background:#f55018;color:#fff;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900;letter-spacing:.6px;pointer-events:none}
   .influencer-card.domestic .ic-region{background:#176f99}
   .influencer-card .ic-label{position:absolute;left:6px;right:6px;bottom:6px;background:rgba(17,17,17,.78);backdrop-filter:blur(8px);color:#fff;border:1px solid rgba(255,255,255,.24);border-radius:8px;padding:5px 6px;font-size:7.5px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+  .marketing-apply-only{display:grid;grid-template-rows:auto 1fr auto;align-items:center;justify-items:center;padding:22px;border-radius:20px;background:linear-gradient(150deg,#ff5a20,#dc3108);color:#fff;box-shadow:0 16px 34px rgba(151,43,12,.22);min-height:0;text-align:center}
+  .marketing-apply-only small{font-size:10px;font-weight:900;letter-spacing:1.8px;opacity:.82}
+  .marketing-apply-only h3{font-size:30px;line-height:1.16;letter-spacing:-1.4px;margin:8px 0 3px}
+  .marketing-apply-only p{font-size:11px;line-height:1.5;opacity:.86;margin:0 0 10px}
+  .marketing-apply-only .marketing-apply-box{width:100%;box-sizing:border-box;margin:0;grid-template-columns:128px minmax(0,1fr);align-self:center}
+  .marketing-apply-only .marketing-apply-qr{width:128px;height:128px}
+  .marketing-admin-note{font-size:9px;font-weight:800;opacity:.8;margin-top:8px}
+  .marketing-media-board{display:grid;grid-template-rows:minmax(0,1.18fr) minmax(0,.82fr);gap:10px;min-width:0;min-height:0}
+  .marketing-featured-videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;min-width:0;min-height:0}
+  .marketing-featured-card{position:relative;overflow:hidden;border-radius:15px;background:#17110f;border:1px solid #ead8d0;min-height:0}
+  .marketing-featured-card iframe{width:100%;height:100%;border:0;background:#17110f;display:block}
+  .marketing-featured-card .feature-label{position:absolute;left:8px;right:8px;bottom:8px;padding:7px 9px;border-radius:9px;background:rgba(20,14,12,.82);backdrop-filter:blur(9px);color:#fff;font-size:9px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+  .marketing-featured-card .feature-badge{position:absolute;left:8px;top:8px;padding:4px 7px;border-radius:999px;background:#f55018;color:#fff;font-size:8px;font-weight:900;pointer-events:none}
+  .marketing-result-link-overlay{position:absolute;inset:0;z-index:3;text-indent:-9999px}
+  .marketing-mini-strips{display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:8px;min-height:0}
+  .marketing-mini-strip{display:grid;grid-template-columns:130px repeat(5,minmax(0,1fr));gap:7px;min-height:0}
+  .marketing-mini-title{display:flex;flex-direction:column;justify-content:center;padding:10px;border-radius:12px;background:#fff;border:1px solid #eadfd9}
+  .marketing-mini-title strong{font-size:12px;line-height:1.25}.marketing-mini-title span{font-size:8px;line-height:1.4;color:#756963;margin-top:4px}
+  .marketing-mini-strip .influencer-card{border-radius:10px}
   .price-sku-head{width:54px}
   .price-sku-cell{width:54px;padding:3px!important;text-align:center}
   .price-sku-image{display:block;width:46px;height:46px;margin:auto;object-fit:contain;filter:drop-shadow(0 3px 5px rgba(40,25,15,.12))}
@@ -5607,12 +5671,12 @@ function wireLineupSkuCards() {
   .vmd-case-thumbs img{width:100%;height:100%;object-fit:cover}
 
   @media(max-width:800px){
-    .brand-onepage,.marketing-onepage,.vmd-onepage{height:auto;max-height:none;overflow:visible}
+    .brand-onepage,.marketing-onepage,.vmd-onepage{height:calc(800px - 72px);max-height:none;overflow:hidden}
     .brand-onepage{grid-template-rows:auto auto}.brand-onepage-main{grid-template-columns:1fr}.brand-origin-visual{min-height:330px}
     .brand-proof-bottom{grid-template-columns:1fr 1fr}
     .brand-proof-bottom .brand-strength-card{min-height:390px}
     .brand-proof-bottom .brand-strength-card:last-child{grid-column:1/-1}
-    .marketing-layout,.vmd-real-layout{grid-template-columns:1fr}.marketing-stat-card{min-height:500px}.marketing-showcase{grid-template-rows:auto auto}.influencer-wall{height:210px;grid-template-columns:repeat(5,minmax(138px,1fr));overflow-x:auto;padding-bottom:4px}.sns-strip{min-height:245px}
+    .marketing-layout{grid-template-columns:31% 69%}.vmd-real-layout{grid-template-columns:1fr}.marketing-featured-videos{grid-template-columns:repeat(3,minmax(0,1fr))}.marketing-mini-strip{grid-template-columns:110px repeat(5,minmax(0,1fr))}.influencer-wall{grid-template-columns:repeat(5,minmax(0,1fr));overflow:hidden}
     .vmd-real-hero{min-height:430px}.vmd-real-grid{height:640px}
   }
 </style>
@@ -5756,46 +5820,35 @@ function wireLineupSkuCards() {
   if(marketing) marketing.innerHTML=`
     <div class="marketing-onepage">
       <header class="marketing-head">
-        <div><small>MARKETING · PHARMACY TRAFFIC</small><h2>입점 후에도 끝이 아닙니다.<br>약국별 인플루언서 마케팅까지 지원합니다.</h2></div>
-        <p>상권·고객층·주력 SKU를 확인해 국내 약사, 뷰티, 중화권·외국인 콘텐츠를 맞춤 연결하고 약국 방문 명분까지 함께 만듭니다.</p>
+        <div><small>INFLUENCER · PHARMACY VISIT</small><h2>인플루언서 약국 파견<br>홍보 신청</h2></div>
+        <p>입점 약국의 상권과 주력 SKU에 맞춰 크리에이터 방문부터 SNS 콘텐츠 공개까지 연결합니다.</p>
       </header>
       <div class="marketing-layout">
-        <section class="marketing-stat-card" aria-label="블루랩약국 실제 인플루언서 지원 사례">
-          <div class="marketing-case-kicker">REAL SUPPORT CASE · BUSAN</div>
-          <h3 class="marketing-case-title">블루랩약국<br>중화권 인플루언서 지원</h3>
-          <p class="marketing-case-copy">부산 광안리 약국에 맞춰 크리에이터 방문부터 콘텐츠 결과까지 실제로 연결하고 있습니다.</p>
-          <div class="marketing-case-stats">
-            <div class="marketing-case-stat"><strong>10명</strong><span>진행 인원</span></div>
-            <div class="marketing-case-stat"><strong>3건</strong><span>결과 공개</span></div>
-            <div class="marketing-case-stat"><strong>부산</strong><span>광안리 상권</span></div>
-          </div>
+        <section class="marketing-apply-only" aria-label="인플루언서 약국 파견 홍보 신청">
+          <div><small>APPLY NOW</small><h3>인플루언서 약국 파견<br>홍보 신청</h3><p>QR을 스캔하면 신청서를 바로 작성할 수 있습니다.</p></div>
           <div class="marketing-apply-box" aria-label="시오레 약국 SNS 인플루언서 방문 신청">
             <a class="marketing-apply-qr" href="https://docs.google.com/forms/d/1AH4_NYyiVynSBGVhSOym_xTt54QA8EnFJKCj0bMZeas/edit" target="_blank" rel="noopener" title="관리자: 신청서 수정" aria-label="시오레 인플루언서 방문 신청서 관리자 화면 열기"><img src="assets/marketing/siore_marketing_apply_qr.png" alt="시오레 약국 SNS 인플루언서 방문 신청 QR"></a>
             <div class="marketing-apply-copy">
               <strong>인플루언서(SNS)<br>방문 신청</strong>
             </div>
           </div>
-          <div class="marketing-result-list">
-            <a class="marketing-result-link" href="https://www.rednote.com/explore/6a6fe5d200000000050336f7" target="_blank" rel="noopener"><span class="marketing-result-icon">小</span><span><b class="marketing-result-name">Jinee Log</b><span class="marketing-result-meta">좋아요 32 · 댓글 1 · 저장 8</span></span><span class="marketing-result-open">결과 보기 ↗</span></a>
-            <a class="marketing-result-link" href="https://www.rednote.com/explore/6a6c6db6000000002c002ce5" target="_blank" rel="noopener"><span class="marketing-result-icon">小</span><span><b class="marketing-result-name">抹茶拿铁半糖～</b><span class="marketing-result-meta">좋아요 11 · 댓글 1 · 저장 6</span></span><span class="marketing-result-open">결과 보기 ↗</span></a>
-            <a class="marketing-result-link" href="https://www.rednote.com/explore/6a6d83b50000000025002a17" target="_blank" rel="noopener"><span class="marketing-result-icon">小</span><span><b class="marketing-result-name">圆咕隆咚咚咚咚巴拉</b><span class="marketing-result-meta">좋아요 2 · 댓글 0 · 저장 1</span></span><span class="marketing-result-open">결과 보기 ↗</span></a>
-          </div>
-          <a class="marketing-sheet-link" href="https://docs.google.com/spreadsheets/d/1mMpJPXta5j7XA-8Boe1dKbq4rKa9yAJtj5SPAvxX8Vw/edit?gid=1427871476#gid=1427871476" target="_blank" rel="noopener">진행 현황 시트 전체 보기 ↗</a>
+          <div class="marketing-admin-note">QR 클릭 시 관리자 신청서 수정 화면으로 이동</div>
         </section>
-        <section class="marketing-showcase" aria-label="시오레 국내·해외 SNS 인플루언서 콘텐츠">
-          <div class="sns-strip">
-            <div class="sns-strip-head"><strong>국내 · 약사 인플루언서 중심 5</strong><span>전문가 설명이 제품 신뢰와 구매 명분을 만듭니다</span></div>
-            <div class="influencer-wall">
+        <section class="marketing-media-board" aria-label="시오레 실제 약국 방문 및 국내외 SNS 콘텐츠">
+          <div class="marketing-featured-videos">
+            <article class="marketing-featured-card"><iframe data-src="https://www.rednote.com/explore/6a6fe5d200000000050336f7?autoplay=1&muted=1" title="실제 약국 방문 홍보 영상 1" allow="autoplay; encrypted-media" loading="lazy"></iframe><span class="feature-badge">실제 약국 파견</span><span class="feature-label">Jinee Log · 방문 홍보 결과</span><a class="marketing-result-link-overlay" href="https://www.rednote.com/explore/6a6fe5d200000000050336f7" target="_blank" rel="noopener">결과 영상 열기</a></article>
+            <article class="marketing-featured-card"><iframe data-src="https://www.rednote.com/explore/6a6c6db6000000002c002ce5?autoplay=1&muted=1" title="실제 약국 방문 홍보 영상 2" allow="autoplay; encrypted-media" loading="lazy"></iframe><span class="feature-badge">실제 약국 파견</span><span class="feature-label">중화권 크리에이터 · 방문 홍보 결과</span><a class="marketing-result-link-overlay" href="https://www.rednote.com/explore/6a6c6db6000000002c002ce5" target="_blank" rel="noopener">결과 영상 열기</a></article>
+            <article class="marketing-featured-card"><iframe data-src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/?autoplay=1&muted=1" title="임별 대표약사 시오레 영상" allow="autoplay; encrypted-media" loading="lazy"></iframe><span class="feature-badge">PHARMACIST</span><span class="feature-label">임별 대표약사 · 브랜드 설명</span></article>
+          </div>
+          <div class="marketing-mini-strips">
+            <div class="marketing-mini-strip"><div class="marketing-mini-title"><strong>국내 · 약사 중심 5</strong><span>전문가 설명으로 구매 명분 강화</span></div>
               <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7642684744630553886?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">약사 1</span><span class="ic-label">약사 추천 · NMN 성분 포인트</span></article>
               <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7643558398050454791?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">약사 2</span><span class="ic-label">약사 리뷰 · 인텐시브 세럼</span></article>
               <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DYQqDSDMs3E/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">약사 3</span><span class="ic-label">약사 PICK · K-BEAUTY 추천</span></article>
               <article class="influencer-card domestic"><iframe src="https://www.instagram.com/reel/DWobNjSDplM/embed/" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 4</span><span class="ic-label">공식 채널 · 브랜드 이슈</span></article>
               <article class="influencer-card domestic"><iframe src="https://www.tiktok.com/embed/v2/7626350259144264990?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">국내 5</span><span class="ic-label">약국 상담용 · 풀 루틴 리뷰</span></article>
             </div>
-          </div>
-          <div class="sns-strip">
-            <div class="sns-strip-head"><strong>국외 · 글로벌 확산 콘텐츠 5</strong><span>TikTok · Instagram · Xiaohongshu 채널별 타겟 확산</span></div>
-            <div class="influencer-wall">
+            <div class="marketing-mini-strip"><div class="marketing-mini-title"><strong>국외 · 글로벌 5</strong><span>채널별 타겟 콘텐츠 확산</span></div>
               <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7648558054732025118?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 1</span><span class="ic-label">NMN SERUM · 제품 집중</span></article>
               <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7636852348824030485?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 2</span><span class="ic-label">K-BEAUTY · 루틴 콘텐츠</span></article>
               <article class="influencer-card"><iframe src="https://www.tiktok.com/embed/v2/7641601249279741191?description=0" loading="lazy" allow="encrypted-media"></iframe><span class="ic-region">해외 3</span><span class="ic-label">SKIN GLOW · 사용 장면</span></article>
@@ -5806,6 +5859,12 @@ function wireLineupSkuCards() {
         </section>
       </div>
     </div>`;
+
+  window.activateMarketingVideos=function(){
+    document.querySelectorAll('#panel-marketing iframe[data-src]').forEach(frame=>{
+      if(!frame.getAttribute('src'))frame.setAttribute('src',frame.dataset.src);
+    });
+  };
 
   const vmdImages=[
     ['1FF4l2zy6xyP3duJI6d4UwPO67trP8BDS','NMN · Daily Relief 실제 세팅 대표 사례'],

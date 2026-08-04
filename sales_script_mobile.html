@@ -186,11 +186,11 @@
     <div class="voice-panel-head"><strong>목소리 샘플 선택</strong><button id="voice-close" type="button" aria-label="목소리 선택 닫기">×</button></div>
     <label class="voice-device">기기 한국어 음성<select id="voice-name" aria-label="한국어 음성 선택"><option value="">자동 - 자연스러운 여성 음성 우선</option></select></label>
     <div class="voice-samples">
-      <button class="voice-sample active" type="button" data-voice-preset="sales"><b>✨ 밝은 영업형</b><span>생기 있고 또렷한 추천 톤</span></button>
+      <button class="voice-sample active" type="button" data-voice-preset="sales"><b>✨ 2번 · 밝은 여성 영업형</b><span>명랑하고 자연스러운 아나운서 톤 · 기본 선택</span></button>
       <button class="voice-sample" type="button" data-voice-preset="expert"><b>🎙 신뢰 전문가형</b><span>낮고 안정적인 설명 톤</span></button>
       <button class="voice-sample" type="button" data-voice-preset="warm"><b>🌿 따뜻한 상담형</b><span>부드럽고 여유 있는 톤</span></button>
     </div>
-    <p class="voice-note">버튼을 누르면 같은 문장으로 샘플이 재생됩니다. 선택한 톤은 개별 듣기와 전체 듣기에 모두 적용됩니다.</p>
+    <p class="voice-note">2번 여성 영업형을 기본 목소리로 설정했습니다. 선택한 톤은 개별 듣기와 전체 듣기에 모두 적용됩니다.</p>
   </aside>
 
   <script>
@@ -227,7 +227,7 @@
     const synth=window.speechSynthesis;
     const sets={pitch,sku,guide:guideNarration};
     const VOICE_PRESETS={
-      sales:{rate:1,pitch:1.02,sample:"약사님, 이 제품은 단순히 촉촉한 화장품이 아닙니다. 피부 고민의 순서를 정확하게 설계한 전문 케어 제품입니다."},
+      sales:{rate:.96,pitch:1.06,sample:"약사님, 이 제품은 단순히 촉촉한 화장품이 아닙니다. 피부 고민의 순서를 정확하게 설계한 전문 케어 제품입니다."},
       expert:{rate:.92,pitch:.96,sample:"약사님, 이 제품은 단순히 촉촉한 화장품이 아닙니다. 피부 고민의 순서를 정확하게 설계한 전문 케어 제품입니다."},
       warm:{rate:.88,pitch:1.04,sample:"약사님, 이 제품은 단순히 촉촉한 화장품이 아닙니다. 피부 고민의 순서를 정확하게 설계한 전문 케어 제품입니다."}
     };
@@ -294,7 +294,7 @@
       const sample=new SpeechSynthesisUtterance(preset.sample);
       sample.lang="ko-KR";sample.rate=preset.rate;sample.pitch=preset.pitch;
       const selected=voice();if(selected)sample.voice=selected;
-      document.getElementById("now-title").textContent=`목소리 샘플 · ${voicePreset==="sales"?'밝은 영업형':voicePreset==="expert"?'신뢰 전문가형':'따뜻한 상담형'}`;
+      document.getElementById("now-title").textContent=`목소리 샘플 · ${voicePreset==="sales"?'2번 밝은 여성 영업형':voicePreset==="expert"?'신뢰 전문가형':'따뜻한 상담형'}`;
       synth.speak(sample);
     }
     function playNext(){

@@ -376,7 +376,6 @@ function showResults() {
   renderEvidence(sets.core3);
   renderConsultationScripts(sets, premium);
   renderRoutine(premium.items);
-  renderCerts();
   goToStep(3);
 }
 

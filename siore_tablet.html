@@ -1981,14 +1981,38 @@ body {
 .pdrn-tier-picker {
   position: fixed;
   z-index: 99999;
-  width: 132px;
-  padding: 6px;
+  width: 210px;
+  padding: 10px;
   border: 1px solid #d9d0ea;
   border-radius: 12px;
   background: rgba(255,255,255,.98);
   box-shadow: 0 12px 32px rgba(31,18,55,.24);
   backdrop-filter: blur(12px);
 }
+.pdrn-tier-picker label {
+  display:block;
+  margin-bottom:6px;
+  color:#2a1060;
+  font-family:var(--font);
+  font-size:11px;
+  font-weight:900;
+}
+.pdrn-tier-picker input {
+  width:100%;
+  box-sizing:border-box;
+  margin-bottom:8px;
+  padding:9px 10px;
+  border:1px solid #cbbce8;
+  border-radius:8px;
+  background:#faf8ff;
+  color:#2a1060;
+  font-family:var(--font);
+  font-size:13px;
+  font-weight:850;
+  outline:none;
+}
+.pdrn-tier-picker input:focus { border-color:#8B5CF6; box-shadow:0 0 0 3px rgba(139,92,246,.12); }
+.pdrn-tier-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
 .pdrn-tier-picker button {
   display:flex;
   align-items:center;
@@ -2004,8 +2028,11 @@ body {
   font-weight:850;
   cursor:pointer;
 }
+.pdrn-tier-picker button.apply { background:#8B5CF6; color:#fff; justify-content:center; }
+.pdrn-tier-picker button.clear { background:#f2edff; color:#6d4bc3; justify-content:center; }
 .pdrn-tier-picker button:hover { background:#f2edff; }
-.pdrn-tier-picker small { color:#8c7aaa; font-size:10px; }
+.pdrn-tier-picker button.apply:hover { background:#7441dc; }
+.pdrn-tier-status { margin:0 0 8px; color:#8c7aaa; font-size:10px; font-weight:750; }
 
 .vmd-grid {
   display: grid;
@@ -4281,16 +4308,26 @@ document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
 document.addEventListener('DOMContentLoaded', updateFullscreenButton);
 
 // ── 공급가 / 소비자가 기준 마진율 ──
-const PDRN_FIXED_SUPPLY = { vip: 13600, partner: 16800 };
-let selectedPdrnTier = '';
+let manualPdrnSupply = 0;
 
 function closePdrnTierPicker() {
   document.getElementById('pdrn-tier-picker')?.remove();
 }
 
-function selectPdrnTier(tier) {
-  if (!PDRN_FIXED_SUPPLY[tier]) return;
-  selectedPdrnTier = tier;
+function applyPdrnSupply() {
+  const input = document.getElementById('pdrn-manual-supply');
+  const value = Number(String(input?.value || '').replace(/[^0-9]/g, ''));
+  if (!Number.isFinite(value) || value <= 0) {
+    input?.focus();
+    return;
+  }
+  manualPdrnSupply = Math.round(value);
+  closePdrnTierPicker();
+  updatePricing();
+}
+
+function clearPdrnSupply() {
+  manualPdrnSupply = 0;
   closePdrnTierPicker();
   updatePricing();
 }
@@ -4301,14 +4338,26 @@ function openPdrnTierPicker(trigger) {
   picker.id = 'pdrn-tier-picker';
   picker.className = 'pdrn-tier-picker';
   picker.innerHTML = `
-    <button type="button" onclick="selectPdrnTier('vip')"><span>VIP</span><small>13,600</small></button>
-    <button type="button" onclick="selectPdrnTier('partner')"><span>파트너</span><small>16,800</small></button>`;
+    <label for="pdrn-manual-supply">마시는 PDRN 공급가 직접 입력</label>
+    <input id="pdrn-manual-supply" type="password" inputmode="numeric" autocomplete="off" placeholder="금액 입력" aria-label="마시는 PDRN 공급가">
+    <p class="pdrn-tier-status">${manualPdrnSupply > 0 ? '현재 기기에 공급가가 입력되어 있습니다.' : '사이트에는 고정 공급가가 저장되지 않습니다.'}</p>
+    <div class="pdrn-tier-actions">
+      <button type="button" class="clear" onclick="clearPdrnSupply()">지우기</button>
+      <button type="button" class="apply" onclick="applyPdrnSupply()">적용</button>
+    </div>`;
   document.body.appendChild(picker);
+  const input = picker.querySelector('input');
+  if (manualPdrnSupply > 0) input.value = String(manualPdrnSupply);
+  input.addEventListener('keydown', event => {
+    if (event.key === 'Enter') applyPdrnSupply();
+    if (event.key === 'Escape') closePdrnTierPicker();
+  });
   const rect = trigger.getBoundingClientRect();
-  const left = Math.min(window.innerWidth - 140, Math.max(8, rect.left + rect.width / 2 - 66));
-  const top = Math.min(window.innerHeight - 96, rect.bottom + 6);
+  const left = Math.min(window.innerWidth - 218, Math.max(8, rect.left + rect.width / 2 - 105));
+  const top = Math.min(window.innerHeight - 170, rect.bottom + 6);
   picker.style.left = left + 'px';
   picker.style.top = top + 'px';
+  setTimeout(() => input.focus(), 0);
   setTimeout(() => document.addEventListener('pointerdown', function dismiss(event) {
     if (!picker.contains(event.target) && event.target !== trigger) {
       closePdrnTierPicker();
@@ -4343,13 +4392,13 @@ function updatePricing() {
     const mrEl = tr.querySelector('.margin-rate');
     const isFixedPdrn = tr.dataset.fixedPdrn === 'true';
     const supply = isFixedPdrn
-      ? (selectedPdrnTier ? PDRN_FIXED_SUPPLY[selectedPdrnTier] : 0)
+      ? manualPdrnSupply
       : Math.round(retail * rate);
     const margin = supply > 0 ? Math.round((retail - supply) / retail * 100) : 0;
     if (spEl) {
       if (isFixedPdrn) {
-        const label = supply > 0 ? supply.toLocaleString('ko-KR') + '원' : '•••';
-        spEl.innerHTML = `<button type="button" class="pdrn-supply-trigger" onclick="openPdrnTierPicker(this)" aria-label="마시는 PDRN 공급가 선택">${label}</button>`;
+        const label = supply > 0 ? '입력됨' : '•••';
+        spEl.innerHTML = `<button type="button" class="pdrn-supply-trigger" onclick="openPdrnTierPicker(this)" aria-label="마시는 PDRN 공급가 직접 입력">${label}</button>`;
       } else {
         spEl.textContent = supply.toLocaleString('ko-KR') + '원';
       }
@@ -4363,7 +4412,7 @@ function updatePricing() {
   if (noteDefault) noteDefault.style.display = 'none';
   if (noteSupply) {
     noteSupply.style.display = '';
-    noteSupply.textContent = '🔒 입력 비율 ' + ratePercent + '% 적용 | 일반 공급가 = 소비자가 × 입력 비율 | 마진율 = (소비자가 − 공급가) ÷ 소비자가 × 100%';
+    noteSupply.textContent = '🔒 입력 비율 ' + ratePercent + '% 적용 | 일반 공급가 = 소비자가 × 입력 비율 | 마시는 PDRN은 공급가 칸을 눌러 직접 입력 | 마진율 = (소비자가 − 공급가) ÷ 소비자가 × 100%';
   }
 }
 

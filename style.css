@@ -1462,6 +1462,11 @@ td:last-child {
   padding: 18px;
 }
 
+.evidence-head {
+  min-height: 78px;
+  padding: 18px 18px 10px;
+}
+
 .evidence-role {
   color: var(--rose);
   font-size: 11px;
@@ -1469,7 +1474,7 @@ td:last-child {
   letter-spacing: 0.1em;
 }
 
-.evidence-body h3 {
+.evidence-head h3 {
   margin: 5px 0 8px;
   color: var(--ink);
   font-family: var(--serif);

@@ -609,12 +609,14 @@ function renderEvidence(items) {
   const evidenceItems = items.filter((product) => product.clinical && product.clinical.length);
   const cards = evidenceItems.map((product) => `
     <article class="evidence-card">
+      <div class="evidence-head">
+        <div class="evidence-role">${product.routine}</div>
+        <h3>${productName(product)}</h3>
+      </div>
       ${product.clinicalImage ? `<div class="evidence-media">
         <img class="clinical-proof-img" src="${product.clinicalImage}" alt="${product.short} 주요 임상 이미지">
       </div>` : ""}
       <div class="evidence-body">
-        <div class="evidence-role">${product.routine}</div>
-        <h3>${productName(product)}</h3>
         <div class="evidence-specs">
           <span>${product.capacity} · ${product.routine}</span>
           <span>${product.tag}</span>

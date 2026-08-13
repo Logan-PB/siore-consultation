@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SIORE AI 피부 상담 · Concept UI (코랄 × 블루 × 화이트)</title>
+<meta name="description" content="SIORE 피부상담링크 리디자인 목업 — 프리미엄 홀로그램 HUD UI, 바우만 기반 정밀 피부 진단, 얼굴 스캔 프로토타입" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+<style>
+  :root{
+    --bg-0:#fdfaf8;
+    --bg-1:#f5e9e4;
+    --bg-2:#f5e9e4;
+    --panel:rgba(255,255,255,0.72);
+    --panel-solid:#ffffff;
+    --line:rgba(120,150,190,0.20);
+    --line-strong:rgba(120,150,190,0.42);
+    --cyan:#108cff;
+    --cyan-soft:rgba(16,140,255,0.35);
+    --gold:#fc553a;
+    --gold-soft:#ff8e75;
+    --gold-dim:rgba(252,85,58,0.35);
+    --text:#241a16;
+    --text-dim:#8a766e;
+    --text-faint:#c9bab2;
+    --danger:#ec3c33;
+    --ok:#07a082;
+    --ink:#ffffff;
+    --boot-gray:#3a322e;
+    --radius:18px;
+    --mono:'Pretendard Variable', -apple-system, sans-serif;
+    --disp:'Pretendard Variable', -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{overflow-x:hidden;}
+  body{
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(252,85,58,0.10), transparent 60%),
+      radial-gradient(1000px 800px at 110% 10%, rgba(16,140,255,0.08), transparent 55%),
+      linear-gradient(180deg, var(--bg-0), var(--bg-1) 40%, var(--bg-0));
+    color:var(--text);
+    font-family:'Pretendard Variable', -apple-system, sans-serif;
+    min-height:100vh;
+    position:relative;
+  }
+  .grid-field{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(120,150,190,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120,150,190,0.06) 1px, transparent 1px);
+    background-size:42px 42px;
+    mask-image:radial-gradient(1100px 700px at 50% 20%, black, transparent 75%);
+    animation:drift 40s linear infinite;
+  }
+  @keyframes drift{ from{background-position:0 0,0 0;} to{background-position:400px 0,0 400px;} }
+  .glow-orb{position:fixed; border-radius:50%; filter:blur(90px); opacity:.16; z-index:0; pointer-events:none;}
+  .glow-orb.a{width:520px;height:520px; background:var(--gold); top:-160px; left:-160px;}
+  .glow-orb.b{width:460px;height:460px; background:var(--cyan); top:20%; right:-200px;}
+  .scanline{
+    position:fixed; inset:0; z-index:1; pointer-events:none; opacity:.22;
+    background:repeating-linear-gradient(180deg, rgba(36,26,22,0.04) 0px, rgba(36,26,22,0.04) 1px, transparent 2px, transparent 3px);
+  }
+  a{color:inherit;}
+  .i18n-sub{display:inline-block; font-size:.74em; font-weight:400; opacity:.62; margin-top:3px; letter-spacing:0;}
+  .wrap{max-width:1240px; margin:0 auto; padding:32px 28px 120px; position:relative; z-index:2;}
+  header.hud{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(18px);
+    background:linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.55));
+    border-bottom:1px solid var(--line);
+  }
+  .hud-inner{max-width:1240px; margin:0 auto; padding:16px 28px; display:flex; align-items:center; justify-content:space-between; gap:24px;}
+  .brand-cluster{display:flex; align-items:center; gap:14px;}
+  .brand-cluster svg{height:22px; width:auto; display:block;}
+  .brand-cluster svg path{fill:var(--text);}
+  .brand-cluster .div{width:1px; height:22px; background:var(--line-strong);}
+  .ai-badge{
+    display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; letter-spacing:.08em;
+    color:var(--cyan); border:1px solid var(--cyan-soft); padding:5px 10px 5px 8px; border-radius:999px;
+    background:rgba(16,140,255,0.06);
+  }
+  .ai-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan); box-shadow:0 0 8px 2px var(--cyan-soft); animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+  .lang-hud{display:flex; gap:6px;}
+  .lang-hud button{
+    font-family:var(--mono); font-size:11px; color:var(--text-dim); background:transparent; border:1px solid var(--line);
+    padding:6px 10px; border-radius:8px; cursor:pointer; letter-spacing:.03em;
+  }
+  .lang-hud button.active{color:var(--ink); background:var(--gold-soft); border-color:var(--gold-soft); font-weight:700;}
+  .stepper-wrap{max-width:1240px; margin:0 auto; padding:0 28px 14px; border-top:1px solid var(--line);}
+  .stepper{display:flex; align-items:center; gap:0; margin:0; padding-top:14px;}
+  .step-node{display:flex; align-items:center; gap:10px; flex:0 0 auto;}
+  .step-node .ring{
+    width:38px;height:38px;border-radius:50%; display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono); font-size:13px; border:1px solid var(--line-strong); color:var(--text-dim);
+    background:var(--panel-solid); position:relative;
+  }
+  .step-node.active .ring{ color:var(--ink); background:linear-gradient(135deg,var(--gold-soft),var(--gold)); border-color:var(--gold); box-shadow:0 0 0 4px rgba(252,85,58,0.15), 0 0 24px rgba(252,85,58,0.35);}
+  .step-node.done .ring{ color:var(--ok); border-color:var(--ok); background:rgba(73,230,194,0.08);}
+  .step-node .label{font-size:12.5px; color:var(--text-dim); white-space:nowrap;}
+  .step-node.active .label{color:var(--text); font-weight:600;}
+  .step-connector{flex:1 1 auto; height:1px; background:linear-gradient(90deg, var(--line-strong), var(--line)); margin:0 12px; position:relative; top:-13px;}
+  .panel{display:none;}
+  .panel.active{display:block; animation:fadein .5s ease both;}
+  @keyframes fadein{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+  .kicker{font-family:var(--mono); font-size:12px; letter-spacing:.16em; color:var(--gold-soft); text-transform:uppercase; margin:0 0 8px;}
+  h1.hero-title{font-family:var(--disp); font-size:34px; margin:0 0 10px; letter-spacing:.01em; background:linear-gradient(90deg,var(--text),var(--gold) 55%,var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  h2.panel-title{font-size:24px; margin:0 0 8px; font-weight:700;}
+  p.panel-desc{color:var(--text-dim); font-size:14.5px; line-height:1.6; margin:0 0 26px; max-width:720px;}
+  .glass{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    backdrop-filter:blur(14px); position:relative;
+  }
+  .glass::before{
+    content:""; position:absolute; inset:0; border-radius:inherit; padding:1px;
+    background:linear-gradient(135deg, rgba(252,85,58,0.5), rgba(16,140,255,0.15) 40%, transparent 70%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none;
+  }
+  .corner-brackets{position:absolute; inset:10px; pointer-events:none;}
+  .corner-brackets i{position:absolute; width:16px; height:16px; border-color:var(--cyan); opacity:.65;}
+  .corner-brackets i:nth-child(1){top:0;left:0;border-top:2px solid;border-left:2px solid;}
+  .corner-brackets i:nth-child(2){top:0;right:0;border-top:2px solid;border-right:2px solid;}
+  .corner-brackets i:nth-child(3){bottom:0;left:0;border-bottom:2px solid;border-left:2px solid;}
+  .corner-brackets i:nth-child(4){bottom:0;right:0;border-bottom:2px solid;border-right:2px solid;}
+  #intro .intro-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center; margin-top:12px;}
+  .orbit-wrap{position:relative; aspect-ratio:1/1; width:100%; max-width:380px; margin:0 auto; display:flex; align-items:center; justify-content:center;}
+  .orbit-ring{position:absolute; border-radius:50%; border:1px solid var(--line-strong);}
+  .orbit-ring.r1{inset:0; animation:spin 26s linear infinite;}
+  .orbit-ring.r2{inset:44px; border-style:dashed; border-color:var(--gold-dim); animation:spin 18s linear infinite reverse;}
+  .orbit-ring.r3{inset:88px; border-color:var(--cyan-soft); animation:spin 34s linear infinite;}
+  @keyframes spin{from{transform:rotate(0)} to{transform:rotate(360deg)}}
+  .orbit-ring i{position:absolute; width:8px;height:8px;border-radius:50%;background:var(--gold-soft); box-shadow:0 0 10px 3px var(--gold-dim); top:-4px; left:calc(50% - 4px);}
+  .orbit-core{width:150px;height:150px;border-radius:50%; background:radial-gradient(circle at 35% 30%, rgba(255,255,255,0.15), rgba(252,85,58,0.12) 45%, rgba(5,7,12,0.4) 75%); border:1px solid var(--gold-dim); display:flex; align-items:center; justify-content:center; box-shadow:0 0 60px rgba(252,85,58,0.18), inset 0 0 40px rgba(16,140,255,0.08);}
+  .orbit-core .orbit-brand{display:flex; flex-direction:column; align-items:center; gap:9px;}
+  .orbit-core .orbit-brand svg{width:96px; height:auto; display:block;}
+  .orbit-core .orbit-brand svg path{fill:var(--gold);}
+  .orbit-core .orbit-brand .orbit-caption{font-family:var(--disp); font-size:10px; letter-spacing:.2em; color:var(--text-dim); text-align:center;}
+  .boot-lines{font-family:var(--mono); font-size:12px; color:var(--boot-gray); line-height:2; margin:18px 0 26px;}
+  .boot-lines .ok{color:var(--ok);}
+  .boot-lines span.blk{opacity:0; animation:typein .4s ease forwards;}
+  .btn{
+    font-family:'Pretendard Variable',sans-serif; font-weight:700; font-size:14.5px; border-radius:12px; padding:14px 26px;
+    border:1px solid transparent; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-gold{background:linear-gradient(135deg, var(--gold-soft), var(--gold)); color:#221709; box-shadow:0 8px 26px rgba(252,85,58,0.25);}
+  .btn-gold:hover{transform:translateY(-1px); box-shadow:0 10px 30px rgba(252,85,58,0.38);}
+  .btn-ghost{background:transparent; color:var(--text-dim); border-color:var(--line-strong);}
+  .btn-ghost:hover{color:var(--text); border-color:var(--text-dim);}
+  .btn[disabled]{opacity:.35; cursor:not-allowed; pointer-events:none;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .field-card{padding:22px;}
+  .field-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .field-head h3{font-size:15px; margin:0;}
+  .field-head span{font-family:var(--mono); font-size:10.5px; color:var(--text-faint); letter-spacing:.04em;}
+  .chip-grid{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-size:13px; padding:9px 14px; border-radius:10px; border:1px solid var(--line-strong); background:rgba(36,26,22,0.05);
+    color:var(--text-dim); cursor:pointer; transition:.15s ease;
+  }
+  .chip:hover{border-color:var(--cyan-soft); color:var(--text);}
+  .chip.selected{background:linear-gradient(135deg, rgba(252,85,58,0.9), rgba(252,85,58,0.65)); border-color:var(--gold); color:#221709; font-weight:700;}
+  .concern-section-head{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:26px 0 4px;}
+  .concern-section-head h3{font-size:17px; margin:0; font-weight:700;}
+  .concern-section-head .concern-hint{font-size:12.5px; color:var(--text-dim);}
+  .concern-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:14px;}
+  .concern-tile{
+    padding:18px 10px; text-align:center; border-radius:14px; border:1px solid var(--line); background:rgba(36,26,22,0.05);
+    cursor:pointer; transition:.15s ease; position:relative;
+  }
+  .concern-tile:hover{border-color:var(--cyan-soft); transform:translateY(-2px);}
+  .concern-tile.selected{border-color:var(--cyan); background:rgba(16,140,255,0.08); box-shadow:0 0 0 1px var(--cyan-soft) inset, 0 0 24px rgba(16,140,255,0.12);}
+  .concern-tile .ic{font-size:22px; display:block; margin-bottom:8px;}
+  .concern-tile b{display:block; font-size:13px;}
+  .concern-tile small{display:block; font-size:10px; color:var(--text-faint); font-family:var(--mono); margin-top:3px;}
+  .panel-actions{display:flex; justify-content:space-between; margin-top:30px;}
+  .scan-grid{display:grid; grid-template-columns:.85fr 1.15fr; gap:22px; align-items:stretch;}
+  .cam-card{padding:20px; display:flex; flex-direction:column; gap:14px;}
+  .cam-viewport{
+    position:relative; aspect-ratio:4/3; border-radius:14px; overflow:hidden; background:#000;
+    border:1px solid var(--line-strong);
+  }
+  .cam-viewport video, .cam-viewport canvas{width:100%; height:100%; object-fit:cover; display:block;}
+  .cam-viewport .placeholder{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    color:var(--text-faint); font-size:13px; text-align:center; padding:20px;
+  }
+  .reticle{position:absolute; inset:0; pointer-events:none;}
+  .reticle .oval{
+    position:absolute; left:50%; top:48%; transform:translate(-50%,-50%); width:56%; height:78%;
+    border:1.5px solid var(--cyan); border-radius:48% 48% 46% 46%/58% 58% 42% 42%; opacity:.85;
+    box-shadow:0 0 24px rgba(16,140,255,0.35);
+  }
+  .reticle .cross{position:absolute; left:50%; top:48%; width:14px; height:14px; transform:translate(-50%,-50%); border:1px solid var(--cyan); opacity:.6;}
+  .reticle b{position:absolute; width:18px; height:18px; border-color:var(--gold-soft); opacity:.9;}
+  .reticle b:nth-child(3){top:8px;left:8px;border-top:2px solid;border-left:2px solid;}
+  .reticle b:nth-child(4){top:8px;right:8px;border-top:2px solid;border-right:2px solid;}
+  .reticle b:nth-child(5){bottom:8px;left:8px;border-bottom:2px solid;border-left:2px solid;}
+  .reticle b:nth-child(6){bottom:8px;right:8px;border-bottom:2px solid;border-right:2px solid;}
+  .scan-sweep{position:absolute; left:0; right:0; height:38%; top:-38%;
+    background:linear-gradient(180deg, transparent, rgba(16,140,255,0.28), transparent);
+    animation:sweep 2.6s linear infinite;}
+  @keyframes sweep{ from{top:-38%;} to{top:100%;} }
+  .cam-status{font-family:var(--mono); font-size:11px; color:var(--cyan); display:flex; align-items:center; gap:8px;}
+  .cam-controls{display:flex; gap:10px;}
+  .cam-controls .btn{flex:1; justify-content:center; padding:12px;}
+  .cam-alt{display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--text-dim);}
+  .cam-alt .upload-btn{font-family:inherit; font-size:11.5px; font-weight:600; color:var(--cyan); background:rgba(16,140,255,0.08); border:1px solid var(--cyan-soft); border-radius:8px; padding:7px 12px; cursor:pointer; white-space:nowrap;}
+  .cam-alt .upload-btn:hover{background:rgba(16,140,255,0.14);}
+  .privacy-note{font-size:11.5px; color:var(--text-faint); line-height:1.6; border-top:1px dashed var(--line); padding-top:12px; margin-top:2px;}
+  .quiz-card{padding:26px 26px 24px; display:flex; flex-direction:column; gap:16px; max-height:none;}
+  .quiz-card .field-head h3{font-size:17.5px; font-weight:700;}
+  .quiz-hint{font-size:12.5px; color:var(--text-dim); line-height:1.6; margin:-8px 0 2px;}
+  .quiz-pager{display:flex; align-items:center; justify-content:space-between; margin-top:2px;}
+  .btn.small{padding:9px 14px; font-size:12.5px;}
+  .btn.small[disabled]{opacity:.3;}
+  .quiz-pager-dots{display:flex; align-items:center; gap:6px;}
+  .quiz-pager-dots i{width:7px; height:7px; border-radius:50%; background:var(--line-strong); display:block; transition:.2s ease;}
+  .quiz-pager-dots i.active{width:20px; border-radius:4px; background:var(--gold);}
+  .quiz-progress{display:flex; gap:6px;}
+  .quiz-progress i{flex:1; height:5px; border-radius:3px; background:var(--line-strong);}
+  .quiz-progress i.done{background:var(--gold-soft);}
+  .axis-block{border:1px solid var(--axis-border,var(--line-strong)); border-left:5px solid var(--axis-c,var(--gold)); border-radius:14px; padding:16px 18px 15px; background:var(--axis-bg,rgba(255,255,255,0.55)); transition:background .2s ease;}
+  .axis-block.axis-od{ --axis-c:#fc553a; --axis-bg:rgba(252,85,58,0.055); --axis-border:rgba(252,85,58,0.22); }
+  .axis-block.axis-sr{ --axis-c:#108cff; --axis-bg:rgba(16,140,255,0.055); --axis-border:rgba(16,140,255,0.22); }
+  .axis-block.axis-pn{ --axis-c:#1caa78; --axis-bg:rgba(28,170,120,0.06); --axis-border:rgba(28,170,120,0.22); }
+  .axis-block.axis-wt{ --axis-c:#a855f7; --axis-bg:rgba(168,85,247,0.06); --axis-border:rgba(168,85,247,0.22); }
+  .axis-block .axis-tag{font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--axis-c,var(--gold)); letter-spacing:.02em; margin-bottom:10px; display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:999px; background:rgba(255,255,255,0.7);}
+  .q-group + .q-group{margin-top:13px; padding-top:13px; border-top:1px dashed var(--axis-border,var(--line));}
+  .axis-block .q-num{font-family:var(--mono); font-size:10px; color:var(--text-faint); margin:0 0 3px; letter-spacing:.04em;}
+  .axis-block .q-text{font-size:15px; font-weight:600; margin:0 0 9px; line-height:1.42; color:var(--text);}
+  .opt-row{display:grid; grid-template-columns:1fr 1fr; gap:7px;}
+  .opt{font-size:13.5px; padding:10px 12px; border:1.5px solid var(--line-strong); border-radius:10px; cursor:pointer; color:var(--text-dim); background:rgba(255,255,255,0.62); display:flex; align-items:center; gap:8px; line-height:1.32; transition:.15s ease;}
+  .opt::before{content:""; width:15px; height:15px; flex:0 0 auto; border-radius:50%; border:1.5px solid var(--line-strong); background:#fff; transition:.15s ease;}
+  .opt:hover{border-color:var(--axis-c,var(--cyan-soft)); color:var(--text);}
+  .opt.selected{background:var(--axis-bg,rgba(16,140,255,0.08)); border-color:var(--axis-c,var(--cyan)); color:var(--text); font-weight:700;}
+  .opt.selected::before{border-color:var(--axis-c,var(--cyan)); background:radial-gradient(circle, var(--axis-c,var(--cyan)) 0 42%, transparent 44%);}
+  .opt .opt-txt{display:block;}
+  .opt .i18n-sub{display:block; margin-top:1px;}
+  #analyzing{
+    position:fixed; inset:0; z-index:200; background:rgba(255,255,255,0.82); backdrop-filter:blur(6px);
+    display:none; align-items:center; justify-content:center; flex-direction:column; gap:22px;
+  }
+  #analyzing.show{display:flex;}
+  .analyze-ring{width:150px;height:150px;border-radius:50%;border:2px solid var(--line-strong); position:relative;}
+  .analyze-ring::before{content:""; position:absolute; inset:-2px; border-radius:50%; border:2px solid transparent; border-top-color:var(--cyan); border-right-color:var(--gold-soft); animation:spin 1.1s linear infinite;}
+  .analyze-ring::after{content:"AI"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--disp); color:var(--text); letter-spacing:.1em; font-size:14px;}
+  #analyzing .ticker{font-family:var(--mono); font-size:12.5px; color:var(--cyan); min-height:18px;}
+  #analyzing .abar{width:280px; height:4px; border-radius:3px; background:var(--line-strong); overflow:hidden;}
+  #analyzing .abar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--gold-soft),var(--cyan)); transition:width .25s linear;}
+  .result-hero{display:grid; grid-template-columns:.85fr 1.15fr; gap:24px; margin-bottom:22px;}
+  .type-card{padding:26px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;}
+  .type-code{font-family:var(--disp); font-size:44px; letter-spacing:.06em; background:linear-gradient(90deg,var(--gold),var(--text) 50%,var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .type-name{font-size:16px; font-weight:700;}
+  .type-sub{font-size:12.5px; color:var(--text-dim); line-height:1.6;}
+  .axis-tags{display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:6px;}
+  .axis-tags span{font-family:var(--mono); font-size:10.5px; padding:5px 9px; border-radius:999px; border:1px solid var(--line-strong); color:var(--text-dim);}
+  .radar-card{padding:20px; display:flex; flex-direction:column; gap:14px;}
+  .radar-card .radar-body{display:flex; align-items:center; gap:18px;}
+  .radar-card svg{flex:0 0 auto;}
+  .radar-head h4{margin:0 0 4px; font-size:13px; font-weight:700; color:var(--text);}
+  .radar-caption{margin:0; font-size:11.5px; color:var(--text-dim); line-height:1.55;}
+  .radar-legend{display:flex; flex-direction:column; gap:10px; font-size:12.5px; flex:1;}
+  .radar-legend .row{display:flex; align-items:flex-start; gap:8px;}
+  .radar-legend .sw{width:9px;height:9px;border-radius:2px; margin-top:5px; flex:0 0 auto;}
+  .radar-legend .txt{line-height:1.5;}
+  .radar-legend b{color:var(--text); font-weight:700; font-size:12px;}
+  .radar-legend .pct{font-family:var(--mono); color:var(--text-dim); font-size:11px;}
+  .scan-photo-card{padding:20px; display:flex; flex-direction:column; gap:14px;}
+  .scan-photo-body{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start;}
+  .scan-photo-card .frame{position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; background:#000;}
+  .scan-photo-card .frame canvas, .scan-photo-card .frame img{width:100%;height:100%;object-fit:cover;}
+  .scan-photo-card .frame .hud-grid{position:absolute; inset:0; background-image:linear-gradient(rgba(16,140,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(16,140,255,0.14) 1px, transparent 1px); background-size:20px 20px; mix-blend-mode:screen;}
+  .scan-photo-card .frame .scan-pin{position:absolute; display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:10.5px; color:#fff; background:rgba(20,15,12,0.55); backdrop-filter:blur(3px); padding:4px 8px 4px 6px; border-radius:999px; border:1px solid rgba(255,255,255,0.25);}
+  .scan-photo-card .frame .scan-pin i{width:6px;height:6px;border-radius:50%; flex:0 0 auto;}
+  .scan-metrics{display:flex; flex-direction:column; gap:16px; justify-content:center; height:100%;}
+  .metric-item .metric-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px;}
+  .metric-item .metric-head b{font-size:13px; color:var(--text);}
+  .metric-item .metric-head span{font-family:var(--mono); font-size:12px; color:var(--gold); font-weight:700;}
+  .metric-item .metric-bar{height:7px; border-radius:4px; background:var(--line); overflow:hidden;}
+  .metric-item .metric-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--gold-soft),var(--cyan));}
+  .metric-item .metric-desc{font-size:11.5px; color:var(--text-faint); margin:6px 0 0; line-height:1.5;}
+  .scan-photo-card .note{font-size:11px; color:var(--text-faint); line-height:1.6;}
+  .scan-empty-note{padding:16px 18px; font-size:12px; color:var(--text-dim); line-height:1.6;}
+  .summary-card{padding:22px 24px;}
+  .summary-row{padding:15px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:220px 1fr; gap:20px; align-items:center;}
+  .summary-row:first-child{padding-top:2px;}
+  .summary-row:last-child{border-bottom:none; padding-bottom:2px;}
+  .summary-row-head{display:flex; align-items:center; gap:9px; margin-bottom:8px;}
+  .summary-row-head .summary-ic{font-size:16px;}
+  .summary-row-head b{font-size:13.5px; flex:1;}
+  .summary-row-head .summary-pct{font-family:var(--mono); font-size:11px; color:var(--gold); font-weight:700;}
+  .summary-bar{height:6px; border-radius:4px; background:var(--line); overflow:hidden;}
+  .summary-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--gold-soft),var(--gold));}
+  .summary-text{font-size:13px; color:var(--text-dim); line-height:1.65; margin:0;}
+  .section-block{margin:36px 0;}
+  .section-block .sh{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px;}
+  .section-block .sh h3{font-size:17px; margin:0; display:flex; align-items:center; gap:8px;}
+  .section-block .sh h3 i{width:6px;height:18px;background:linear-gradient(180deg,var(--gold-soft),var(--cyan)); display:inline-block; border-radius:2px;}
+  .section-block .sh small{font-family:var(--mono); font-size:10.5px; color:var(--text-faint);}
+  .ingredient-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .ing-card{padding:16px;}
+  .ing-card .name{font-size:13.5px; font-weight:700; margin:0 0 4px;}
+  .ing-card .func{font-size:11.5px; color:var(--text-dim); margin:0 0 10px;}
+  .ing-bar{height:6px; border-radius:4px; background:var(--line); overflow:hidden; margin-bottom:6px;}
+  .ing-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--gold-soft),var(--cyan));}
+  .ing-pct{font-family:var(--mono); font-size:11px; color:var(--gold-soft);}
+  .legend-strip{display:flex; gap:14px; flex-wrap:wrap; margin-top:14px; font-size:11.5px; color:var(--text-faint); font-family:var(--mono);}
+  .legend-strip span b{color:var(--cyan);}
+  .badge-row{display:flex; gap:12px; flex-wrap:wrap;}
+  .info-badge{padding:14px 16px; display:flex; gap:10px; align-items:flex-start; max-width:340px; cursor:pointer;}
+  .info-badge .ic{font-size:18px;}
+  .info-badge b{display:block; font-size:13px; margin-bottom:3px;}
+  .info-badge p{margin:0; font-size:11.5px; color:var(--text-dim); line-height:1.55;}
+  .evidence-card{padding:18px 20px;}
+  .evidence-card ul{margin:10px 0 0; padding-left:18px; font-size:13px; color:var(--text-dim); line-height:1.8;}
+  .evidence-card .cite{margin-top:12px; font-family:var(--mono); font-size:10.5px; color:var(--text-faint); border-top:1px dashed var(--line); padding-top:10px;}
+  .barrier-diagram{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:center; padding:22px;}
+  .brick-stack{display:flex; flex-direction:column-reverse; gap:3px;}
+  .brick-row{display:flex; gap:3px;}
+  .brick{flex:1; height:20px; border-radius:3px; background:linear-gradient(135deg, rgba(252,85,58,0.55), rgba(252,85,58,0.25)); border:1px solid rgba(252,85,58,0.4);}
+  .mortar{height:6px; background:rgba(16,140,255,0.25); border-radius:2px;}
+  .barrier-legend{font-size:12.5px; color:var(--text-dim); line-height:2;}
+  .barrier-legend b{color:var(--text); font-family:var(--mono); font-size:11.5px;}
+  .product-row{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .product-card{padding:16px; display:flex; flex-direction:column; gap:10px;}
+  .product-card .rank{font-family:var(--mono); font-size:11px; color:var(--gold-soft);}
+  .product-card .thumb{aspect-ratio:1/1; border-radius:12px; background:radial-gradient(circle at 35% 25%, rgba(16,140,255,0.18), rgba(252,85,58,0.12) 55%, rgba(36,26,22,0.05) 80%); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:30px;}
+  .product-card .pname{font-size:14px; font-weight:700; margin:0;}
+  .product-card .ptag{font-size:11.5px; color:var(--text-dim); margin:0;}
+  .product-card .clinical{font-family:var(--mono); font-size:10.5px; color:var(--ok); margin-top:2px;}
+  .tag-row{display:flex; gap:6px; flex-wrap:wrap;}
+  .tag-row span{font-size:10.5px; padding:3px 8px; border-radius:999px; border:1px solid var(--line-strong); color:var(--text-faint);}
+  .faq-tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;}
+  .faq-tab{font-size:12.5px; padding:8px 14px; border-radius:999px; border:1px solid var(--line-strong); color:var(--text-dim); cursor:pointer;}
+  .faq-tab.active{background:var(--gold-soft); color:#221709; border-color:var(--gold-soft); font-weight:700;}
+  .faq-list{display:none; flex-direction:column; gap:10px;}
+  .faq-list.active{display:flex;}
+  .faq-item{padding:14px 16px; font-size:13px; color:var(--text-dim); line-height:1.6;}
+  .faq-item b{color:var(--text); display:block; margin-bottom:4px; font-size:13.5px;}
+  .faq-item .flag{display:inline-block; margin-top:8px; font-family:var(--mono); font-size:10px; color:var(--danger); border:1px solid rgba(255,122,122,0.4); padding:2px 7px; border-radius:6px;}
+  footer.foot{text-align:center; padding:40px 0 10px; color:var(--text-faint); font-size:11.5px; line-height:1.8;}
+  footer.foot a{color:var(--cyan); text-decoration:underline; text-underline-offset:2px;}
+  @media(max-width:960px){
+    .grid2, .scan-grid, .result-hero, .barrier-diagram{grid-template-columns:1fr;}
+    .concern-grid{grid-template-columns:repeat(3,1fr);}
+    .ingredient-grid, .product-row{grid-template-columns:1fr 1fr;}
+    .orbit-wrap{max-width:340px; margin:0 auto;}
+  }
+  @media(max-width:760px){
+    .wrap{padding:24px 20px 100px;}
+    .hud-inner{padding:14px 20px; gap:14px;}
+    h1.hero-title{font-size:28px;}
+    .type-code{font-size:38px;}
+    .radar-card{flex-direction:column; align-items:flex-start; gap:14px;}
+    .radar-card svg{margin:0 auto;}
+    .scan-photo-body{grid-template-columns:1fr;}
+    .summary-row{grid-template-columns:1fr; gap:6px;}
+  }
+  @media(max-width:640px){
+    .hud-inner{flex-wrap:wrap;}
+    .ai-badge-label{display:none;}
+    .stepper{gap:0;}
+    .stepper-wrap{padding:0 20px 12px;}
+    .step-node .label{display:none;}
+    .step-connector{margin:0 6px;}
+    .concern-grid{grid-template-columns:repeat(2,1fr);}
+    .ingredient-grid, .product-row, .badge-row{grid-template-columns:1fr;}
+    .info-badge{max-width:100%;}
+    .orbit-wrap{max-width:230px;}
+    .orbit-core{width:118px; height:118px;}
+    .orbit-core .orbit-brand svg{width:74px;}
+    .scan-grid{gap:16px;}
+    .quiz-pager{flex-wrap:wrap; gap:10px; justify-content:center;}
+  }
+  @media(max-width:480px){
+    .opt-row{grid-template-columns:1fr;}
+    .radar-card .radar-body{flex-direction:column; align-items:flex-start;}
+    .radar-card .radar-body svg{margin:0 auto;}
+  }
+  @media(max-width:430px){
+    .wrap{padding:18px 14px 90px;}
+    .kicker{font-size:10.5px;}
+    h1.hero-title{font-size:22px;}
+    p.panel-desc{font-size:13px;}
+    .btn{padding:12px 18px; font-size:13.5px;}
+    .lang-hud{gap:4px;}
+    .lang-hud button{padding:5px 8px; font-size:10px;}
+    .step-node .ring{width:32px; height:32px; font-size:11px;}
+    .field-card, .quiz-card, .cam-card, .glass.type-card, .glass.radar-card{padding:16px;}
+    .faq-tabs{gap:6px;}
+    .faq-tab{padding:7px 11px; font-size:11.5px;}
+    .type-code{font-size:32px;}
+  }
+</style>
+</head>
+<body>
+<div class="grid-field"></div>
+<div class="glow-orb a"></div>
+<div class="glow-orb b"></div>
+<div class="scanline"></div>
+
+<header class="hud">
+  <div class="hud-inner">
+    <div class="brand-cluster">
+      <svg viewBox="0 0 232 61" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M30.91 37.3199C29.21 36.3699 27.34 35.5999 25.28 35.0199C23.22 34.4299 21.18 33.8999 19.14 33.4299C17.1 32.9599 15.24 32.4199 13.54 31.8399C11.84 31.2499 10.46 30.4599 9.40002 29.4699C8.34002 28.4799 7.81002 27.1399 7.81002 25.4599C7.81002 24.0599 8.21002 22.7899 9.00002 21.6599C9.79002 20.5299 11.05 19.6199 12.77 18.9499C14.49 18.2799 16.68 17.9299 19.35 17.9299C21.48 17.9299 23.67 18.2399 25.93 18.8399C28.19 19.4499 30.34 20.4399 32.38 21.7899L34.62 16.3599C32.63 14.9999 30.28 13.9599 27.56 13.2399C24.85 12.5199 22.11 12.1499 19.35 12.1499C15.19 12.1499 11.76 12.7699 9.07002 14.0199C6.38002 15.2599 4.39002 16.9099 3.10002 18.9699C1.81002 21.0299 1.17002 23.2799 1.17002 25.7199C1.17002 28.1599 1.69002 30.3199 2.73002 31.9299C3.77002 33.5399 5.14002 34.8199 6.84002 35.7699C8.54002 36.7199 10.41 37.4999 12.47 38.1099C14.53 38.7199 16.58 39.2599 18.61 39.7099C20.65 40.1599 22.51 40.6899 24.21 41.2999C25.91 41.9099 27.29 42.7099 28.35 43.7099C29.41 44.6999 29.94 46.0099 29.94 47.6499C29.94 49.0499 29.53 50.3099 28.72 51.4199C27.91 52.5299 26.64 53.3999 24.92 54.0299C23.2 54.6599 20.96 54.9799 18.2 54.9799C15.17 54.9799 12.25 54.4599 9.45002 53.4199C6.64002 52.3799 4.34002 51.0699 2.53002 49.4799L0.0200195 54.7699C1.92002 56.5299 4.52002 57.9699 7.82002 59.0799C11.12 60.1899 14.58 60.7399 18.2 60.7399C22.36 60.7399 25.81 60.1199 28.55 58.8699C31.29 57.6299 33.31 55.9799 34.62 53.9199C35.93 51.8599 36.59 49.6299 36.59 47.2299C36.59 44.8299 36.07 42.7099 35.03 41.1299C33.99 39.5499 32.62 38.2799 30.92 37.3299L30.91 37.3199Z" fill="white"/><path d="M59.1298 12.6899H52.3398V60.1899H59.1298V12.6899Z" fill="white"/><path d="M118.58 19.0399C116.29 16.8499 113.63 15.1499 110.57 13.9499C107.52 12.7499 104.18 12.1499 100.56 12.1499C96.94 12.1499 93.53 12.7599 90.45 13.9799C87.37 15.1999 84.71 16.9099 82.44 19.0999C80.18 21.2899 78.41 23.8599 77.15 26.7999C75.88 29.7399 75.25 32.9499 75.25 36.4399C75.25 39.9299 75.88 43.1299 77.15 46.0799C78.42 49.0199 80.18 51.5899 82.44 53.7799C84.7 55.9699 87.38 57.6799 90.48 58.8999C93.58 60.1199 96.94 60.7299 100.56 60.7299C104.18 60.7299 107.52 60.1299 110.57 58.9299C113.62 57.7299 116.29 56.0399 118.58 53.8399C120.86 51.6499 122.63 49.0799 123.87 46.1399C125.11 43.1999 125.74 39.9699 125.74 36.4399C125.74 32.9099 125.12 29.6799 123.87 26.7299C122.62 23.7899 120.86 21.2299 118.58 19.0299V19.0399ZM117.56 43.6999C116.63 45.9199 115.34 47.8499 113.69 49.4999C112.04 51.1499 110.09 52.4299 107.85 53.3299C105.61 54.2399 103.18 54.6799 100.55 54.6799C97.92 54.6799 95.43 54.2299 93.19 53.3299C90.95 52.4199 88.99 51.1499 87.32 49.4999C85.65 47.8499 84.34 45.9099 83.42 43.6999C82.49 41.4799 82.03 39.0599 82.03 36.4399C82.03 33.8199 82.49 31.3999 83.42 29.1799C84.35 26.9599 85.65 25.0299 87.32 23.3799C88.99 21.7299 90.95 20.4499 93.19 19.5499C95.43 18.6399 97.88 18.1899 100.55 18.1899C103.22 18.1899 105.61 18.6399 107.85 19.5499C110.09 20.4599 112.03 21.7299 113.69 23.3799C115.34 25.0299 116.63 26.9699 117.56 29.1799C118.49 31.3999 118.95 33.8199 118.95 36.4399C118.95 39.0599 118.49 41.4799 117.56 43.6999Z" fill="white"/><path d="M170.94 43.7699C173.88 42.4599 176.14 40.5699 177.73 38.0999C179.31 35.6399 180.1 32.6799 180.1 29.2399C180.1 24.0399 178.34 19.9799 174.81 17.0599C171.28 14.1399 166.44 12.6899 160.29 12.6899H141.76V60.1899H148.55V45.7399H160.29C161.33 45.7399 162.34 45.6999 163.31 45.6199L173.53 60.1999H180.93L169.66 44.2999C170.1 44.1399 170.54 43.9699 170.96 43.7799L170.94 43.7699ZM160.08 39.9699H148.54V18.5999H160.08C164.42 18.5999 167.71 19.5299 169.95 21.3799C172.19 23.2299 173.31 25.8599 173.31 29.2499C173.31 32.6399 172.19 35.2799 169.95 37.1599C167.71 39.0399 164.42 39.9799 160.08 39.9799V39.9699Z" fill="white"/><path d="M203.48 54.2899V38.9499H227.3V33.1799H203.48V18.5899H230.21V12.6899H196.69V60.1899H231.16V54.2899H203.48Z" fill="white"/><path d="M225.87 0H217.59L208.36 8.82H214.47L225.87 0Z" fill="white"/></g></svg>
+      <div class="div"></div>
+      <span class="ai-badge"><i class="dot"></i><span class="ai-badge-label" data-i18n="common.badge" data-i18n-mono>AI CONSULT MODE</span></span>
+    </div>
+    <div class="lang-hud" id="langHud">
+      <button class="active" data-lang="ko">KO</button><button data-lang="en">EN</button><button data-lang="zh">中文</button><button data-lang="ja">日本語</button>
+    </div>
+  </div>
+  <div class="stepper-wrap">
+    <nav class="stepper" id="stepper">
+      <div class="step-node active" data-step="0"><div class="ring">00</div><span class="label" data-i18n="common.step0" data-i18n-mono>시스템 시작</span></div>
+      <div class="step-connector"></div>
+      <div class="step-node" data-step="1"><div class="ring">01</div><span class="label" data-i18n="common.step1" data-i18n-mono>기본 정보</span></div>
+      <div class="step-connector"></div>
+      <div class="step-node" data-step="2"><div class="ring">02</div><span class="label" data-i18n="common.step2" data-i18n-mono>AI 스캔·정밀진단</span></div>
+      <div class="step-connector"></div>
+      <div class="step-node" data-step="3"><div class="ring">03</div><span class="label" data-i18n="common.step3" data-i18n-mono>상담 결과</span></div>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ================= INTRO ================= -->
+  <section class="panel active" id="p0">
+    <div class="intro-grid">
+      <div>
+        <p class="kicker">SIORE Derma OS · Pharmacy Console</p>
+        <h1 class="hero-title" data-i18n="intro.title">내담자 피부, 데이터로 상담하세요</h1>
+        <p class="panel-desc" data-i18n="intro.desc">바우만 피부과학 기반 4축 진단과 얼굴 스캔 가이드를 결합한 약국 전용 상담 보조 시스템입니다. 30초 설문과 촬영 가이드만으로 근거 있는 제품 상담을 준비합니다.</p>
+        <div class="boot-lines" id="bootLines"></div>
+        <button class="btn btn-gold" onclick="goStep(1)" data-i18n="intro.startBtn" data-i18n-mono>상담 시작 →</button>
+      </div>
+      <div class="orbit-wrap">
+        <div class="orbit-ring r1"><i></i></div>
+        <div class="orbit-ring r2"><i style="background:var(--cyan);box-shadow:0 0 10px 3px var(--cyan-soft);"></i></div>
+        <div class="orbit-ring r3"><i style="left:70%"></i></div>
+        <div class="orbit-core">
+          <div class="orbit-brand">
+            <svg viewBox="0 0 232 61" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M30.91 37.3199C29.21 36.3699 27.34 35.5999 25.28 35.0199C23.22 34.4299 21.18 33.8999 19.14 33.4299C17.1 32.9599 15.24 32.4199 13.54 31.8399C11.84 31.2499 10.46 30.4599 9.40002 29.4699C8.34002 28.4799 7.81002 27.1399 7.81002 25.4599C7.81002 24.0599 8.21002 22.7899 9.00002 21.6599C9.79002 20.5299 11.05 19.6199 12.77 18.9499C14.49 18.2799 16.68 17.9299 19.35 17.9299C21.48 17.9299 23.67 18.2399 25.93 18.8399C28.19 19.4499 30.34 20.4399 32.38 21.7899L34.62 16.3599C32.63 14.9999 30.28 13.9599 27.56 13.2399C24.85 12.5199 22.11 12.1499 19.35 12.1499C15.19 12.1499 11.76 12.7699 9.07002 14.0199C6.38002 15.2599 4.39002 16.9099 3.10002 18.9699C1.81002 21.0299 1.17002 23.2799 1.17002 25.7199C1.17002 28.1599 1.69002 30.3199 2.73002 31.9299C3.77002 33.5399 5.14002 34.8199 6.84002 35.7699C8.54002 36.7199 10.41 37.4999 12.47 38.1099C14.53 38.7199 16.58 39.2599 18.61 39.7099C20.65 40.1599 22.51 40.6899 24.21 41.2999C25.91 41.9099 27.29 42.7099 28.35 43.7099C29.41 44.6999 29.94 46.0099 29.94 47.6499C29.94 49.0499 29.53 50.3099 28.72 51.4199C27.91 52.5299 26.64 53.3999 24.92 54.0299C23.2 54.6599 20.96 54.9799 18.2 54.9799C15.17 54.9799 12.25 54.4599 9.45002 53.4199C6.64002 52.3799 4.34002 51.0699 2.53002 49.4799L0.0200195 54.7699C1.92002 56.5299 4.52002 57.9699 7.82002 59.0799C11.12 60.1899 14.58 60.7399 18.2 60.7399C22.36 60.7399 25.81 60.1199 28.55 58.8699C31.29 57.6299 33.31 55.9799 34.62 53.9199C35.93 51.8599 36.59 49.6299 36.59 47.2299C36.59 44.8299 36.07 42.7099 35.03 41.1299C33.99 39.5499 32.62 38.2799 30.92 37.3299L30.91 37.3199Z" fill="white"/><path d="M59.1298 12.6899H52.3398V60.1899H59.1298V12.6899Z" fill="white"/><path d="M118.58 19.0399C116.29 16.8499 113.63 15.1499 110.57 13.9499C107.52 12.7499 104.18 12.1499 100.56 12.1499C96.94 12.1499 93.53 12.7599 90.45 13.9799C87.37 15.1999 84.71 16.9099 82.44 19.0999C80.18 21.2899 78.41 23.8599 77.15 26.7999C75.88 29.7399 75.25 32.9499 75.25 36.4399C75.25 39.9299 75.88 43.1299 77.15 46.0799C78.42 49.0199 80.18 51.5899 82.44 53.7799C84.7 55.9699 87.38 57.6799 90.48 58.8999C93.58 60.1199 96.94 60.7299 100.56 60.7299C104.18 60.7299 107.52 60.1299 110.57 58.9299C113.62 57.7299 116.29 56.0399 118.58 53.8399C120.86 51.6499 122.63 49.0799 123.87 46.1399C125.11 43.1999 125.74 39.9699 125.74 36.4399C125.74 32.9099 125.12 29.6799 123.87 26.7299C122.62 23.7899 120.86 21.2299 118.58 19.0299V19.0399ZM117.56 43.6999C116.63 45.9199 115.34 47.8499 113.69 49.4999C112.04 51.1499 110.09 52.4299 107.85 53.3299C105.61 54.2399 103.18 54.6799 100.55 54.6799C97.92 54.6799 95.43 54.2299 93.19 53.3299C90.95 52.4199 88.99 51.1499 87.32 49.4999C85.65 47.8499 84.34 45.9099 83.42 43.6999C82.49 41.4799 82.03 39.0599 82.03 36.4399C82.03 33.8199 82.49 31.3999 83.42 29.1799C84.35 26.9599 85.65 25.0299 87.32 23.3799C88.99 21.7299 90.95 20.4499 93.19 19.5499C95.43 18.6399 97.88 18.1899 100.55 18.1899C103.22 18.1899 105.61 18.6399 107.85 19.5499C110.09 20.4599 112.03 21.7299 113.69 23.3799C115.34 25.0299 116.63 26.9699 117.56 29.1799C118.49 31.3999 118.95 33.8199 118.95 36.4399C118.95 39.0599 118.49 41.4799 117.56 43.6999Z" fill="white"/><path d="M170.94 43.7699C173.88 42.4599 176.14 40.5699 177.73 38.0999C179.31 35.6399 180.1 32.6799 180.1 29.2399C180.1 24.0399 178.34 19.9799 174.81 17.0599C171.28 14.1399 166.44 12.6899 160.29 12.6899H141.76V60.1899H148.55V45.7399H160.29C161.33 45.7399 162.34 45.6999 163.31 45.6199L173.53 60.1999H180.93L169.66 44.2999C170.1 44.1399 170.54 43.9699 170.96 43.7799L170.94 43.7699ZM160.08 39.9699H148.54V18.5999H160.08C164.42 18.5999 167.71 19.5299 169.95 21.3799C172.19 23.2299 173.31 25.8599 173.31 29.2499C173.31 32.6399 172.19 35.2799 169.95 37.1599C167.71 39.0399 164.42 39.9799 160.08 39.9799V39.9699Z" fill="white"/><path d="M203.48 54.2899V38.9499H227.3V33.1799H203.48V18.5899H230.21V12.6899H196.69V60.1899H231.16V54.2899H203.48Z" fill="white"/><path d="M225.87 0H217.59L208.36 8.82H214.47L225.87 0Z" fill="white"/></g></svg>
+            <span class="orbit-caption" data-i18n="intro.orbitCaption" data-i18n-mono>SKIN INTELLIGENCE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 1 ================= -->
+  <section class="panel" id="p1">
+    <p class="kicker">Step 01 · Intake</p>
+    <h2 class="panel-title" data-i18n="step1.title">내담자 기본 정보와 주요 고민</h2>
+    <p class="panel-desc" data-i18n="step1.desc">나이·성별은 보정용 선택 정보이며, 고민은 복수 선택할 수 있습니다.</p>
+
+    <div class="grid2">
+      <div class="glass field-card">
+        <div class="field-head"><h3 data-i18n="step1.age.title">나이대</h3><span>OPTIONAL</span></div>
+        <div class="chip-grid" id="ageGrid">
+          <div class="chip selected" data-v="none" data-i18n="step1.age.none" data-i18n-mono>선택 안 함</div>
+          <div class="chip" data-v="20s" data-i18n="step1.age.20s" data-i18n-mono>20대</div>
+          <div class="chip" data-v="30s" data-i18n="step1.age.30s" data-i18n-mono>30대</div>
+          <div class="chip" data-v="40s" data-i18n="step1.age.40s" data-i18n-mono>40대</div>
+          <div class="chip" data-v="50s" data-i18n="step1.age.50s" data-i18n-mono>50대</div>
+          <div class="chip" data-v="60s" data-i18n="step1.age.60s" data-i18n-mono>60대+</div>
+        </div>
+      </div>
+      <div class="glass field-card">
+        <div class="field-head"><h3 data-i18n="step1.gender.title">성별</h3><span>OPTIONAL</span></div>
+        <div class="chip-grid" id="genderGrid">
+          <div class="chip" data-v="f" data-i18n="step1.gender.f" data-i18n-mono>여성</div>
+          <div class="chip" data-v="m" data-i18n="step1.gender.m" data-i18n-mono>남성</div>
+          <div class="chip selected" data-v="none" data-i18n="step1.age.none" data-i18n-mono>선택 안 함</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="concern-section-head">
+      <h3 data-i18n="step1.concernHead.title">피부 고민 선택</h3>
+      <span class="concern-hint" data-i18n="step1.concernHead.hint">해당하는 고민을 모두 선택해 주세요 (복수 선택 가능)</span>
+    </div>
+    <div class="concern-grid" id="concernGrid">
+      <div class="concern-tile" data-v="건조"><span class="ic">💧</span><b data-i18n="step1.concerns.건조" data-i18n-mono>수분 부족</b><small>DRYNESS</small></div>
+      <div class="concern-tile" data-v="민감"><span class="ic">🛡️</span><b data-i18n="step1.concerns.민감" data-i18n-mono>민감</b><small>SENSITIVITY</small></div>
+      <div class="concern-tile" data-v="열감홍조"><span class="ic">🔥</span><b data-i18n="step1.concerns.열감홍조" data-i18n-mono>열감·홍조</b><small>REDNESS</small></div>
+      <div class="concern-tile" data-v="탄력"><span class="ic">✨</span><b data-i18n="step1.concerns.탄력" data-i18n-mono>탄력 저하</b><small>FIRMNESS</small></div>
+      <div class="concern-tile" data-v="광채"><span class="ic">🌟</span><b data-i18n="step1.concerns.광채" data-i18n-mono>광채·톤</b><small>RADIANCE</small></div>
+      <div class="concern-tile" data-v="트러블"><span class="ic">🔺</span><b data-i18n="step1.concerns.트러블" data-i18n-mono>트러블</b><small>BLEMISH</small></div>
+      <div class="concern-tile" data-v="피지"><span class="ic">💦</span><b data-i18n="step1.concerns.피지" data-i18n-mono>피지</b><small>SEBUM</small></div>
+      <div class="concern-tile" data-v="장벽"><span class="ic">🧱</span><b data-i18n="step1.concerns.장벽" data-i18n-mono>장벽 회복</b><small>BARRIER</small></div>
+      <div class="concern-tile" data-v="각질"><span class="ic">🌀</span><b data-i18n="step1.concerns.각질" data-i18n-mono>각질·결</b><small>TEXTURE</small></div>
+      <div class="concern-tile" data-v="색소"><span class="ic">🎯</span><b data-i18n="step1.concerns.색소" data-i18n-mono>색소·잡티</b><small>PIGMENT</small></div>
+    </div>
+
+    <div class="panel-actions">
+      <button class="btn btn-ghost" onclick="goStep(0)" data-i18n="common.prev" data-i18n-mono>이전</button>
+      <button class="btn btn-gold" id="toStep2" onclick="goStep(2)" disabled data-i18n="step1.nextBtn" data-i18n-mono>다음 · AI 스캔으로 →</button>
+    </div>
+  </section>
+
+  <!-- ================= STEP 2 ================= -->
+  <section class="panel" id="p2">
+    <p class="kicker">Step 02 · AI Scan &amp; Baumann-lite Diagnostic</p>
+    <h2 class="panel-title" data-i18n="step2.title">얼굴 스캔 가이드 &amp; 정밀 피부 진단</h2>
+    <p class="panel-desc" data-i18n="step2.desc">촬영은 선택 사항입니다. 사진은 이 기기(브라우저)에서만 처리되며 서버로 전송·저장되지 않습니다. 실제 피부 타입 판정은 오른쪽의 8문항 진단(바우만 피부 타입 검사 약식버전)을 기준으로 산출됩니다.</p>
+
+    <div class="scan-grid">
+      <div class="glass cam-card">
+        <div class="cam-viewport" id="camViewport">
+          <div class="placeholder" id="camPlaceholder">
+            <div style="font-size:26px;">📷</div>
+            <div data-i18n-html="step2.cam.placeholder">카메라를 시작하면 얼굴 정렬 가이드가 표시됩니다<br/>(선택 사항 · 건너뛰기 가능)</div>
+          </div>
+          <video id="camVideo" autoplay playsinline style="display:none;"></video>
+          <canvas id="camCanvas" style="display:none;"></canvas>
+          <div class="reticle" id="reticle" style="display:none;">
+            <div class="oval"></div><div class="cross"></div>
+            <b></b><b></b><b></b><b></b>
+            <div class="scan-sweep"></div>
+          </div>
+        </div>
+        <div class="cam-status" id="camStatus"><i class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--text-faint);display:inline-block;"></i> <span data-i18n="step2.cam.status.idle" data-i18n-mono>대기 중</span></div>
+        <div class="cam-controls">
+          <button class="btn btn-ghost" id="camStartBtn" onclick="startCam()" data-i18n="step2.cam.startBtn" data-i18n-mono>카메라 시작</button>
+          <button class="btn btn-gold" id="camShotBtn" onclick="takeShot()" disabled data-i18n="step2.cam.shotBtn" data-i18n-mono>촬영</button>
+        </div>
+        <div class="cam-alt">
+          <label class="upload-btn" for="camUploadInput" data-i18n="step2.cam.uploadBtn" data-i18n-mono>사진 업로드</label>
+          <input type="file" id="camUploadInput" accept="image/*" capture="user" style="display:none;">
+          <span data-i18n="step2.cam.uploadHint">카메라가 안 열리면(태블릿·모바일 등) 사진을 선택해서 올려주세요</span>
+        </div>
+        <div class="privacy-note" data-i18n="step2.cam.privacy">🔒 촬영 사진은 서버 업로드 없이 브라우저 내에서만 사용되며, 밝기·홍조 등 참고 지표 계산 후 상담 종료 시 자동 폐기됩니다. 의료기기가 아닌 참고용 보조 지표이며, 정확한 피부 타입은 우측 정밀 진단 결과를 기준으로 합니다.</div>
+      </div>
+
+      <div class="glass quiz-card">
+        <div class="field-head"><h3 data-i18n="step2.quiz.title">정밀 진단 · 8문항</h3><span id="quizCount">0 / 8</span></div>
+        <p class="quiz-hint" data-i18n="step2.quiz.hint">이 답변이 진단 결과를 좌우하는 핵심 지표입니다. 하나씩 편하게, 최대한 솔직하게 선택해 주세요.</p>
+        <div class="quiz-progress" id="quizProgress"></div>
+        <div id="axisContainer"></div>
+        <div class="quiz-pager">
+          <button class="btn btn-ghost small" id="axisPrevBtn" type="button" data-i18n="step2.quiz.pagerPrev" data-i18n-mono>‹ 이전 문항</button>
+          <div class="quiz-pager-dots" id="quizPagerDots"></div>
+          <button class="btn btn-ghost small" id="axisNextBtn" type="button" data-i18n="step2.quiz.pagerNext" data-i18n-mono>다음 문항 ›</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-actions">
+      <button class="btn btn-ghost" onclick="goStep(1)" data-i18n="common.prev" data-i18n-mono>이전</button>
+      <button class="btn btn-gold" id="toStep3" onclick="runAnalysis()" disabled data-i18n="step2.analyzeBtn" data-i18n-mono>분석 시작 →</button>
+    </div>
+  </section>
+
+  <!-- ================= STEP 3 ================= -->
+  <section class="panel" id="p3">
+    <p class="kicker">Step 03 · Consultation Result</p>
+    <h2 class="panel-title" data-i18n="result.title">피부 분석 결과</h2>
+    <p class="panel-desc" data-i18n="result.desc">정밀 진단 8문항과(선택 시) 얼굴 스캔 참고 지표를 종합한 결과입니다. 바우만 피부과학 4축 분류를 약식 적용했으며, 최종 제품 상담은 약사 판단을 우선합니다.</p>
+
+    <div class="result-hero">
+      <div class="glass type-card">
+        <div class="corner-brackets"><i></i><i></i><i></i><i></i></div>
+        <div class="type-code" id="typeCode">----</div>
+        <div class="type-name" id="typeName" data-i18n="result.typeNamePlaceholder">진단 결과 산출 중</div>
+        <div class="type-sub" id="typeSub"></div>
+        <div class="axis-tags" id="axisTags"></div>
+      </div>
+      <div class="glass radar-card">
+        <div class="radar-head">
+          <h4 data-i18n="result.radar.title">4축 진단 그래프 읽는 법</h4>
+          <p class="radar-caption" data-i18n="result.radar.caption">점이 바깥쪽으로 뻗을수록 그 방향의 성향이 강하다는 뜻입니다 — 안쪽은 반대쪽 성향이 우세하다는 의미입니다.</p>
+        </div>
+        <div class="radar-body">
+          <svg id="radarSvg" width="240" height="240" viewBox="0 0 240 240"></svg>
+          <div class="radar-legend" id="radarLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block" style="margin-top:0;">
+      <div class="sh"><h3><i></i><span data-i18n="result.section.summary">AI 종합 소견</span></h3><small data-i18n="result.section.summarySmall">PLAIN-LANGUAGE SUMMARY</small></div>
+      <div class="glass summary-card" id="summaryCard"></div>
+    </div>
+
+    <div class="scan-photo-card glass" id="scanPhotoWrap" style="display:none; margin-bottom:30px;">
+      <div class="field-head"><h3 data-i18n="result.scan.title">스캔 레퍼런스</h3><span>REFERENCE ONLY</span></div>
+      <div class="scan-photo-body">
+        <div class="frame"><canvas id="resultCanvas"></canvas><div class="hud-grid"></div></div>
+        <div class="scan-metrics" id="scanMetrics"></div>
+      </div>
+      <div class="note" data-i18n="result.scan.note">이 화면은 촬영 당시 밝기·홍조 참고 지표를 시각적으로 기록한 것으로, 진단 확정용이 아닌 상담 기록/재방문 비교용입니다.</div>
+    </div>
+    <div class="scan-empty-note glass" id="scanEmptyNote" style="display:none; margin-bottom:30px;" data-i18n="result.scan.emptyNote">촬영 사진이 없어 스캔 레퍼런스는 표시되지 않습니다. 다음 방문 시 촬영하시면 밝기·홍조 참고 지표와 함께 더 자세한 시각 기록을 남길 수 있습니다.</div>
+
+    <div class="section-block">
+      <div class="sh"><h3><i></i><span data-i18n="result.section.ingredient">전성분 리터러시 — 핵심 활성 성분</span></h3><small>INCI READING GUIDE</small></div>
+      <div class="ingredient-grid">
+        <div class="glass ing-card">
+          <p class="name" data-i18n="result.ingredients.0.name">나이아신아마이드</p>
+          <p class="func" data-i18n="result.ingredients.0.func">미백 기능성 고시 성분 · 멜라닌 전달 억제</p>
+          <div class="ing-bar"><i style="width:70%"></i></div>
+          <p class="ing-pct" data-i18n="result.ingredients.0.pct">배합 권장범위 2–5%</p>
+        </div>
+        <div class="glass ing-card">
+          <p class="name" data-i18n="result.ingredients.1.name">아데노신</p>
+          <p class="func" data-i18n="result.ingredients.1.func">주름 개선 기능성 고시 성분</p>
+          <div class="ing-bar"><i style="width:20%"></i></div>
+          <p class="ing-pct" data-i18n="result.ingredients.1.pct">배합 기준 0.04%</p>
+        </div>
+        <div class="glass ing-card">
+          <p class="name" data-i18n="result.ingredients.2.name">NMN (니코틴아마이드모노뉴클레오타이드)</p>
+          <p class="func" data-i18n="result.ingredients.2.func">콜라겐 합성 유도 · ECM 강화 보조</p>
+          <div class="ing-bar"><i style="width:100%"></i></div>
+          <p class="ing-pct" data-i18n="result.ingredients.2.pct">10,000 ppm = 1%</p>
+        </div>
+      </div>
+      <div class="legend-strip">
+        <span data-i18n-html="result.legend.0">· 성분명 어미 <b>~올</b> → 대체로 보습제</span>
+        <span data-i18n-html="result.legend.1">· 성분명 어미 <b>~레이트 / 폴리머</b> → 대체로 계면활성제·점증제</span>
+        <span data-i18n="result.legend.2">· 방부 시스템 예: 1,2-헥산다이올(2% 기준) + 클로르페네신(0.3% 한도)</span>
+        <span data-i18n="result.legend.3">· 방부 트렌드: 파라벤(0.4%) → 페녹시에탄올(1%) → 1,2-헥산다이올 계열</span>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="sh"><h3><i></i><span data-i18n="result.section.cert">인증 &amp; 근거 배지</span></h3><small>CERTIFICATION</small></div>
+      <div class="badge-row">
+        <div class="glass info-badge" tabindex="0">
+          <span class="ic">🟢</span>
+          <div><b data-i18n="result.badges.0.title">논코메도제닉 (Non-comedogenic)</b><p data-i18n="result.badges.0.desc">모공을 막아 트러블을 유발하지 않는다는 것을 인체적용시험으로 입증한 민간 인증. 법적 정의는 아니며, 국내외 공인기관 시험이 필요합니다. 코코아·팜오일·라놀린계·IPM/IPP 등은 대표적 코메도제닉 성분입니다.</p></div>
+        </div>
+        <div class="glass info-badge" tabindex="0">
+          <span class="ic">🧪</span>
+          <div><b data-i18n="result.badges.1.title">피부 자극 테스트 · 무자극</b><p data-i18n="result.badges.1.desc">공인 임상기관의 인체적용시험 결과이며, 개인 피부 상태에 따라 반응은 달라질 수 있어 상담 시 함께 안내하는 것을 권장합니다.</p></div>
+        </div>
+        <div class="glass info-badge" tabindex="0">
+          <span class="ic">📖</span>
+          <div><b data-i18n="result.badges.2.title">기능성 화장품 표시광고 유의</b><p data-i18n="result.badges.2.desc">미백·주름개선 등 기능성 표현은 식약처 화장품 표시광고 관리지침 및 대한화장품협회 가이드라인 기준을 따릅니다. 의약품으로 오인될 수 있는 단정적 효능 표현은 사용하지 않습니다.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="sh"><h3><i></i><span data-i18n="result.section.evidence">NMN 성분 근거</span></h3><small>CLINICAL EVIDENCE</small></div>
+      <div class="glass evidence-card">
+        <b style="font-size:13.5px;" data-i18n="result.evidence.title">NMN(Nicotinamide Mononucleotide)의 작용 및 흡수</b>
+        <ul>
+          <li data-i18n="result.evidence.bullets.0">콜라겐 합성 유도 및 세포외기질(ECM) 강화 보조</li>
+          <li data-i18n="result.evidence.bullets.1">활성산소·염증성 사이토카인 억제에 관여</li>
+          <li data-i18n="result.evidence.bullets.2">세포 대사의 에너지원(NAD+ 전구체)으로 알려짐</li>
+          <li data-i18n="result.evidence.bullets.3">인체 내에서도 생성되는 물질로 안전성이 높으며, 수용성·산성 환경에서 니코틴아마이드로 분해되는 특성이 있어 전달체 설계가 흡수 경로에 영향을 줌</li>
+          <li data-i18n="result.evidence.bullets.4">시너지 원료: 미네랄(Cu·Ca·Mg·Zn·Fe), 항산화 원료(레스베라트롤, 퀘르세틴), 피부재생 원료(PDRN·EGF·펩타이드 등)</li>
+        </ul>
+        <div class="cite">Qu, Y., Zhang, Y., &amp; Li, X. (2022). Permeation of nicotinamide mononucleotide (NMN) in an artificial membrane as a cosmetic skin permeability test model. <i>Journal of Cosmetic Dermatology</i>, 21(10), 4983–4990.</div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="sh"><h3><i></i><span data-i18n="result.section.barrier">피부 장벽 구조 이해</span></h3><small>SKIN BARRIER 101</small></div>
+      <div class="glass barrier-diagram">
+        <div>
+          <div class="brick-stack">
+            <div class="brick-row"><div class="brick"></div><div class="brick"></div><div class="brick"></div><div class="brick"></div></div>
+            <div class="mortar"></div>
+            <div class="brick-row"><div class="brick"></div><div class="brick" style="opacity:.8"></div><div class="brick"></div><div class="brick"></div></div>
+            <div class="mortar"></div>
+            <div class="brick-row"><div class="brick" style="opacity:.8"></div><div class="brick"></div><div class="brick"></div><div class="brick" style="opacity:.8"></div></div>
+            <div class="mortar"></div>
+            <div class="brick-row"><div class="brick"></div><div class="brick"></div><div class="brick" style="opacity:.8"></div><div class="brick"></div></div>
+          </div>
+        </div>
+        <div class="barrier-legend">
+          <div data-i18n-html="result.barrier.0"><b>Brick &amp; Mortar 구조</b> — 각질세포(brick) + 지질(mortar)</div>
+          <div data-i18n-html="result.barrier.1"><b>Tight Junction / NMF–Filaggrin</b> — 수분 보유 핵심 경로</div>
+          <div data-i18n-html="result.barrier.2"><b>피지 지질 비율</b> — 세라마이드 50 : 콜레스테롤 25 : 유리지방산 15</div>
+          <div data-i18n-html="result.barrier.3"><b>Microbiome</b> — 피부 상재균 균형이 장벽 건강에 관여</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="sh"><h3><i></i><span data-i18n="result.section.product">피부 고민 맞춤 BEST 3</span></h3><small>RECOMMENDATION</small></div>
+      <div class="product-row" id="productRow"></div>
+    </div>
+
+    <div class="section-block">
+      <div class="sh"><h3><i></i><span data-i18n="result.section.faq">약사 상담 FAQ</span></h3><small data-i18n="result.section.faqSource">SOURCE: 화장품의 이해 세미나 · 2026</small></div>
+      <div class="faq-tabs" id="faqTabs">
+        <div class="faq-tab active" data-t="usage" data-i18n="result.faqTabs.usage" data-i18n-mono>사용법</div>
+        <div class="faq-tab" data-t="efficacy" data-i18n="result.faqTabs.efficacy" data-i18n-mono>효능</div>
+        <div class="faq-tab" data-t="skintype" data-i18n="result.faqTabs.skintype" data-i18n-mono>피부타입</div>
+        <div class="faq-tab" data-t="ingredient" data-i18n="result.faqTabs.ingredient" data-i18n-mono>성분</div>
+        <div class="faq-tab" data-t="reg" data-i18n="result.faqTabs.reg" data-i18n-mono>규제·상담실무</div>
+      </div>
+      <div class="faq-list active" data-g="usage">
+        <div class="glass faq-item"><b data-i18n="result.faq.usage.0.title">클렌징 → 토너 → 세럼 → 크림, 순서를 꼭 지켜야 하나요?</b><span data-i18n="result.faq.usage.0.body">일반적으로 묽은 제형에서 되직한 제형 순으로 사용하는 것이 흡수 효율에 유리하다고 안내합니다. 순서가 크게 바뀌어도 효과가 사라지진 않으나, 겹바름이 많을수록 흡수가 더뎌질 수 있어 제품 사이 약 1분 내외의 텀을 권장합니다.</span></div>
+        <div class="glass faq-item"><b data-i18n="result.faq.usage.1.title">토너·세럼·앰플을 모두 써야 효과가 나나요?</b><span data-i18n="result.faq.usage.1.body">세 제형은 역할이 다르므로(수분 정돈 / 고농축 집중 케어 / 부스팅) 고민에 따라 단계를 줄여도 무방합니다. 다만 트러블·장벽 손상이 있는 경우 단순한 루틴(클렌징+진정 토너+보습)부터 권장합니다.</span></div>
+      </div>
+      <div class="faq-list" data-g="efficacy">
+        <div class="glass faq-item"><b data-i18n="result.faq.efficacy.0.title">기능성 화장품이 일반 화장품보다 효과가 확실히 더 좋나요?</b><span data-i18n="result.faq.efficacy.0.body">미백·주름개선 기능성은 식약처 심사를 거친 지표 성분(예: 나이아신아마이드 2–5%, 아데노신 0.04%)의 최소 함량 기준을 충족한 제품입니다. 다만 개인차가 있으므로 "반드시 개선"이 아닌 "임상적으로 유의미한 근거가 있는 성분" 수준으로 안내하는 것이 안전합니다.</span><span class="flag" data-i18n="result.faq.efficacy.0.flag" data-i18n-mono>단정 표현 주의</span></div>
+        <div class="glass faq-item"><b data-i18n="result.faq.efficacy.1.title">기능성 화장품은 최소 얼마나 사용해야 효과가 보이나요?</b><span data-i18n="result.faq.efficacy.1.body">제품·성분·임상 설계에 따라 다르므로 특정 기간을 단정하지 않고, 제품별 임상 결과 자료(사용 기간·개선율)를 근거로 안내하는 것을 권장합니다.</span></div>
+      </div>
+      <div class="faq-list" data-g="skintype">
+        <div class="glass faq-item"><b data-i18n="result.faq.skintype.0.title">건성·지성·복합성은 어떻게 구분하나요?</b><span data-i18n="result.faq.skintype.0.body">단순 자가 판단은 부정확한 경우가 많아, 세안 2~3시간 후 무도포 상태의 T존/볼 유·수분 반응을 관찰하는 바우만 방식 문진이 더 신뢰도가 높습니다. 계절에 따라 지표가 이동할 수 있어 정기 재진단을 권장합니다.</span></div>
+        <div class="glass faq-item"><b data-i18n="result.faq.skintype.1.title">민감성 피부 소비자가 성분표에서 먼저 체크할 포인트는?</b><span data-i18n="result.faq.skintype.1.body">향료·에센셜오일 여부, 알코올(에탄올) 함량, 방부제 종류(1,2-헥산다이올/클로르페네신 등 함량 기준 준수 여부), 논코메도제닉 인증 여부를 우선 확인하도록 안내합니다.</span></div>
+      </div>
+      <div class="faq-list" data-g="ingredient">
+        <div class="glass faq-item"><b data-i18n="result.faq.ingredient.0.title">성분은 피부 깊이 도달할수록 무조건 좋은가요?</b><span data-i18n="result.faq.ingredient.0.body">전달 깊이는 목적에 따라 다르며, 진피까지의 투과가 필요한 성분(NMN 등)과 표피에서 작용하는 것으로 충분한 성분(보습·장벽 성분)이 다릅니다. "더 깊이 = 무조건 좋음"으로 단정하지 않는 것이 안전합니다.</span></div>
+        <div class="glass faq-item"><b data-i18n="result.faq.ingredient.1.title">전성분표를 읽을 때 우선 확인 포인트</b><span data-i18n="result.faq.ingredient.1.body">정제수 다음 상위 성분(주요 베이스), 기능성 지표 성분과 함량, 방부제 종류, 향료 표기 여부 순으로 확인하도록 안내합니다.</span></div>
+      </div>
+      <div class="faq-list" data-g="reg">
+        <div class="glass faq-item"><b data-i18n="result.faq.reg.0.title">사용 후 이상 반응(발진 등) 발생 시 안내</b><span data-i18n="result.faq.reg.0.body">기능식품과 달리 화장품은 소비자상담실 등 자체 채널로 접수받고 있으며, 상담 시 사용 중단 및 피부과 진료 연계를 우선 안내합니다.</span><span class="flag" data-i18n="result.faq.reg.0.flag" data-i18n-mono>즉시 판매 유도 금지</span></div>
+        <div class="glass faq-item"><b data-i18n="result.faq.reg.1.title">SNS·콘텐츠 업로드 시 유의할 표시광고 문구</b><span data-i18n="result.faq.reg.1.body">식약처 화장품 표시광고 관리지침, 대한화장품협회 가이드라인을 근거로 하며, "완치", "치료" 등 의약품 오인 표현은 사용하지 않습니다.</span><span class="flag" data-i18n="result.faq.reg.1.flag" data-i18n-mono>표시광고법 확인 필요</span></div>
+      </div>
+    </div>
+
+    <div class="panel-actions" style="justify-content:flex-end;">
+      <button class="btn btn-ghost" onclick="location.reload()" data-i18n="result.restartBtn" data-i18n-mono>처음으로 돌아가기</button>
+    </div>
+  </section>
+
+</div>
+
+<div id="analyzing">
+  <div class="analyze-ring"></div>
+  <div class="ticker" id="analyzeTicker">데이터 정렬 중...</div>
+  <div class="abar"><i id="analyzeBar"></i></div>
+</div>
+
+<footer class="foot">
+  <div data-i18n-html="footer.line1">본 화면은 SIORE 피부상담링크 리디자인 <b>목업(Concept)</b> — 컬러안: 코랄 × 블루 × 화이트 입니다 · 제품 수치·인증 문구는 실제 배포 전 최신 근거 자료로 재확인이 필요합니다.</div>
+  <div>SIORE DERMA COSMETICS · PHARMACY ONLY CONSULTATION · AI CONCEPT UI v0.1</div>
+  <div><span data-i18n="footer.liveLinkLabel" data-i18n-mono>실제 서비스 링크</span>: <a href="https://logan-pb.github.io/siore-skin/" target="_blank" rel="noopener">logan-pb.github.io/siore-skin</a></div>
+</footer>
+
+<script>
+/* ================= I18N DICTIONARY ================= */
+const I18N = {
+ko: {
+  common:{ badge:'AI CONSULT MODE', step0:'시스템 시작', step1:'기본 정보', step2:'AI 스캔·정밀진단', step3:'상담 결과', prev:'이전' },
+  intro:{
+    title:'내담자 피부, 데이터로 상담하세요',
+    desc:'바우만 피부과학 기반 4축 진단과 얼굴 스캔 가이드를 결합한 약국 전용 상담 보조 시스템입니다. 30초 설문과 촬영 가이드만으로 근거 있는 제품 상담을 준비합니다.',
+    startBtn:'상담 시작 →',
+    orbitCaption:'SKIN INTELLIGENCE',
+    boot:[
+      "SYSTEM // SIORE DERMA-OS v2.0 부팅 중...",
+      "MODULE // Baumann 4-Axis Diagnostic Engine <span class='ok'>[OK]</span>",
+      "MODULE // Ingredient Literacy Database <span class='ok'>[OK]</span>",
+      "CAMERA // Face-Guide Scanner <span class='ok'>[STANDBY]</span>",
+      "READY // 상담을 시작할 준비가 완료되었습니다."
+    ]
+  },
+  step1:{
+    title:'내담자 기본 정보와 주요 고민', desc:'나이·성별은 보정용 선택 정보이며, 고민은 복수 선택할 수 있습니다.',
+    age:{ title:'나이대', none:'선택 안 함', '20s':'20대', '30s':'30대', '40s':'40대', '50s':'50대', '60s':'60대+' },
+    gender:{ title:'성별', f:'여성', m:'남성' },
+    concernHead:{ title:'피부 고민 선택', hint:'해당하는 고민을 모두 선택해 주세요 (복수 선택 가능)' },
+    concerns:{ 건조:'수분 부족', 민감:'민감', 열감홍조:'열감·홍조', 탄력:'탄력 저하', 광채:'광채·톤', 트러블:'트러블', 피지:'피지', 장벽:'장벽 회복', 각질:'각질·결', 색소:'색소·잡티' },
+    nextBtn:'다음 · AI 스캔으로 →'
+  },
+  step2:{
+    title:'얼굴 스캔 가이드 & 정밀 피부 진단',
+    desc:'촬영은 선택 사항입니다. 사진은 이 기기(브라우저)에서만 처리되며 서버로 전송·저장되지 않습니다. 실제 피부 타입 판정은 오른쪽의 8문항 진단(바우만 피부 타입 검사 약식버전)을 기준으로 산출됩니다.',
+    cam:{
+      placeholder:'카메라를 시작하면 얼굴 정렬 가이드가 표시됩니다<br/>(선택 사항 · 건너뛰기 가능)',
+      status:{ idle:'대기 중', live:'LIVE · 얼굴을 가이드 원 안에 맞춰주세요', denied:'카메라 권한이 없어 건너뜁니다 (진단은 정밀 문항만으로 진행)', captured:'촬영 완료 · 참고 지표 계산 준비됨' },
+      startBtn:'카메라 시작', stopBtn:'카메라 끄기', shotBtn:'촬영',
+      privacy:'🔒 촬영 사진은 서버 업로드 없이 브라우저 내에서만 사용되며, 밝기·홍조 등 참고 지표 계산 후 상담 종료 시 자동 폐기됩니다. 의료기기가 아닌 참고용 보조 지표이며, 정확한 피부 타입은 우측 정밀 진단 결과를 기준으로 합니다.',
+      uploadBtn:'사진 업로드', uploadHint:'카메라가 안 열리면(태블릿·모바일 등) 사진을 선택해서 올려주세요'
+    },
+    quiz:{ title:'정밀 진단 · 8문항', hint:'이 답변이 진단 결과를 좌우하는 핵심 지표입니다. 하나씩 편하게, 최대한 솔직하게 선택해 주세요.', pagerPrev:'‹ 이전 문항', pagerNext:'다음 문항 ›' },
+    axes:[
+      { label:'파트 1 · 지성 vs 건성 (O/D)', qs:[
+        {t:'세안 후 아무것도 바르지 않고 2~3시간 뒤, 이마와 볼은?', opts:['매우 건조·각질','당기는 느낌','수분감 좋고 안 번들거림','번들거림']},
+        {t:'T존(이마·코)에 기름기가 보이는 빈도는?', opts:['전혀 없음','가끔','자주','항상']}
+      ]},
+      { label:'파트 2 · 민감성 vs 저항성 (S/R)', qs:[
+        {t:'새 화장품 사용 시 트러블·따가움·붉어짐이 발생한 적은?', opts:['전혀 없음','거의 없음','자주 있음','항상 있음']},
+        {t:'운동·스트레스·음주·매운 음식 후 얼굴이 붉어지는 편인가요?', opts:['전혀','가끔','자주','항상']}
+      ]},
+      { label:'파트 3 · 색소성 vs 비색소성 (P/N)', qs:[
+        {t:'여드름·상처 후 갈색/검은 자국이 남는 편인가요?', opts:['전혀','가끔','자주','항상']},
+        {t:'햇빛에 노출되면 화상보다 잡티·기미가 먼저 생기는 편인가요?', opts:['전혀','약간','그런 편','매우 그럼']}
+      ]},
+      { label:'파트 4 · 주름 vs 탱탱함 (W/T)', qs:[
+        {t:'표정을 짓지 않은 안정 상태에서도 주름이 보이나요?', opts:['전혀 없음','표정 지을 때만','약간 있음','뚜렷이 있음']},
+        {t:'또래 평균과 비교했을 때 피부 노화 속도(가족력 포함)는?', opts:['더 젊어 보임','비슷함','다소 빠름','뚜렷이 빠름']}
+      ]}
+    ],
+    analyzeBtn:'분석 시작 →'
+  },
+  analyzing:{ steps:['피부 장벽 데이터 정렬 중...','피지·수분 밸런스 계산 중...','민감도 패턴 대조 중...','색소 침착 경향 분석 중...','주름·탄력 지표 계산 중...','추천 성분 매칭 중...'] },
+  result:{
+    title:'피부 분석 결과',
+    desc:'정밀 진단 8문항과(선택 시) 얼굴 스캔 참고 지표를 종합한 결과입니다. 바우만 피부과학 4축 분류를 약식 적용했으며, 최종 제품 상담은 약사 판단을 우선합니다.',
+    typeNamePlaceholder:'진단 결과 산출 중',
+    typeSub:'바우만 피부과학 4축 분류 약식 적용 결과 · 참고용이며 최종 상담은 약사 판단을 따릅니다.',
+    nameMap:{ O:'지성', D:'건성', S:'민감성', R:'저항성', P:'색소성', N:'비색소성', W:'주름형', T:'탱탱형' },
+    radar:{ title:'4축 진단 그래프 읽는 법', caption:'점이 바깥쪽으로 뻗을수록 그 방향의 성향이 강하다는 뜻입니다 — 안쪽은 반대쪽 성향이 우세하다는 의미입니다.' },
+    scan:{ title:'스캔 레퍼런스', note:'이 화면은 촬영 당시 밝기·홍조 참고 지표를 시각적으로 기록한 것으로, 진단 확정용이 아닌 상담 기록/재방문 비교용입니다.', emptyNote:'촬영 사진이 없어 스캔 레퍼런스는 표시되지 않습니다. 다음 방문 시 촬영하시면 밝기·홍조 참고 지표와 함께 더 자세한 시각 기록을 남길 수 있습니다.', metricBrightness:'밝기 참고지수', metricRedness:'홍조 참고지수', metricBrightnessDesc:'촬영 당시 피부 톤의 밝기를 참고용으로 계산한 값입니다. 조명·카메라 환경에 따라 달라질 수 있어 진단 지표로는 사용하지 않습니다.', metricRednessDesc:'촬영 당시 피부 표면의 붉은기 정도를 참고용으로 계산한 값입니다. 정밀 진단 결과가 아닌 상담 기록용 참고 지표입니다.' },
+    section:{ ingredient:'전성분 리터러시 — 핵심 활성 성분', cert:'인증 & 근거 배지', evidence:'NMN 성분 근거', barrier:'피부 장벽 구조 이해', product:'피부 고민 맞춤 BEST 3', faq:'약사 상담 FAQ', faqSource:'SOURCE: 화장품의 이해 세미나 · 2026', summary:'AI 종합 소견', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
+    axisRowLabel:{ OD:'수분 밸런스 (O/D)', SR:'민감도 (S/R)', PN:'색소 경향 (P/N)', WT:'탄력·주름 (W/T)' },
+    axisSummary:{
+      O:'피지 분비가 활발한 편으로, 유분 컨트롤과 모공 케어가 우선 포인트입니다.',
+      D:'수분 저장력이 낮아 당김과 각질이 생기기 쉬우므로, 보습·장벽 강화 루틴이 우선입니다.',
+      S:'외부 자극에 반응하기 쉬운 편으로, 저자극·진정 성분 중심의 관리가 필요합니다.',
+      R:'외부 자극에 비교적 강한 편으로, 다양한 활성 성분을 무리 없이 시도해볼 수 있습니다.',
+      P:'자외선·트러블 후 색소 침착이 남기 쉬운 편으로, 미백 기능성 성분과 자외선 차단이 중요합니다.',
+      N:'색소 침착 경향은 낮은 편이나, 예방 차원의 자외선 차단은 꾸준히 권장합니다.',
+      W:'탄력 저하·주름 신호가 우선 관리 포인트로, 콜라겐 합성을 돕는 성분이 도움이 될 수 있습니다.',
+      T:'탄력은 양호한 편으로, 현재 상태를 유지하는 예방적 케어를 권장합니다.'
+    },
+    ingredients:[
+      { name:'나이아신아마이드', func:'미백 기능성 고시 성분 · 멜라닌 전달 억제', pct:'배합 권장범위 2–5%' },
+      { name:'아데노신', func:'주름 개선 기능성 고시 성분', pct:'배합 기준 0.04%' },
+      { name:'NMN (니코틴아마이드모노뉴클레오타이드)', func:'콜라겐 합성 유도 · ECM 강화 보조', pct:'10,000 ppm = 1%' }
+    ],
+    legend:[
+      "· 성분명 어미 <b>~올</b> → 대체로 보습제",
+      "· 성분명 어미 <b>~레이트 / 폴리머</b> → 대체로 계면활성제·점증제",
+      "· 방부 시스템 예: 1,2-헥산다이올(2% 기준) + 클로르페네신(0.3% 한도)",
+      "· 방부 트렌드: 파라벤(0.4%) → 페녹시에탄올(1%) → 1,2-헥산다이올 계열"
+    ],
+    badges:[
+      { title:'논코메도제닉 (Non-comedogenic)', desc:'모공을 막아 트러블을 유발하지 않는다는 것을 인체적용시험으로 입증한 민간 인증. 법적 정의는 아니며, 국내외 공인기관 시험이 필요합니다. 코코아·팜오일·라놀린계·IPM/IPP 등은 대표적 코메도제닉 성분입니다.' },
+      { title:'피부 자극 테스트 · 무자극', desc:'공인 임상기관의 인체적용시험 결과이며, 개인 피부 상태에 따라 반응은 달라질 수 있어 상담 시 함께 안내하는 것을 권장합니다.' },
+      { title:'기능성 화장품 표시광고 유의', desc:'미백·주름개선 등 기능성 표현은 식약처 화장품 표시광고 관리지침 및 대한화장품협회 가이드라인 기준을 따릅니다. 의약품으로 오인될 수 있는 단정적 효능 표현은 사용하지 않습니다.' }
+    ],
+    evidence:{
+      title:'NMN(Nicotinamide Mononucleotide)의 작용 및 흡수',
+      bullets:[
+        '콜라겐 합성 유도 및 세포외기질(ECM) 강화 보조',
+        '활성산소·염증성 사이토카인 억제에 관여',
+        '세포 대사의 에너지원(NAD+ 전구체)으로 알려짐',
+        '인체 내에서도 생성되는 물질로 안전성이 높으며, 수용성·산성 환경에서 니코틴아마이드로 분해되는 특성이 있어 전달체 설계가 흡수 경로에 영향을 줌',
+        '시너지 원료: 미네랄(Cu·Ca·Mg·Zn·Fe), 항산화 원료(레스베라트롤, 퀘르세틴), 피부재생 원료(PDRN·EGF·펩타이드 등)'
+      ]
+    },
+    barrier:[
+      "<b>Brick & Mortar 구조</b> — 각질세포(brick) + 지질(mortar)",
+      "<b>Tight Junction / NMF–Filaggrin</b> — 수분 보유 핵심 경로",
+      "<b>피지 지질 비율</b> — 세라마이드 50 : 콜레스테롤 25 : 유리지방산 15",
+      "<b>Microbiome</b> — 피부 상재균 균형이 장벽 건강에 관여"
+    ],
+    products:[
+      { emoji:'🧴', name:'NMN 하이드로 캡슐 클렌징 밀크', tag:'150ml · 클렌징', clinical:'노폐물 세정 99.48%', tags:['건조','민감','장벽'] },
+      { emoji:'💧', name:'데일리 릴리프 에센스 토너', tag:'150ml · 토너', clinical:'수분 개선 지표 우수', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', name:'NMN 인텐시브 세럼', tag:'30ml · 세럼', clinical:'콜라겐 합성 유도 보조', tags:['탄력','광채','색소'] }
+    ],
+    faqTabs:{ usage:'사용법', efficacy:'효능', skintype:'피부타입', ingredient:'성분', reg:'규제·상담실무' },
+    faq:{
+      usage:[
+        { title:'클렌징 → 토너 → 세럼 → 크림, 순서를 꼭 지켜야 하나요?', body:'일반적으로 묽은 제형에서 되직한 제형 순으로 사용하는 것이 흡수 효율에 유리하다고 안내합니다. 순서가 크게 바뀌어도 효과가 사라지진 않으나, 겹바름이 많을수록 흡수가 더뎌질 수 있어 제품 사이 약 1분 내외의 텀을 권장합니다.' },
+        { title:'토너·세럼·앰플을 모두 써야 효과가 나나요?', body:'세 제형은 역할이 다르므로(수분 정돈 / 고농축 집중 케어 / 부스팅) 고민에 따라 단계를 줄여도 무방합니다. 다만 트러블·장벽 손상이 있는 경우 단순한 루틴(클렌징+진정 토너+보습)부터 권장합니다.' }
+      ],
+      efficacy:[
+        { title:'기능성 화장품이 일반 화장품보다 효과가 확실히 더 좋나요?', body:'미백·주름개선 기능성은 식약처 심사를 거친 지표 성분(예: 나이아신아마이드 2–5%, 아데노신 0.04%)의 최소 함량 기준을 충족한 제품입니다. 다만 개인차가 있으므로 "반드시 개선"이 아닌 "임상적으로 유의미한 근거가 있는 성분" 수준으로 안내하는 것이 안전합니다.', flag:'단정 표현 주의' },
+        { title:'기능성 화장품은 최소 얼마나 사용해야 효과가 보이나요?', body:'제품·성분·임상 설계에 따라 다르므로 특정 기간을 단정하지 않고, 제품별 임상 결과 자료(사용 기간·개선율)를 근거로 안내하는 것을 권장합니다.' }
+      ],
+      skintype:[
+        { title:'건성·지성·복합성은 어떻게 구분하나요?', body:'단순 자가 판단은 부정확한 경우가 많아, 세안 2~3시간 후 무도포 상태의 T존/볼 유·수분 반응을 관찰하는 바우만 방식 문진이 더 신뢰도가 높습니다. 계절에 따라 지표가 이동할 수 있어 정기 재진단을 권장합니다.' },
+        { title:'민감성 피부 소비자가 성분표에서 먼저 체크할 포인트는?', body:'향료·에센셜오일 여부, 알코올(에탄올) 함량, 방부제 종류(1,2-헥산다이올/클로르페네신 등 함량 기준 준수 여부), 논코메도제닉 인증 여부를 우선 확인하도록 안내합니다.' }
+      ],
+      ingredient:[
+        { title:'성분은 피부 깊이 도달할수록 무조건 좋은가요?', body:'전달 깊이는 목적에 따라 다르며, 진피까지의 투과가 필요한 성분(NMN 등)과 표피에서 작용하는 것으로 충분한 성분(보습·장벽 성분)이 다릅니다. "더 깊이 = 무조건 좋음"으로 단정하지 않는 것이 안전합니다.' },
+        { title:'전성분표를 읽을 때 우선 확인 포인트', body:'정제수 다음 상위 성분(주요 베이스), 기능성 지표 성분과 함량, 방부제 종류, 향료 표기 여부 순으로 확인하도록 안내합니다.' }
+      ],
+      reg:[
+        { title:'사용 후 이상 반응(발진 등) 발생 시 안내', body:'기능식품과 달리 화장품은 소비자상담실 등 자체 채널로 접수받고 있으며, 상담 시 사용 중단 및 피부과 진료 연계를 우선 안내합니다.', flag:'즉시 판매 유도 금지' },
+        { title:'SNS·콘텐츠 업로드 시 유의할 표시광고 문구', body:'식약처 화장품 표시광고 관리지침, 대한화장품협회 가이드라인을 근거로 하며, "완치", "치료" 등 의약품 오인 표현은 사용하지 않습니다.', flag:'표시광고법 확인 필요' }
+      ]
+    },
+    restartBtn:'처음으로 돌아가기'
+  },
+  footer:{ line1:'본 화면은 SIORE 피부상담링크 리디자인 <b>목업(Concept)</b> — 컬러안: 코랄 × 블루 × 화이트 입니다 · 제품 수치·인증 문구는 실제 배포 전 최신 근거 자료로 재확인이 필요합니다.', liveLinkLabel:'실제 서비스 링크' }
+},
+en: {
+  common:{ badge:'AI CONSULT MODE', step0:'System Start', step1:'Basic Info', step2:'AI Scan · Diagnostic', step3:'Consult Result', prev:'Back' },
+  intro:{
+    title:'Consult Skin Concerns With Real Data',
+    desc:'A pharmacy-exclusive consultation assistant combining a Baumann-based 4-axis diagnostic with face-scan guidance. A 30-second questionnaire and capture guide are all it takes to prepare an evidence-based product consultation.',
+    startBtn:'Start Consultation →',
+    orbitCaption:'SKIN INTELLIGENCE',
+    boot:[
+      "SYSTEM // SIORE DERMA-OS v2.0 booting...",
+      "MODULE // Baumann 4-Axis Diagnostic Engine <span class='ok'>[OK]</span>",
+      "MODULE // Ingredient Literacy Database <span class='ok'>[OK]</span>",
+      "CAMERA // Face-Guide Scanner <span class='ok'>[STANDBY]</span>",
+      "READY // Ready to begin the consultation."
+    ]
+  },
+  step1:{
+    title:'Client Basics & Key Concerns', desc:'Age and gender are optional context for calibration; concerns can be multi-selected.',
+    age:{ title:'Age Range', none:'Not specified', '20s':'20s', '30s':'30s', '40s':'40s', '50s':'50s', '60s':'60s+' },
+    gender:{ title:'Gender', f:'Female', m:'Male' },
+    concernHead:{ title:'Select Skin Concerns', hint:'Select all concerns that apply (multiple selection allowed)' },
+    concerns:{ 건조:'Dryness', 민감:'Sensitivity', 열감홍조:'Redness/Heat', 탄력:'Loss of Firmness', 광채:'Radiance/Tone', 트러블:'Blemish', 피지:'Sebum', 장벽:'Barrier Repair', 각질:'Texture', 색소:'Pigment/Spots' },
+    nextBtn:'Next · To AI Scan →'
+  },
+  step2:{
+    title:'Face-Scan Guide & Precision Skin Diagnostic',
+    desc:'Capturing a photo is optional. Images are processed only on this device (browser) and are never uploaded or stored on a server. The actual skin-type result is calculated from the 8-question diagnostic on the right (a condensed Baumann Skin Type test).',
+    cam:{
+      placeholder:'Starting the camera shows a face-alignment guide<br/>(optional · can be skipped)',
+      status:{ idle:'Standby', live:'LIVE · Align your face within the guide oval', denied:'No camera permission — skipping (diagnosis proceeds from the questionnaire only)', captured:'Capture complete · reference metrics ready' },
+      startBtn:'Start Camera', stopBtn:'Stop Camera', shotBtn:'Capture',
+      privacy:'🔒 Captured photos are used only within your browser (no server upload); after brightness/redness reference metrics are calculated, they are automatically discarded when the session ends. This is a supplementary reference indicator, not a medical device — the confirmed skin type is based on the precision diagnostic on the right.',
+      uploadBtn:'Upload Photo', uploadHint:"If the camera won't open (tablet/mobile, etc.), choose a photo to upload instead"
+    },
+    quiz:{ title:'Precision Diagnostic · 8 Questions', hint:'These answers are the core indicator driving your result. Take your time and answer as honestly as you can.', pagerPrev:'‹ Previous', pagerNext:'Next ›' },
+    axes:[
+      { label:'Part 1 · Oily vs Dry (O/D)', qs:[
+        {t:'2–3 hours after cleansing with nothing applied, your forehead and cheeks are:', opts:['Very dry / flaky','Feels tight','Comfortable, not shiny','Shiny']},
+        {t:'How often does your T-zone (forehead/nose) look oily?', opts:['Never','Sometimes','Often','Always']}
+      ]},
+      { label:'Part 2 · Sensitive vs Resistant (S/R)', qs:[
+        {t:'Have new cosmetics ever caused irritation, stinging, or redness?', opts:['Never','Rarely','Often','Always']},
+        {t:'Does your face tend to flush after exercise, stress, alcohol, or spicy food?', opts:['Never','Sometimes','Often','Always']}
+      ]},
+      { label:'Part 3 · Pigmented vs Non-pigmented (P/N)', qs:[
+        {t:'Do brown/dark marks tend to remain after acne or wounds?', opts:['Never','Sometimes','Often','Always']},
+        {t:'In the sun, do you tend to develop spots/melasma before you burn?', opts:['Never','Slightly','Fairly likely','Very likely']}
+      ]},
+      { label:'Part 4 · Wrinkled vs Tight (W/T)', qs:[
+        {t:'Are lines visible even with a relaxed, neutral expression?', opts:['None','Only when expressive','Somewhat visible','Clearly visible']},
+        {t:'Compared to peers (including family history), your skin ages:', opts:['Slower','About average','A bit faster','Noticeably faster']}
+      ]}
+    ],
+    analyzeBtn:'Start Analysis →'
+  },
+  analyzing:{ steps:['Aligning skin barrier data...','Calculating sebum/moisture balance...','Cross-checking sensitivity patterns...','Analyzing pigmentation tendency...','Calculating wrinkle/firmness index...','Matching recommended ingredients...'] },
+  result:{
+    title:'Skin Analysis Result',
+    desc:'A combined result from the 8-question diagnostic and (if used) face-scan reference metrics. Baumann Skin Type 4-axis classification is applied in condensed form; the pharmacist’s judgment takes priority for the final product consultation.',
+    typeNamePlaceholder:'Calculating result',
+    typeSub:'Condensed Baumann Skin Type 4-axis result · reference only — final consultation follows pharmacist judgment.',
+    nameMap:{ O:'Oily', D:'Dry', S:'Sensitive', R:'Resistant', P:'Pigmented', N:'Non-pigmented', W:'Wrinkled', T:'Tight' },
+    radar:{ title:'How to read the 4-axis graph', caption:'The further a point extends outward on an axis, the stronger that tendency is — closer to the center means the opposite tendency dominates.' },
+    scan:{ title:'Scan Reference', note:'This frame is a visual record of brightness/redness reference metrics at capture time — for consultation records and revisit comparison, not for diagnosis confirmation.', emptyNote:'No photo was captured, so no scan reference is shown. Capturing one on your next visit adds brightness/redness reference metrics plus a more detailed visual record.', metricBrightness:'Brightness Reference', metricRedness:'Redness Reference', metricBrightnessDesc:'A reference-only estimate of skin-tone brightness at capture time. It can vary with lighting/camera conditions, so it is not used as a diagnostic indicator.', metricRednessDesc:'A reference-only estimate of surface redness at capture time. This is a consultation-record indicator, not a precision-diagnostic result.' },
+    section:{ ingredient:'Ingredient Literacy — Key Actives', cert:'Certification & Evidence Badges', evidence:'NMN Ingredient Evidence', barrier:'Understanding Skin Barrier Structure', product:'Top 3 Picks For Your Concerns', faq:'Pharmacist Consultation FAQ', faqSource:'SOURCE: Cosmetic Science Seminar · 2026', summary:'AI Summary Findings', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
+    axisRowLabel:{ OD:'Moisture Balance (O/D)', SR:'Sensitivity (S/R)', PN:'Pigmentation Tendency (P/N)', WT:'Firmness/Wrinkles (W/T)' },
+    axisSummary:{
+      O:'Sebum production runs active, so oil control and pore care are the priority.',
+      D:'Moisture retention is low, making tightness and flaking more likely — a moisturizing, barrier-strengthening routine comes first.',
+      S:'Skin tends to react to outside irritants, so a low-irritation, soothing-ingredient-focused routine is recommended.',
+      R:'Skin is comparatively resistant to outside irritants, so a wider range of active ingredients can generally be introduced.',
+      P:'Pigmentation tends to linger after sun exposure or breakouts — brightening functional ingredients and sun protection matter most.',
+      N:'Pigmentation tendency runs low, though consistent sun protection is still recommended as prevention.',
+      W:'Loss of firmness and early wrinkle signs are the priority — ingredients that support collagen synthesis may help.',
+      T:'Firmness is holding up well — preventive care to maintain the current state is recommended.'
+    },
+    ingredients:[
+      { name:'Niacinamide', func:'MFDS-listed brightening functional ingredient · inhibits melanin transfer', pct:'Recommended range 2–5%' },
+      { name:'Adenosine', func:'MFDS-listed wrinkle-improvement functional ingredient', pct:'Standard dose 0.04%' },
+      { name:'NMN (Nicotinamide Mononucleotide)', func:'Supports collagen synthesis induction · ECM reinforcement', pct:'10,000 ppm = 1%' }
+    ],
+    legend:[
+      "· Ingredient names ending in <b>-ol</b> → usually a moisturizer",
+      "· Ingredient names ending in <b>-ate / polymer</b> → usually a surfactant/thickener",
+      "· Example preservative system: 1,2-Hexanediol (2% cap) + Chlorphenesin (0.3% cap)",
+      "· Preservative trend: Parabens (0.4%) → Phenoxyethanol (1%) → 1,2-Hexanediol family"
+    ],
+    badges:[
+      { title:'Non-comedogenic', desc:'A private certification verifying via human-use testing that a product does not clog pores or trigger breakouts. It is not a legal definition and requires accredited domestic/international lab testing. Cocoa/palm oil, lanolin derivatives, and IPM/IPP are common comedogenic ingredients.' },
+      { title:'Skin Irritation Test · Non-irritating', desc:'Result of a human-use test at an accredited clinical institute; individual reactions can vary by skin condition, so it’s recommended to mention this during consultation.' },
+      { title:'Functional Cosmetics Advertising Caution', desc:'Functional claims such as brightening/wrinkle-improvement follow MFDS cosmetic labeling/advertising guidelines and Korea Cosmetic Association standards. Absolute efficacy language that could be mistaken for a drug claim is avoided.' }
+    ],
+    evidence:{
+      title:'NMN (Nicotinamide Mononucleotide) — Mechanism & Absorption',
+      bullets:[
+        'Supports collagen synthesis induction and extracellular matrix (ECM) reinforcement',
+        'Involved in suppressing free radicals and inflammatory cytokines',
+        'Known as a cellular metabolic energy source (NAD+ precursor)',
+        'A substance also produced naturally in the body, with high safety; it breaks down into nicotinamide in water-soluble/acidic conditions, so delivery-system design affects the absorption pathway',
+        'Synergy ingredients: minerals (Cu·Ca·Mg·Zn·Fe), antioxidants (resveratrol, quercetin), skin-renewal ingredients (PDRN·EGF·peptides, etc.)'
+      ]
+    },
+    barrier:[
+      "<b>Brick & Mortar Structure</b> — corneocytes (brick) + lipids (mortar)",
+      "<b>Tight Junction / NMF–Filaggrin</b> — the key moisture-retention pathway",
+      "<b>Sebum Lipid Ratio</b> — ceramide 50 : cholesterol 25 : free fatty acid 15",
+      "<b>Microbiome</b> — resident skin flora balance affects barrier health"
+    ],
+    products:[
+      { emoji:'🧴', name:'NMN Hydro Capsule Cleansing Milk', tag:'150ml · Cleanser', clinical:'99.48% cleansing efficacy', tags:['건조','민감','장벽'] },
+      { emoji:'💧', name:'Daily Relief Essence Toner', tag:'150ml · Toner', clinical:'Strong hydration-improvement metrics', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', name:'NMN Intensive Serum', tag:'30ml · Serum', clinical:'Supports collagen synthesis induction', tags:['탄력','광채','색소'] }
+    ],
+    faqTabs:{ usage:'Usage', efficacy:'Efficacy', skintype:'Skin Type', ingredient:'Ingredients', reg:'Regulation/Practice' },
+    faq:{
+      usage:[
+        { title:'Must I follow the order Cleanser → Toner → Serum → Cream exactly?', body:'In general, going from thinner to thicker textures is advised for better absorption efficiency. Changing the order somewhat won’t erase the benefit, but heavier layering can slow absorption, so leaving about a 1-minute gap between products is recommended.' },
+        { title:'Do I need to use toner, serum, and ampoule all together to see results?', body:'The three formats serve different roles (hydration prep / concentrated care / boosting), so steps can be reduced based on the concern. However, for breakout-prone or barrier-damaged skin, a simpler routine (cleanser + soothing toner + moisturizer) is recommended first.' }
+      ],
+      efficacy:[
+        { title:'Are functional cosmetics definitely more effective than regular cosmetics?', body:'Brightening/wrinkle-improvement functional products meet MFDS-reviewed minimum levels of indicator ingredients (e.g., niacinamide 2–5%, adenosine 0.04%). Since individual results vary, it’s safer to frame this as "an ingredient with clinically meaningful evidence" rather than "guaranteed improvement."', flag:'Avoid absolute claims' },
+        { title:'How long must a functional cosmetic be used before results appear?', body:'This varies by product, ingredient, and clinical design, so avoid stating a fixed timeframe — instead reference each product’s clinical data (duration of use · improvement rate).' }
+      ],
+      skintype:[
+        { title:'How do I tell dry, oily, and combination skin apart?', body:'Simple self-assessment is often inaccurate; a Baumann-style intake observing bare T-zone/cheek oil-water response 2–3 hours after cleansing is more reliable. Since indicators can shift by season, periodic re-testing is recommended.' },
+        { title:'What should sensitive-skin customers check first on an ingredient list?', body:'Advise checking for fragrance/essential oils, alcohol (ethanol) content, preservative type (compliance with limits such as 1,2-hexanediol/chlorphenesin), and non-comedogenic certification first.' }
+      ],
+      ingredient:[
+        { title:'Is deeper skin penetration always better?', body:'Ideal delivery depth depends on the goal — some ingredients need dermal penetration (e.g., NMN), while others (moisturizing/barrier ingredients) work well acting on the epidermis. It’s safer not to assume "deeper = always better."' },
+        { title:'What to check first when reading a full ingredient list', body:'Advise checking, in order: the top-listed ingredients after water (the main base), functional indicator ingredients and their levels, preservative type, and whether fragrance is listed.' }
+      ],
+      reg:[
+        { title:'Guidance if a reaction (e.g., rash) occurs after use', body:'Unlike health functional foods, cosmetics are handled through channels like the consumer consultation center; during consultation, advise discontinuing use and referring to a dermatologist first.', flag:'Do not push a sale' },
+        { title:'Advertising-label wording to watch for on social/content posts', body:'Based on MFDS cosmetic labeling/advertising guidelines and Korea Cosmetic Association guidance, terms like "cure" or "treat" that could be mistaken for a drug claim are avoided.', flag:'Check advertising-label law' }
+      ]
+    },
+    restartBtn:'Back to Start'
+  },
+  footer:{ line1:'This screen is a SIORE skin-consultation redesign <b>mockup (Concept)</b> — palette: coral × blue × white. Product figures and certification copy must be reconfirmed against the latest evidence before actual release.', liveLinkLabel:'Live service link' }
+},
+zh: {
+  common:{ badge:'AI CONSULT MODE', step0:'系统启动', step1:'基本信息', step2:'AI扫描·精密诊断', step3:'咨询结果', prev:'上一步' },
+  intro:{
+    title:'用数据为顾客的肌肤问题提供咨询',
+    desc:'这是一套药房专用咨询辅助系统，结合基于鲍曼皮肤分型的四轴诊断与面部扫描引导。只需30秒问卷与拍摄引导，即可准备有理有据的产品咨询。',
+    startBtn:'开始咨询 →',
+    orbitCaption:'SKIN INTELLIGENCE',
+    boot:[
+      "SYSTEM // SIORE DERMA-OS v2.0 启动中...",
+      "MODULE // Baumann 四轴诊断引擎 <span class='ok'>[OK]</span>",
+      "MODULE // 成分知识数据库 <span class='ok'>[OK]</span>",
+      "CAMERA // 面部引导扫描仪 <span class='ok'>[STANDBY]</span>",
+      "READY // 咨询准备就绪。"
+    ]
+  },
+  step1:{
+    title:'顾客基本信息与主要问题', desc:'年龄、性别为辅助校准的可选信息，肌肤问题可多选。',
+    age:{ title:'年龄段', none:'不选择', '20s':'20多岁', '30s':'30多岁', '40s':'40多岁', '50s':'50多岁', '60s':'60岁以上' },
+    gender:{ title:'性别', f:'女性', m:'男性' },
+    concernHead:{ title:'选择肌肤问题', hint:'请选择所有符合的问题（可多选）' },
+    concerns:{ 건조:'干燥缺水', 민감:'敏感', 열감홍조:'泛红·发热', 탄력:'弹力下降', 광채:'光泽·肤色', 트러블:'痘痘问题', 피지:'油脂分泌', 장벽:'屏障修复', 각질:'角质·肤质', 색소:'色斑·瑕疵' },
+    nextBtn:'下一步 · 进入AI扫描 →'
+  },
+  step2:{
+    title:'面部扫描引导 & 精密皮肤诊断',
+    desc:'拍摄为可选项目。照片仅在本设备（浏览器）中处理，不会上传或存储至服务器。实际肤质判定以右侧8道诊断题（鲍曼皮肤分型简易版）为准。',
+    cam:{
+      placeholder:'启动摄像头后将显示面部对齐引导<br/>（可选 · 可跳过）',
+      status:{ idle:'待机中', live:'LIVE · 请将面部对齐引导椭圆', denied:'未获得摄像头权限，已跳过（将仅依据问卷进行诊断）', captured:'拍摄完成 · 参考指标计算就绪' },
+      startBtn:'启动摄像头', stopBtn:'关闭摄像头', shotBtn:'拍摄',
+      privacy:'🔒 拍摄的照片不会上传服务器，仅在浏览器内使用；计算亮度、泛红等参考指标后，咨询结束时将自动删除。此功能为非医疗器械的辅助参考指标，准确肤质以右侧精密诊断结果为准。',
+      uploadBtn:'上传照片', uploadHint:'如摄像头无法开启（平板·手机等），请选择照片上传'
+    },
+    quiz:{ title:'精密诊断 · 共8题', hint:'该回答是决定诊断结果的核心指标，请逐题放松作答，并尽量如实选择。', pagerPrev:'‹ 上一题', pagerNext:'下一题 ›' },
+    axes:[
+      { label:'第1部分 · 油性 vs 干性 (O/D)', qs:[
+        {t:'洁面后不涂抹任何产品，2~3小时后额头和脸颊是？', opts:['非常干燥·起皮','有紧绷感','水润不油光','明显出油']},
+        {t:'T区（额头、鼻子）出现油光的频率是？', opts:['从不','偶尔','经常','总是']}
+      ]},
+      { label:'第2部分 · 敏感性 vs 耐受性 (S/R)', qs:[
+        {t:'使用新护肤品时是否出现过刺痛、泛红等问题？', opts:['从未','几乎没有','经常出现','总是出现']},
+        {t:'运动、压力、饮酒、辛辣食物后脸部是否容易泛红？', opts:['完全不会','偶尔','经常','总是']}
+      ]},
+      { label:'第3部分 · 色素性 vs 非色素性 (P/N)', qs:[
+        {t:'痘印或伤口愈合后是否容易留下褐色/黑色痕迹？', opts:['从不','偶尔','经常','总是']},
+        {t:'日晒后是否比起晒伤更容易先长斑？', opts:['完全不会','略微','比较容易','非常容易']}
+      ]},
+      { label:'第4部分 · 皱纹型 vs 紧致型 (W/T)', qs:[
+        {t:'面部放松、无表情时是否也能看到细纹？', opts:['完全没有','只有做表情时才有','略微可见','明显可见']},
+        {t:'与同龄人（含家族史）相比，您的皮肤老化速度是？', opts:['更年轻','差不多','略快','明显更快']}
+      ]}
+    ],
+    analyzeBtn:'开始分析 →'
+  },
+  analyzing:{ steps:['正在对齐皮肤屏障数据...','正在计算油脂·水分平衡...','正在比对敏感度模式...','正在分析色素沉着趋势...','正在计算皱纹·弹力指标...','正在匹配推荐成分...'] },
+  result:{
+    title:'肌肤分析结果',
+    desc:'本结果综合了8道精密诊断题及（若使用）面部扫描参考指标。已简化应用鲍曼皮肤科学四轴分类，最终产品咨询以药师判断为准。',
+    typeNamePlaceholder:'诊断结果计算中',
+    typeSub:'鲍曼皮肤科学四轴分类简易版结果 · 仅供参考，最终咨询以药师判断为准。',
+    nameMap:{ O:'油性', D:'干性', S:'敏感性', R:'耐受性', P:'色素性', N:'非色素性', W:'皱纹型', T:'紧致型' },
+    radar:{ title:'四轴诊断图表阅读方法', caption:'点越向外延伸，代表该方向的倾向越强；越靠近中心，代表相反方向的倾向占优势。' },
+    scan:{ title:'扫描参考图', note:'该画面为拍摄当下亮度、泛红等参考指标的视觉记录，用于咨询记录/复诊比较，并非诊断确认依据。', emptyNote:'未拍摄照片，因此不显示扫描参考图。下次到访时拍摄，可留下亮度、泛红参考指标及更详细的视觉记录。', metricBrightness:'亮度参考指数', metricRedness:'泛红参考指数', metricBrightnessDesc:'仅供参考的拍摄当下肤色亮度估算值，会因光线、摄像头环境而异，不作为诊断指标使用。', metricRednessDesc:'仅供参考的拍摄当下皮肤表面泛红程度估算值，属于咨询记录参考指标，并非精密诊断结果。' },
+    section:{ ingredient:'全成分解读 — 核心活性成分', cert:'认证 & 依据标签', evidence:'NMN 成分依据', barrier:'了解皮肤屏障结构', product:'为您匹配的 BEST 3', faq:'药师咨询 FAQ', faqSource:'来源：化妆品科学讲座 · 2026', summary:'AI 综合诊断意见', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
+    axisRowLabel:{ OD:'水油平衡 (O/D)', SR:'敏感度 (S/R)', PN:'色素倾向 (P/N)', WT:'弹力·皱纹 (W/T)' },
+    axisSummary:{
+      O:'皮脂分泌较为旺盛，油脂控制与毛孔护理是首要重点。',
+      D:'水分保持力较低，容易出现紧绷和起皮，应优先采用保湿·屏障强化的护理方案。',
+      S:'皮肤容易对外部刺激产生反应，建议以低刺激、舒缓成分为主进行护理。',
+      R:'皮肤对外部刺激相对耐受，可以较为自如地尝试多种活性成分。',
+      P:'日晒或痘痘后色素沉着较易残留，美白功能性成分与防晒尤为重要。',
+      N:'色素沉着倾向较低，但仍建议持续做好防晒预防。',
+      W:'弹力下降、细纹信号是首要护理重点，有助于诱导胶原蛋白合成的成分会有帮助。',
+      T:'弹力状态良好，建议以维持现状的预防性护理为主。'
+    },
+    ingredients:[
+      { name:'烟酰胺', func:'食药处备案美白功能性成分 · 抑制黑色素传递', pct:'建议添加范围 2–5%' },
+      { name:'腺苷', func:'皱纹改善功能性备案成分', pct:'配方基准 0.04%' },
+      { name:'NMN（烟酰胺单核苷酸）', func:'诱导胶原蛋白合成 · 加强细胞外基质(ECM)', pct:'10,000 ppm = 1%' }
+    ],
+    legend:[
+      "· 成分名以 <b>~醇</b> 结尾 → 多为保湿剂",
+      "· 成分名以 <b>~酸酯 / 聚合物</b> 结尾 → 多为表面活性剂·增稠剂",
+      "· 防腐体系示例：1,2-己二醇（上限2%）+ 苯氧甘油（上限0.3%）",
+      "· 防腐趋势：尼泊金酯类（0.4%）→ 苯氧乙醇（1%）→ 1,2-己二醇系列"
+    ],
+    badges:[
+      { title:'不致粉刺认证 (Non-comedogenic)', desc:'通过人体测试验证产品不会堵塞毛孔、诱发痘痘的民间认证。并非法定定义，需经国内外权威机构检测。可可油/棕榈油、羊毛脂类、IPM/IPP等为常见致粉刺成分。' },
+      { title:'皮肤刺激测试 · 无刺激', desc:'为权威临床机构人体测试结果，个人反应可能因肤质而异，建议咨询时一并说明。' },
+      { title:'功能性化妆品广告标示注意事项', desc:'美白、皱纹改善等功能性表述遵循食药处化妆品标示广告管理指南及韩国化妆品协会准则，避免使用可能被误认为药品的断言性功效表述。' }
+    ],
+    evidence:{
+      title:'NMN（烟酰胺单核苷酸）的作用机制与吸收',
+      bullets:[
+        '诱导胶原蛋白合成，辅助强化细胞外基质(ECM)',
+        '参与抑制活性氧及炎症性细胞因子',
+        '被认为是细胞代谢能量来源(NAD+前体)',
+        '人体自身也会生成该物质，安全性较高；在水溶性·酸性环境下会分解为烟酰胺，因此递送体系设计会影响吸收路径',
+        '协同原料：矿物质(Cu·Ca·Mg·Zn·Fe)、抗氧化原料(白藜芦醇、槲皮素)、皮肤再生原料(PDRN·EGF·多肽等)'
+      ]
+    },
+    barrier:[
+      "<b>砖墙结构 (Brick & Mortar)</b> — 角质细胞(砖) + 脂质(灰泥)",
+      "<b>紧密连接 / NMF–丝聚蛋白</b> — 保湿核心通路",
+      "<b>皮脂脂质比例</b> — 神经酰胺 50 : 胆固醇 25 : 游离脂肪酸 15",
+      "<b>微生态菌群</b> — 皮肤常驻菌群平衡关系到屏障健康"
+    ],
+    products:[
+      { emoji:'🧴', name:'NMN 水润胶囊洁颜乳', tag:'150ml · 洁面', clinical:'清洁效果达99.48%', tags:['건조','민감','장벽'] },
+      { emoji:'💧', name:'每日舒缓精华化妆水', tag:'150ml · 化妆水', clinical:'保湿改善指标优异', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', name:'NMN 密集修护精华', tag:'30ml · 精华', clinical:'辅助诱导胶原蛋白合成', tags:['탄력','광채','색소'] }
+    ],
+    faqTabs:{ usage:'使用方法', efficacy:'功效', skintype:'肤质', ingredient:'成分', reg:'法规·咨询实务' },
+    faq:{
+      usage:[
+        { title:'洁面→化妆水→精华→面霜的顺序一定要遵守吗？', body:'一般建议由质地稀薄到浓稠依次使用，以利于吸收效率。顺序有所调整并不会使效果完全消失，但叠加过多会减慢吸收，建议产品之间间隔约1分钟左右。' },
+        { title:'化妆水、精华、安瓶是否都要使用才有效果？', body:'三种剂型作用不同（补水调理/高浓度密集护理/强化吸收），可根据肌肤问题精简步骤。但若有痘痘或屏障受损，建议先从简单流程（洁面+舒缓化妆水+保湿）开始。' }
+      ],
+      efficacy:[
+        { title:'功能性化妆品是否一定比普通化妆品效果更好？', body:'美白、皱纹改善类功能性产品需满足食药处审核的指标成分最低含量标准（如烟酰胺2–5%、腺苷0.04%）。但因个体差异存在，建议以“具有临床意义依据的成分”而非“必定改善”的方式说明，更为稳妥。', flag:'注意避免断言性表述' },
+        { title:'功能性化妆品最少使用多久才能看到效果？', body:'因产品、成分及临床设计而异，不宜断定具体周期，建议以各产品的临床数据（使用周期·改善率）为依据说明。' }
+      ],
+      skintype:[
+        { title:'干性、油性、混合性肌肤该如何区分？', body:'单纯自我判断常有偏差，洁面后2~3小时不涂抹任何产品，观察T区/脸颊的油水反应（鲍曼式问诊）更为可靠。指标可能随季节变化，建议定期重新诊断。' },
+        { title:'敏感肌顾客查看成分表时应优先关注哪些点？', body:'建议优先确认是否含香料·精油、酒精(乙醇)含量、防腐剂种类（如1,2-己二醇/苯氧甘油等是否符合限量标准）以及是否有不致粉刺认证。' }
+      ],
+      ingredient:[
+        { title:'成分渗透皮肤越深就一定越好吗？', body:'渗透深度需依目的而定，部分成分(如NMN)需要渗透至真皮层，而部分成分(保湿·屏障类)在表皮层发挥作用即已足够。不宜断定“越深=越好”。' },
+        { title:'阅读全成分表时应优先关注的要点', body:'建议依次确认：水之后排列靠前的主要基质成分、功能性指标成分及含量、防腐剂种类、是否标示香料。' }
+      ],
+      reg:[
+        { title:'使用后出现不良反应（如皮疹）时应如何说明', body:'与保健食品不同，化妆品通过消费者咨询室等自有渠道受理反馈；咨询时应优先建议停用并转诊皮肤科。', flag:'请勿借此推销产品' },
+        { title:'在社交媒体/内容发布时需留意的广告用语', body:'依据食药处化妆品标示广告管理指南及韩国化妆品协会准则，避免使用“根治”“治疗”等可能被误认为药品的表述。', flag:'请核对广告标示相关法规' }
+      ]
+    },
+    restartBtn:'返回首页'
+  },
+  footer:{ line1:'本页面为 SIORE 皮肤咨询链接改版<b>概念模型（Concept）</b> — 配色方案：珊瑚色 × 蓝色 × 白色。产品数值及认证文案在正式上线前须以最新依据资料重新核实。', liveLinkLabel:'正式服务链接' }
+},
+ja: {
+  common:{ badge:'AI CONSULT MODE', step0:'システム起動', step1:'基本情報', step2:'AIスキャン・精密診断', step3:'相談結果', prev:'戻る' },
+  intro:{
+    title:'データに基づいて肌の悩みをご相談',
+    desc:'バウマン皮膚科学に基づく4軸診断とフェイススキャンガイドを組み合わせた薬局専用の相談支援システムです。30秒のアンケートと撮影ガイドだけで、根拠のある製品相談を準備できます。',
+    startBtn:'相談を始める →',
+    orbitCaption:'SKIN INTELLIGENCE',
+    boot:[
+      "SYSTEM // SIORE DERMA-OS v2.0 起動中...",
+      "MODULE // Baumann 4軸診断エンジン <span class='ok'>[OK]</span>",
+      "MODULE // 成分リテラシーデータベース <span class='ok'>[OK]</span>",
+      "CAMERA // フェイスガイドスキャナー <span class='ok'>[STANDBY]</span>",
+      "READY // 相談を開始する準備が整いました。"
+    ]
+  },
+  step1:{
+    title:'お客様の基本情報と主な悩み', desc:'年齢・性別は補正用の任意情報です。悩みは複数選択できます。',
+    age:{ title:'年代', none:'選択しない', '20s':'20代', '30s':'30代', '40s':'40代', '50s':'50代', '60s':'60代以上' },
+    gender:{ title:'性別', f:'女性', m:'男性' },
+    concernHead:{ title:'肌の悩みを選択', hint:'当てはまる悩みをすべて選択してください（複数選択可）' },
+    concerns:{ 건조:'乾燥', 민감:'敏感', 열감홍조:'ほてり・赤み', 탄력:'たるみ', 광채:'輝き・トーン', 트러블:'トラブル', 피지:'皮脂', 장벽:'バリア回復', 각질:'角質・キメ', 색소:'色素・シミ' },
+    nextBtn:'次へ · AIスキャンへ →'
+  },
+  step2:{
+    title:'フェイススキャンガイド & 精密肌診断',
+    desc:'撮影は任意です。写真はこの端末（ブラウザ）内でのみ処理され、サーバーへの送信・保存は行われません。実際の肌タイプ判定は右側の8問診断（バウマン肌タイプテストの簡易版）に基づいて算出されます。',
+    cam:{
+      placeholder:'カメラを起動すると顔の位置合わせガイドが表示されます<br/>（任意・スキップ可能）',
+      status:{ idle:'待機中', live:'LIVE · ガイドの楕円に顔を合わせてください', denied:'カメラ権限がないためスキップします（診断は設問のみで進行）', captured:'撮影完了 · 参考指標の計算準備ができました' },
+      startBtn:'カメラを起動', stopBtn:'カメラを停止', shotBtn:'撮影',
+      privacy:'🔒 撮影した写真はサーバーへアップロードせずブラウザ内でのみ使用し、明るさ・赤み等の参考指標を計算した後、相談終了時に自動的に破棄されます。医療機器ではない参考用の補助指標であり、正確な肌タイプは右側の精密診断結果に基づきます。',
+      uploadBtn:'写真をアップロード', uploadHint:'カメラが起動しない場合（タブレット・モバイル等）は写真を選択してアップロードしてください'
+    },
+    quiz:{ title:'精密診断 · 全8問', hint:'この回答が診断結果を左右する重要な指標になります。1問ずつ、できるだけ正直にお答えください。', pagerPrev:'‹ 前の質問', pagerNext:'次の質問 ›' },
+    axes:[
+      { label:'パート1 · 脂性 vs 乾性 (O/D)', qs:[
+        {t:'洗顔後に何もつけず2〜3時間経った時、額と頬は？', opts:['非常に乾燥・粉吹き','つっぱる感じ','うるおいがあり、べたつかない','てかる']},
+        {t:'Tゾーン（額・鼻）にテカリが見られる頻度は？', opts:['全くない','時々','よくある','いつも']}
+      ]},
+      { label:'パート2 · 敏感性 vs 耐性 (S/R)', qs:[
+        {t:'新しい化粧品使用時にトラブル・ヒリつき・赤みが出たことは？', opts:['全くない','ほとんどない','よくある','いつもある']},
+        {t:'運動・ストレス・飲酒・辛い食べ物の後、顔が赤くなりやすいですか？', opts:['全くない','時々','よくある','いつも']}
+      ]},
+      { label:'パート3 · 色素性 vs 非色素性 (P/N)', qs:[
+        {t:'ニキビや傷の後、茶色や黒っぽい跡が残りやすいですか？', opts:['全くない','時々','よくある','いつも']},
+        {t:'日光にあたると日焼けよりシミ・くすみが先にできやすいですか？', opts:['全くない','やや','その傾向がある','非常にそうだ']}
+      ]},
+      { label:'パート4 · しわ型 vs ハリ型 (W/T)', qs:[
+        {t:'無表情で安静な状態でもしわが見えますか？', opts:['全くない','表情を作った時だけ','やや見える','はっきり見える']},
+        {t:'同年代（家族歴含む）と比べて肌の老化スピードは？', opts:['より若く見える','同程度','やや早い','明らかに早い']}
+      ]}
+    ],
+    analyzeBtn:'分析を開始 →'
+  },
+  analyzing:{ steps:['皮膚バリアデータを整列中...','皮脂・水分バランスを計算中...','敏感度パターンを照合中...','色素沈着傾向を分析中...','しわ・ハリ指標を計算中...','おすすめ成分をマッチング中...'] },
+  result:{
+    title:'肌診断結果',
+    desc:'精密診断8問と（使用した場合）フェイススキャンの参考指標を統合した結果です。バウマン皮膚科学の4軸分類を簡易的に適用しており、最終的な製品相談は薬剤師の判断を優先します。',
+    typeNamePlaceholder:'診断結果を算出中',
+    typeSub:'バウマン皮膚科学4軸分類の簡易適用結果 · 参考用であり、最終相談は薬剤師の判断に従います。',
+    nameMap:{ O:'脂性', D:'乾性', S:'敏感性', R:'耐性', P:'色素性', N:'非色素性', W:'しわ型', T:'ハリ型' },
+    radar:{ title:'4軸診断グラフの読み方', caption:'点が外側に伸びるほどその方向の傾向が強く、中心に近いほど反対側の傾向が優勢という意味です。' },
+    scan:{ title:'スキャンリファレンス', note:'この画面は撮影当時の明るさ・赤みの参考指標を視覚的に記録したもので、診断確定用ではなく相談記録・再来院時の比較用です。', emptyNote:'撮影した写真がないため、スキャンリファレンスは表示されません。次回来店時に撮影すると、明るさ・赤みの参考指標とあわせてより詳しい視覚記録を残せます。', metricBrightness:'明るさ参考指数', metricRedness:'赤み参考指数', metricBrightnessDesc:'撮影当時の肌の明るさを参考用に算出した値です。照明やカメラ環境により変動するため、診断指標としては使用しません。', metricRednessDesc:'撮影当時の肌表面の赤みの程度を参考用に算出した値です。精密診断結果ではなく、相談記録用の参考指標です。' },
+    section:{ ingredient:'全成分リテラシー — 主要活性成分', cert:'認証 & エビデンスバッジ', evidence:'NMN成分のエビデンス', barrier:'肌バリア構造を理解する', product:'お悩み別おすすめBEST3', faq:'薬剤師相談FAQ', faqSource:'出典：化粧品科学セミナー・2026', summary:'AI総合所見', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
+    axisRowLabel:{ OD:'水分バランス (O/D)', SR:'敏感度 (S/R)', PN:'色素傾向 (P/N)', WT:'ハリ・しわ (W/T)' },
+    axisSummary:{
+      O:'皮脂分泌が活発な傾向で、皮脂コントロールと毛穴ケアが優先ポイントです。',
+      D:'水分保持力が低くつっぱりや粉吹きが起こりやすいため、保湿・バリア強化ルーティンを優先しましょう。',
+      S:'外部刺激に反応しやすい傾向があるため、低刺激・鎮静成分を中心としたケアが必要です。',
+      R:'外部刺激に比較的強い傾向があり、さまざまな活性成分を無理なく試すことができます。',
+      P:'紫外線やトラブルの後に色素沈着が残りやすい傾向があり、美白機能性成分と紫外線対策が重要です。',
+      N:'色素沈着の傾向は低めですが、予防的な紫外線対策は引き続き推奨されます。',
+      W:'ハリの低下やしわのサインが優先ケアポイントで、コラーゲン合成をサポートする成分が役立つ場合があります。',
+      T:'ハリは良好な状態で、現状を維持する予防的ケアが推奨されます。'
+    },
+    ingredients:[
+      { name:'ナイアシンアミド', func:'美白機能性告示成分 · メラニン伝達抑制', pct:'推奨配合範囲 2–5%' },
+      { name:'アデノシン', func:'しわ改善機能性告示成分', pct:'配合基準 0.04%' },
+      { name:'NMN（ニコチンアミドモノヌクレオチド）', func:'コラーゲン合成誘導 · ECM強化サポート', pct:'10,000 ppm = 1%' }
+    ],
+    legend:[
+      "· 成分名の語尾 <b>〜オール</b> → 多くは保湿剤",
+      "· 成分名の語尾 <b>〜レート／ポリマー</b> → 多くは界面活性剤・増粘剤",
+      "· 防腐システム例：1,2-ヘキサンジオール（2%基準）＋クロルフェネシン（0.3%上限）",
+      "· 防腐トレンド：パラベン（0.4%）→フェノキシエタノール（1%）→1,2-ヘキサンジオール系"
+    ],
+    badges:[
+      { title:'ノンコメドジェニック（Non-comedogenic）', desc:'毛穴を詰まらせずトラブルを誘発しないことをヒト試験で実証した民間認証です。法的定義ではなく、内外の公認機関での試験が必要です。ココア・パーム油、ラノリン系、IPM/IPPなどが代表的なコメドジェニック成分です。' },
+      { title:'皮膚刺激テスト · 低刺激', desc:'公認臨床機関でのヒト試験結果であり、個人の肌状態により反応が異なる場合があるため、相談時に併せて案内することを推奨します。' },
+      { title:'機能性化粧品の表示広告に関する注意', desc:'美白・しわ改善等の機能性表現は、食品医薬品安全処の化粧品表示広告管理指針および大韓化粧品協会ガイドラインに従います。医薬品と誤認されうる断定的な効能表現は使用しません。' }
+    ],
+    evidence:{
+      title:'NMN（ニコチンアミドモノヌクレオチド）の作用と吸収',
+      bullets:[
+        'コラーゲン合成誘導および細胞外マトリックス（ECM）強化のサポート',
+        '活性酸素・炎症性サイトカインの抑制に関与',
+        '細胞代謝のエネルギー源（NAD+前駆体）として知られる',
+        '体内でも生成される物質で安全性が高く、水溶性・酸性環境下でニコチンアミドに分解される特性があるため、デリバリー設計が吸収経路に影響する',
+        '相乗成分：ミネラル（Cu・Ca・Mg・Zn・Fe）、抗酸化成分（レスベラトロール、ケルセチン）、肌再生成分（PDRN・EGF・ペプチド等）'
+      ]
+    },
+    barrier:[
+      "<b>ブリック＆モルタル構造</b> — 角質細胞（ブリック）＋脂質（モルタル）",
+      "<b>タイトジャンクション／NMF–フィラグリン</b> — 保湿の中心経路",
+      "<b>皮脂脂質比率</b> — セラミド50：コレステロール25：遊離脂肪酸15",
+      "<b>マイクロバイオーム</b> — 皮膚常在菌のバランスがバリア健康に関与"
+    ],
+    products:[
+      { emoji:'🧴', name:'NMN ハイドロカプセル クレンジングミルク', tag:'150ml · クレンジング', clinical:'洗浄効果99.48%', tags:['건조','민감','장벽'] },
+      { emoji:'💧', name:'デイリーリリーフ エッセンストナー', tag:'150ml · トナー', clinical:'保湿改善指標に優れる', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', name:'NMN インテンシブセラム', tag:'30ml · セラム', clinical:'コラーゲン合成誘導をサポート', tags:['탄력','광채','색소'] }
+    ],
+    faqTabs:{ usage:'使用法', efficacy:'効能', skintype:'肌タイプ', ingredient:'成分', reg:'規制・相談実務' },
+    faq:{
+      usage:[
+        { title:'クレンジング→化粧水→美容液→クリームの順序は必ず守るべきですか？', body:'一般的に、水っぽい質感から濃いテクスチャーの順に使用すると吸収効率が良いとされています。順序が多少変わっても効果が消えるわけではありませんが、重ね付けが多いほど吸収が遅くなることがあるため、製品間に約1分程度の間隔を置くことを推奨します。' },
+        { title:'化粧水・美容液・アンプルはすべて使わないと効果が出ませんか？', body:'この3つは役割が異なるため（水分の土台作り／高濃度集中ケア／ブースティング）、悩みに応じてステップを減らしても構いません。ただし、トラブルやバリア損傷がある場合は、シンプルなルーティン（クレンジング＋鎮静化粧水＋保湿）から始めることを推奨します。' }
+      ],
+      efficacy:[
+        { title:'機能性化粧品は一般化粧品より効果が確実に高いのですか？', body:'美白・しわ改善機能性製品は、食薬処の審査を経た指標成分（例：ナイアシンアミド2–5%、アデノシン0.04%）の最低配合基準を満たしています。ただし個人差があるため、「必ず改善する」ではなく「臨床的に有意な根拠がある成分」というレベルで案内するのが安全です。', flag:'断定的な表現に注意' },
+        { title:'機能性化粧品は最低どのくらい使えば効果が見えますか？', body:'製品・成分・臨床設計により異なるため、特定の期間を断定せず、製品ごとの臨床データ（使用期間・改善率）を根拠に案内することを推奨します。' }
+      ],
+      skintype:[
+        { title:'乾性・脂性・混合肌はどう見分けますか？', body:'単純な自己判断は不正確な場合が多く、洗顔後2〜3時間、何も塗らない状態でTゾーン／頬の油分・水分反応を観察するバウマン式の問診の方が信頼性が高いです。季節により指標が変化することがあるため、定期的な再診断を推奨します。' },
+        { title:'敏感肌のお客様が成分表でまず確認すべきポイントは？', body:'香料・エッセンシャルオイルの有無、アルコール（エタノール）の含有量、防腐剤の種類（1,2-ヘキサンジオール／クロルフェネシン等の配合基準遵守）、ノンコメドジェニック認証の有無を優先して確認するよう案内します。' }
+      ],
+      ingredient:[
+        { title:'成分は肌の奥深くに届くほど良いのですか？', body:'到達すべき深さは目的により異なり、真皮までの浸透が必要な成分（NMN等）と、表皮での作用で十分な成分（保湿・バリア成分）があります。「より深い＝常に良い」と断定しないことが安全です。' },
+        { title:'全成分表を読む際にまず確認すべきポイント', body:'精製水の次に記載される上位成分（主なベース）、機能性指標成分とその配合量、防腐剤の種類、香料表記の有無の順に確認するよう案内します。' }
+      ],
+      reg:[
+        { title:'使用後に異常反応（発疹等）が出た場合の案内', body:'健康機能食品とは異なり、化粧品は消費者相談室等の自社チャネルで受付を行っており、相談時は使用中止および皮膚科受診の案内を優先します。', flag:'即座の販売誘導は禁止' },
+        { title:'SNS・コンテンツ投稿時に注意すべき表示広告の文言', body:'食薬処の化粧品表示広告管理指針、大韓化粧品協会ガイドラインに基づき、「完治」「治療」等の医薬品と誤認されうる表現は使用しません。', flag:'表示広告法の確認が必要' }
+      ]
+    },
+    restartBtn:'最初に戻る'
+  },
+  footer:{ line1:'この画面はSIOREスキン相談リンクのリデザイン<b>モックアップ（Concept）</b> — カラー案：コーラル×ブルー×ホワイトです · 製品数値・認証文言は実際の配布前に最新の根拠資料で再確認が必要です。', liveLinkLabel:'実際のサービスリンク' }
+}
+};
+
+let currentLang = 'ko';
+function t(path, langOverride){
+  const parts = path.split('.');
+  let node = I18N[langOverride || currentLang];
+  for(const p of parts){ if(node==null) return ''; node = node[p]; }
+  return node==null ? '' : node;
+}
+
+// ---- bilingual display helpers ----
+function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function biBlock(main, ko){
+  if(!main) return '';
+  if(currentLang==='ko' || !ko || ko===main) return escapeHtml(main);
+  return `<span class="i18n-main">${escapeHtml(main)}</span><br><span class="i18n-sub">${escapeHtml(ko)}</span>`;
+}
+function bi(path){ return biBlock(t(path), currentLang==='ko' ? null : t(path,'ko')); }
+function biHtml(path){
+  const main = t(path);
+  if(!main) return '';
+  if(currentLang==='ko') return main;
+  const ko = t(path,'ko');
+  if(!ko || ko===main) return main;
+  return `<span class="i18n-main">${main}</span><br><span class="i18n-sub">${ko}</span>`;
+}
+
+function applyLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-hud button').forEach(b=> b.classList.toggle('active', b.dataset.lang===lang));
+
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const path = el.getAttribute('data-i18n');
+    if(el.hasAttribute('data-i18n-mono')){
+      const v = t(path); if(v) el.textContent = v;
+    }else{
+      const html_ = bi(path); if(html_) el.innerHTML = html_;
+    }
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const v = biHtml(el.getAttribute('data-i18n-html'));
+    if(v) el.innerHTML = v;
+  });
+
+  renderBootLines();
+  renderQuiz();
+  renderCamStatus();
+  renderCamButton();
+  if(lastAxisScores){
+    renderResultTexts(lastAxisScores);
+    renderSummary(lastAxisScores);
+    renderProducts();
+    if(lastPhotoMetrics) renderScanMetrics(lastPhotoMetrics);
+  }
+}
+
+/* ---------------- boot lines ---------------- */
+function renderBootLines(){
+  const bootEl = document.getElementById('bootLines');
+  bootEl.innerHTML = '';
+  t('intro.boot').forEach((m,i)=>{
+    const d = document.createElement('div');
+    d.className='blk'; d.style.animationDelay=(i*0.35)+'s'; d.innerHTML='> '+m;
+    bootEl.appendChild(d);
+  });
+}
+const styleTag = document.createElement('style');
+styleTag.textContent = '@keyframes typein{from{opacity:0;transform:translateX(-6px);}to{opacity:1;transform:translateX(0);}}';
+document.head.appendChild(styleTag);
+
+/* ---------------- stepper nav ---------------- */
+function goStep(n){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+  document.querySelectorAll('.step-node').forEach(s=>{
+    const sn = +s.dataset.step;
+    s.classList.toggle('active', sn===n);
+    s.classList.toggle('done', sn<n);
+  });
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ---------------- language switcher ---------------- */
+document.getElementById('langHud').addEventListener('click', e=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  applyLang(btn.dataset.lang);
+});
+
+/* ---------------- step1 selections ---------------- */
+function bindChips(gridId){
+  document.getElementById(gridId).addEventListener('click', e=>{
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    [...chip.parentElement.children].forEach(c=>c.classList.remove('selected'));
+    chip.classList.add('selected');
+  });
+}
+bindChips('ageGrid'); bindChips('genderGrid');
+
+let selectedConcerns = [];
+document.getElementById('concernGrid').addEventListener('click', e=>{
+  const t = e.target.closest('.concern-tile'); if(!t) return;
+  t.classList.toggle('selected');
+  const v = t.dataset.v;
+  selectedConcerns = selectedConcerns.includes(v) ? selectedConcerns.filter(x=>x!==v) : [...selectedConcerns, v];
+  document.getElementById('toStep2').disabled = selectedConcerns.length===0;
+});
+
+/* ---------------- step2: quiz (Baumann-lite, 4 axis x 2 Q) — paginated one-axis-at-a-time, language-aware ---------------- */
+const AXIS_KEYS = ['OD','SR','PN','WT'];
+const AXIS_ICONS = { OD:'💧', SR:'🛡️', PN:'🎯', WT:'✨' };
+let answers = {}; // key: "OD-0" -> pointvalue(1-4)
+let currentAxis = 0; // which axis (0-3) is currently shown, to avoid a long single-page scroll
+const axisContainer = document.getElementById('axisContainer');
+
+function updateQuizMeta(){
+  const answered = Object.keys(answers).length;
+  document.getElementById('quizCount').textContent = answered+' / 8';
+  document.getElementById('quizProgress').innerHTML = Array.from({length:8}).map((_,i)=>`<i class="${i<answered?'done':''}"></i>`).join('');
+  document.getElementById('toStep3').disabled = answered<8;
+}
+
+function renderQuiz(){
+  const axesData = t('step2.axes');
+  const axesDataKo = currentLang==='ko' ? null : t('step2.axes','ko');
+  const ai = currentAxis;
+  const axis = axesData[ai];
+  const key = AXIS_KEYS[ai];
+
+  const block = document.createElement('div');
+  block.className = 'axis-block axis-' + key.toLowerCase();
+  block.innerHTML = `<span class="axis-tag">${AXIS_ICONS[key]} ${axis.label}</span>` + axis.qs.map((q,qi)=>{
+    const koQ = axesDataKo ? axesDataKo[ai].qs[qi] : null;
+    const opts = q.opts.map((o,oi)=>{
+      const optHtml = biBlock(o, koQ ? koQ.opts[oi] : null);
+      return `<div class="opt" data-pt="${oi+1}"><span class="opt-txt">${optHtml}</span></div>`;
+    }).join('');
+    return `
+    <div class="q-group">
+      <p class="q-num">Q${qi+1}</p>
+      <p class="q-text">${biBlock(q.t, koQ ? koQ.t : null)}</p>
+      <div class="opt-row" data-axis="${key}" data-qi="${qi}">
+        ${opts}
+      </div>
+    </div>`;
+  }).join('');
+  axisContainer.innerHTML = '';
+  axisContainer.appendChild(block);
+
+  axisContainer.querySelectorAll('.opt-row').forEach(row=>{
+    const k = row.dataset.axis+'-'+row.dataset.qi;
+    const pt = answers[k];
+    if(pt){
+      const opt = row.querySelector(`.opt[data-pt="${pt}"]`);
+      if(opt) opt.classList.add('selected');
+    }
+  });
+
+  updateQuizMeta();
+
+  const dotsEl = document.getElementById('quizPagerDots');
+  dotsEl.innerHTML = AXIS_KEYS.map((_,i)=>`<i class="${i===ai?'active':''}"></i>`).join('');
+  document.getElementById('axisPrevBtn').disabled = ai===0;
+  document.getElementById('axisNextBtn').disabled = ai===AXIS_KEYS.length-1;
+}
+renderQuiz();
+
+axisContainer.addEventListener('click', e=>{
+  const opt = e.target.closest('.opt'); if(!opt) return;
+  const row = opt.parentElement;
+  [...row.children].forEach(o=>o.classList.remove('selected'));
+  opt.classList.add('selected');
+  answers[row.dataset.axis+'-'+row.dataset.qi] = +opt.dataset.pt;
+  updateQuizMeta();
+
+  const axisKey = AXIS_KEYS[currentAxis];
+  const bothAnswered = answers[axisKey+'-0']!=null && answers[axisKey+'-1']!=null;
+  if(bothAnswered && currentAxis < AXIS_KEYS.length-1){
+    setTimeout(()=>{ currentAxis++; renderQuiz(); }, 380);
+  }
+});
+
+document.getElementById('axisPrevBtn').addEventListener('click', ()=>{
+  if(currentAxis>0){ currentAxis--; renderQuiz(); }
+});
+document.getElementById('axisNextBtn').addEventListener('click', ()=>{
+  if(currentAxis<AXIS_KEYS.length-1){ currentAxis++; renderQuiz(); }
+});
+
+/* ---------------- camera ---------------- */
+let camStream=null, lastFrameData=null;
+let camState='idle'; // idle | live | denied | captured
+let camOn=false;
+
+function renderCamStatus(){
+  const status = document.getElementById('camStatus');
+  const colors = { idle:'var(--text-faint)', live:'var(--cyan)', denied:'var(--danger)', captured:'var(--ok)' };
+  const glow = camState==='live' ? 'box-shadow:0 0 8px 2px var(--cyan-soft);' : '';
+  status.innerHTML = `<i style="width:6px;height:6px;border-radius:50%;background:${colors[camState]};display:inline-block;${glow}"></i> <span>${t('step2.cam.status.'+camState)}</span>`;
+}
+function renderCamButton(){
+  document.getElementById('camStartBtn').textContent = camOn ? t('step2.cam.stopBtn') : t('step2.cam.startBtn');
+}
+
+async function startCam(){
+  try{
+    camStream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}});
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream; video.style.display='block';
+    document.getElementById('camPlaceholder').style.display='none';
+    document.getElementById('reticle').style.display='block';
+    document.getElementById('camShotBtn').disabled = false;
+    camOn = true; renderCamButton();
+    document.getElementById('camStartBtn').onclick = stopCam;
+    camState='live'; renderCamStatus();
+  }catch(err){
+    camState='denied'; renderCamStatus();
+  }
+}
+function stopCam(){
+  if(camStream){ camStream.getTracks().forEach(t=>t.stop()); }
+  const video = document.getElementById('camVideo');
+  video.style.display='none'; document.getElementById('reticle').style.display='none';
+  document.getElementById('camPlaceholder').style.display='flex';
+  document.getElementById('camShotBtn').disabled = true;
+  camOn = false; renderCamButton();
+  document.getElementById('camStartBtn').onclick = startCam;
+  camState='idle'; renderCamStatus();
+}
+function takeShot(){
+  const video = document.getElementById('camVideo');
+  const canvas = document.getElementById('camCanvas');
+  canvas.width = video.videoWidth || 640; canvas.height = video.videoHeight || 480;
+  const ctx = canvas.getContext('2d');
+  ctx.translate(canvas.width,0); ctx.scale(-1,1); // mirror
+  ctx.drawImage(video,0,0,canvas.width,canvas.height);
+  lastFrameData = canvas.toDataURL('image/jpeg',0.85);
+  stopCam();
+  camState='captured'; renderCamStatus();
+}
+renderCamStatus(); renderCamButton();
+
+document.getElementById('camUploadInput').addEventListener('change', (e)=>{
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const canvas = document.getElementById('camCanvas');
+      canvas.width = img.width; canvas.height = img.height;
+      canvas.getContext('2d').drawImage(img,0,0);
+      lastFrameData = canvas.toDataURL('image/jpeg',0.85);
+      stopCam();
+      camState='captured'; renderCamStatus();
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+});
+
+/* ---------------- analysis + results ---------------- */
+function scoreAxis(key){
+  const q0 = answers[key+'-0']||2.5, q1 = answers[key+'-1']||2.5;
+  return q0+q1; // 2-8
+}
+function runAnalysis(){
+  const overlay = document.getElementById('analyzing');
+  overlay.classList.add('show');
+  const ticker = document.getElementById('analyzeTicker');
+  const bar = document.getElementById('analyzeBar');
+  const steps = t('analyzing.steps');
+  let i=0;
+  ticker.textContent = steps[0];
+  bar.style.width='4%';
+  const iv = setInterval(()=>{
+    i++;
+    if(i<steps.length){ ticker.textContent = steps[i]; bar.style.width = Math.round((i/steps.length)*100)+'%'; }
+    else{
+      bar.style.width='100%';
+      clearTimeout(fin);
+      finalizeResults();
+    }
+  }, 420);
+  const fin = setTimeout(()=>{ clearInterval(iv); finalizeResults(); }, 3000);
+}
+
+let lastAxisScores = null; // {od,sr,pn,wt}
+let lastPhotoMetrics = null; // {brightness,redness}
+
+function computeLetters(scores){
+  const { od, sr, pn, wt } = scores;
+  return {
+    OD: od>=5 ? 'O' : 'D',
+    SR: sr>=5 ? 'S' : 'R',
+    PN: pn>=5 ? 'P' : 'N',
+    WT: wt>=5 ? 'W' : 'T'
+  };
+}
+
+// lightweight, real (non-fake) reference-metric estimate from the captured photo's pixels —
+// sampled from the center region only so the background doesn't skew the reading.
+// This is explicitly a supplementary reference indicator, not a diagnostic measurement.
+function computePhotoMetrics(canvas){
+  const w = canvas.width, h = canvas.height;
+  if(!w || !h) return {brightness:50, redness:50};
+  const sx = Math.round(w*0.28), sy = Math.round(h*0.12), sw = Math.round(w*0.44), sh = Math.round(h*0.76);
+  let data;
+  try{ data = canvas.getContext('2d').getImageData(sx, sy, sw, sh).data; }
+  catch(e){ return {brightness:50, redness:50}; }
+  let sumR=0,sumG=0,sumB=0,n=0;
+  for(let i=0;i<data.length;i+=4){ sumR+=data[i]; sumG+=data[i+1]; sumB+=data[i+2]; n++; }
+  if(!n) return {brightness:50, redness:50};
+  const avgR=sumR/n, avgG=sumG/n, avgB=sumB/n;
+  const brightness = Math.max(0, Math.min(100, Math.round(((avgR+avgG+avgB)/3)/255*100)));
+  const redness = Math.max(0, Math.min(100, Math.round(((avgR-(avgG+avgB)/2))/255*200+50)));
+  return { brightness, redness };
+}
+
+function finalizeResults(){
+  document.getElementById('analyzing').classList.remove('show');
+  const od = scoreAxis('OD'), sr = scoreAxis('SR'), pn = scoreAxis('PN'), wt = scoreAxis('WT');
+  lastAxisScores = {od,sr,pn,wt};
+  renderResultTexts(lastAxisScores);
+  renderSummary(lastAxisScores);
+
+  if(lastFrameData){
+    document.getElementById('scanPhotoWrap').style.display='block';
+    document.getElementById('scanEmptyNote').style.display='none';
+    const img = new Image();
+    img.onload = ()=>{
+      const rc = document.getElementById('resultCanvas');
+      rc.width = img.width; rc.height = img.height;
+      rc.getContext('2d').drawImage(img,0,0);
+      lastPhotoMetrics = computePhotoMetrics(rc);
+      renderScanMetrics(lastPhotoMetrics);
+    };
+    img.src = lastFrameData;
+  }else{
+    document.getElementById('scanPhotoWrap').style.display='none';
+    document.getElementById('scanEmptyNote').style.display='block';
+  }
+
+  renderProducts();
+  goStep(3);
+}
+
+function renderResultTexts(scores){
+  const { od, sr, pn, wt } = scores;
+  const letters = computeLetters(scores);
+  const code = letters.OD+letters.SR+letters.PN+letters.WT;
+  document.getElementById('typeCode').textContent = code;
+  const nameMap = t('result.nameMap');
+  const nameMapKo = currentLang==='ko' ? null : t('result.nameMap','ko');
+  const mainName = `${nameMap[letters.OD]}·${nameMap[letters.SR]}·${nameMap[letters.PN]}·${nameMap[letters.WT]}`;
+  const koName = nameMapKo ? `${nameMapKo[letters.OD]}·${nameMapKo[letters.SR]}·${nameMapKo[letters.PN]}·${nameMapKo[letters.WT]}` : null;
+  document.getElementById('typeName').innerHTML = biBlock(mainName, koName);
+  document.getElementById('typeSub').innerHTML = bi('result.typeSub');
+  const scoresByKey = { OD:od, SR:sr, PN:pn, WT:wt };
+  document.getElementById('axisTags').innerHTML = AXIS_KEYS.map(key=>
+    `<span>${AXIS_ICONS[key]} ${nameMap[letters[key]]} ${scoresByKey[key].toFixed(1)}</span>`
+  ).join('');
+  drawRadar(scores);
+}
+
+function renderSummary(scores){
+  const letters = computeLetters(scores);
+  const rowLabel = t('result.axisRowLabel');
+  const rowLabelKo = currentLang==='ko' ? null : t('result.axisRowLabel','ko');
+  const axisText = t('result.axisSummary');
+  const axisTextKo = currentLang==='ko' ? null : t('result.axisSummary','ko');
+  document.getElementById('summaryCard').innerHTML = AXIS_KEYS.map(key=>{
+    const letter = letters[key];
+    const score = scores[key.toLowerCase()];
+    const pct = Math.max(0, Math.min(100, Math.round(Math.abs(score-5)/3*100)));
+    return `
+      <div class="summary-row">
+        <div>
+          <div class="summary-row-head"><span class="summary-ic">${AXIS_ICONS[key]}</span><b>${biBlock(rowLabel[key], rowLabelKo?rowLabelKo[key]:null)}</b><span class="summary-pct">${pct}%</span></div>
+          <div class="summary-bar"><i style="width:${pct}%"></i></div>
+        </div>
+        <p class="summary-text">${biBlock(axisText[letter], axisTextKo?axisTextKo[letter]:null)}</p>
+      </div>`;
+  }).join('');
+}
+
+function renderScanMetrics(m){
+  document.getElementById('scanMetrics').innerHTML = `
+    <div class="metric-item">
+      <div class="metric-head"><b>${bi('result.scan.metricBrightness')}</b><span>${m.brightness}</span></div>
+      <div class="metric-bar"><i style="width:${m.brightness}%"></i></div>
+      <p class="metric-desc">${bi('result.scan.metricBrightnessDesc')}</p>
+    </div>
+    <div class="metric-item">
+      <div class="metric-head"><b>${bi('result.scan.metricRedness')}</b><span>${m.redness}</span></div>
+      <div class="metric-bar"><i style="width:${m.redness}%"></i></div>
+      <p class="metric-desc">${bi('result.scan.metricRednessDesc')}</p>
+    </div>
+  `;
+}
+
+function renderProducts(){
+  if(!lastAxisScores) return;
+  const products = t('result.products');
+  const productsKo = currentLang==='ko' ? null : t('result.products','ko');
+  document.getElementById('productRow').innerHTML = products.map((p,i)=>{
+    const pKo = productsKo ? productsKo[i] : null;
+    return `
+    <div class="glass product-card">
+      <span class="rank">RANK ${String(i+1).padStart(2,'0')}</span>
+      <div class="thumb">${p.emoji}</div>
+      <p class="pname">${biBlock(p.name, pKo?pKo.name:null)}</p>
+      <p class="ptag">${biBlock(p.tag, pKo?pKo.tag:null)}</p>
+      <p class="clinical">${biBlock(p.clinical, pKo?pKo.clinical:null)}</p>
+      <div class="tag-row">${p.tags.map(tg=>`<span>${t('step1.concerns.'+tg)}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function drawRadar(scores){
+  const { od, sr, pn, wt } = scores;
+  const vals = [od, sr, pn, wt];
+  const letters = computeLetters(scores);
+  // dominance: 0% at the neutral midpoint (score 5), 100% at either extreme (score 2 or 8) —
+  // the SAME formula the AI summary card uses, so the graph and the plain-language
+  // explanation always agree on what "strong" means for a given axis.
+  const dominance = vals.map(v => Math.max(0, Math.min(100, Math.round(Math.abs(v-5)/3*100))) / 100);
+  const nameMap = t('result.nameMap');
+  const nameMapKo = currentLang==='ko' ? null : t('result.nameMap','ko');
+  const rowLabel = t('result.axisRowLabel');
+  const rowLabelKo = currentLang==='ko' ? null : t('result.axisRowLabel','ko');
+  const colors = { OD:'#fc553a', SR:'#108cff', PN:'#1caa78', WT:'#a855f7' };
+  const cx=120, cy=120, R=68;
+  const pts = dominance.map((v,i)=>{
+    const ang = (-90 + i*90) * Math.PI/180;
+    const r = 18 + v*R;
+    return [cx+r*Math.cos(ang), cy+r*Math.sin(ang)];
+  });
+  const ringPts = (rad)=>[0,1,2,3].map(i=>{
+    const ang=(-90+i*90)*Math.PI/180;
+    return `${cx+rad*Math.cos(ang)},${cy+rad*Math.sin(ang)}`;
+  }).join(' ');
+  let svg = '';
+  [0.33,0.66,1].forEach(f=>{ svg += `<polygon points="${ringPts(18+f*R)}" fill="none" stroke="rgba(120,150,190,0.18)" stroke-width="1"/>`; });
+  AXIS_KEYS.forEach((key,i)=>{
+    const ang=(-90+i*90)*Math.PI/180;
+    const x = cx+(R+28)*Math.cos(ang), y = cy+(R+28)*Math.sin(ang);
+    svg += `<text x="${x}" y="${y}" fill="${colors[key]}" font-size="13" font-weight="700" font-family="Pretendard Variable, sans-serif" text-anchor="middle" dominant-baseline="middle">${letters[key]}</text>`;
+  });
+  svg += `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="rgba(120,140,170,0.16)" stroke="#7a8aa0" stroke-width="2"/>`;
+  pts.forEach((p,i)=>{ const key=AXIS_KEYS[i]; svg += `<circle cx="${p[0]}" cy="${p[1]}" r="4.5" fill="${colors[key]}"/>`; });
+  document.getElementById('radarSvg').innerHTML = svg;
+  document.getElementById('radarLegend').innerHTML = AXIS_KEYS.map((key,i)=>{
+    const pct = Math.round(dominance[i]*100);
+    const label = biBlock(rowLabel[key], rowLabelKo?rowLabelKo[key]:null);
+    const nm = biBlock(nameMap[letters[key]], nameMapKo?nameMapKo[letters[key]]:null);
+    return `<div class="row"><span class="sw" style="background:${colors[key]}"></span><div class="txt"><b>${label}</b><br>${nm} <span class="pct">${pct}%</span></div></div>`;
+  }).join('');
+}
+
+/* ---------------- faq tabs ---------------- */
+document.getElementById('faqTabs').addEventListener('click', e=>{
+  const tab = e.target.closest('.faq-tab'); if(!tab) return;
+  document.querySelectorAll('.faq-tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  const g = tab.dataset.t;
+  document.querySelectorAll('.faq-list').forEach(l=>l.classList.toggle('active', l.dataset.g===g));
+});
+
+/* ---------------- init ---------------- */
+renderBootLines();
+</script>
+
+</body>
+</html>

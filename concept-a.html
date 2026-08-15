@@ -238,6 +238,20 @@
     background:linear-gradient(180deg, transparent, rgba(16,140,255,0.28), transparent);
     animation:sweep 2.6s linear infinite;}
   @keyframes sweep{ from{top:-38%;} to{top:100%;} }
+  .reticle .guide-label{position:absolute; left:50%; top:9%; transform:translateX(-50%); white-space:nowrap;
+    font-family:var(--mono); font-size:12px; color:#fff; background:rgba(16,140,255,0.55); padding:4px 10px;
+    border-radius:999px; letter-spacing:.01em;}
+  .cam-guide-checklist{display:flex; flex-direction:column; gap:6px; margin:2px 0 4px; padding:12px 14px;
+    background:rgba(16,140,255,0.06); border:1px solid var(--cyan-soft); border-radius:12px;}
+  .cam-guide-checklist .gc-title{font-size:13px; font-weight:700; color:var(--cyan); margin-bottom:2px;}
+  .cam-guide-checklist ul{margin:0; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:4px;}
+  .cam-guide-checklist li{font-size:13.5px; color:var(--text-dim); line-height:1.5; padding-left:20px; position:relative;}
+  .cam-guide-checklist li::before{content:'✓'; position:absolute; left:0; color:var(--ok); font-weight:700;}
+  .cam-denied-help{display:none; font-size:13.5px; color:var(--text-dim); line-height:1.7; padding:12px 14px;
+    background:rgba(236,60,51,0.06); border:1px solid rgba(236,60,51,0.24); border-radius:12px; margin-top:2px;}
+  .cam-denied-help.show{display:block;}
+  .cam-denied-help b{display:block; color:var(--danger); font-size:13.5px; margin-bottom:4px;}
+  .cam-denied-help ul{margin:4px 0 0; padding-left:18px;}
   .cam-status{font-family:var(--mono); font-size:13.5px; color:var(--cyan); display:flex; align-items:center; gap:8px;}
   .cam-controls{display:flex; gap:10px;}
   .cam-controls .btn{flex:1; justify-content:center; padding:12px;}
@@ -447,6 +461,73 @@
   .faq-item b{color:var(--text); display:block; margin-bottom:4px; font-size:15.5px;}
   .faq-item .flag{display:inline-block; margin-top:8px; font-family:var(--mono); font-size:12.5px; color:var(--danger); border:1px solid rgba(255,122,122,0.4); padding:2px 7px; border-radius:6px;}
 
+  /* -------- detail toggle (simple/detailed) -------- */
+  .detail-toggle{display:inline-flex; gap:4px; padding:4px; border-radius:999px; background:rgba(120,120,130,0.08); border:1px solid var(--line-strong); margin:6px 0 22px;}
+  .dt-btn{font-family:inherit; font-size:13.5px; font-weight:600; padding:7px 15px; border-radius:999px; border:none; background:transparent; color:var(--text-dim); cursor:pointer;}
+  .dt-btn.active{background:var(--gold-soft); color:#221709;}
+  body.simple-mode [data-detail-only]{display:none !important;}
+
+  /* -------- Q&A popup -------- */
+  .qa-fab{position:fixed; right:22px; bottom:22px; z-index:60; display:flex; align-items:center; gap:8px;
+    padding:13px 18px; border-radius:999px; border:none; cursor:pointer; font-family:inherit; font-weight:700; font-size:14.5px;
+    color:#221709; background:linear-gradient(135deg,var(--gold-soft),#e8b23a); box-shadow:0 8px 22px rgba(0,0,0,0.22);}
+  @media(max-width:640px){ .qa-fab{right:14px; bottom:14px; padding:12px 16px; font-size:13.5px;} }
+  .qa-modal{position:fixed; inset:0; z-index:70; display:none; align-items:flex-end; justify-content:center; background:rgba(20,14,10,0.55); padding:0;}
+  .qa-modal.show{display:flex;}
+  @media(min-width:760px){ .qa-modal{align-items:center;} }
+  .qa-modal-inner{width:100%; max-width:560px; max-height:82vh; overflow-y:auto; background:var(--bg-card,#fffaf3); border-radius:20px 20px 0 0;
+    padding:22px 22px 26px; box-shadow:0 -10px 40px rgba(0,0,0,0.25);}
+  @media(min-width:760px){ .qa-modal-inner{border-radius:20px; margin:0 16px;} }
+  .qa-modal-head{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:6px;}
+  .qa-modal-head h4{font-size:17px; margin:0;}
+  .qa-modal-sub{font-size:13px; color:var(--text-faint); margin:0 0 16px;}
+  .qa-close{background:none; border:none; font-size:20px; color:var(--text-faint); cursor:pointer; line-height:1; padding:2px 6px;}
+  .qa-input-row{display:flex; gap:8px; margin-bottom:14px;}
+  .qa-input-row input{flex:1; font-family:inherit; font-size:14.5px; padding:11px 14px; border-radius:10px; border:1px solid var(--line-strong); background:#fff;}
+  .qa-input-row button{white-space:nowrap;}
+  .qa-results{display:flex; flex-direction:column; gap:10px;}
+  .qa-hit{padding:13px 15px; border-radius:12px; background:rgba(120,120,130,0.06); border:1px solid var(--line);}
+  .qa-hit b{display:block; font-size:14.5px; margin-bottom:4px; color:var(--text);}
+  .qa-hit p{margin:0; font-size:13.5px; color:var(--text-dim); line-height:1.6;}
+  .qa-hit .qa-tag{display:inline-block; margin-top:8px; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); border:1px solid var(--line-strong); padding:2px 8px; border-radius:6px;}
+  .qa-empty{padding:14px 15px; border-radius:12px; background:rgba(236,60,51,0.06); border:1px solid rgba(236,60,51,0.2); font-size:13.5px; color:var(--text-dim); line-height:1.65;}
+  .qa-empty b{display:block; color:var(--danger); margin-bottom:4px; font-size:14px;}
+  .qa-viewall{margin-top:12px; width:100%; justify-content:center;}
+
+  /* -------- scan gauge (item 8) -------- */
+  .scan-gauge-row{display:flex; gap:16px; margin-top:16px; flex-wrap:wrap;}
+  .scan-gauge{flex:1; min-width:180px; padding:13px 15px; border-radius:12px; background:rgba(120,120,130,0.05); border:1px solid var(--line);}
+  .scan-gauge .sg-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;}
+  .scan-gauge .sg-label{font-size:13.5px; font-weight:700; color:var(--text);}
+  .scan-gauge .sg-state{font-family:var(--mono); font-size:12px; padding:2px 8px; border-radius:6px;}
+  .scan-gauge .sg-state.low{background:rgba(16,140,255,0.12); color:#0a5dad;}
+  .scan-gauge .sg-state.mid{background:rgba(7,160,130,0.12); color:var(--ok);}
+  .scan-gauge .sg-state.high{background:rgba(252,85,58,0.12); color:#c23b23;}
+  .scan-gauge .sg-bar{height:7px; border-radius:4px; background:var(--line); overflow:hidden; margin-bottom:7px;}
+  .scan-gauge .sg-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--gold-soft),var(--cyan));}
+  .scan-gauge .sg-desc{font-size:12.5px; color:var(--text-faint); line-height:1.55; margin:0;}
+
+  /* -------- ingredient mechanism + spec compare (item 4) -------- */
+  .ing-card .mech{font-size:12.5px; color:var(--text-faint); line-height:1.6; margin:8px 0 0; padding-top:8px; border-top:1px dashed var(--line);}
+  .spec-compare{width:100%; border-collapse:collapse; margin-top:18px; font-size:13px;}
+  .spec-compare th, .spec-compare td{padding:9px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
+  .spec-compare th{font-size:11.5px; color:var(--text-faint); font-weight:700; text-transform:uppercase; letter-spacing:.02em;}
+  .spec-compare td{color:var(--text-dim); line-height:1.5;}
+  .spec-compare td.sc-name{color:var(--text); font-weight:700; white-space:nowrap;}
+  @media(max-width:640px){ .spec-compare{font-size:12px;} .spec-compare th, .spec-compare td{padding:7px 6px;} }
+
+  /* -------- evidence oral vs topical compare (item 6) -------- */
+  .evidence-split{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0;}
+  @media(max-width:640px){ .evidence-split{grid-template-columns:1fr;} }
+  .ev-col{padding:13px 15px; border-radius:12px; background:rgba(120,120,130,0.05); border:1px solid var(--line);}
+  .ev-col.ev-oral{border-color:rgba(168,85,247,0.24); background:rgba(168,85,247,0.05);}
+  .ev-col.ev-topical{border-color:rgba(16,140,255,0.24); background:rgba(16,140,255,0.05);}
+  .ev-col .ev-tag{font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.02em; display:inline-block; margin-bottom:6px; padding:2px 8px; border-radius:6px;}
+  .ev-col.ev-oral .ev-tag{color:#7c3aed; background:rgba(168,85,247,0.14);}
+  .ev-col.ev-topical .ev-tag{color:#0a5dad; background:rgba(16,140,255,0.14);}
+  .ev-col p{margin:0; font-size:13px; color:var(--text-dim); line-height:1.65;}
+  .ev-caution{margin-top:10px; padding:11px 14px; border-radius:10px; background:rgba(217,155,7,0.08); border:1px solid rgba(217,155,7,0.26); font-size:12.5px; color:var(--text-dim); line-height:1.6;}
+
   footer.foot{text-align:center; padding:40px 0 10px; color:var(--text-faint); font-size:13.5px; line-height:1.8;}
   footer.foot a{color:var(--cyan); text-decoration:underline; text-underline-offset:2px;}
 
@@ -637,9 +718,29 @@
             <div class="oval"></div><div class="cross"></div>
             <b></b><b></b><b></b><b></b>
             <div class="scan-sweep"></div>
+            <div class="guide-label" data-i18n="step2.cam.guideLabel" data-i18n-mono>타원 안에 얼굴을 맞춰주세요</div>
           </div>
         </div>
         <div class="cam-status" id="camStatus"><i class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--text-faint);display:inline-block;"></i> <span data-i18n="step2.cam.status.idle" data-i18n-mono>대기 중</span></div>
+        <div class="cam-guide-checklist">
+          <div class="gc-title" data-i18n="step2.cam.guide.title" data-i18n-mono>📐 정확한 촬영을 위한 체크리스트</div>
+          <ul>
+            <li data-i18n="step2.cam.guide.items.0">밝은 조명 아래, 그림자가 얼굴에 지지 않는 곳</li>
+            <li data-i18n="step2.cam.guide.items.1">정면 응시 · 화면과 팔 길이 정도의 거리 유지</li>
+            <li data-i18n="step2.cam.guide.items.2">안경·마스크는 벗고, 앞머리는 이마가 보이게 정리</li>
+            <li data-i18n="step2.cam.guide.items.3">얼굴이 가이드 타원 안에 가득 차도록 위치 조정</li>
+          </ul>
+        </div>
+        <div class="cam-denied-help" id="camDeniedHelp">
+          <b data-i18n="step2.cam.deniedHelp.title" data-i18n-mono>카메라가 열리지 않나요?</b>
+          <span data-i18n="step2.cam.deniedHelp.intro">아래 항목을 확인해 주세요 (특히 태블릿·모바일에서 자주 발생):</span>
+          <ul>
+            <li data-i18n="step2.cam.deniedHelp.items.0">브라우저 주소창의 카메라 권한이 '차단'으로 되어 있지 않은지 확인</li>
+            <li data-i18n="step2.cam.deniedHelp.items.1">다른 앱(화상회의 등)이 카메라를 이미 사용 중인지 확인 후 종료</li>
+            <li data-i18n="step2.cam.deniedHelp.items.2">iOS Safari는 [설정 → Safari → 카메라]에서 허용으로 되어 있는지 확인</li>
+            <li data-i18n="step2.cam.deniedHelp.items.3">그래도 안 되면 아래 '사진 업로드'로 진행해 주세요</li>
+          </ul>
+        </div>
         <div class="cam-controls">
           <button class="btn btn-ghost" id="camStartBtn" onclick="startCam()" data-i18n="step2.cam.startBtn" data-i18n-mono>카메라 시작</button>
           <button class="btn btn-gold" id="camShotBtn" onclick="takeShot()" disabled data-i18n="step2.cam.shotBtn" data-i18n-mono>촬영</button>
@@ -682,6 +783,11 @@
     <h2 class="panel-title" data-i18n="result.title">피부 분석 결과</h2>
     <p class="panel-desc" data-i18n="result.desc">정밀 진단 8문항과(선택 시) 얼굴 스캔 참고 지표를 종합한 결과입니다. 바우만 피부과학 4축 분류를 약식 적용했으며, 최종 제품 상담은 약사 판단을 우선합니다.</p>
 
+    <div class="detail-toggle" id="detailToggle">
+      <button class="dt-btn" data-mode="simple" data-i18n="result.detailToggle.simple" data-i18n-mono>간단히 보기</button>
+      <button class="dt-btn active" data-mode="detailed" data-i18n="result.detailToggle.detailed" data-i18n-mono>자세히 보기</button>
+    </div>
+
     <div class="result-hero">
       <div class="glass type-card">
         <div class="corner-brackets"><i></i><i></i><i></i><i></i></div>
@@ -713,6 +819,7 @@
       <div class="scan-stage" id="scanStage">
         <div class="frame" id="scanFrame"><canvas id="resultCanvas"></canvas><div class="hud-grid"></div></div>
       </div>
+      <div class="scan-gauge-row" id="scanGaugeRow"></div>
       <div class="note" data-i18n="result.scan.note">이 화면은 촬영 당시 밝기·홍조 참고 지표를 시각적으로 기록한 것으로, 진단 확정용이 아닌 상담 기록/재방문 비교용입니다.</div>
     </div>
     <div class="scan-empty-note glass" id="scanEmptyNote" style="display:none; margin-bottom:30px;" data-i18n="result.scan.emptyNote">촬영 사진이 없어 스캔 레퍼런스는 표시되지 않습니다. 다음 방문 시 촬영하시면 밝기·홍조 참고 지표와 함께 더 자세한 시각 기록을 남길 수 있습니다.</div>
@@ -725,18 +832,21 @@
           <p class="func" data-i18n="result.ingredients.0.func">미백 기능성 고시 성분 · 멜라닌 전달 억제</p>
           <div class="ing-bar"><i style="width:70%"></i></div>
           <p class="ing-pct" data-i18n="result.ingredients.0.pct">배합 권장범위 2–5%</p>
+          <p class="mech" data-i18n="result.ingredients.0.mech" data-detail-only>멜라닌이 각질세포로 전달되는 경로를 억제하는 방식으로 작용하는 미백 기능성 고시 성분입니다. 각질층~표피 수준에서 작용하며, 진피까지의 투과를 필요로 하지 않습니다.</p>
         </div>
         <div class="glass ing-card">
           <p class="name" data-i18n="result.ingredients.1.name">아데노신</p>
           <p class="func" data-i18n="result.ingredients.1.func">주름 개선 기능성 고시 성분</p>
           <div class="ing-bar"><i style="width:20%"></i></div>
           <p class="ing-pct" data-i18n="result.ingredients.1.pct">배합 기준 0.04%</p>
+          <p class="mech" data-i18n="result.ingredients.1.mech" data-detail-only>피부 세포의 콜라겐 생성 과정에 관여하는 것으로 알려진 주름개선 기능성 고시 성분입니다. 0.04%의 저함량에서도 식약처 고시 기준을 충족하도록 설계되어 있습니다.</p>
         </div>
         <div class="glass ing-card">
           <p class="name" data-i18n="result.ingredients.2.name">NMN (니코틴아마이드모노뉴클레오타이드)</p>
           <p class="func" data-i18n="result.ingredients.2.func">콜라겐 합성 유도 · ECM 강화 보조</p>
           <div class="ing-bar"><i style="width:100%"></i></div>
           <p class="ing-pct" data-i18n="result.ingredients.2.pct">10,000 ppm = 1%</p>
+          <p class="mech" data-i18n="result.ingredients.2.mech" data-detail-only>분자량 약 334.2Da로 화장품 성분의 일반적 피부 투과 한계(500Da 이하)를 충족해 각질층 투과가 가능한 성분입니다. 경구 섭취 시의 흡수 경로와는 다른 국소도포 메커니즘이며, 아래 'NMN 성분 근거' 섹션에서 자세히 다룹니다.</p>
         </div>
       </div>
       <div class="legend-strip">
@@ -744,6 +854,38 @@
         <span data-i18n-html="result.legend.1">· 성분명 어미 <b>~레이트 / 폴리머</b> → 대체로 계면활성제·점증제</span>
         <span data-i18n="result.legend.2">· 방부 시스템 예: 1,2-헥산다이올(2% 기준) + 클로르페네신(0.3% 한도)</span>
         <span data-i18n="result.legend.3">· 방부 트렌드: 파라벤(0.4%) → 페녹시에탄올(1%) → 1,2-헥산다이올 계열</span>
+      </div>
+      <div data-detail-only>
+        <table class="spec-compare">
+          <thead>
+            <tr>
+              <th data-i18n="result.specTable.h0">성분</th>
+              <th data-i18n="result.specTable.h1">배합 농도</th>
+              <th data-i18n="result.specTable.h2">근거 유형</th>
+              <th data-i18n="result.specTable.h3">작용 부위 · 상담 포인트</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="sc-name" data-i18n="result.specTable.rows.0.name">나이아신아마이드</td>
+              <td data-i18n="result.specTable.rows.0.conc">2–5%</td>
+              <td data-i18n="result.specTable.rows.0.evidence">기능성화장품 고시 성분 (미백)</td>
+              <td data-i18n="result.specTable.rows.0.site">표피 작용 · 색소·톤 상담에 활용</td>
+            </tr>
+            <tr>
+              <td class="sc-name" data-i18n="result.specTable.rows.1.name">아데노신</td>
+              <td data-i18n="result.specTable.rows.1.conc">0.04%</td>
+              <td data-i18n="result.specTable.rows.1.evidence">기능성화장품 고시 성분 (주름개선)</td>
+              <td data-i18n="result.specTable.rows.1.site">표피 작용 · 탄력·주름 상담에 활용</td>
+            </tr>
+            <tr>
+              <td class="sc-name" data-i18n="result.specTable.rows.2.name">NMN</td>
+              <td data-i18n="result.specTable.rows.2.conc">10,000ppm (1%)</td>
+              <td data-i18n="result.specTable.rows.2.evidence">피부 투과 연구 문헌 기반 화장품 원료</td>
+              <td data-i18n="result.specTable.rows.2.site">진피 도달 · 경구 임상 결과와 구분해서 안내 필요</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -773,6 +915,17 @@
       <div class="sh"><h3><i></i><span data-i18n="result.section.evidence">NMN 성분 근거</span></h3><small>CLINICAL EVIDENCE</small></div>
       <div class="glass evidence-card">
         <b style="font-size:13.5px;" data-i18n="result.evidence.title">NMN(Nicotinamide Mononucleotide)의 작용 및 흡수</b>
+        <p style="font-size:13.5px; color:var(--text-dim); line-height:1.7; margin:10px 0 0;" data-i18n="result.evidence.intro">NMN 관련 자료는 크게 두 가지로 나뉩니다 — 경구 섭취(건강기능식품) 형태의 임상 결과와, 화장품에 배합되어 국소도포될 때의 피부 투과·컨디셔닝 메커니즘입니다. 이 둘은 흡수 경로와 작용 범위가 다르므로, 상담 시에도 구분해서 설명하는 것이 안전합니다.</p>
+        <div class="evidence-split">
+          <div class="ev-col ev-oral">
+            <span class="ev-tag" data-i18n="result.evidence.oralTag">경구 섭취 (건강기능식품)</span>
+            <p data-i18n="result.evidence.oralText">소장에서 흡수되어 전신 순환을 거쳐 피부를 포함한 전신에 도달하는 경로입니다. 간의 초회통과 대사를 거치며 일부가 소실될 수 있어, 실제 도달량은 섭취량과 차이가 있을 수 있습니다. SIORE 제품은 건강기능식품이 아닌 화장품이므로, 경구 임상 결과를 제품 효능으로 그대로 연결해 안내하지 않습니다.</p>
+          </div>
+          <div class="ev-col ev-topical">
+            <span class="ev-tag" data-i18n="result.evidence.topicalTag">국소도포 (화장품 배합)</span>
+            <p data-i18n="result.evidence.topicalText">분자량 약 334.2Da로 화장품 성분의 일반적 피부 투과 한계(500Da 이하)를 충족해, 혈류를 거치지 않고 각질층을 직접 투과해 표피·진피에 도달할 수 있는 것으로 보고됩니다. SIORE 제품은 10,000ppm(1%) 농도로 배합되어 있습니다.</p>
+          </div>
+        </div>
         <ul>
           <li data-i18n="result.evidence.bullets.0">콜라겐 합성 유도 및 세포외기질(ECM) 강화 보조</li>
           <li data-i18n="result.evidence.bullets.1">활성산소·염증성 사이토카인 억제에 관여</li>
@@ -780,6 +933,7 @@
           <li data-i18n="result.evidence.bullets.3">인체 내에서도 생성되는 물질로 안전성이 높으며, 수용성·산성 환경에서 니코틴아마이드로 분해되는 특성이 있어 전달체 설계가 흡수 경로에 영향을 줌</li>
           <li data-i18n="result.evidence.bullets.4">시너지 원료: 미네랄(Cu·Ca·Mg·Zn·Fe), 항산화 원료(레스베라트롤, 퀘르세틴), 피부 컨디셔닝 원료(PDRN·EGF·펩타이드 등)</li>
         </ul>
+        <div class="ev-caution" data-i18n="result.evidence.caution">⚠ 경구 NMN의 항노화·대사 관련 연구 결과는 화장품 국소도포 시의 효과를 보장하지 않습니다. 상담 시에는 "피부 컨디셔닝을 돕는 배합 성분" 수준으로 안내하고, "복용 시와 동일한 효과"처럼 오인될 수 있는 표현은 사용하지 않습니다.</div>
         <div class="cite">Qu, Y., Zhang, Y., &amp; Li, X. (2022). Permeation of nicotinamide mononucleotide (NMN) in an artificial membrane as a cosmetic skin permeability test model. <i>Journal of Cosmetic Dermatology</i>, 21(10), 4983–4990.</div>
       </div>
     </div>
@@ -851,6 +1005,24 @@
     <div class="panel-actions" style="justify-content:flex-end;">
       <button class="btn btn-ghost" onclick="location.reload()" data-i18n="result.restartBtn" data-i18n-mono>처음으로 돌아가기</button>
     </div>
+
+    <button class="qa-fab" id="qaFabBtn" type="button" data-i18n="result.qa.fab" data-i18n-mono>💬 궁금한 점 물어보기</button>
+    <div class="qa-modal" id="qaModal">
+      <div class="qa-modal-inner">
+        <div class="qa-modal-head">
+          <div>
+            <h4 data-i18n="result.qa.title">궁금한 점을 물어보세요</h4>
+            <p class="qa-modal-sub" data-i18n="result.qa.sub">아래 FAQ 데이터베이스에서 관련 답변을 찾아드립니다. 정확한 상담은 약사님께 확인해 주세요.</p>
+          </div>
+          <button class="qa-close" id="qaCloseBtn" type="button" aria-label="close">✕</button>
+        </div>
+        <div class="qa-input-row">
+          <input type="text" id="qaInput" data-i18n-placeholder="result.qa.placeholder" placeholder="예: 성분 순서를 꼭 지켜야 하나요?">
+          <button class="btn btn-gold small" id="qaAskBtn" type="button" data-i18n="result.qa.askBtn" data-i18n-mono>검색</button>
+        </div>
+        <div class="qa-results" id="qaResults"></div>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -907,7 +1079,10 @@ ko: {
       testBtn:'📷 카메라 테스트', testStopBtn:'테스트 종료',
       testOk:'카메라가 정상적으로 작동하고 있습니다',
       testFail:"카메라를 시작할 수 없습니다 — Windows는 [설정 → 개인정보 보호 → 카메라]에서 앱 접근 허용을 확인해 주세요. 안 되면 아래 '사진 업로드'를 사용하세요.",
-      testHint:'실제 진단 전, 카메라가 정상 작동하는지 미리 확인할 수 있습니다'
+      testHint:'실제 진단 전, 카메라가 정상 작동하는지 미리 확인할 수 있습니다',
+      guideLabel:'타원 안에 얼굴을 맞춰주세요',
+      guide:{ title:'📐 정확한 촬영을 위한 체크리스트', items:['밝은 조명 아래, 그림자가 얼굴에 지지 않는 곳','정면 응시 · 화면과 팔 길이 정도의 거리 유지','안경·마스크는 벗고, 앞머리는 이마가 보이게 정리','얼굴이 가이드 타원 안에 가득 차도록 위치 조정'] },
+      deniedHelp:{ title:'카메라가 열리지 않나요?', intro:"아래 항목을 확인해 주세요 (특히 태블릿·모바일에서 자주 발생):", items:["브라우저 주소창의 카메라 권한이 '차단'으로 되어 있지 않은지 확인","다른 앱(화상회의 등)이 카메라를 이미 사용 중인지 확인 후 종료","iOS Safari는 [설정 → Safari → 카메라]에서 허용으로 되어 있는지 확인","그래도 안 되면 아래 '사진 업로드'로 진행해 주세요"] }
     },
     quiz:{ title:'정밀 진단 · 8문항', hint:'이 답변이 진단 결과를 좌우하는 핵심 지표입니다. 하나씩 편하게, 최대한 솔직하게 선택해 주세요.', pagerPrev:'‹ 이전 문항', pagerNext:'다음 문항 ›' },
     axes:[
@@ -937,8 +1112,14 @@ ko: {
     typeNamePlaceholder:'진단 결과 산출 중',
     typeSub:'바우만 피부과학 4축 분류 약식 적용 결과 · 참고용이며 최종 상담은 약사 판단을 따릅니다.',
     nameMap:{ O:'지성', D:'건성', S:'민감성', R:'저항성', P:'색소성', N:'비색소성', W:'주름형', T:'탱탱형' },
+    detailToggle:{ simple:'간단히 보기', detailed:'자세히 보기' },
+    qa:{ fab:'💬 궁금한 점 물어보기', title:'궁금한 점을 물어보세요', sub:'아래 FAQ 데이터베이스에서 관련 답변을 찾아드립니다. 정확한 상담은 약사님께 확인해 주세요.', placeholder:'예: 성분 순서를 꼭 지켜야 하나요?', askBtn:'검색', noResultTitle:'일치하는 답변을 찾지 못했습니다', noResultBody:'아래 FAQ 전체보기에서 더 찾아보시거나, 정확한 답변은 약사님께 직접 문의해 주세요.', viewAllBtn:'FAQ 전체보기 →' },
     radar:{ title:'4축 진단 그래프 읽는 법', caption:'점이 바깥쪽으로 뻗을수록 그 방향의 성향이 강하다는 뜻입니다 — 안쪽은 반대쪽 성향이 우세하다는 의미입니다.' },
-    scan:{ title:'스캔 레퍼런스', note:'이 화면은 촬영 당시 밝기·홍조 참고 지표를 시각적으로 기록한 것으로, 진단 확정용이 아닌 상담 기록/재방문 비교용입니다.', emptyNote:'촬영 사진이 없어 스캔 레퍼런스는 표시되지 않습니다. 다음 방문 시 촬영하시면 밝기·홍조 참고 지표와 함께 더 자세한 시각 기록을 남길 수 있습니다.', metricBrightness:'밝기 참고지수', metricRedness:'홍조 참고지수', metricBrightnessDesc:'촬영 당시 피부 톤의 밝기를 참고용으로 계산한 값입니다. 조명·카메라 환경에 따라 달라질 수 있어 진단 지표로는 사용하지 않습니다.', metricRednessDesc:'촬영 당시 피부 표면의 붉은기 정도를 참고용으로 계산한 값입니다. 정밀 진단 결과가 아닌 상담 기록용 참고 지표입니다.', arrowHint:'화살표가 가리키는 부위의 수치이며, 값이 클수록 해당 경향이 강하다는 뜻입니다' },
+    scan:{ title:'스캔 레퍼런스', note:'이 화면은 촬영 당시 밝기·홍조 참고 지표를 시각적으로 기록한 것으로, 진단 확정용이 아닌 상담 기록/재방문 비교용입니다.', emptyNote:'촬영 사진이 없어 스캔 레퍼런스는 표시되지 않습니다. 다음 방문 시 촬영하시면 밝기·홍조 참고 지표와 함께 더 자세한 시각 기록을 남길 수 있습니다.', metricBrightness:'밝기 참고지수', metricRedness:'홍조 참고지수', metricBrightnessDesc:'촬영 당시 피부 톤의 밝기를 참고용으로 계산한 값입니다. 조명·카메라 환경에 따라 달라질 수 있어 진단 지표로는 사용하지 않습니다.', metricRednessDesc:'촬영 당시 피부 표면의 붉은기 정도를 참고용으로 계산한 값입니다. 정밀 진단 결과가 아닌 상담 기록용 참고 지표입니다.', arrowHint:'화살표가 가리키는 부위의 수치이며, 값이 클수록 해당 경향이 강하다는 뜻입니다',
+      stateLabels:{ low:'낮음', mid:'보통', high:'높음' },
+      brightnessStates:{ low:'촬영 사진에서 밝기 값이 낮게 측정되었습니다 (조명·카메라 환경의 영향일 수 있음)', mid:'촬영 사진에서 밝기 값이 중간 범위로 측정되었습니다', high:'촬영 사진에서 밝기 값이 높게 측정되었습니다 (조명·카메라 환경의 영향일 수 있음)' },
+      rednessStates:{ low:'촬영 사진에서 홍조 값이 낮게 측정되었습니다', mid:'촬영 사진에서 홍조 값이 중간 범위로 측정되었습니다', high:'촬영 사진에서 홍조 값이 높게 측정되었습니다 — 열감·홍조 고민이 있다면 참고 지표로 활용해 보세요' }
+    },
     section:{ ingredient:'전성분 리터러시 — 핵심 활성 성분', cert:'인증 & 근거 배지', evidence:'NMN 성분 근거', barrier:'피부 장벽 구조 이해', product:'피부 고민 맞춤 BEST 3', faq:'약사 상담 FAQ', faqSource:'SOURCE: 화장품의 이해 세미나 · 2026', summary:'AI 종합 소견', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
     axisRowLabel:{ OD:'수분 밸런스 (O/D)', SR:'민감도 (S/R)', PN:'색소 경향 (P/N)', WT:'탄력·주름 (W/T)' },
     axisSummary:{
@@ -952,9 +1133,9 @@ ko: {
       T:'탄력은 양호한 편으로, 현재 상태를 유지하는 예방적 케어를 권장합니다.'
     },
     ingredients:[
-      { name:'나이아신아마이드', func:'미백 기능성 고시 성분 · 멜라닌 전달 억제', pct:'배합 권장범위 2–5%' },
-      { name:'아데노신', func:'주름 개선 기능성 고시 성분', pct:'배합 기준 0.04%' },
-      { name:'NMN (니코틴아마이드모노뉴클레오타이드)', func:'콜라겐 합성 유도 · ECM 강화 보조', pct:'10,000 ppm = 1%' }
+      { name:'나이아신아마이드', func:'미백 기능성 고시 성분 · 멜라닌 전달 억제', pct:'배합 권장범위 2–5%', mech:"멜라닌이 각질세포로 전달되는 경로를 억제하는 방식으로 작용하는 미백 기능성 고시 성분입니다. 각질층~표피 수준에서 작용하며, 진피까지의 투과를 필요로 하지 않습니다." },
+      { name:'아데노신', func:'주름 개선 기능성 고시 성분', pct:'배합 기준 0.04%', mech:"피부 세포의 콜라겐 생성 과정에 관여하는 것으로 알려진 주름개선 기능성 고시 성분입니다. 0.04%의 저함량에서도 식약처 고시 기준을 충족하도록 설계되어 있습니다." },
+      { name:'NMN (니코틴아마이드모노뉴클레오타이드)', func:'콜라겐 합성 유도 · ECM 강화 보조', pct:'10,000 ppm = 1%', mech:"분자량 약 334.2Da로 화장품 성분의 일반적 피부 투과 한계(500Da 이하)를 충족해 각질층 투과가 가능한 성분입니다. 경구 섭취 시의 흡수 경로와는 다른 국소도포 메커니즘이며, 아래 'NMN 성분 근거' 섹션에서 자세히 다룹니다." }
     ],
     legend:[
       "· 성분명 어미 <b>~올</b> → 대체로 보습제",
@@ -962,6 +1143,14 @@ ko: {
       "· 방부 시스템 예: 1,2-헥산다이올(2% 기준) + 클로르페네신(0.3% 한도)",
       "· 방부 트렌드: 파라벤(0.4%) → 페녹시에탄올(1%) → 1,2-헥산다이올 계열"
     ],
+    specTable:{
+      h0:'성분', h1:'배합 농도', h2:'근거 유형', h3:'작용 부위 · 상담 포인트',
+      rows:[
+        { name:'나이아신아마이드', conc:'2–5%', evidence:'기능성화장품 고시 성분 (미백)', site:'표피 작용 · 색소·톤 상담에 활용' },
+        { name:'아데노신', conc:'0.04%', evidence:'기능성화장품 고시 성분 (주름개선)', site:'표피 작용 · 탄력·주름 상담에 활용' },
+        { name:'NMN', conc:'10,000ppm (1%)', evidence:'피부 투과 연구 문헌 기반 화장품 원료', site:'진피 도달 · 경구 임상 결과와 구분해서 안내 필요' }
+      ]
+    },
     badges:[
       { title:'논코메도제닉 (Non-comedogenic)', desc:'모공을 막아 트러블을 유발하지 않는다는 것을 인체적용시험으로 입증한 민간 인증. 법적 정의는 아니며, 국내외 공인기관 시험이 필요합니다. 코코아·팜오일·라놀린계·IPM/IPP 등은 대표적 코메도제닉 성분입니다.' },
       { title:'피부 자극 테스트 · 무자극', desc:'공인 임상기관의 인체적용시험 결과이며, 개인 피부 상태에 따라 반응은 달라질 수 있어 상담 시 함께 안내하는 것을 권장합니다.' },
@@ -970,6 +1159,12 @@ ko: {
     ],
     evidence:{
       title:'NMN(Nicotinamide Mononucleotide)의 작용 및 흡수',
+      intro:'NMN 관련 자료는 크게 두 가지로 나뉩니다 — 경구 섭취(건강기능식품) 형태의 임상 결과와, 화장품에 배합되어 국소도포될 때의 피부 투과·컨디셔닝 메커니즘입니다. 이 둘은 흡수 경로와 작용 범위가 다르므로, 상담 시에도 구분해서 설명하는 것이 안전합니다.',
+      oralTag:'경구 섭취 (건강기능식품)',
+      oralText:'소장에서 흡수되어 전신 순환을 거쳐 피부를 포함한 전신에 도달하는 경로입니다. 간의 초회통과 대사를 거치며 일부가 소실될 수 있어, 실제 도달량은 섭취량과 차이가 있을 수 있습니다. SIORE 제품은 건강기능식품이 아닌 화장품이므로, 경구 임상 결과를 제품 효능으로 그대로 연결해 안내하지 않습니다.',
+      topicalTag:'국소도포 (화장품 배합)',
+      topicalText:'분자량 약 334.2Da로 화장품 성분의 일반적 피부 투과 한계(500Da 이하)를 충족해, 혈류를 거치지 않고 각질층을 직접 투과해 표피·진피에 도달할 수 있는 것으로 보고됩니다. SIORE 제품은 10,000ppm(1%) 농도로 배합되어 있습니다.',
+      caution:'⚠ 경구 NMN의 항노화·대사 관련 연구 결과는 화장품 국소도포 시의 효과를 보장하지 않습니다. 상담 시에는 "피부 컨디셔닝을 돕는 배합 성분" 수준으로 안내하고, "복용 시와 동일한 효과"처럼 오인될 수 있는 표현은 사용하지 않습니다.',
       bullets:[
         '콜라겐 합성 유도 및 세포외기질(ECM) 강화 보조',
         '활성산소·염증성 사이토카인 억제에 관여',
@@ -1066,7 +1261,10 @@ en: {
       testBtn:'📷 Test Camera', testStopBtn:'End Test',
       testOk:'Camera is working normally',
       testFail:"Couldn't start the camera — on Windows, check camera access under Settings → Privacy → Camera. If it still fails, use 'Upload Photo' below.",
-      testHint:'Check that the camera works before starting the actual diagnostic'
+      testHint:'Check that the camera works before starting the actual diagnostic',
+      guideLabel:'Fit your face inside the oval',
+      guide:{ title:'📐 Checklist for an accurate capture', items:['Bright lighting, with no shadow falling across the face','Look straight ahead · keep an arm\'s-length distance from the screen','Remove glasses/mask, and clear hair away from the forehead','Position your face to fill the guide oval'] },
+      deniedHelp:{ title:"Camera won't open?", intro:'Check the following (this is common on tablets/mobile):', items:["Make sure the camera permission in your browser's address bar isn't set to 'Blocked'","Check whether another app (e.g. video call) is already using the camera, and close it","On iOS Safari, check Settings → Safari → Camera is set to Allow","If it still doesn't work, continue with 'Upload Photo' below"] }
     },
     quiz:{ title:'Precision Diagnostic · 8 Questions', hint:'These answers are the core indicator driving your result. Take your time and answer as honestly as you can.', pagerPrev:'‹ Previous', pagerNext:'Next ›' },
     axes:[
@@ -1096,8 +1294,14 @@ en: {
     typeNamePlaceholder:'Calculating result',
     typeSub:'Condensed Baumann Skin Type 4-axis result · reference only — final consultation follows pharmacist judgment.',
     nameMap:{ O:'Oily', D:'Dry', S:'Sensitive', R:'Resistant', P:'Pigmented', N:'Non-pigmented', W:'Wrinkled', T:'Tight' },
+    detailToggle:{ simple:'Simple View', detailed:'Detailed View' },
+    qa:{ fab:'💬 Ask a Question', title:'Ask your question', sub:'We\'ll search the FAQ database below for a relevant answer. For an exact answer, please check with your pharmacist.', placeholder:'e.g. Does the product order really matter?', askBtn:'Search', noResultTitle:'No matching answer found', noResultBody:'Browse the full FAQ list below, or ask your pharmacist directly for an exact answer.', viewAllBtn:'View Full FAQ →' },
     radar:{ title:'How to read the 4-axis graph', caption:'The further a point extends outward on an axis, the stronger that tendency is — closer to the center means the opposite tendency dominates.' },
-    scan:{ title:'Scan Reference', note:'This frame is a visual record of brightness/redness reference metrics at capture time — for consultation records and revisit comparison, not for diagnosis confirmation.', emptyNote:'No photo was captured, so no scan reference is shown. Capturing one on your next visit adds brightness/redness reference metrics plus a more detailed visual record.', metricBrightness:'Brightness Reference', metricRedness:'Redness Reference', metricBrightnessDesc:'A reference-only estimate of skin-tone brightness at capture time. It can vary with lighting/camera conditions, so it is not used as a diagnostic indicator.', metricRednessDesc:'A reference-only estimate of surface redness at capture time. This is a consultation-record indicator, not a precision-diagnostic result.', arrowHint:'Each figure refers to the area the arrow points to — a higher value means a stronger tendency there' },
+    scan:{ title:'Scan Reference', note:'This frame is a visual record of brightness/redness reference metrics at capture time — for consultation records and revisit comparison, not for diagnosis confirmation.', emptyNote:'No photo was captured, so no scan reference is shown. Capturing one on your next visit adds brightness/redness reference metrics plus a more detailed visual record.', metricBrightness:'Brightness Reference', metricRedness:'Redness Reference', metricBrightnessDesc:'A reference-only estimate of skin-tone brightness at capture time. It can vary with lighting/camera conditions, so it is not used as a diagnostic indicator.', metricRednessDesc:'A reference-only estimate of surface redness at capture time. This is a consultation-record indicator, not a precision-diagnostic result.', arrowHint:'Each figure refers to the area the arrow points to — a higher value means a stronger tendency there',
+      stateLabels:{ low:'Low', mid:'Moderate', high:'High' },
+      brightnessStates:{ low:'The captured photo measured a low brightness value (may reflect lighting/camera conditions).', mid:'The captured photo measured a mid-range brightness value.', high:'The captured photo measured a high brightness value (may reflect lighting/camera conditions).' },
+      rednessStates:{ low:'The captured photo measured a low redness value.', mid:'The captured photo measured a mid-range redness value.', high:'The captured photo measured a high redness value — useful as a reference point if redness/heat is a concern.' }
+    },
     section:{ ingredient:'Ingredient Literacy — Key Actives', cert:'Certification & Evidence Badges', evidence:'NMN Ingredient Evidence', barrier:'Understanding Skin Barrier Structure', product:'Top 3 Picks For Your Concerns', faq:'Pharmacist Consultation FAQ', faqSource:'SOURCE: Cosmetic Science Seminar · 2026', summary:'AI Summary Findings', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
     axisRowLabel:{ OD:'Moisture Balance (O/D)', SR:'Sensitivity (S/R)', PN:'Pigmentation Tendency (P/N)', WT:'Firmness/Wrinkles (W/T)' },
     axisSummary:{
@@ -1111,9 +1315,9 @@ en: {
       T:'Firmness is holding up well — preventive care to maintain the current state is recommended.'
     },
     ingredients:[
-      { name:'Niacinamide', func:'MFDS-listed brightening functional ingredient · inhibits melanin transfer', pct:'Recommended range 2–5%' },
-      { name:'Adenosine', func:'MFDS-listed wrinkle-improvement functional ingredient', pct:'Standard dose 0.04%' },
-      { name:'NMN (Nicotinamide Mononucleotide)', func:'Supports collagen synthesis induction · ECM reinforcement', pct:'10,000 ppm = 1%' }
+      { name:'Niacinamide', func:'MFDS-listed brightening functional ingredient · inhibits melanin transfer', pct:'Recommended range 2–5%', mech:'Works by inhibiting the transfer of melanin into keratinocytes — an MFDS-listed brightening functional ingredient. It acts at the stratum corneum/epidermis level and does not require penetration to the dermis.' },
+      { name:'Adenosine', func:'MFDS-listed wrinkle-improvement functional ingredient', pct:'Standard dose 0.04%', mech:"An MFDS-listed wrinkle-improvement ingredient reported to be involved in fibroblasts' collagen-production process. It's formulated to meet MFDS standards even at a low 0.04% dose." },
+      { name:'NMN (Nicotinamide Mononucleotide)', func:'Supports collagen synthesis induction · ECM reinforcement', pct:'10,000 ppm = 1%', mech:"At a molecular weight of roughly 334.2 Da, it meets the general skin-penetration threshold for cosmetic ingredients (≤500 Da), allowing stratum-corneum penetration. This is a topical-application mechanism distinct from oral absorption — covered in detail in the 'NMN Ingredient Evidence' section below." }
     ],
     legend:[
       "· Ingredient names ending in <b>-ol</b> → usually a moisturizer",
@@ -1121,6 +1325,14 @@ en: {
       "· Example preservative system: 1,2-Hexanediol (2% cap) + Chlorphenesin (0.3% cap)",
       "· Preservative trend: Parabens (0.4%) → Phenoxyethanol (1%) → 1,2-Hexanediol family"
     ],
+    specTable:{
+      h0:'Ingredient', h1:'Concentration', h2:'Evidence Type', h3:'Site of Action · Consultation Point',
+      rows:[
+        { name:'Niacinamide', conc:'2–5%', evidence:'MFDS-listed functional ingredient (brightening)', site:'Epidermal action · useful for pigmentation/tone consultation' },
+        { name:'Adenosine', conc:'0.04%', evidence:'MFDS-listed functional ingredient (wrinkle-improvement)', site:'Epidermal action · useful for firmness/wrinkle consultation' },
+        { name:'NMN', conc:'10,000ppm (1%)', evidence:'Cosmetic raw material based on skin-permeation research literature', site:'Reaches the dermis · must be explained separately from oral clinical results' }
+      ]
+    },
     badges:[
       { title:'Non-comedogenic', desc:'A private certification verifying via human-use testing that a product does not clog pores or trigger breakouts. It is not a legal definition and requires accredited domestic/international lab testing. Cocoa/palm oil, lanolin derivatives, and IPM/IPP are common comedogenic ingredients.' },
       { title:'Skin Irritation Test · Non-irritating', desc:'Result of a human-use test at an accredited clinical institute; individual reactions can vary by skin condition, so it’s recommended to mention this during consultation.' },
@@ -1129,6 +1341,12 @@ en: {
     ],
     evidence:{
       title:'NMN (Nicotinamide Mononucleotide) — Mechanism & Absorption',
+      intro:'NMN-related material falls into two distinct categories — clinical results from oral intake (a health supplement), and the skin-penetration/conditioning mechanism when it is formulated into a cosmetic for topical use. The absorption pathway and scope of action differ between the two, so it\'s safer to explain them separately during consultation.',
+      oralTag:'Oral intake (health supplement)',
+      oralText:'This pathway is absorbed in the small intestine, passes through systemic circulation, and reaches the skin along with the rest of the body. Some is lost to first-pass liver metabolism, so the amount that actually arrives can differ from the amount consumed. SIORE products are cosmetics, not health supplements, so oral clinical results are not carried over directly as claims about product efficacy.',
+      topicalTag:'Topical application (cosmetic formulation)',
+      topicalText:'At a molecular weight of roughly 334.2 Da, it meets the general skin-penetration threshold for cosmetic ingredients (≤500 Da) and is reported to penetrate the stratum corneum directly — reaching the epidermis/dermis without passing through the bloodstream. SIORE products are formulated at a concentration of 10,000ppm (1%).',
+      caution:'⚠ Research findings on oral NMN\'s anti-aging/metabolic effects do not guarantee the same effect from topical cosmetic use. During consultation, describe it at the level of "a formulated ingredient that supports skin conditioning," and avoid language that could be mistaken for "the same effect as taking it orally."',
       bullets:[
         'Supports collagen synthesis induction and extracellular matrix (ECM) reinforcement',
         'Involved in suppressing free radicals and inflammatory cytokines',
@@ -1225,7 +1443,10 @@ zh: {
       testBtn:'📷 摄像头测试', testStopBtn:'结束测试',
       testOk:'摄像头运行正常',
       testFail:'无法启动摄像头 — Windows 请在[设置 → 隐私 → 摄像头]中确认已允许应用访问。如仍无法使用，请改用下方"上传照片"。',
-      testHint:'在正式诊断前，可先确认摄像头是否正常工作'
+      testHint:'在正式诊断前，可先确认摄像头是否正常工作',
+      guideLabel:'请将面部对齐到椭圆内',
+      guide:{ title:'📐 精准拍摄检查清单', items:['在光线充足、脸部无阴影的环境下拍摄','正视镜头 · 与屏幕保持一臂左右的距离','摘下眼镜·口罩，刘海整理至露出额头','调整位置，使面部完整填满引导椭圆'] },
+      deniedHelp:{ title:'摄像头无法开启？', intro:'请确认以下事项（平板·手机上较常见）：', items:['确认浏览器地址栏的摄像头权限未被设为"已禁止"','确认是否有其他应用（如视频通话）正在占用摄像头，并将其关闭','iOS Safari 请确认[设置 → Safari → 摄像头]已允许', '如仍无法使用，请改用下方"上传照片"继续'] }
     },
     quiz:{ title:'精密诊断 · 共8题', hint:'该回答是决定诊断结果的核心指标，请逐题放松作答，并尽量如实选择。', pagerPrev:'‹ 上一题', pagerNext:'下一题 ›' },
     axes:[
@@ -1255,8 +1476,14 @@ zh: {
     typeNamePlaceholder:'诊断结果计算中',
     typeSub:'鲍曼皮肤科学四轴分类简易版结果 · 仅供参考，最终咨询以药师判断为准。',
     nameMap:{ O:'油性', D:'干性', S:'敏感性', R:'耐受性', P:'色素性', N:'非色素性', W:'皱纹型', T:'紧致型' },
+    detailToggle:{ simple:'简明模式', detailed:'详细模式' },
+    qa:{ fab:'💬 提问咨询', title:'请输入您的问题', sub:'系统将在下方FAQ数据库中查找相关答案，准确咨询请以药师确认为准。', placeholder:'例如：产品使用顺序一定要严格遵守吗？', askBtn:'搜索', noResultTitle:'未找到匹配答案', noResultBody:'请在下方查看完整FAQ，或直接向药师咨询以获得准确答案。', viewAllBtn:'查看完整FAQ →' },
     radar:{ title:'四轴诊断图表阅读方法', caption:'点越向外延伸，代表该方向的倾向越强；越靠近中心，代表相反方向的倾向占优势。' },
-    scan:{ title:'扫描参考图', note:'该画面为拍摄当下亮度、泛红等参考指标的视觉记录，用于咨询记录/复诊比较，并非诊断确认依据。', emptyNote:'未拍摄照片，因此不显示扫描参考图。下次到访时拍摄，可留下亮度、泛红参考指标及更详细的视觉记录。', metricBrightness:'亮度参考指数', metricRedness:'泛红参考指数', metricBrightnessDesc:'仅供参考的拍摄当下肤色亮度估算值，会因光线、摄像头环境而异，不作为诊断指标使用。', metricRednessDesc:'仅供参考的拍摄当下皮肤表面泛红程度估算值，属于咨询记录参考指标，并非精密诊断结果。', arrowHint:'数值对应箭头所指部位，数值越大代表该倾向越强' },
+    scan:{ title:'扫描参考图', note:'该画面为拍摄当下亮度、泛红等参考指标的视觉记录，用于咨询记录/复诊比较，并非诊断确认依据。', emptyNote:'未拍摄照片，因此不显示扫描参考图。下次到访时拍摄，可留下亮度、泛红参考指标及更详细的视觉记录。', metricBrightness:'亮度参考指数', metricRedness:'泛红参考指数', metricBrightnessDesc:'仅供参考的拍摄当下肤色亮度估算值，会因光线、摄像头环境而异，不作为诊断指标使用。', metricRednessDesc:'仅供参考的拍摄当下皮肤表面泛红程度估算值，属于咨询记录参考指标，并非精密诊断结果。', arrowHint:'数值对应箭头所指部位，数值越大代表该倾向越强',
+      stateLabels:{ low:'偏低', mid:'中等', high:'偏高' },
+      brightnessStates:{ low:'本次拍摄测得的亮度数值偏低（可能受光线·摄像头环境影响）。', mid:'本次拍摄测得的亮度数值处于中等范围。', high:'本次拍摄测得的亮度数值偏高（可能受光线·摄像头环境影响）。' },
+      rednessStates:{ low:'本次拍摄测得的泛红数值偏低。', mid:'本次拍摄测得的泛红数值处于中等范围。', high:'本次拍摄测得的泛红数值偏高 — 如有泛红·发热困扰，可作为参考指标。' }
+    },
     section:{ ingredient:'全成分解读 — 核心活性成分', cert:'认证 & 依据标签', evidence:'NMN 成分依据', barrier:'了解皮肤屏障结构', product:'为您匹配的 BEST 3', faq:'药师咨询 FAQ', faqSource:'来源：化妆品科学讲座 · 2026', summary:'AI 综合诊断意见', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
     axisRowLabel:{ OD:'水油平衡 (O/D)', SR:'敏感度 (S/R)', PN:'色素倾向 (P/N)', WT:'弹力·皱纹 (W/T)' },
     axisSummary:{
@@ -1270,9 +1497,9 @@ zh: {
       T:'弹力状态良好，建议以维持现状的预防性护理为主。'
     },
     ingredients:[
-      { name:'烟酰胺', func:'食药处备案美白功能性成分 · 抑制黑色素传递', pct:'建议添加范围 2–5%' },
-      { name:'腺苷', func:'皱纹改善功能性备案成分', pct:'配方基准 0.04%' },
-      { name:'NMN（烟酰胺单核苷酸）', func:'诱导胶原蛋白合成 · 加强细胞外基质(ECM)', pct:'10,000 ppm = 1%' }
+      { name:'烟酰胺', func:'食药处备案美白功能性成分 · 抑制黑色素传递', pct:'建议添加范围 2–5%', mech:'通过抑制黑色素向角质细胞传递的途径发挥作用的美白功能性备案成分，作用于角质层~表皮层，无需渗透至真皮层。' },
+      { name:'腺苷', func:'皱纹改善功能性备案成分', pct:'配方基准 0.04%', mech:'被认为参与皮肤细胞胶原蛋白生成过程的皱纹改善功能性备案成分，即使在0.04%的低浓度下也符合食药处备案标准。' },
+      { name:'NMN（烟酰胺单核苷酸）', func:'诱导胶原蛋白合成 · 加强细胞外基质(ECM)', pct:'10,000 ppm = 1%', mech:'分子量约334.2Da，符合化妆品成分的一般皮肤渗透阈值（500Da以下），可渗透角质层。这是与经口摄取吸收路径不同的局部涂抹机制，详见下方"NMN 成分依据"部分。' }
     ],
     legend:[
       "· 成分名以 <b>~醇</b> 结尾 → 多为保湿剂",
@@ -1280,6 +1507,14 @@ zh: {
       "· 防腐体系示例：1,2-己二醇（上限2%）+ 苯氧甘油（上限0.3%）",
       "· 防腐趋势：尼泊金酯类（0.4%）→ 苯氧乙醇（1%）→ 1,2-己二醇系列"
     ],
+    specTable:{
+      h0:'成分', h1:'配方浓度', h2:'依据类型', h3:'作用部位 · 咨询要点',
+      rows:[
+        { name:'烟酰胺', conc:'2–5%', evidence:'食药处备案功能性成分（美白）', site:'表皮作用 · 适用于色素·肤色咨询' },
+        { name:'腺苷', conc:'0.04%', evidence:'食药处备案功能性成分（皱纹改善）', site:'表皮作用 · 适用于弹力·皱纹咨询' },
+        { name:'NMN', conc:'10,000ppm（1%）', evidence:'基于皮肤渗透研究文献的化妆品原料', site:'到达真皮层 · 需与经口临床结果区分说明' }
+      ]
+    },
     badges:[
       { title:'不致粉刺认证 (Non-comedogenic)', desc:'通过人体测试验证产品不会堵塞毛孔、诱发痘痘的民间认证。并非法定定义，需经国内外权威机构检测。可可油/棕榈油、羊毛脂类、IPM/IPP等为常见致粉刺成分。' },
       { title:'皮肤刺激测试 · 无刺激', desc:'为权威临床机构人体测试结果，个人反应可能因肤质而异，建议咨询时一并说明。' },
@@ -1288,6 +1523,12 @@ zh: {
     ],
     evidence:{
       title:'NMN（烟酰胺单核苷酸）的作用机制与吸收',
+      intro:'NMN 相关资料大致分为两类 — 经口摄取（健康功能食品）形态的临床结果，以及配方于化妆品中局部涂抹时的皮肤渗透·调理机制。两者的吸收路径与作用范围不同，咨询时也建议区分说明。',
+      oralTag:'经口摄取（健康功能食品）',
+      oralText:'该途径经小肠吸收后通过体循环到达包括皮肤在内的全身，途中会经过肝脏的首过代谢而有部分损耗，因此实际到达量可能与摄取量存在差异。SIORE 产品为化妆品而非健康功能食品，因此不会将经口临床结果直接作为产品功效说明。',
+      topicalTag:'局部涂抹（化妆品配方）',
+      topicalText:'分子量约334.2Da，符合化妆品成分的一般皮肤渗透阈值（500Da以下），据报告可不经血流、直接渗透角质层到达表皮·真皮。SIORE 产品以10,000ppm（1%）浓度配方。',
+      caution:'⚠ 经口NMN在抗衰老·代谢方面的研究结果，并不保证化妆品局部涂抹时具有相同效果。咨询时请以"有助于皮肤调理的配方成分"的程度说明，避免使用可能被误认为"与服用效果相同"的表述。',
       bullets:[
         '诱导胶原蛋白合成，辅助强化细胞外基质(ECM)',
         '参与抑制活性氧及炎症性细胞因子',
@@ -1384,7 +1625,10 @@ ja: {
       testBtn:'📷 カメラテスト', testStopBtn:'テスト終了',
       testOk:'カメラは正常に動作しています',
       testFail:'カメラを起動できませんでした — Windowsの場合は[設定 → プライバシー → カメラ]でアプリのアクセス許可をご確認ください。それでも解決しない場合は、下の「写真をアップロード」をご利用ください。',
-      testHint:'本番の診断前に、カメラが正常に動作するか確認できます'
+      testHint:'本番の診断前に、カメラが正常に動作するか確認できます',
+      guideLabel:'楕円の中に顔を合わせてください',
+      guide:{ title:'📐 正確な撮影のためのチェックリスト', items:['明るい照明の下、顔に影が落ちない場所で撮影','正面を見つめる · 画面から腕1本分ほどの距離を保つ','メガネ・マスクは外し、前髪はおでこが見えるように整える','顔がガイドの楕円いっぱいに収まるよう位置を調整'] },
+      deniedHelp:{ title:'カメラが起動しませんか？', intro:'以下の項目をご確認ください（タブレット・モバイルで特によく起こります）：', items:['ブラウザのアドレスバーのカメラ権限が「ブロック」になっていないか確認','他のアプリ（ビデオ通話等）がカメラを使用中でないか確認して終了','iOS Safariは[設定 → Safari → カメラ]が許可になっているか確認','それでも解決しない場合は下の「写真をアップロード」で進めてください'] }
     },
     quiz:{ title:'精密診断 · 全8問', hint:'この回答が診断結果を左右する重要な指標になります。1問ずつ、できるだけ正直にお答えください。', pagerPrev:'‹ 前の質問', pagerNext:'次の質問 ›' },
     axes:[
@@ -1414,8 +1658,14 @@ ja: {
     typeNamePlaceholder:'診断結果を算出中',
     typeSub:'バウマン皮膚科学4軸分類の簡易適用結果 · 参考用であり、最終相談は薬剤師の判断に従います。',
     nameMap:{ O:'脂性', D:'乾性', S:'敏感性', R:'耐性', P:'色素性', N:'非色素性', W:'しわ型', T:'ハリ型' },
+    detailToggle:{ simple:'簡易表示', detailed:'詳細表示' },
+    qa:{ fab:'💬 気になる点を質問する', title:'気になる点をご質問ください', sub:'下記のFAQデータベースから関連する回答をお探しします。正確なご相談は薬剤師にご確認ください。', placeholder:'例：使用順序は必ず守る必要がありますか？', askBtn:'検索', noResultTitle:'一致する回答が見つかりませんでした', noResultBody:'下記のFAQ一覧からお探しいただくか、正確な回答は薬剤師に直接お尋ねください。', viewAllBtn:'FAQ一覧を見る →' },
     radar:{ title:'4軸診断グラフの読み方', caption:'点が外側に伸びるほどその方向の傾向が強く、中心に近いほど反対側の傾向が優勢という意味です。' },
-    scan:{ title:'スキャンリファレンス', note:'この画面は撮影当時の明るさ・赤みの参考指標を視覚的に記録したもので、診断確定用ではなく相談記録・再来院時の比較用です。', emptyNote:'撮影した写真がないため、スキャンリファレンスは表示されません。次回来店時に撮影すると、明るさ・赤みの参考指標とあわせてより詳しい視覚記録を残せます。', metricBrightness:'明るさ参考指数', metricRedness:'赤み参考指数', metricBrightnessDesc:'撮影当時の肌の明るさを参考用に算出した値です。照明やカメラ環境により変動するため、診断指標としては使用しません。', metricRednessDesc:'撮影当時の肌表面の赤みの程度を参考用に算出した値です。精密診断結果ではなく、相談記録用の参考指標です。', arrowHint:'数値は矢印が指す部位に対応し、値が大きいほどその傾向が強いことを意味します' },
+    scan:{ title:'スキャンリファレンス', note:'この画面は撮影当時の明るさ・赤みの参考指標を視覚的に記録したもので、診断確定用ではなく相談記録・再来院時の比較用です。', emptyNote:'撮影した写真がないため、スキャンリファレンスは表示されません。次回来店時に撮影すると、明るさ・赤みの参考指標とあわせてより詳しい視覚記録を残せます。', metricBrightness:'明るさ参考指数', metricRedness:'赤み参考指数', metricBrightnessDesc:'撮影当時の肌の明るさを参考用に算出した値です。照明やカメラ環境により変動するため、診断指標としては使用しません。', metricRednessDesc:'撮影当時の肌表面の赤みの程度を参考用に算出した値です。精密診断結果ではなく、相談記録用の参考指標です。', arrowHint:'数値は矢印が指す部位に対応し、値が大きいほどその傾向が強いことを意味します',
+      stateLabels:{ low:'低め', mid:'標準', high:'高め' },
+      brightnessStates:{ low:'撮影写真の明るさの値は低めに測定されました（照明・カメラ環境の影響の可能性があります）。', mid:'撮影写真の明るさの値は標準的な範囲で測定されました。', high:'撮影写真の明るさの値は高めに測定されました（照明・カメラ環境の影響の可能性があります）。' },
+      rednessStates:{ low:'撮影写真の赤みの値は低めに測定されました。', mid:'撮影写真の赤みの値は標準的な範囲で測定されました。', high:'撮影写真の赤みの値は高めに測定されました — ほてり・赤みが気になる場合の参考指標としてご活用ください。' }
+    },
     section:{ ingredient:'全成分リテラシー — 主要活性成分', cert:'認証 & エビデンスバッジ', evidence:'NMN成分のエビデンス', barrier:'肌バリア構造を理解する', product:'お悩み別おすすめBEST3', faq:'薬剤師相談FAQ', faqSource:'出典：化粧品科学セミナー・2026', summary:'AI総合所見', summarySmall:'PLAIN-LANGUAGE SUMMARY' },
     axisRowLabel:{ OD:'水分バランス (O/D)', SR:'敏感度 (S/R)', PN:'色素傾向 (P/N)', WT:'ハリ・しわ (W/T)' },
     axisSummary:{
@@ -1429,9 +1679,9 @@ ja: {
       T:'ハリは良好な状態で、現状を維持する予防的ケアが推奨されます。'
     },
     ingredients:[
-      { name:'ナイアシンアミド', func:'美白機能性告示成分 · メラニン伝達抑制', pct:'推奨配合範囲 2–5%' },
-      { name:'アデノシン', func:'しわ改善機能性告示成分', pct:'配合基準 0.04%' },
-      { name:'NMN（ニコチンアミドモノヌクレオチド）', func:'コラーゲン合成誘導 · ECM強化サポート', pct:'10,000 ppm = 1%' }
+      { name:'ナイアシンアミド', func:'美白機能性告示成分 · メラニン伝達抑制', pct:'推奨配合範囲 2–5%', mech:'メラニンが角質細胞へ伝達される経路を抑制する形で作用する美白機能性告示成分です。角質層〜表皮レベルで作用し、真皮への浸透を必要としません。' },
+      { name:'アデノシン', func:'しわ改善機能性告示成分', pct:'配合基準 0.04%', mech:'皮膚細胞のコラーゲン生成プロセスに関与するとされるしわ改善機能性告示成分です。0.04%という低配合量でも食品医薬品安全処の告示基準を満たすよう設計されています。' },
+      { name:'NMN（ニコチンアミドモノヌクレオチド）', func:'コラーゲン合成誘導 · ECM強化サポート', pct:'10,000 ppm = 1%', mech:'分子量約334.2Daで、化粧品成分の一般的な皮膚浸透限界（500Da以下）を満たし、角質層への浸透が可能な成分です。経口摂取時の吸収経路とは異なる局所塗布メカニズムであり、詳細は下記「NMN成分のエビデンス」セクションで扱います。' }
     ],
     legend:[
       "· 成分名の語尾 <b>〜オール</b> → 多くは保湿剤",
@@ -1439,6 +1689,14 @@ ja: {
       "· 防腐システム例：1,2-ヘキサンジオール（2%基準）＋クロルフェネシン（0.3%上限）",
       "· 防腐トレンド：パラベン（0.4%）→フェノキシエタノール（1%）→1,2-ヘキサンジオール系"
     ],
+    specTable:{
+      h0:'成分', h1:'配合濃度', h2:'エビデンスの種類', h3:'作用部位 · 相談ポイント',
+      rows:[
+        { name:'ナイアシンアミド', conc:'2–5%', evidence:'機能性化粧品告示成分（美白）', site:'表皮で作用 · 色素・トーンの相談に活用' },
+        { name:'アデノシン', conc:'0.04%', evidence:'機能性化粧品告示成分（しわ改善）', site:'表皮で作用 · ハリ・しわの相談に活用' },
+        { name:'NMN', conc:'10,000ppm（1%）', evidence:'皮膚浸透研究文献に基づく化粧品原料', site:'真皮まで到達 · 経口臨床結果とは区別して案内が必要' }
+      ]
+    },
     badges:[
       { title:'ノンコメドジェニック（Non-comedogenic）', desc:'毛穴を詰まらせずトラブルを誘発しないことをヒト試験で実証した民間認証です。法的定義ではなく、内外の公認機関での試験が必要です。ココア・パーム油、ラノリン系、IPM/IPPなどが代表的なコメドジェニック成分です。' },
       { title:'皮膚刺激テスト · 低刺激', desc:'公認臨床機関でのヒト試験結果であり、個人の肌状態により反応が異なる場合があるため、相談時に併せて案内することを推奨します。' },
@@ -1447,6 +1705,12 @@ ja: {
     ],
     evidence:{
       title:'NMN（ニコチンアミドモノヌクレオチド）の作用と吸収',
+      intro:'NMNに関する資料は大きく2つに分かれます — 経口摂取（健康機能食品）としての臨床結果と、化粧品に配合され局所塗布される際の皮膚浸透・コンディショニングメカニズムです。この2つは吸収経路と作用範囲が異なるため、相談時にも区別して説明することが望ましいです。',
+      oralTag:'経口摂取（健康機能食品）',
+      oralText:'小腸で吸収された後、全身循環を経て皮膚を含む全身に到達する経路です。肝臓の初回通過代謝を経る過程で一部が失われるため、実際の到達量は摂取量と差が生じる場合があります。SIORE製品は健康機能食品ではなく化粧品のため、経口臨床結果をそのまま製品効能として案内することはありません。',
+      topicalTag:'局所塗布（化粧品配合）',
+      topicalText:'分子量約334.2Daで、化粧品成分の一般的な皮膚浸透限界（500Da以下）を満たし、血流を経由せず角質層を直接浸透して表皮・真皮に到達できるとされています。SIORE製品は10,000ppm（1%）の濃度で配合されています。',
+      caution:'⚠ 経口NMNの抗老化・代謝に関する研究結果は、化粧品の局所塗布時の効果を保証するものではありません。相談時には「肌コンディショニングをサポートする配合成分」の範囲で案内し、「服用時と同じ効果」のように誤認されうる表現は使用しません。',
       bullets:[
         'コラーゲン合成誘導および細胞外マトリックス（ECM）強化のサポート',
         '活性酸素・炎症性サイトカインの抑制に関与',
@@ -1555,6 +1819,10 @@ function applyLang(lang){
     const v = biHtml(el.getAttribute('data-i18n-html'));
     if(v) el.innerHTML = v;
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const v = t(el.getAttribute('data-i18n-placeholder'));
+    if(v) el.setAttribute('placeholder', v);
+  });
 
   renderBootLines();
   renderQuiz();
@@ -1564,7 +1832,7 @@ function applyLang(lang){
     renderResultTexts(lastAxisScores);
     renderSummary(lastAxisScores);
     renderProducts();
-    if(lastPhotoMetrics) renderArrowOverlay(lastAxisScores, lastPhotoMetrics);
+    if(lastPhotoMetrics){ renderArrowOverlay(lastAxisScores, lastPhotoMetrics); renderScanGauges(lastPhotoMetrics); }
   }
 }
 
@@ -1713,6 +1981,8 @@ function renderCamStatus(){
   const colors = { idle:'var(--text-faint)', live:'var(--cyan)', denied:'var(--danger)', captured:'var(--ok)' };
   const glow = camState==='live' ? 'box-shadow:0 0 8px 2px var(--cyan-soft);' : '';
   status.innerHTML = `<i style="width:6px;height:6px;border-radius:50%;background:${colors[camState]};display:inline-block;${glow}"></i> <span>${t('step2.cam.status.'+camState)}</span>`;
+  const deniedHelp = document.getElementById('camDeniedHelp');
+  if(deniedHelp) deniedHelp.classList.toggle('show', camState==='denied');
 }
 function renderCamButton(){
   document.getElementById('camStartBtn').textContent = camOn ? t('step2.cam.stopBtn') : t('step2.cam.startBtn');
@@ -1887,6 +2157,7 @@ function finalizeResults(){
       rc.getContext('2d').drawImage(img,0,0);
       lastPhotoMetrics = computePhotoMetrics(rc);
       renderArrowOverlay(lastAxisScores, lastPhotoMetrics);
+      renderScanGauges(lastPhotoMetrics);
     };
     img.src = lastFrameData;
   }else{
@@ -2011,6 +2282,91 @@ function layoutArrows(){
 }
 let _arrowResizeTO=null;
 window.addEventListener('resize', ()=>{ clearTimeout(_arrowResizeTO); _arrowResizeTO=setTimeout(layoutArrows,150); });
+
+/* ---------------- item 8: scan reference gauges ---------------- */
+function scanGaugeState(val){ return val<35 ? 'low' : (val>65 ? 'high' : 'mid'); }
+function renderScanGauges(metrics){
+  const row = document.getElementById('scanGaugeRow');
+  if(!row || !metrics) return;
+  const stateLabel = t('result.scan.stateLabels');
+  const bState = scanGaugeState(metrics.brightness), rState = scanGaugeState(metrics.redness);
+  const bStates = t('result.scan.brightnessStates'), rStates = t('result.scan.rednessStates');
+  row.innerHTML = `
+    <div class="scan-gauge">
+      <div class="sg-head"><span class="sg-label">${t('result.scan.metricBrightness')}</span><span class="sg-state ${bState}">${stateLabel[bState]}</span></div>
+      <div class="sg-bar"><i style="width:${metrics.brightness}%"></i></div>
+      <p class="sg-desc">${bStates[bState]}</p>
+    </div>
+    <div class="scan-gauge">
+      <div class="sg-head"><span class="sg-label">${t('result.scan.metricRedness')}</span><span class="sg-state ${rState}">${stateLabel[rState]}</span></div>
+      <div class="sg-bar"><i style="width:${metrics.redness}%"></i></div>
+      <p class="sg-desc">${rStates[rState]}</p>
+    </div>`;
+}
+
+/* ---------------- item 9: simple/detailed toggle ---------------- */
+document.getElementById('detailToggle').addEventListener('click', e=>{
+  const btn = e.target.closest('.dt-btn'); if(!btn) return;
+  document.querySelectorAll('#detailToggle .dt-btn').forEach(b=>b.classList.toggle('active', b===btn));
+  document.body.classList.toggle('simple-mode', btn.dataset.mode==='simple');
+});
+
+/* ---------------- item 2: Q&A popup (matches against existing FAQ database) ---------------- */
+function qaExtractText(el){
+  if(!el) return '';
+  const main = el.querySelector('.i18n-main');
+  return (main ? main.textContent : el.textContent).trim();
+}
+function qaSearch(){
+  const qRaw = document.getElementById('qaInput').value.trim();
+  const resultsEl = document.getElementById('qaResults');
+  if(!qRaw){ resultsEl.innerHTML=''; return; }
+  const qLower = qRaw.toLowerCase();
+  const tokens = qLower.split(/\s+/).filter(w=>w.length>=2);
+  const items = [...document.querySelectorAll('.faq-list')].flatMap(list=>{
+    const group = list.dataset.g;
+    return [...list.querySelectorAll('.faq-item')].map(el=>({
+      group,
+      title: qaExtractText(el.querySelector('b')),
+      body: qaExtractText(el.querySelector('span'))
+    }));
+  });
+  const scored = items.map(it=>{
+    const hay = (it.title+' '+it.body).toLowerCase();
+    let score = 0;
+    tokens.forEach(tok=>{ if(hay.includes(tok)) score++; });
+    if(qLower.length>=2 && hay.includes(qLower)) score += 3;
+    return {...it, score};
+  }).filter(it=>it.score>0).sort((a,b)=>b.score-a.score).slice(0,3);
+
+  if(!scored.length){
+    resultsEl.innerHTML = `<div class="qa-empty"><b>${t('result.qa.noResultTitle')}</b>${t('result.qa.noResultBody')}</div>
+      <button class="btn btn-ghost qa-viewall" id="qaViewAllBtn" type="button">${t('result.qa.viewAllBtn')}</button>`;
+    const viewAllBtn = document.getElementById('qaViewAllBtn');
+    if(viewAllBtn) viewAllBtn.addEventListener('click', ()=>{
+      document.getElementById('qaModal').classList.remove('show');
+      const faqBlock = document.querySelector('.section-block[data-accent="faq"]');
+      if(faqBlock) faqBlock.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    return;
+  }
+  resultsEl.innerHTML = scored.map(it=>{
+    const tabLabel = t('result.faqTabs.'+it.group) || it.group;
+    return `<div class="qa-hit"><b>${it.title}</b><p>${it.body}</p><span class="qa-tag">${tabLabel}</span></div>`;
+  }).join('');
+}
+document.getElementById('qaFabBtn').addEventListener('click', ()=>{
+  document.getElementById('qaModal').classList.add('show');
+  document.getElementById('qaInput').focus();
+});
+document.getElementById('qaCloseBtn').addEventListener('click', ()=>{
+  document.getElementById('qaModal').classList.remove('show');
+});
+document.getElementById('qaModal').addEventListener('click', e=>{
+  if(e.target.id==='qaModal') document.getElementById('qaModal').classList.remove('show');
+});
+document.getElementById('qaAskBtn').addEventListener('click', qaSearch);
+document.getElementById('qaInput').addEventListener('keydown', e=>{ if(e.key==='Enter') qaSearch(); });
 
 function renderProducts(){
   if(!lastAxisScores) return;

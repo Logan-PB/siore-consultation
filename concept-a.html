@@ -397,8 +397,12 @@
   .badge-row{display:flex; gap:12px; flex-wrap:wrap;}
   .info-badge{padding:14px 16px; display:flex; gap:10px; align-items:flex-start; max-width:340px; cursor:pointer;}
   .info-badge .ic{font-size:19.5px;}
+  .info-badge .ic img{width:34px; height:34px; object-fit:contain; border-radius:50%; display:block;}
   .info-badge b{display:block; font-size:15px; margin-bottom:3px;}
   .info-badge p{margin:0; font-size:13.5px; color:var(--text-dim); line-height:1.55;}
+  .info-badge.cert-real{max-width:360px;}
+  .info-badge.cert-real .ic{width:52px; height:52px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .info-badge.cert-real .ic img{width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain; border-radius:0;}
 
   .evidence-card{padding:18px 20px;}
   .evidence-card ul{margin:10px 0 0; padding-left:18px; font-size:15px; color:var(--text-dim); line-height:1.8;}
@@ -426,7 +430,8 @@
   .product-row{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
   .product-card{padding:16px; display:flex; flex-direction:column; gap:10px;}
   .product-card .rank{font-family:var(--mono); font-size:13.5px; color:var(--gold-soft);}
-  .product-card .thumb{aspect-ratio:1/1; border-radius:12px; background:radial-gradient(circle at 35% 25%, rgba(16,140,255,0.18), rgba(252,85,58,0.12) 55%, rgba(36,26,22,0.05) 80%); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:32.5px;}
+  .product-card .thumb{aspect-ratio:1/1; border-radius:12px; background:radial-gradient(circle at 35% 25%, rgba(16,140,255,0.18), rgba(252,85,58,0.12) 55%, rgba(36,26,22,0.05) 80%); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:32.5px; overflow:hidden;}
+  .product-card .thumb img{width:66%; height:88%; object-fit:contain; filter:drop-shadow(0 8px 16px rgba(36,26,22,0.16));}
   .product-card .pname{font-size:15.5px; font-weight:700; margin:0;}
   .product-card .ptag{font-size:13.5px; color:var(--text-dim); margin:0;}
   .product-card .clinical{font-family:var(--mono); font-size:13px; color:var(--ok); margin-top:2px;}
@@ -749,9 +754,13 @@
           <span class="ic">🟢</span>
           <div><b data-i18n="result.badges.0.title">논코메도제닉 (Non-comedogenic)</b><p data-i18n="result.badges.0.desc">모공을 막아 트러블을 유발하지 않는다는 것을 인체적용시험으로 입증한 민간 인증. 법적 정의는 아니며, 국내외 공인기관 시험이 필요합니다. 코코아·팜오일·라놀린계·IPM/IPP 등은 대표적 코메도제닉 성분입니다.</p></div>
         </div>
-        <div class="glass info-badge" tabindex="0">
-          <span class="ic">🧪</span>
+        <div class="glass info-badge cert-real" tabindex="0">
+          <span class="ic"><img src="assets/badge-irritation-index.jpg" alt="자극지수 0.00 인증 배지" loading="lazy"></span>
           <div><b data-i18n="result.badges.1.title">피부 자극 테스트 · 무자극</b><p data-i18n="result.badges.1.desc">공인 임상기관의 인체적용시험 결과이며, 개인 피부 상태에 따라 반응은 달라질 수 있어 상담 시 함께 안내하는 것을 권장합니다.</p></div>
+        </div>
+        <div class="glass info-badge cert-real" tabindex="0">
+          <span class="ic"><img src="assets/badge-dermatest-excellent.jpg" alt="DERMATEST EXCELLENT 2025 인증" loading="lazy"></span>
+          <div><b data-i18n="result.badges.3.title">DERMATEST EXCELLENT 2025 인증</b><p data-i18n="result.badges.3.desc">독일 DERMATEST 기관의 인체적용시험을 통해 최고 등급인 'EXCELLENT'를 획득했습니다. 등급·시험 방식은 시험기관 홈페이지(dermatest-guarantee.com)에서 원문으로 확인할 수 있습니다.</p></div>
         </div>
         <div class="glass info-badge" tabindex="0">
           <span class="ic">📖</span>
@@ -956,7 +965,8 @@ ko: {
     badges:[
       { title:'논코메도제닉 (Non-comedogenic)', desc:'모공을 막아 트러블을 유발하지 않는다는 것을 인체적용시험으로 입증한 민간 인증. 법적 정의는 아니며, 국내외 공인기관 시험이 필요합니다. 코코아·팜오일·라놀린계·IPM/IPP 등은 대표적 코메도제닉 성분입니다.' },
       { title:'피부 자극 테스트 · 무자극', desc:'공인 임상기관의 인체적용시험 결과이며, 개인 피부 상태에 따라 반응은 달라질 수 있어 상담 시 함께 안내하는 것을 권장합니다.' },
-      { title:'기능성 화장품 표시광고 유의', desc:'미백·주름개선 등 기능성 표현은 식약처 화장품 표시광고 관리지침 및 대한화장품협회 가이드라인 기준을 따릅니다. 의약품으로 오인될 수 있는 단정적 효능 표현은 사용하지 않습니다.' }
+      { title:'기능성 화장품 표시광고 유의', desc:'미백·주름개선 등 기능성 표현은 식약처 화장품 표시광고 관리지침 및 대한화장품협회 가이드라인 기준을 따릅니다. 의약품으로 오인될 수 있는 단정적 효능 표현은 사용하지 않습니다.' },
+      { title:'DERMATEST EXCELLENT 2025 인증', desc:'독일 DERMATEST 기관의 인체적용시험을 통해 최고 등급인 \'EXCELLENT\'를 획득했습니다. 등급·시험 방식은 시험기관 홈페이지(dermatest-guarantee.com)에서 원문으로 확인할 수 있습니다.' }
     ],
     evidence:{
       title:'NMN(Nicotinamide Mononucleotide)의 작용 및 흡수',
@@ -988,9 +998,9 @@ ko: {
       ariaLabel:'표피 4층 구조와 pH 변화'
     },
     products:[
-      { emoji:'🧴', name:'NMN 하이드로 캡슐 클렌징 밀크', tag:'150ml · 클렌징', clinical:'노폐물 세정 99.48%', tags:['건조','민감','장벽'] },
-      { emoji:'💧', name:'데일리 릴리프 에센스 토너', tag:'150ml · 토너', clinical:'수분 개선 지표 우수', tags:['민감','장벽','열감홍조'] },
-      { emoji:'✨', name:'NMN 인텐시브 세럼', tag:'30ml · 세럼', clinical:'콜라겐 합성 유도 보조', tags:['탄력','광채','색소'] }
+      { emoji:'🧴', img:'assets/product-nmn-cleansing-milk.webp', name:'NMN 하이드로 캡슐 클렌징 밀크', tag:'150ml · 클렌징', clinical:'노폐물 세정 99.48%', tags:['건조','민감','장벽'] },
+      { emoji:'💧', img:'assets/product-daily-relief-toner.webp', name:'데일리 릴리프 에센스 토너', tag:'150ml · 토너', clinical:'수분 개선 지표 우수', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', img:'assets/product-nmn-serum.webp', name:'NMN 인텐시브 세럼', tag:'50ml · 세럼', clinical:'콜라겐 합성 유도 보조', tags:['탄력','광채','색소'] }
     ],
     faqTabs:{ usage:'사용법', efficacy:'효능', skintype:'피부타입', ingredient:'성분', reg:'규제·상담실무' },
     faq:{
@@ -1114,7 +1124,8 @@ en: {
     badges:[
       { title:'Non-comedogenic', desc:'A private certification verifying via human-use testing that a product does not clog pores or trigger breakouts. It is not a legal definition and requires accredited domestic/international lab testing. Cocoa/palm oil, lanolin derivatives, and IPM/IPP are common comedogenic ingredients.' },
       { title:'Skin Irritation Test · Non-irritating', desc:'Result of a human-use test at an accredited clinical institute; individual reactions can vary by skin condition, so it’s recommended to mention this during consultation.' },
-      { title:'Functional Cosmetics Advertising Caution', desc:'Functional claims such as brightening/wrinkle-improvement follow MFDS cosmetic labeling/advertising guidelines and Korea Cosmetic Association standards. Absolute efficacy language that could be mistaken for a drug claim is avoided.' }
+      { title:'Functional Cosmetics Advertising Caution', desc:'Functional claims such as brightening/wrinkle-improvement follow MFDS cosmetic labeling/advertising guidelines and Korea Cosmetic Association standards. Absolute efficacy language that could be mistaken for a drug claim is avoided.' },
+      { title:'DERMATEST EXCELLENT 2025 Certified', desc:'Achieved the top \'EXCELLENT\' rating in human-use testing by DERMATEST (Germany). Rating criteria and test methodology can be verified directly on the test institute\'s site (dermatest-guarantee.com).' }
     ],
     evidence:{
       title:'NMN (Nicotinamide Mononucleotide) — Mechanism & Absorption',
@@ -1146,9 +1157,9 @@ en: {
       ariaLabel:'Four-layer epidermis structure and pH gradient'
     },
     products:[
-      { emoji:'🧴', name:'NMN Hydro Capsule Cleansing Milk', tag:'150ml · Cleanser', clinical:'99.48% cleansing efficacy', tags:['건조','민감','장벽'] },
-      { emoji:'💧', name:'Daily Relief Essence Toner', tag:'150ml · Toner', clinical:'Strong hydration-improvement metrics', tags:['민감','장벽','열감홍조'] },
-      { emoji:'✨', name:'NMN Intensive Serum', tag:'30ml · Serum', clinical:'Supports collagen synthesis induction', tags:['탄력','광채','색소'] }
+      { emoji:'🧴', img:'assets/product-nmn-cleansing-milk.webp', name:'NMN Hydro Capsule Cleansing Milk', tag:'150ml · Cleanser', clinical:'99.48% cleansing efficacy', tags:['건조','민감','장벽'] },
+      { emoji:'💧', img:'assets/product-daily-relief-toner.webp', name:'Daily Relief Essence Toner', tag:'150ml · Toner', clinical:'Strong hydration-improvement metrics', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', img:'assets/product-nmn-serum.webp', name:'NMN Intensive Serum', tag:'50ml · Serum', clinical:'Supports collagen synthesis induction', tags:['탄력','광채','색소'] }
     ],
     faqTabs:{ usage:'Usage', efficacy:'Efficacy', skintype:'Skin Type', ingredient:'Ingredients', reg:'Regulation/Practice' },
     faq:{
@@ -1272,7 +1283,8 @@ zh: {
     badges:[
       { title:'不致粉刺认证 (Non-comedogenic)', desc:'通过人体测试验证产品不会堵塞毛孔、诱发痘痘的民间认证。并非法定定义，需经国内外权威机构检测。可可油/棕榈油、羊毛脂类、IPM/IPP等为常见致粉刺成分。' },
       { title:'皮肤刺激测试 · 无刺激', desc:'为权威临床机构人体测试结果，个人反应可能因肤质而异，建议咨询时一并说明。' },
-      { title:'功能性化妆品广告标示注意事项', desc:'美白、皱纹改善等功能性表述遵循食药处化妆品标示广告管理指南及韩国化妆品协会准则，避免使用可能被误认为药品的断言性功效表述。' }
+      { title:'功能性化妆品广告标示注意事项', desc:'美白、皱纹改善等功能性表述遵循食药处化妆品标示广告管理指南及韩国化妆品协会准则，避免使用可能被误认为药品的断言性功效表述。' },
+      { title:'DERMATEST EXCELLENT 2025 认证', desc:'通过德国DERMATEST机构的人体测试，获得最高等级"EXCELLENT"评价。评级标准与测试方式可在检测机构官网(dermatest-guarantee.com)原文查询。' }
     ],
     evidence:{
       title:'NMN（烟酰胺单核苷酸）的作用机制与吸收',
@@ -1281,7 +1293,7 @@ zh: {
         '参与抑制活性氧及炎症性细胞因子',
         '被认为是细胞代谢能量来源(NAD+前体)',
         '人体自身也会生成该物质，安全性较高；在水溶性·酸性环境下会分解为烟酰胺，因此递送体系设计会影响吸收路径',
-        '协同原料：矿物质(Cu·Ca·Mg·Zn·Fe)、抗氧化原料(白藜芦醇、槲皮素)、皮肤再生原料(PDRN·EGF·多肽等)'
+        '协同原料：矿物质(Cu·Ca·Mg·Zn·Fe)、抗氧化原料(白藜芦醇、槲皮素)、皮肤调理原料(PDRN·EGF·多肽等)'
       ]
     },
     barrier:{
@@ -1304,9 +1316,9 @@ zh: {
       ariaLabel:'表皮四层结构与pH变化'
     },
     products:[
-      { emoji:'🧴', name:'NMN 水润胶囊洁颜乳', tag:'150ml · 洁面', clinical:'清洁效果达99.48%', tags:['건조','민감','장벽'] },
-      { emoji:'💧', name:'每日舒缓精华化妆水', tag:'150ml · 化妆水', clinical:'保湿改善指标优异', tags:['민감','장벽','열감홍조'] },
-      { emoji:'✨', name:'NMN 密集修护精华', tag:'30ml · 精华', clinical:'辅助诱导胶原蛋白合成', tags:['탄력','광채','색소'] }
+      { emoji:'🧴', img:'assets/product-nmn-cleansing-milk.webp', name:'NMN 水润胶囊洁颜乳', tag:'150ml · 洁面', clinical:'清洁效果达99.48%', tags:['건조','민감','장벽'] },
+      { emoji:'💧', img:'assets/product-daily-relief-toner.webp', name:'每日舒缓精华化妆水', tag:'150ml · 化妆水', clinical:'保湿改善指标优异', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', img:'assets/product-nmn-serum.webp', name:'NMN 密集修护精华', tag:'50ml · 精华', clinical:'辅助诱导胶原蛋白合成', tags:['탄력','광채','색소'] }
     ],
     faqTabs:{ usage:'使用方法', efficacy:'功效', skintype:'肤质', ingredient:'成分', reg:'法规·咨询实务' },
     faq:{
@@ -1430,7 +1442,8 @@ ja: {
     badges:[
       { title:'ノンコメドジェニック（Non-comedogenic）', desc:'毛穴を詰まらせずトラブルを誘発しないことをヒト試験で実証した民間認証です。法的定義ではなく、内外の公認機関での試験が必要です。ココア・パーム油、ラノリン系、IPM/IPPなどが代表的なコメドジェニック成分です。' },
       { title:'皮膚刺激テスト · 低刺激', desc:'公認臨床機関でのヒト試験結果であり、個人の肌状態により反応が異なる場合があるため、相談時に併せて案内することを推奨します。' },
-      { title:'機能性化粧品の表示広告に関する注意', desc:'美白・しわ改善等の機能性表現は、食品医薬品安全処の化粧品表示広告管理指針および大韓化粧品協会ガイドラインに従います。医薬品と誤認されうる断定的な効能表現は使用しません。' }
+      { title:'機能性化粧品の表示広告に関する注意', desc:'美白・しわ改善等の機能性表現は、食品医薬品安全処の化粧品表示広告管理指針および大韓化粧品協会ガイドラインに従います。医薬品と誤認されうる断定的な効能表現は使用しません。' },
+      { title:'DERMATEST EXCELLENT 2025 認証', desc:'ドイツDERMATEST機関のヒト試験で最高評価「EXCELLENT」を取得しました。評価基準・試験方法は試験機関サイト(dermatest-guarantee.com)で原文をご確認いただけます。' }
     ],
     evidence:{
       title:'NMN（ニコチンアミドモノヌクレオチド）の作用と吸収',
@@ -1439,7 +1452,7 @@ ja: {
         '活性酸素・炎症性サイトカインの抑制に関与',
         '細胞代謝のエネルギー源（NAD+前駆体）として知られる',
         '体内でも生成される物質で安全性が高く、水溶性・酸性環境下でニコチンアミドに分解される特性があるため、デリバリー設計が吸収経路に影響する',
-        '相乗成分：ミネラル（Cu・Ca・Mg・Zn・Fe）、抗酸化成分（レスベラトロール、ケルセチン）、肌再生成分（PDRN・EGF・ペプチド等）'
+        '相乗成分：ミネラル（Cu・Ca・Mg・Zn・Fe）、抗酸化成分（レスベラトロール、ケルセチン）、肌コンディショニング成分（PDRN・EGF・ペプチド等）'
       ]
     },
     barrier:{
@@ -1462,9 +1475,9 @@ ja: {
       ariaLabel:'表皮4層構造とpH変化'
     },
     products:[
-      { emoji:'🧴', name:'NMN ハイドロカプセル クレンジングミルク', tag:'150ml · クレンジング', clinical:'洗浄効果99.48%', tags:['건조','민감','장벽'] },
-      { emoji:'💧', name:'デイリーリリーフ エッセンストナー', tag:'150ml · トナー', clinical:'保湿改善指標に優れる', tags:['민감','장벽','열감홍조'] },
-      { emoji:'✨', name:'NMN インテンシブセラム', tag:'30ml · セラム', clinical:'コラーゲン合成誘導をサポート', tags:['탄력','광채','색소'] }
+      { emoji:'🧴', img:'assets/product-nmn-cleansing-milk.webp', name:'NMN ハイドロカプセル クレンジングミルク', tag:'150ml · クレンジング', clinical:'洗浄効果99.48%', tags:['건조','민감','장벽'] },
+      { emoji:'💧', img:'assets/product-daily-relief-toner.webp', name:'デイリーリリーフ エッセンストナー', tag:'150ml · トナー', clinical:'保湿改善指標に優れる', tags:['민감','장벽','열감홍조'] },
+      { emoji:'✨', img:'assets/product-nmn-serum.webp', name:'NMN インテンシブセラム', tag:'50ml · セラム', clinical:'コラーゲン合成誘導をサポート', tags:['탄력','광채','색소'] }
     ],
     faqTabs:{ usage:'使用法', efficacy:'効能', skintype:'肌タイプ', ingredient:'成分', reg:'規制・相談実務' },
     faq:{
@@ -2008,7 +2021,7 @@ function renderProducts(){
     return `
     <div class="glass product-card">
       <span class="rank">RANK ${String(i+1).padStart(2,'0')}</span>
-      <div class="thumb">${p.emoji}</div>
+      <div class="thumb">${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : p.emoji}</div>
       <p class="pname">${biBlock(p.name, pKo?pKo.name:null)}</p>
       <p class="ptag">${biBlock(p.tag, pKo?pKo.tag:null)}</p>
       <p class="clinical">${biBlock(p.clinical, pKo?pKo.clinical:null)}</p>
